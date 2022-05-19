@@ -10,8 +10,9 @@
     </parent>
 
 
-    <artifactId>toolkit-app</artifactId>
     <name>IoT Technology ToolKit App</name>
+    <artifactId>toolkit-app</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -39,6 +40,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>iot.technology.client.toolkit.app.ToolKitApplication</mainClass>
+                    <fork>true</fork>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -22,8 +22,7 @@
         <picocli.version>4.6.3</picocli.version>
         <netty.version>4.1.77.Final</netty.version>
         <eclipse.californium.version>3.5.0</eclipse.californium.version>
-        <spring.version>5.2.16.RELEASE</spring.version>
-        <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
+        <spring-boot.version>2.5.6</spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -60,13 +59,8 @@
             </dependency>
             <dependency>
                 <groupId>info.picocli</groupId>
-                <artifactId>picocli</artifactId>
+                <artifactId>picocli-spring-boot-starter</artifactId>
                 <version>${picocli.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context-support</artifactId>
-                <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

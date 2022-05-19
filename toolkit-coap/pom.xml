@@ -10,8 +10,9 @@
     </parent>
 
 
-    <artifactId>toolkit-coap</artifactId>
     <name>IoT Technology ToolKit CoAP</name>
+    <artifactId>toolkit-coap</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -29,11 +30,7 @@
         </dependency>
         <dependency>
             <groupId>info.picocli</groupId>
-            <artifactId>picocli</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
+            <artifactId>picocli-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 

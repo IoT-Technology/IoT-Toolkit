@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>toolkit-mqtt</artifactId>
+    <packaging>jar</packaging>
     <name>IoT Technology ToolKit MQTT</name>
 
     <properties>
