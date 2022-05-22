@@ -1,6 +1,5 @@
-package iot.technology.client.toolkit.coap.command;
+package iot.technology.client.toolkit.mqtt.command;
 
-import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -8,10 +7,9 @@ import java.util.concurrent.Callable;
 /**
  * @author mushuwei
  */
-@Component
-@CommandLine.Command(name = "echoo", mixinStandardHelpOptions = true, version = "echoo 1.0",
-		description = "Echo back a message to STDOUT.")
-public class CoapConnectCommand implements Callable<Integer> {
+@CommandLine.Command(name = "mqtt", mixinStandardHelpOptions = true,
+		description = "MQTT Internet of Things protocol")
+public class MqttCommand implements Callable<Integer> {
 
 	@CommandLine.Option(names = {"-c", "--capitalize"}, description = "To capitalize (true, false)")
 	private boolean capitalize = true;

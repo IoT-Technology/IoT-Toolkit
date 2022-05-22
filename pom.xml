@@ -19,10 +19,10 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <picocli.version>4.6.3</picocli.version>
         <netty.version>4.1.77.Final</netty.version>
         <eclipse.californium.version>3.5.0</eclipse.californium.version>
-        <spring-boot.version>2.5.6</spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -59,27 +59,10 @@
             </dependency>
             <dependency>
                 <groupId>info.picocli</groupId>
-                <artifactId>picocli-spring-boot-starter</artifactId>
+                <artifactId>picocli</artifactId>
                 <version>${picocli.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
 
 </project>
