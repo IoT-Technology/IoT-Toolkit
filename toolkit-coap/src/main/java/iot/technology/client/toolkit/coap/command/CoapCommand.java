@@ -29,16 +29,9 @@ import java.util.concurrent.Callable;
 		footer = "%nDeveloped by James mu")
 public class CoapCommand implements Callable<Integer> {
 
-	@CommandLine.Option(
-			names = {"-m", "--message"},
-			required = true,
-			description = "a message to send")
-	String message;
-
 
 	@Override
 	public Integer call() {
-		System.out.println("[coap] CoAP message: Message: " + message);
 		return 0;
 	}
 }

@@ -32,6 +32,10 @@
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
         </dependency>
+        <dependency>
+            <groupId>iot.technology</groupId>
+            <artifactId>toolkit-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -11,6 +11,7 @@
         <module>toolkit-mqtt</module>
         <module>toolkit-coap</module>
         <module>toolkit-app</module>
+        <module>toolkit-common</module>
     </modules>
 
     <name>IoT Technology ToolKit</name>
@@ -27,6 +28,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>iot.technology</groupId>
+                <artifactId>toolkit-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>iot.technology</groupId>
                 <artifactId>toolkit-coap</artifactId>
