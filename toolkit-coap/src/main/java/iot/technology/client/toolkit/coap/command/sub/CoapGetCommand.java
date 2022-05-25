@@ -2,7 +2,7 @@ package iot.technology.client.toolkit.coap.command.sub;
 
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.service.CoapFactory;
-import iot.technology.client.toolkit.coap.validator.UriValidator;
+import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.utils.SysLog;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
@@ -19,7 +19,7 @@ import java.util.concurrent.Callable;
 		name = "get",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
-		description = "performs a GET request",
+		description = "Request data from CoAP Resource",
 		optionListHeading = "%nOptions are:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
 		footer = "%nDeveloped by James mu"
@@ -46,7 +46,7 @@ public class CoapGetCommand implements Callable<Integer> {
 	private URI uri;
 
 	@CommandLine.Option(
-			names = {"-at", "--accept"},
+			names = {"-a", "--accept"},
 			required = false,
 			description = "accepted response content-type",
 			defaultValue = COAP_TEXT_PLAIN)
@@ -55,7 +55,8 @@ public class CoapGetCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() throws Exception {
-		UriValidator.validateUri(uri);
+		CoapCommandParamValidator.validateUri(uri);
+		
 		CoapClient coapClient = coapClientService.getCoapClient(uri);
 		int accept = coapClientService.coapContentType(this.accept);
 		CoapResponse response = coapClient.get(accept);

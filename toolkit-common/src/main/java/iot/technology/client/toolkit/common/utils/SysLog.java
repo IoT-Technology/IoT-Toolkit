@@ -6,7 +6,7 @@ package iot.technology.client.toolkit.common.utils;
 public abstract class SysLog {
 
 	public static void error(String message) {
-		throw new RuntimeException(message);
+		throw new IllegalArgumentException(message);
 	}
 
 	public static void info(String message) {

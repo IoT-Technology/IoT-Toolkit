@@ -8,7 +8,7 @@ import java.net.URI;
 /**
  * @author mushuwei
  */
-public class UriValidator extends BaseValidator {
+public class CoapCommandParamValidator extends BaseValidator {
 
 	public static final String COAPS = "coaps";
 	public static final String COAP = "coap";
@@ -19,5 +19,10 @@ public class UriValidator extends BaseValidator {
 		Assert.isTrue(uri.getScheme().equalsIgnoreCase(COAP)
 				|| uri.getScheme().equalsIgnoreCase(COAPS), String.format("Invalid CoAP URI schema [%s]. " +
 				"Use either `coap:` or `coaps:`", uri.getScheme()));
+	}
+
+	public static String validatePayloadAndFile(String payload) {
+		Assert.hasText(payload, "Missing payload");
+		return payload;
 	}
 }

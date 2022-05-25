@@ -29,7 +29,7 @@ public class ToolKitCommand implements Callable<Integer> {
 
 
 	public static void main(String[] args) {
-		int exitStatus = new CommandLine(new ToolKitCommand()).execute("coap", "get", "coap://coap.me/sink", "--help");
+		int exitStatus = new CommandLine(new ToolKitCommand()).execute("coap", "put", "coap://coap.me/sink", "-p=hi form iot technology");
 		System.exit(exitStatus);
 	}
 
