@@ -29,7 +29,9 @@ public class ToolKitCommand implements Callable<Integer> {
 
 
 	public static void main(String[] args) {
-		int exitStatus = new CommandLine(new ToolKitCommand()).execute("coap", "put", "coap://coap.me/sink", "-p=hi form iot technology");
+		int exitStatus = new CommandLine(new ToolKitCommand())
+				.setCaseInsensitiveEnumValuesAllowed(true)
+				.execute(args);
 		System.exit(exitStatus);
 	}
 

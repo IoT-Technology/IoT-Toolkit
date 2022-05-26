@@ -48,7 +48,7 @@ public class CoapPostCommand implements Callable<Integer> {
 	@CommandLine.Option(
 			names = {"-p", "--payload"},
 			required = false,
-			description = "PUT message payload")
+			description = "POST message payload")
 	private String payload;
 
 	@CommandLine.Option(

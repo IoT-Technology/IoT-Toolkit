@@ -23,7 +23,6 @@ public class CoapClientServiceImpl implements CoapClientService {
 
 	@Override
 	public CoapClient getCoapClient(URI uri) {
-		CoapClient coapClient;
-		return coapClient = new CoapClient(uri);
+		return new CoapClient(uri);
 	}
 }
