@@ -1,9 +1,6 @@
 package iot.technology.client.toolkit.coap.command;
 
-import iot.technology.client.toolkit.coap.command.sub.CoapDeleteCommand;
-import iot.technology.client.toolkit.coap.command.sub.CoapGetCommand;
-import iot.technology.client.toolkit.coap.command.sub.CoapPostCommand;
-import iot.technology.client.toolkit.coap.command.sub.CoapPutCommand;
+import iot.technology.client.toolkit.coap.command.sub.*;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -23,7 +20,8 @@ import java.util.concurrent.Callable;
 				CoapGetCommand.class,
 				CoapPostCommand.class,
 				CoapPutCommand.class,
-				CoapDeleteCommand.class
+				CoapDeleteCommand.class,
+				CoapMediaTypesCommand.class
 		},
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
 		footer = "%nDeveloped by James mu")

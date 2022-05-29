@@ -25,13 +25,12 @@ import java.util.concurrent.Callable;
 		})
 public class ToolKitCommand implements Callable<Integer> {
 	final Integer SUCCESS = 0;
-	final Integer FAILURE = 1;
 
 
 	public static void main(String[] args) {
 		int exitStatus = new CommandLine(new ToolKitCommand())
 				.setCaseInsensitiveEnumValuesAllowed(true)
-				.execute(args);
+				.execute("coap", "media-types", "coap://coap.me", "-h");
 		System.exit(exitStatus);
 	}
 
