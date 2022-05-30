@@ -30,7 +30,7 @@ public class ToolKitCommand implements Callable<Integer> {
 	public static void main(String[] args) {
 		int exitStatus = new CommandLine(new ToolKitCommand())
 				.setCaseInsensitiveEnumValuesAllowed(true)
-				.execute("coap", "media-types", "coap://coap.me", "-h");
+				.execute(args);
 		System.exit(exitStatus);
 	}
 
