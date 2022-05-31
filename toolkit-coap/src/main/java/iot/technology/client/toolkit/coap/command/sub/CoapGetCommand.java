@@ -3,7 +3,6 @@ package iot.technology.client.toolkit.coap.command.sub;
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
-import iot.technology.client.toolkit.common.utils.SysLog;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
@@ -56,11 +55,12 @@ public class CoapGetCommand implements Callable<Integer> {
 	@Override
 	public Integer call() throws Exception {
 		CoapCommandParamValidator.validateUri(uri);
-		
+
 		CoapClient coapClient = coapClientService.getCoapClient(uri);
 		int accept = coapClientService.coapContentType(this.accept);
 		CoapResponse response = coapClient.get(accept);
-		SysLog.info("Response: " + response.getResponseText());
+		System.out.println(response.getResponseText());
+//		SysLog.info("Response: " + response.getResponseText());
 		return 0;
 	}
 }

@@ -1,5 +1,6 @@
 package iot.technology.client.toolkit.app;
 
+import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import picocli.CommandLine;
@@ -15,7 +16,7 @@ import java.util.concurrent.Callable;
 		header = "IoT Client Toolkit CLI",
 		optionListHeading = "%nOptions are:%n",
 		requiredOptionMarker = '*',
-		description = "this is a iot client toolkit which support mqtt and coap protocol",
+		description = "A handy @|fg(red),bold toolkit|@ for IoT developers and learners.",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
 		footer = "%nDeveloped by James mu",
 		mixinStandardHelpOptions = true,
@@ -28,14 +29,15 @@ public class ToolKitCommand implements Callable<Integer> {
 
 
 	public static void main(String[] args) {
+		LogLevelConfig.setLogLevel();
 		int exitStatus = new CommandLine(new ToolKitCommand())
 				.setCaseInsensitiveEnumValuesAllowed(true)
-				.execute(args);
+				.execute("coap", "get", "coap://coap.me/sink");
 		System.exit(exitStatus);
 	}
 
 	public Integer call() throws Exception {
-		System.out.println("this is a iot client toolkit which support mqtt and coap protocol");
+		System.out.println("A handy toolkit for IoT developers and learners.");
 		return SUCCESS;
 	}
 }
