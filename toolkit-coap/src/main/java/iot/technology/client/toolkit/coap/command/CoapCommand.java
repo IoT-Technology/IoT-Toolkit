@@ -12,8 +12,8 @@ import java.util.concurrent.Callable;
 		name = "coap",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
-		header = "@|fg(blue),bold coap client toolkit|@",
-		description = "this is a sub command to toolkit which deal with coap protocol",
+		header = "@|fg(blue),bold CoAP client toolkit|@",
+		description = "@|fg(blue),italic user-friendly CoAP protocol client toolkit|@",
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		subcommands = {

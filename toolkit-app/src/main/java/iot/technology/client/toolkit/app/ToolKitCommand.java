@@ -2,7 +2,6 @@ package iot.technology.client.toolkit.app;
 
 import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
-import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -21,8 +20,7 @@ import java.util.concurrent.Callable;
 		footer = "%nDeveloped by James mu",
 		mixinStandardHelpOptions = true,
 		subcommands = {
-				CoapCommand.class,
-				MqttCommand.class
+				CoapCommand.class
 		})
 public class ToolKitCommand implements Callable<Integer> {
 	final Integer SUCCESS = 0;
@@ -32,7 +30,7 @@ public class ToolKitCommand implements Callable<Integer> {
 		LogLevelConfig.setLogLevel();
 		int exitStatus = new CommandLine(new ToolKitCommand())
 				.setCaseInsensitiveEnumValuesAllowed(true)
-				.execute("coap", "get", "coap://coap.me/sink");
+				.execute(args);
 		System.exit(exitStatus);
 	}
 

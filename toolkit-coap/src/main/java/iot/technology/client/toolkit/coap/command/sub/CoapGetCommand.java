@@ -59,8 +59,12 @@ public class CoapGetCommand implements Callable<Integer> {
 		CoapClient coapClient = coapClientService.getCoapClient(uri);
 		int accept = coapClientService.coapContentType(this.accept);
 		CoapResponse response = coapClient.get(accept);
-		System.out.println(response.getResponseText());
-//		SysLog.info("Response: " + response.getResponseText());
+
+		StringBuffer result = new StringBuffer();
+		String requestInfo = coapClientService.requestInfo("get", uri.toString());
+		String responseStr = coapClientService.prettyPrint(response, requestInfo);
+		result.append(responseStr);
+		System.out.println(result);
 		return 0;
 	}
 }

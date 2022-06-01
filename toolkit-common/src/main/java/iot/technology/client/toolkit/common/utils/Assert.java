@@ -23,4 +23,10 @@ public abstract class Assert {
 		}
 	}
 
+	public static void hasLength(String text, String message) {
+		if (!StringUtils.hasLength(text)) {
+			SysLog.error(message);
+		}
+	}
+
 }

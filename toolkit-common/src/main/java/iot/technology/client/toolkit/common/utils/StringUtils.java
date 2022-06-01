@@ -23,6 +23,10 @@ public abstract class StringUtils {
 		return !isBlank(str);
 	}
 
+	public static boolean hasLength(String str) {
+		return (str != null && !str.isEmpty());
+	}
+
 	public static boolean isBlank(String str) {
 		int strLen;
 		if (str != null && (strLen = str.length()) != 0) {

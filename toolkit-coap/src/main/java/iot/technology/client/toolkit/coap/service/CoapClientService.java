@@ -1,6 +1,7 @@
 package iot.technology.client.toolkit.coap.service;
 
 import org.eclipse.californium.core.CoapClient;
+import org.eclipse.californium.core.CoapResponse;
 
 import java.net.URI;
 
@@ -25,4 +26,23 @@ public interface CoapClientService {
 	 * @return new CoapClient
 	 */
 	CoapClient getCoapClient(URI uri);
+
+
+	/**
+	 * Formats a {@link org.eclipse.californium.core.coap.Response} into a readable String representation.
+	 *
+	 * @param coapResponse
+	 * @param header
+	 * @return the pretty print
+	 */
+	String prettyPrint(CoapResponse coapResponse, String header);
+
+	/**
+	 * Formats method and path into request info.
+	 *
+	 * @param method
+	 * @param path
+	 * @return
+	 */
+	String requestInfo(String method, String path);
 }

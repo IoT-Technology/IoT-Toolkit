@@ -26,6 +26,6 @@ public class CoapDescribeCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() throws Exception {
-		return null;
+		return 0;
 	}
 }

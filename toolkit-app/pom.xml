@@ -24,10 +24,6 @@
             <groupId>iot.technology</groupId>
             <artifactId>toolkit-coap</artifactId>
         </dependency>
-        <dependency>
-            <groupId>iot.technology</groupId>
-            <artifactId>toolkit-mqtt</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
