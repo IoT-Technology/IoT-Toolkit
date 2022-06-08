@@ -21,7 +21,8 @@ import java.util.concurrent.Callable;
 				CoapPostCommand.class,
 				CoapPutCommand.class,
 				CoapDeleteCommand.class,
-				CoapMediaTypesCommand.class
+				CoapMediaTypesCommand.class,
+				CoapDescribeCommand.class
 		},
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
 		footer = "%nDeveloped by James mu")

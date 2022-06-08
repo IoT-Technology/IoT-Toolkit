@@ -77,7 +77,7 @@ public class CoapClientServiceImpl implements CoapClientService {
 				.append(StringUtil.lineSeparator());
 		sb.append(String.format("Status : %s, Payload: %dB", status, r.getPayloadSize()))
 				.append(StringUtil.lineSeparator());
-		sb.append(green("................................... Payload ...................................."))
+		sb.append(green("................................... Payload ....................................") + StringUtil.lineSeparator())
 				.append(StringUtil.lineSeparator());
 		if (r.getPayloadSize() > 0 && MediaTypeRegistry.isPrintable(r.getOptions().getContentFormat())) {
 			sb.append(prettyPayload(r)).append(StringUtil.lineSeparator());
@@ -85,6 +85,31 @@ public class CoapClientServiceImpl implements CoapClientService {
 		sb.append(green("--------------------------------------------------------------------------------"));
 
 		return sb.toString();
+	}
+
+	@Override
+	public void getCoapDescription() {
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|bold,red " +
+				"CoAP (Constrained Application Protocol)" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"The Constrained Application Protocol (CoAP) is a specialized web transfer protocol" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"for use with constrained nodes and constrained networks in the Internet of Things." + "|@") + "%n");
+		System.out.format(
+				CommandLine.Help.Ansi.AUTO.string("@|bold,magenta " + "read more: https://iot.mushuwei.cn/#/coap/" + "|@") + "%n");
+		System.out.format(green("------------------------ protocol -------------------------------") + "%n");
+		System.out.format("|      0        |      1        |      2        |      3        |%n");
+		System.out.format("|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|%n");
+		System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
+		System.out.format("|Ver| T |  TKL  |     Code      |            Message ID         |%n");
+		System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
+		System.out.format("|   Token (if any, TKL bytes) ...                               |%n");
+		System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
+		System.out.format("|   Options (if any) ...                                        |%n");
+		System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
+		System.out.format("|1 1 1 1 1 1 1 1|   Payload (if any) ...                        |%n");
+		System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
+
 	}
 
 	public static String prettyPayload(Response r) {

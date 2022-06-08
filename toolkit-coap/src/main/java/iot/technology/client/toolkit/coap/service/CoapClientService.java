@@ -45,4 +45,7 @@ public interface CoapClientService {
 	 * @return
 	 */
 	String requestInfo(String method, String path);
+
+
+	void getCoapDescription();
 }

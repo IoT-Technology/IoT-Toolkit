@@ -1,5 +1,7 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
+import iot.technology.client.toolkit.coap.service.CoapClientService;
+import iot.technology.client.toolkit.coap.service.CoapFactory;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -8,7 +10,7 @@ import java.util.concurrent.Callable;
  * @author mushuwei
  */
 @CommandLine.Command(
-		name = "get",
+		name = "desc",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "CoAP protocol description",
@@ -18,6 +20,12 @@ import java.util.concurrent.Callable;
 )
 public class CoapDescribeCommand implements Callable<Integer> {
 
+	private CoapClientService coapClientService;
+
+	public CoapDescribeCommand() {
+		coapClientService = CoapFactory.getService();
+	}
+
 	@CommandLine.Option(
 			names = {"-h", "--help"},
 			versionHelp = false,
@@ -25,7 +33,8 @@ public class CoapDescribeCommand implements Callable<Integer> {
 	private boolean help;
 
 	@Override
-	public Integer call() throws Exception {
+	public Integer call() {
+		coapClientService.getCoapDescription();
 		return 0;
 	}
 }
