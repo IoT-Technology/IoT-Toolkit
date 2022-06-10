@@ -47,5 +47,12 @@ public interface CoapClientService {
 	String requestInfo(String method, String path);
 
 
+	/**
+	 * print coap protocol description
+	 */
 	void getCoapDescription();
+
+
+	String getAvailableResources();
+
 }
