@@ -2,8 +2,10 @@ package iot.technology.client.toolkit.coap.service;
 
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
+import org.eclipse.californium.core.WebLink;
 
 import java.net.URI;
+import java.util.Set;
 
 /**
  * @author mushuwei
@@ -53,6 +55,11 @@ public interface CoapClientService {
 	void getCoapDescription();
 
 
-	String getAvailableResources();
-
+	/**
+	 * get available resources
+	 *
+	 * @param webLinks
+	 * @return
+	 */
+	String getAvailableResources(Set<WebLink> webLinks);
 }

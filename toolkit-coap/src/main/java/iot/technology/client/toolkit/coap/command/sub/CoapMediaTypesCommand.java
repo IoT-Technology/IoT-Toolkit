@@ -1,12 +1,10 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
-import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.utils.table.DefaultTable;
 import iot.technology.client.toolkit.common.utils.table.DefaultTableFormatter;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import picocli.CommandLine;
 
-import java.net.URI;
 import java.util.concurrent.Callable;
 
 /**
@@ -28,16 +26,9 @@ public class CoapMediaTypesCommand implements Callable<Integer> {
 			versionHelp = false,
 			description = "Show this help message and exit.")
 	private boolean help;
-
-	@CommandLine.Parameters(
-			index = "0",
-			description = "URI of the server to connect to")
-	private URI uri;
-
+	
 	@Override
 	public Integer call() throws Exception {
-		CoapCommandParamValidator.validateUri(uri);
-
 		DefaultTable dt = new DefaultTable();
 		dt.setTitle("Coap Supported Media Types");
 		dt.setHeaders(new String[] {"Type Id", "Type Name"});

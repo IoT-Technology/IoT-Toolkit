@@ -5,7 +5,7 @@
 package iot.technology.client.toolkit.common.utils.table;
 
 public interface LengthCaculator {
-	public int charWidth(char ch);
+	int charWidth(char ch);
 
 	int length(String str);
 

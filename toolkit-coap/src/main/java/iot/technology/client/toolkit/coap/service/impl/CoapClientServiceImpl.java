@@ -3,10 +3,14 @@ package iot.technology.client.toolkit.coap.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.common.constants.HttpStatus;
+import iot.technology.client.toolkit.common.utils.CollectionUtils;
 import iot.technology.client.toolkit.common.utils.MimeTypeUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
+import iot.technology.client.toolkit.common.utils.table.DefaultTable;
+import iot.technology.client.toolkit.common.utils.table.DefaultTableFormatter;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
+import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.coap.Response;
 import org.eclipse.californium.elements.util.StringUtil;
@@ -23,7 +27,10 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author mushuwei
@@ -88,6 +95,24 @@ public class CoapClientServiceImpl implements CoapClientService {
 	}
 
 	@Override
+	public String getAvailableResources(Set<WebLink> webLinks) {
+		DefaultTable dt = new DefaultTable();
+		dt.setTitle("available resources");
+		dt.setHeaders(new String[] {"Path", "Resource Type", "Content Type"});
+		if (!webLinks.isEmpty()) {
+			webLinks.forEach(wl -> {
+				String[] resourceArray = new String[] {
+						wl.getURI(),
+						CollectionUtils.listToString(wl.getAttributes().getResourceTypes()),
+						typeNames(wl.getAttributes().getContentTypes())};
+				dt.addRow(resourceArray);
+			});
+		}
+		DefaultTableFormatter dtf = new DefaultTableFormatter(120, 2);
+		return dtf.format(dt);
+	}
+
+	@Override
 	public void getCoapDescription() {
 		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|bold,red " +
 				"CoAP (Constrained Application Protocol)" + "|@") + "%n");
@@ -110,6 +135,13 @@ public class CoapClientServiceImpl implements CoapClientService {
 		System.out.format("|1 1 1 1 1 1 1 1|   Payload (if any) ...                        |%n");
 		System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
 
+	}
+
+	private String typeNames(List<String> contentTypes) {
+		return contentTypes.stream()
+				.map(Integer::valueOf)
+				.map(ct -> MediaTypeRegistry.toString(ct) + " (" + ct + ")")
+				.collect(Collectors.joining(", "));
 	}
 
 	public static String prettyPayload(Response r) {

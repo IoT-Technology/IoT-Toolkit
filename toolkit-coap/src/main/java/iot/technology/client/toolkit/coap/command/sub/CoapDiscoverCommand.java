@@ -43,6 +43,8 @@ public class CoapDiscoverCommand implements Callable<Integer> {
 		CoapClient coapClient = coapClientService.getCoapClient(uri);
 
 		Set<WebLink> webLinks = coapClient.discover();
-		return null;
+		String availableResources = coapClientService.getAvailableResources(webLinks);
+		System.out.println(availableResources);
+		return 0;
 	}
 }
