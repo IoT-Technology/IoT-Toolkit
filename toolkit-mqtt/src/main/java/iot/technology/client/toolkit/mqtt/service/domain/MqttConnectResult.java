@@ -1,4 +1,4 @@
-package iot.technology.client.toolkit.mqtt.service;
+package iot.technology.client.toolkit.mqtt.service.domain;
 
 import io.netty.channel.ChannelFuture;
 import io.netty.handler.codec.mqtt.MqttConnectReturnCode;

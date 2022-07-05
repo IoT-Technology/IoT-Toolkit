@@ -2,6 +2,7 @@ package iot.technology.client.toolkit.mqtt.service;
 
 
 import io.netty.util.concurrent.Future;
+import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
 
 /**
  * @author mushuwei

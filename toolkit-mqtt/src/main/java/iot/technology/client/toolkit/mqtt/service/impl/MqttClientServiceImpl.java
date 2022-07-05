@@ -14,7 +14,7 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.Promise;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
-import iot.technology.client.toolkit.mqtt.service.MqttConnectResult;
+import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
 
 /**
  * @author mushuwei
