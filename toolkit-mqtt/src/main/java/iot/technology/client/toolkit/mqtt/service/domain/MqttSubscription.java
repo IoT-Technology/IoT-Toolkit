@@ -1,6 +1,6 @@
 package iot.technology.client.toolkit.mqtt.service.domain;
 
-import iot.technology.client.toolkit.mqtt.service.MqttHandler;
+import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
 
 import java.util.regex.Pattern;
 

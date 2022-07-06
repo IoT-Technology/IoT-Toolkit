@@ -10,6 +10,8 @@ public final class MqttClientConfig {
 	private String clientId;
 	private final String randomClientId;
 	private int maxBytesInMessage = 8092;
+	private boolean reconnect = true;
+	private long reconnectDelay = 1L;
 
 	public MqttClientConfig() {
 		Random random = new Random();
@@ -20,6 +22,32 @@ public final class MqttClientConfig {
 		}
 		this.clientId = id;
 		this.randomClientId = id;
+	}
+
+
+	public boolean isReconnect() {
+		return reconnect;
+	}
+
+	public void setReconnect(boolean reconnect) {
+		this.reconnect = reconnect;
+	}
+
+	public long getReconnectDelay() {
+		return reconnectDelay;
+	}
+
+	/**
+	 * Sets the reconnect delay in seconds. Defaults to 1 second.
+	 *
+	 * @param reconnectDelay
+	 * @throws IllegalArgumentException if reconnectDelay is smaller than 1.
+	 */
+	public void setReconnectDelay(long reconnectDelay) {
+		if (reconnectDelay <= 0) {
+			throw new IllegalArgumentException("reconnectDelay must be > 0");
+		}
+		this.reconnectDelay = reconnectDelay;
 	}
 
 	public String getClientId() {

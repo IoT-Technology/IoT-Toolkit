@@ -1,6 +1,8 @@
 package iot.technology.client.toolkit.mqtt.service;
 
 
+import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
 
@@ -27,4 +29,36 @@ public interface MqttClientService {
 	 * @return A future which will be completed when the connection is opened and we received an CONNACK
 	 */
 	Future<MqttConnectResult> connect(String host, int port);
+
+
+	/**
+	 * @return boolean value indicating if channel is active
+	 */
+	boolean isConnected();
+
+
+	/**
+	 * Send disconnect and close channel
+	 */
+	void disconnect();
+
+
+	/**
+	 * Publish a message to the given payload, using the given qos and optional retain
+	 *
+	 * @param topic   The topic to publish to
+	 * @param payload The payload to send
+	 * @param qos     The qos to use while publishing
+	 * @param retain  true if you want to retain the message on the server, false otherwise
+	 * @return A future which will be completed when the message is delivered to the server
+	 */
+	Future<Void> publish(String topic, ByteBuf payload, MqttQoS qos, boolean retain);
+
+
+	/**
+	 * Retrieve the MqttClient configuration
+	 *
+	 * @return The {@link MqttClientConfig} instance we use
+	 */
+	MqttClientConfig getClientConfig();
 }

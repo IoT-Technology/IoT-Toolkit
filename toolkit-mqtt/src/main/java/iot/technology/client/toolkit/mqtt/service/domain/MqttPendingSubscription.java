@@ -3,9 +3,9 @@ package iot.technology.client.toolkit.mqtt.service.domain;
 import io.netty.channel.EventLoop;
 import io.netty.handler.codec.mqtt.MqttSubscribeMessage;
 import io.netty.util.concurrent.Promise;
-import iot.technology.client.toolkit.mqtt.service.MqttHandler;
 import iot.technology.client.toolkit.mqtt.service.PendingOperation;
-import iot.technology.client.toolkit.mqtt.service.RetransmissionHandler;
+import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
+import iot.technology.client.toolkit.mqtt.service.handler.RetransmissionHandler;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 /**
  * @author mushuwei
  */
-public class MqttPendingSubscription {
+public final class MqttPendingSubscription {
 
 	private final Promise<Void> future;
 	private final String topic;
