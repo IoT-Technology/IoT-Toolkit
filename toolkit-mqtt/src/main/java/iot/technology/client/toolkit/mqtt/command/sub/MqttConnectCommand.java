@@ -1,7 +1,5 @@
 package iot.technology.client.toolkit.mqtt.command.sub;
 
-import io.netty.buffer.Unpooled;
-import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
@@ -9,7 +7,6 @@ import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
 import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
 import picocli.CommandLine;
 
-import java.nio.charset.Charset;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -18,24 +15,22 @@ import java.util.concurrent.TimeoutException;
  * @author mushuwei
  */
 @CommandLine.Command(
-		name = "publish",
-		aliases = "pub",
+		name = "connect",
+		aliases = "con",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
-		description = "publish a message to the broker",
+		description = "connect to the broker",
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
 		footer = "%nDeveloped by James mu"
 )
-public class MqttPublishCommand implements Callable<Integer> {
-
-	private static final Charset UTF8 = Charset.forName("UTF-8");
+public class MqttConnectCommand implements Callable<Integer> {
 
 	private final MqttClientConfig mqttClientConfig;
 	private final MqttClientService mqttClientService;
 
-	public MqttPublishCommand() {
+	public MqttConnectCommand() {
 		this.mqttClientConfig = new MqttClientConfig();
 		this.mqttClientService = new MqttClientServiceImpl(mqttClientConfig, null);
 	}
@@ -51,15 +46,6 @@ public class MqttPublishCommand implements Callable<Integer> {
 			defaultValue = "1883")
 	Integer port;
 
-	@CommandLine.Parameters(
-			index = "2",
-			description = "the message topic")
-	String topic;
-
-	@CommandLine.Parameters(
-			index = "3",
-			description = "the message body")
-	String message;
 
 	@Override
 	public Integer call() throws Exception {
@@ -80,7 +66,6 @@ public class MqttPublishCommand implements Callable<Integer> {
 			throw new RuntimeException(
 					String.format("Failed to connect to MQTT broker at %s. Result code is: %s", hostPort, result.getReturnCode()));
 		}
-		mqttClientService.publish(topic, Unpooled.wrappedBuffer(message.getBytes(UTF8)), MqttQoS.AT_MOST_ONCE, false);
 		return 0;
 	}
 }

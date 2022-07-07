@@ -53,7 +53,7 @@ public final class MqttPendingSubscription {
 		this.sent = sent;
 	}
 
-	MqttSubscribeMessage getSubscribeMessage() {
+	public MqttSubscribeMessage getSubscribeMessage() {
 		return subscribeMessage;
 	}
 

@@ -1,5 +1,6 @@
 package iot.technology.client.toolkit.mqtt.command;
 
+import iot.technology.client.toolkit.mqtt.command.sub.MqttConnectCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttPublishCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttSubscribeCommand;
 import picocli.CommandLine;
@@ -18,6 +19,7 @@ import java.util.concurrent.Callable;
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		subcommands = {
+				MqttConnectCommand.class,
 				MqttPublishCommand.class,
 				MqttSubscribeCommand.class
 		},
@@ -25,16 +27,8 @@ import java.util.concurrent.Callable;
 		footer = "%nDeveloped by James mu")
 public class MqttCommand implements Callable<Integer> {
 
-	@CommandLine.Option(
-			names = {"-m", "--message"},
-			required = true,
-			description = "a message to send")
-	String message;
-
-
 	@Override
 	public Integer call() {
-		System.out.println("[mqtt] MQTT message: Message: " + message);
 		return 0;
 	}
 }

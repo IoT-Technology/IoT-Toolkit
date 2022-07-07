@@ -15,6 +15,7 @@ import iot.technology.client.toolkit.mqtt.service.MqttClientCallback;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.*;
+import iot.technology.client.toolkit.mqtt.service.handler.MqttChannelHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
 
 import java.util.HashSet;
@@ -94,7 +95,35 @@ public class MqttClientServiceImpl implements MqttClientService {
 	@Override
 	public Future<Void> publish(String topic, ByteBuf payload, MqttQoS qos, boolean retain) {
 		Promise<Void> future = new DefaultPromise<>(this.eventLoop.next());
-		return null;
+		MqttFixedHeader fixedHeader = new MqttFixedHeader(MqttMessageType.PUBLISH, false, qos, retain, 0);
+		MqttPublishVariableHeader variableHeader = new MqttPublishVariableHeader(topic, getNewMessageId().messageId());
+		MqttPublishMessage message = new MqttPublishMessage(fixedHeader, variableHeader, payload);
+		MqttPendingPublish pendingPublish = new MqttPendingPublish(variableHeader.packetId(), future,
+				payload.retain(), message, qos, () -> !pendingPublishes.containsKey(variableHeader.packetId()));
+		this.pendingPublishes.put(pendingPublish.getMessageId(), pendingPublish);
+		ChannelFuture channelFuture = this.sendAndFlushPacket(message);
+
+		if (channelFuture != null) {
+			channelFuture.addListener(result -> {
+				pendingPublish.setSent(true);
+				if (result.cause() != null) {
+					pendingPublishes.remove(pendingPublish.getMessageId());
+					future.setFailure(result.cause());
+				} else {
+					if (pendingPublish.isSent() && pendingPublish.getQos() == MqttQoS.AT_MOST_ONCE) {
+						pendingPublishes.remove(pendingPublish.getMessageId());
+						pendingPublish.getFuture().setSuccess(null);
+					} else if (pendingPublish.isSent()) {
+						pendingPublish.startPublishRetransmissionTimer(eventLoop.next(), this::sendAndFlushPacket);
+					} else {
+						pendingPublishes.remove(pendingPublish.getMessageId());
+					}
+				}
+			});
+		} else {
+			pendingPublishes.remove(pendingPublish.getMessageId());
+		}
+		return future;
 	}
 
 	/**
@@ -107,9 +136,53 @@ public class MqttClientServiceImpl implements MqttClientService {
 		return clientConfig;
 	}
 
+	public boolean isReconnect() {
+		return reconnect;
+	}
+
+	public void onSuccessfulReconnect() {
+		if (callback != null) {
+			callback.onSuccessfulReconnect();
+		}
+	}
+
+
+	public ConcurrentMap<Integer, MqttPendingSubscription> getPendingSubscriptions() {
+		return pendingSubscriptions;
+	}
+
+	public HashMultimap<String, MqttSubscription> getSubscriptions() {
+		return subscriptions;
+	}
+
+	public Set<String> getPendingSubscribeTopics() {
+		return pendingSubscribeTopics;
+	}
+
+	public HashMultimap<MqttHandler, MqttSubscription> getHandlerToSubscribtion() {
+		return handlerToSubscribtion;
+	}
+
+	public Set<String> getServerSubscriptions() {
+		return serverSubscriptions;
+	}
+
+	public ConcurrentMap<Integer, MqttPendingUnsubscription> getPendingServerUnsubscribes() {
+		return pendingServerUnsubscribes;
+	}
+
+	public ConcurrentMap<Integer, MqttPendingPublish> getPendingPublishes() {
+		return pendingPublishes;
+	}
+
+	public ConcurrentMap<Integer, MqttIncomingQos2Publish> getQos2PendingIncomingPublishes() {
+		return qos2PendingIncomingPublishes;
+	}
+
 	/***
 	 * PRIVATE API
 	 */
+
 
 	private ChannelFuture sendAndFlushPacket(Object message) {
 		if (this.channel == null) {
@@ -119,6 +192,15 @@ public class MqttClientServiceImpl implements MqttClientService {
 			return this.channel.writeAndFlush(message);
 		}
 		return this.channel.newFailedFuture(new ChannelClosedException("Channel is closed!"));
+	}
+
+	private MqttMessageIdVariableHeader getNewMessageId() {
+		int messageId;
+		synchronized (this.nextMessageId) {
+			this.nextMessageId.compareAndSet(0xffff, 1);
+			messageId = this.nextMessageId.getAndIncrement();
+		}
+		return MqttMessageIdVariableHeader.from(messageId);
 	}
 
 	private Future<MqttConnectResult> connect(String host, int port, boolean reconnect) {
@@ -194,6 +276,7 @@ public class MqttClientServiceImpl implements MqttClientService {
 		protected void initChannel(SocketChannel ch) throws Exception {
 			ch.pipeline().addLast("mqttDecoder", new MqttDecoder(clientConfig.getMaxBytesInMessage()));
 			ch.pipeline().addLast("mqttEncoder", MqttEncoder.INSTANCE);
+			ch.pipeline().addLast("mqttHandler", new MqttChannelHandler(MqttClientServiceImpl.this, connectFuture));
 		}
 	}
 }

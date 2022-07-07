@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
  * @author mushuwei
  */
 @CommandLine.Command(
-		name = "subcribe",
+		name = "subscribe",
 		aliases = "sub",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
