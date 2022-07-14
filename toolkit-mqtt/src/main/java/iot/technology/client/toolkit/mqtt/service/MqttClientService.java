@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
+import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
 
 /**
  * @author mushuwei
@@ -53,6 +54,29 @@ public interface MqttClientService {
 	 * @return A future which will be completed when the message is delivered to the server
 	 */
 	Future<Void> publish(String topic, ByteBuf payload, MqttQoS qos, boolean retain);
+
+
+	/**
+	 * Subscribe on the given topic. when a message is received, MqttClient will invoke the {@link MqttHandler#onMessage(String, ByteBuf)}
+	 * function of the given handler
+	 *
+	 * @param topic   The topic filter to subscribe to
+	 * @param handler The handler to invoke when we receive a message
+	 * @return A future which will be completed when the server acknowledges our subscribe request
+	 */
+	Future<Void> on(String topic, MqttHandler handler);
+
+
+	/**
+	 * Subscribe on the given topic. with the given qos. when a message is received,
+	 * MqttClient will invoke the {@link MqttHandler#onMessage(String, ByteBuf)} function of the given handler
+	 *
+	 * @param topic   The topic filter to subscribe to
+	 * @param handler The handler to invoke when we receive a message
+	 * @param qos     The qos to request to the server
+	 * @return A future which will be completed when the server acknowledges our subscribe request
+	 */
+	Future<Void> on(String topic, MqttHandler handler, MqttQoS qos);
 
 
 	/**

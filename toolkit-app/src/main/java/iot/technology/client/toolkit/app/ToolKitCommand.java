@@ -32,7 +32,7 @@ public class ToolKitCommand implements Callable<Integer> {
 		LogLevelConfig.setLogLevel();
 		int exitStatus = new CommandLine(new ToolKitCommand())
 				.setCaseInsensitiveEnumValuesAllowed(true)
-				.execute("mqtt", "pub", "localhost", "1883", "hello", "hello, tuya");
+				.execute("mqtt", "sub", "localhost", "1883", "hello");
 		System.exit(exitStatus);
 	}
 

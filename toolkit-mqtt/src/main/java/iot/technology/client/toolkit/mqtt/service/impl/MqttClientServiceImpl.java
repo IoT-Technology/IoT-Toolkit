@@ -18,8 +18,7 @@ import iot.technology.client.toolkit.mqtt.service.domain.*;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttChannelHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -124,6 +123,17 @@ public class MqttClientServiceImpl implements MqttClientService {
 			pendingPublishes.remove(pendingPublish.getMessageId());
 		}
 		return future;
+	}
+
+
+	@Override
+	public Future<Void> on(String topic, MqttHandler handler) {
+		return on(topic, handler, MqttQoS.AT_MOST_ONCE);
+	}
+
+	@Override
+	public Future<Void> on(String topic, MqttHandler handler, MqttQoS qos) {
+		return createSubscription(topic, handler, false, qos);
 	}
 
 	/**
@@ -247,6 +257,41 @@ public class MqttClientServiceImpl implements MqttClientService {
 			}
 		});
 		return connectFuture;
+	}
+
+	private Future<Void> createSubscription(String topic, MqttHandler handler, boolean once, MqttQoS qos) {
+		if (this.pendingSubscribeTopics.contains(topic)) {
+			Optional<Map.Entry<Integer, MqttPendingSubscription>> subscriptionEntry = this.pendingSubscriptions.entrySet().stream()
+					.filter((e) -> e.getValue().getTopic().equals(topic)).findAny();
+			if (subscriptionEntry.isPresent()) {
+				subscriptionEntry.get().getValue().addHandler(handler, once);
+				return subscriptionEntry.get().getValue().getFuture();
+			}
+		}
+		if (this.serverSubscriptions.contains(topic)) {
+			MqttSubscription subscription = new MqttSubscription(topic, handler, once);
+			this.subscriptions.put(topic, subscription);
+			this.handlerToSubscribtion.put(handler, subscription);
+			return this.channel.newSucceededFuture();
+		}
+
+		Promise<Void> future = new DefaultPromise<>(this.eventLoop.next());
+		MqttFixedHeader fixedHeader = new MqttFixedHeader(MqttMessageType.SUBSCRIBE, false, MqttQoS.AT_LEAST_ONCE, false, 0);
+		MqttTopicSubscription subscription = new MqttTopicSubscription(topic, qos);
+		MqttMessageIdVariableHeader variableHeader = getNewMessageId();
+		MqttSubscribePayload payload = new MqttSubscribePayload(Collections.singletonList(subscription));
+		MqttSubscribeMessage message = new MqttSubscribeMessage(fixedHeader, variableHeader, payload);
+
+		final MqttPendingSubscription pendingSubscription = new MqttPendingSubscription(future, topic, message,
+				() -> !pendingSubscriptions.containsKey(variableHeader.messageId()));
+		pendingSubscription.addHandler(handler, once);
+		this.pendingSubscriptions.put(variableHeader.messageId(), pendingSubscription);
+		this.pendingSubscribeTopics.add(topic);
+		pendingSubscription.setSent(this.sendAndFlushPacket(message) != null); //If not sent, we will send it when the connection is opened
+
+		pendingSubscription.startRetransmitTimer(this.eventLoop.next(), this::sendAndFlushPacket);
+
+		return future;
 	}
 
 	private void scheduleConnectIfRequired(String host, int port, boolean reconnect) {

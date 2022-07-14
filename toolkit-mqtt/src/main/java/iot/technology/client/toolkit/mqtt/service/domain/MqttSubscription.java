@@ -16,7 +16,7 @@ public final class MqttSubscription {
 	private final boolean once;
 	private boolean called;
 
-	MqttSubscription(String topic, MqttHandler handler, boolean once) {
+	public MqttSubscription(String topic, MqttHandler handler, boolean once) {
 		if (topic == null) {
 			throw new NullPointerException("topic");
 		}

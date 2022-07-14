@@ -25,10 +25,10 @@ public final class MqttPendingSubscription {
 
 	private boolean sent = false;
 
-	MqttPendingSubscription(Promise<Void> future,
-							String topic,
-							MqttSubscribeMessage message,
-							PendingOperation operation) {
+	public MqttPendingSubscription(Promise<Void> future,
+								   String topic,
+								   MqttSubscribeMessage message,
+								   PendingOperation operation) {
 		this.future = future;
 		this.topic = topic;
 		this.subscribeMessage = message;
