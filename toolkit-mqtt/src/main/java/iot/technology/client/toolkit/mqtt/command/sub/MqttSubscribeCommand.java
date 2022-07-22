@@ -4,6 +4,7 @@ import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
+import iot.technology.client.toolkit.mqtt.service.handler.MqttSubMessageHandler;
 import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
 import picocli.CommandLine;
 
@@ -70,7 +71,7 @@ public class MqttSubscribeCommand implements Callable<Integer> {
 			throw new RuntimeException(
 					String.format("Failed to connect to MQTT broker at %s. Result code is: %s", hostPort, result.getReturnCode()));
 		}
-		mqttClientService.on(topic, null);
+		mqttClientService.on(topic, new MqttSubMessageHandler());
 		return 0;
 	}
 }

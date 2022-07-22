@@ -12,7 +12,7 @@ public final class MqttClientConfig {
 
 	private String clientId;
 	private final String randomClientId;
-	private int timeoutSeconds = 60;
+	private int timeoutSeconds = 10;
 	private MqttVersion protocolVersion = MqttVersion.MQTT_3_1_1;
 	private String username = null;
 	private String password = null;

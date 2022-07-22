@@ -9,6 +9,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.mqtt.*;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.DefaultPromise;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.Promise;
@@ -18,6 +19,7 @@ import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.*;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttChannelHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
+import iot.technology.client.toolkit.mqtt.service.handler.MqttPingHandler;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -391,6 +393,9 @@ public class MqttClientServiceImpl implements MqttClientService {
 		protected void initChannel(SocketChannel ch) throws Exception {
 			ch.pipeline().addLast("mqttDecoder", new MqttDecoder(clientConfig.getMaxBytesInMessage()));
 			ch.pipeline().addLast("mqttEncoder", MqttEncoder.INSTANCE);
+			ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(MqttClientServiceImpl.this.clientConfig.getTimeoutSeconds(),
+					MqttClientServiceImpl.this.clientConfig.getTimeoutSeconds(), 0));
+			ch.pipeline().addLast("mqttPingHandler", new MqttPingHandler(MqttClientServiceImpl.this.clientConfig.getTimeoutSeconds()));
 			ch.pipeline().addLast("mqttHandler", new MqttChannelHandler(MqttClientServiceImpl.this, connectFuture));
 		}
 	}

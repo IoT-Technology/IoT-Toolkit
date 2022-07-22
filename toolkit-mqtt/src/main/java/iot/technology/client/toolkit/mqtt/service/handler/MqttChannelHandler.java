@@ -30,10 +30,24 @@ public final class MqttChannelHandler extends SimpleChannelInboundHandler<MqttMe
 				handleConack(ctx.channel(), (MqttConnAckMessage) msg);
 				break;
 			case SUBACK:
-				
-
+				handleSubAck((MqttSubAckMessage) msg);
+				break;
+			case PUBLISH:
+				handlePublish(ctx.channel(), (MqttPublishMessage) msg);
+				break;
+			case UNSUBACK:
+				handleUnsuback((MqttUnsubAckMessage) msg);
+				break;
+			case PUBACK:
+				handlePuback((MqttPubAckMessage) msg);
+				break;
+			case PUBREC:
+				handlePubrec(ctx.channel(), msg);
+				break;
+			case PUBCOMP:
+				handlePubcomp(msg);
+				break;
 		}
-
 	}
 
 	@Override
