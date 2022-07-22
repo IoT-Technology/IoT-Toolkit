@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 		name = "desc",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
-		description = "CoAP protocol description",
+		description = "introduction and description of CoAP protocol",
 		optionListHeading = "%nOptions are:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
 		footer = "%nDeveloped by James mu"

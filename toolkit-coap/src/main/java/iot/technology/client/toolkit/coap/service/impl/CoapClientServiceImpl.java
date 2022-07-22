@@ -114,14 +114,18 @@ public class CoapClientServiceImpl implements CoapClientService {
 
 	@Override
 	public void getCoapDescription() {
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|bold,red " +
-				"CoAP (Constrained Application Protocol)" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),bold " +
+				"RFC7252 CoAP (Constrained Application Protocol)" + "|@") + "%n");
+		System.out.format("" + "%n");
 		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
 				"The Constrained Application Protocol (CoAP) is a specialized web transfer protocol" + "|@") + "%n");
 		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
 				"for use with constrained nodes and constrained networks in the Internet of Things." + "|@") + "%n");
-		System.out.format(
-				CommandLine.Help.Ansi.AUTO.string("@|bold,magenta " + "read more: https://iot.mushuwei.cn/#/coap/" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"The protocol is designed for machine-to-machine (M2M) applications such as smart energy and building automation." + "|@")
+				+ "%n");
+		System.out.format("" + "%n");
+
 		System.out.format(green("------------------------ protocol -------------------------------") + "%n");
 		System.out.format("|      0        |      1        |      2        |      3        |%n");
 		System.out.format("|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|%n");
@@ -134,6 +138,14 @@ public class CoapClientServiceImpl implements CoapClientService {
 		System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
 		System.out.format("|1 1 1 1 1 1 1 1|   Payload (if any) ...                        |%n");
 		System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
+
+		System.out.format("" + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The official address: "
+				+ "https://coap.technology/" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The English reference: "
+				+ "https://www.rfc-editor.org/rfc/rfc7252.html" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The Chinese reference: "
+				+ "https://iot.mushuwei.cn/#/coap/" + "|@") + "%n");
 
 	}
 

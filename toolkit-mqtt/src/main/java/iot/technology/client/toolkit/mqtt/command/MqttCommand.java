@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
 		name = "mqtt",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
-		header = "@|fg(Cyan),bold mqtt client toolkit|@",
+		header = "@|fg(Cyan),bold MQTT Client Toolkit|@",
 		description = "this is a sub command to toolkit which deal with mqtt protocol",
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,

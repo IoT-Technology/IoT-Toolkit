@@ -44,6 +44,9 @@ public final class MqttChannelHandler extends SimpleChannelInboundHandler<MqttMe
 			case PUBREC:
 				handlePubrec(ctx.channel(), msg);
 				break;
+			case PUBREL:
+				handlePubrel(ctx.channel(), msg);
+				break;
 			case PUBCOMP:
 				handlePubcomp(msg);
 				break;

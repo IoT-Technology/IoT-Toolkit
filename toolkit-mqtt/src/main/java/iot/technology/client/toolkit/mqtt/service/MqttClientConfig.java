@@ -25,7 +25,7 @@ public final class MqttClientConfig {
 
 	public MqttClientConfig() {
 		Random random = new Random();
-		String id = "toolkit/";
+		String id = "toolkit_mqtt_";
 		String[] options = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
 		for (int i = 0; i < 8; i++) {
 			id += options[random.nextInt(options.length)];

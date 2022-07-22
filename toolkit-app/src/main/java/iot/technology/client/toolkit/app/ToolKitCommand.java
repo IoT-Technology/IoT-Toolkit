@@ -18,7 +18,7 @@ import java.util.concurrent.Callable;
 		requiredOptionMarker = '*',
 		description = "A handy @|fg(red),bold toolkit|@ for IoT developers and learners.",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu",
+		footer = "%nDeveloped by mushuwei",
 		mixinStandardHelpOptions = true,
 		subcommands = {
 				CoapCommand.class,
@@ -39,7 +39,7 @@ public class ToolKitCommand implements Callable<Integer> {
 		System.exit(exitStatus);
 	}
 
-	public Integer call() throws Exception {
+	public Integer call() {
 		System.out.println("A handy toolkit for IoT developers and learners.");
 		return SUCCESS;
 	}
