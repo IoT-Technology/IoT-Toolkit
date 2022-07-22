@@ -2,6 +2,7 @@ package iot.technology.client.toolkit.mqtt.service;
 
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.EventLoopGroup;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
@@ -36,6 +37,23 @@ public interface MqttClientService {
 	 * @return boolean value indicating if channel is active
 	 */
 	boolean isConnected();
+
+
+	/**
+	 * Retrieve the netty {@link EventLoopGroup} we are using
+	 *
+	 * @return The netty {@link EventLoopGroup} we use for the connection
+	 */
+	EventLoopGroup getEventLoop();
+
+
+	/**
+	 * By default we use the netty {@link io.netty.channel.nio.NioEventLoopGroup}
+	 * If you want to force the MqttClient to use another {@link EventLoopGroup}, call this function before calling {@link #connect(String, int)}
+	 *
+	 * @param eventLoop The new eventloop to use
+	 */
+	void setEventLoop(EventLoopGroup eventLoop);
 
 
 	/**
@@ -77,6 +95,26 @@ public interface MqttClientService {
 	 * @return A future which will be completed when the server acknowledges our subscribe request
 	 */
 	Future<Void> on(String topic, MqttHandler handler, MqttQoS qos);
+
+
+	/**
+	 * Remove the subscription for the given topic and handler
+	 * If you want to unsubscribe from all handlers known for this topic, use {@link #}
+	 *
+	 * @param topic   The topic to unsubscribe for
+	 * @param handler The handler to unsubscribe
+	 * @return A future which will be completed when the server acknowledges our unsubscribe request
+	 */
+	Future<Void> off(String topic, MqttHandler handler);
+
+	/**
+	 * Remove all subscriptions for the given topic.
+	 * If you want to specify which handler to unsubscribe, use {@link #off(String, MqttHandler)}
+	 *
+	 * @param topic The topic to unsubscribe for
+	 * @return A future which will be completed when the server acknowledges our unsubscribe request
+	 */
+	Future<Void> off(String topic);
 
 
 	/**

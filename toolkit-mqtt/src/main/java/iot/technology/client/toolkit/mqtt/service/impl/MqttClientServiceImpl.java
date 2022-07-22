@@ -1,6 +1,7 @@
 package iot.technology.client.toolkit.mqtt.service.impl;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableSet;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
@@ -83,6 +84,16 @@ public class MqttClientServiceImpl implements MqttClientService {
 	}
 
 	@Override
+	public EventLoopGroup getEventLoop() {
+		return eventLoop;
+	}
+
+	@Override
+	public void setEventLoop(EventLoopGroup eventLoop) {
+		this.eventLoop = eventLoop;
+	}
+
+	@Override
 	public void disconnect() {
 		disconnected = true;
 		if (this.channel != null) {
@@ -134,6 +145,46 @@ public class MqttClientServiceImpl implements MqttClientService {
 	@Override
 	public Future<Void> on(String topic, MqttHandler handler, MqttQoS qos) {
 		return createSubscription(topic, handler, false, qos);
+	}
+
+	/**
+	 * Remove the subscription for the given topic and handler
+	 * If you want to unsubscribe from all handlers known for this topic, use {@link #off(String)}
+	 *
+	 * @param topic   The topic to unsubscribe for
+	 * @param handler The handler to unsubscribe
+	 * @return A future which will be completed when the server acknowledges our unsubscribe request
+	 */
+	@Override
+	public Future<Void> off(String topic, MqttHandler handler) {
+		Promise<Void> future = new DefaultPromise<>(this.eventLoop.next());
+		for (MqttSubscription subscription : this.handlerToSubscribtion.get(handler)) {
+			this.subscriptions.remove(topic, subscription);
+		}
+		this.handlerToSubscribtion.removeAll(handler);
+		this.checkSubscribtions(topic, future);
+		return future;
+	}
+
+	/**
+	 * Remove all subscriptions for the given topic.
+	 * If you want to specify which handler to unsubscribe, use {@link #off(String, MqttHandler)}
+	 *
+	 * @param topic The topic to unsubscribe for
+	 * @return A future which will be completed when the server acknowledges our unsubscribe request
+	 */
+	@Override
+	public Future<Void> off(String topic) {
+		Promise<Void> future = new DefaultPromise<>(this.eventLoop.next());
+		ImmutableSet<MqttSubscription> subscriptions = ImmutableSet.copyOf(this.subscriptions.get(topic));
+		for (MqttSubscription subscription : subscriptions) {
+			for (MqttSubscription handSub : this.handlerToSubscribtion.get(subscription.getHandler())) {
+				this.subscriptions.remove(topic, handSub);
+			}
+			this.handlerToSubscribtion.remove(subscription.getHandler(), subscription);
+		}
+		this.checkSubscribtions(topic, future);
+		return future;
 	}
 
 	/**
@@ -193,8 +244,27 @@ public class MqttClientServiceImpl implements MqttClientService {
 	 * PRIVATE API
 	 */
 
+	private void checkSubscribtions(String topic, Promise<Void> promise) {
+		if (!(this.subscriptions.containsKey(topic) && this.subscriptions.get(topic).size() != 0) &&
+				this.serverSubscriptions.contains(topic)) {
+			MqttFixedHeader fixedHeader = new MqttFixedHeader(MqttMessageType.UNSUBSCRIBE, false, MqttQoS.AT_LEAST_ONCE, false, 0);
+			MqttMessageIdVariableHeader variableHeader = getNewMessageId();
+			MqttUnsubscribePayload payload = new MqttUnsubscribePayload(Collections.singletonList(topic));
+			MqttUnsubscribeMessage message = new MqttUnsubscribeMessage(fixedHeader, variableHeader, payload);
 
-	private ChannelFuture sendAndFlushPacket(Object message) {
+			MqttPendingUnsubscription pendingUnsubscription = new MqttPendingUnsubscription(promise, topic, message,
+					() -> !pendingServerUnsubscribes.containsKey(variableHeader.messageId()));
+			this.pendingServerUnsubscribes.put(variableHeader.messageId(), pendingUnsubscription);
+			pendingUnsubscription.startRetransmissionTimer(this.eventLoop.next(), this::sendAndFlushPacket);
+
+			this.sendAndFlushPacket(message);
+		} else {
+			promise.setSuccess(null);
+		}
+	}
+
+
+	public ChannelFuture sendAndFlushPacket(Object message) {
 		if (this.channel == null) {
 			return null;
 		}
@@ -323,5 +393,10 @@ public class MqttClientServiceImpl implements MqttClientService {
 			ch.pipeline().addLast("mqttEncoder", MqttEncoder.INSTANCE);
 			ch.pipeline().addLast("mqttHandler", new MqttChannelHandler(MqttClientServiceImpl.this, connectFuture));
 		}
+	}
+
+
+	public MqttHandler getDefaultHandler() {
+		return defaultHandler;
 	}
 }

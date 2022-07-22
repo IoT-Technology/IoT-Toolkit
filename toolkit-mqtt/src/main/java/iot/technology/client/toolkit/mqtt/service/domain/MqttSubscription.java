@@ -29,7 +29,7 @@ public final class MqttSubscription {
 		this.topicRegex = Pattern.compile(topic.replace("+", "[^/]+").replace("#", ".+") + "$");
 	}
 
-	String getTopic() {
+	public String getTopic() {
 		return topic;
 	}
 
@@ -37,15 +37,15 @@ public final class MqttSubscription {
 		return handler;
 	}
 
-	boolean isOnce() {
+	public boolean isOnce() {
 		return once;
 	}
 
-	boolean isCalled() {
+	public boolean isCalled() {
 		return called;
 	}
 
-	boolean matches(String topic) {
+	public boolean matches(String topic) {
 		return this.topicRegex.matcher(topic).matches();
 	}
 
@@ -71,7 +71,7 @@ public final class MqttSubscription {
 		return result;
 	}
 
-	void setCalled(boolean called) {
+	public void setCalled(boolean called) {
 		this.called = called;
 	}
 
