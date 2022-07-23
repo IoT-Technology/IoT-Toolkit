@@ -15,13 +15,14 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "delete",
+		aliases = "del",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "Delete CoAP Resource",
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu"
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapDeleteCommand implements Callable<Integer> {
 

@@ -12,12 +12,13 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "media-types",
+		aliases = "mt",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "List supported MIME types",
 		optionListHeading = "%nOptions are:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu"
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapMediaTypesCommand implements Callable<Integer> {
 

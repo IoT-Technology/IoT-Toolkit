@@ -26,7 +26,7 @@ import java.util.concurrent.Callable;
 				CoapDeleteCommand.class,
 		},
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu")
+		footer = "%nDeveloped by mushuwei")
 public class CoapCommand implements Callable<Integer> {
 
 

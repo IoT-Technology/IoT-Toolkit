@@ -14,6 +14,11 @@ import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
 public interface MqttClientService {
 
 	/**
+	 * print mqtt protocol description
+	 */
+	void getMqttDescription();
+
+	/**
 	 * Connect to the specified hostname/ip. By default uses port 1883.
 	 * If you want to change the port number, see {@link #connect(String, int)}
 	 *

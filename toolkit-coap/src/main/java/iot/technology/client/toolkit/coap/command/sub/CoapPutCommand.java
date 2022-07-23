@@ -23,7 +23,7 @@ import static iot.technology.client.toolkit.coap.command.sub.CoapGetCommand.COAP
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu"
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapPutCommand implements Callable<Integer> {
 

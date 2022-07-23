@@ -21,7 +21,7 @@ import java.util.concurrent.Callable;
 		description = "Request data from CoAP Resource",
 		optionListHeading = "%nOptions are:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu"
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapGetCommand implements Callable<Integer> {
 

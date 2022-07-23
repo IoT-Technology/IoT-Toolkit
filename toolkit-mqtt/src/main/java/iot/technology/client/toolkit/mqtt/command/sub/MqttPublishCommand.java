@@ -26,7 +26,7 @@ import java.util.concurrent.TimeoutException;
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu"
+		footer = "%nDeveloped by mushuwei"
 )
 public class MqttPublishCommand implements Callable<Integer> {
 

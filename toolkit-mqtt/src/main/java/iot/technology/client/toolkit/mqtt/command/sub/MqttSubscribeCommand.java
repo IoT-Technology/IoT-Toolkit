@@ -20,11 +20,11 @@ import java.util.concurrent.TimeoutException;
 		aliases = "sub",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
-		description = "publish a message to the broker",
+		description = "subscribe for updates from the broker",
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu"
+		footer = "%nDeveloped by mushuwei"
 )
 public class MqttSubscribeCommand implements Callable<Integer> {
 

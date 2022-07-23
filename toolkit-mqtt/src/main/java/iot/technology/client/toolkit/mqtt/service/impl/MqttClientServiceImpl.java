@@ -20,6 +20,7 @@ import iot.technology.client.toolkit.mqtt.service.domain.*;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttChannelHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttPingHandler;
+import picocli.CommandLine;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -68,6 +69,34 @@ public class MqttClientServiceImpl implements MqttClientService {
 	public MqttClientServiceImpl(MqttClientConfig clientConfig, MqttHandler defaultHandler) {
 		this.clientConfig = clientConfig;
 		this.defaultHandler = defaultHandler;
+	}
+
+	@Override
+	public void getMqttDescription() {
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
+				"MQTT (Message Queuing Telemetry Transport)" + "|@") + "%n");
+		System.out.format("" + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"MQTT is an OASIS standard messaging protocol for the Internet of Things (IoT)." + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"It is designed as an extremely lightweight publish/subscribe messaging transport" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"that is ideal for connecting remote devices with a small code footprint and" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"minimal network bandwidth. MQTT today is used in a wide variety of industries," + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"such as automotive, manufacturing, telecommunications, oil and gas, etc." + "|@") + "%n");
+		System.out.format("" + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Official address: "
+				+ "https://mqtt.org/" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 3.1.1 Specification: "
+				+ "http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Chinese MQTT 3.1.1 Specification: "
+				+ "https://iot.mushuwei.cn/#/mqtt3/" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 5 Specification: "
+				+ "https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Chinese MQTT 5 Specification: "
+				+ "https://iot.mushuwei.cn/#/mqtt5/" + "|@") + "%n");
 	}
 
 	@Override

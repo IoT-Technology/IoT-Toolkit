@@ -140,7 +140,7 @@ public class CoapClientServiceImpl implements CoapClientService {
 		System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
 
 		System.out.format("" + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The official address: "
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The Official address: "
 				+ "https://coap.technology/" + "|@") + "%n");
 		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The English reference: "
 				+ "https://www.rfc-editor.org/rfc/rfc7252.html" + "|@") + "%n");

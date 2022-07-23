@@ -16,12 +16,13 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "discover",
+		aliases = "disc",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "list available resources",
 		optionListHeading = "%nOptions are:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu"
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapDiscoverCommand implements Callable<Integer> {
 

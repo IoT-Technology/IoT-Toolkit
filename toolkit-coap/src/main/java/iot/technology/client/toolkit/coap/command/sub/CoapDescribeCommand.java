@@ -10,13 +10,14 @@ import java.util.concurrent.Callable;
  * @author mushuwei
  */
 @CommandLine.Command(
-		name = "desc",
+		name = "describe",
+		aliases = "desc",
 		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "introduction and description of CoAP protocol",
 		optionListHeading = "%nOptions are:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by James mu"
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapDescribeCommand implements Callable<Integer> {
 
