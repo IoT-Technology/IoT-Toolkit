@@ -2,6 +2,7 @@ package iot.technology.client.toolkit.app;
 
 import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
+import iot.technology.client.toolkit.common.utils.OsUtils;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
@@ -31,8 +32,8 @@ public class ToolKitCommand implements Callable<Integer> {
 
 	public static void main(String[] args) {
 		LogLevelConfig.setLogLevel();
-		String osName = System.getProperty("os.name");
-		if (osName.toLowerCase().contains("windows")) {
+		boolean isWin = OsUtils.isWindows();
+		if (isWin) {
 			AnsiConsole.systemInstall();
 		}
 		int exitStatus = new CommandLine(new ToolKitCommand())
@@ -42,7 +43,7 @@ public class ToolKitCommand implements Callable<Integer> {
 			return;
 		}
 		System.exit(exitStatus);
-		if (osName.toLowerCase().contains("windows")) {
+		if (isWin) {
 			AnsiConsole.systemUninstall();
 		}
 	}
