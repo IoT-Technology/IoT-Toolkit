@@ -28,10 +28,6 @@
             <groupId>iot.technology</groupId>
             <artifactId>toolkit-mqtt</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.fusesource.jansi</groupId>
-            <artifactId>jansi</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
