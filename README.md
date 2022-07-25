@@ -46,9 +46,16 @@ Developed by mushuwei
 
 ### Put Option
 
+[![asciicast](https://asciinema.org/a/510629.svg)](https://asciinema.org/a/510629)
+
 ### Post Option
 
+
+
 ### Delete Option
+
+[![asciicast](https://asciinema.org/a/510628.svg)](https://asciinema.org/a/510628)
+
 
 ## MQTT
 
