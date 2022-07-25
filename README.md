@@ -2,7 +2,7 @@
 
 `Toolkit` is a client command line tool that supports multiple IoT protocols. **CoAP** and  **MQTT** protocols are currently supported. more protocols will be supported in the future. it is written in the java language, but does not rely on the JRE environment.
 
-![](/Users/mushuwei/IdeaProjects/iot-toolkit/png/toolkit.png)
+![](/png/toolkit.png)
 
 ## Future
 
