@@ -11,6 +11,8 @@ import java.net.URI;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+import static iot.technology.client.toolkit.coap.service.impl.CoapClientServiceImpl.green;
+
 /**
  * @author mushuwei
  */
@@ -45,6 +47,7 @@ public class CoapDiscoverCommand implements Callable<Integer> {
 
 		Set<WebLink> webLinks = coapClient.discover();
 		String availableResources = coapClientService.getAvailableResources(webLinks);
+		System.out.format(green("==================== Available Resources ====================") + "%n");
 		System.out.println(availableResources);
 		return 0;
 	}

@@ -1,11 +1,13 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
-import iot.technology.client.toolkit.common.utils.table.DefaultTable;
-import iot.technology.client.toolkit.common.utils.table.DefaultTableFormatter;
+import iot.technology.client.toolkit.coap.service.CoapClientService;
+import iot.technology.client.toolkit.coap.service.CoapFactory;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
+
+import static iot.technology.client.toolkit.coap.service.impl.CoapClientServiceImpl.green;
 
 /**
  * @author mushuwei
@@ -22,28 +24,25 @@ import java.util.concurrent.Callable;
 )
 public class CoapMediaTypesCommand implements Callable<Integer> {
 
+	private CoapClientService coapClientService;
+
+	public CoapMediaTypesCommand() {
+		coapClientService = CoapFactory.getService();
+	}
+
 	@CommandLine.Option(
 			names = {"-h", "--help"},
 			versionHelp = false,
 			description = "Show this help message and exit.")
 	private boolean help;
-	
+
 	@Override
 	public Integer call() throws Exception {
-		DefaultTable dt = new DefaultTable();
-		dt.setTitle("Coap Supported Media Types");
-		dt.setHeaders(new String[] {"Type Id", "Type Name"});
-		MediaTypeRegistry.getAllMediaTypes().stream()
-				.forEach(i -> {
-					String[] mediaTypeArray = getRow("" + i, MediaTypeRegistry.toString(i));
-					dt.addRow(mediaTypeArray);
-				});
-		DefaultTableFormatter dtf = new DefaultTableFormatter(120, 2);
-		System.out.println(dtf.format(dt));
+		MediaTypeRegistry mediaTypeRegistry = new MediaTypeRegistry();
+		String supportedMediaTypes = coapClientService.getSupportedMediaTypes(mediaTypeRegistry);
+		System.out.format(green("==================== Coap Supported Media Types ====================") + "%n");
+		System.out.println(supportedMediaTypes);
 		return 0;
 	}
 
-	private String[] getRow(String mediaTypeId, String mediaTypeName) {
-		return new String[] {mediaTypeId, mediaTypeName};
-	}
 }

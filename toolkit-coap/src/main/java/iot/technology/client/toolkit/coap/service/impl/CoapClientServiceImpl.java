@@ -1,13 +1,16 @@
 package iot.technology.client.toolkit.coap.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.freva.asciitable.AsciiTable;
+import com.github.freva.asciitable.Column;
+import com.github.freva.asciitable.HorizontalAlign;
+import iot.technology.client.toolkit.coap.domain.AvailableResource;
+import iot.technology.client.toolkit.coap.domain.CoapSupportType;
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.common.constants.HttpStatus;
 import iot.technology.client.toolkit.common.utils.CollectionUtils;
 import iot.technology.client.toolkit.common.utils.MimeTypeUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.common.utils.table.DefaultTable;
-import iot.technology.client.toolkit.common.utils.table.DefaultTableFormatter;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.WebLink;
@@ -27,9 +30,8 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -96,20 +98,50 @@ public class CoapClientServiceImpl implements CoapClientService {
 
 	@Override
 	public String getAvailableResources(Set<WebLink> webLinks) {
-		DefaultTable dt = new DefaultTable();
-		dt.setTitle("available resources");
-		dt.setHeaders(new String[] {"Path", "Resource Type", "Content Type"});
+		List<AvailableResource> arList = new ArrayList<>();
+		AtomicInteger i = new AtomicInteger(1);
 		if (!webLinks.isEmpty()) {
 			webLinks.forEach(wl -> {
-				String[] resourceArray = new String[] {
-						wl.getURI(),
-						CollectionUtils.listToString(wl.getAttributes().getResourceTypes()),
-						typeNames(wl.getAttributes().getContentTypes())};
-				dt.addRow(resourceArray);
+				AvailableResource ar = new AvailableResource();
+				ar.setRowNum(String.valueOf(i.get()));
+				ar.setPath(wl.getURI());
+				ar.setResourceType(CollectionUtils.listToString(wl.getAttributes().getResourceTypes()));
+				ar.setContentType(typeNames(wl.getAttributes().getContentTypes()));
+				arList.add(ar);
+				i.getAndIncrement();
 			});
 		}
-		DefaultTableFormatter dtf = new DefaultTableFormatter(120, 2);
-		return dtf.format(dt);
+		return AsciiTable.getTable(arList, Arrays.asList(
+				new Column().with(AvailableResource::getRowNum),
+				new Column().header("Path").headerAlign(HorizontalAlign.CENTER)
+						.dataAlign(HorizontalAlign.LEFT)
+						.with(AvailableResource::getPath),
+				new Column().header("Resource Type").headerAlign(HorizontalAlign.CENTER)
+						.dataAlign(HorizontalAlign.LEFT)
+						.with(AvailableResource::getResourceType),
+				new Column().header("Content Type").headerAlign(HorizontalAlign.CENTER)
+						.dataAlign(HorizontalAlign.LEFT)
+						.with(AvailableResource::getContentType)));
+	}
+
+
+	@Override
+	public String getSupportedMediaTypes(MediaTypeRegistry mediaTypeRegistry) {
+		List<CoapSupportType> stList = new ArrayList<>();
+		MediaTypeRegistry.getAllMediaTypes()
+				.stream()
+				.forEach(i -> {
+					CoapSupportType supportType = new CoapSupportType();
+					supportType.setTypeId("" + i);
+					supportType.setTypeName(MediaTypeRegistry.toString(i));
+					stList.add(supportType);
+				});
+		return AsciiTable.getTable(stList, Arrays.asList(
+				new Column().with(CoapSupportType::getRowName),
+				new Column().header("Type Id").headerAlign(HorizontalAlign.CENTER)
+						.dataAlign(HorizontalAlign.LEFT).with(CoapSupportType::getTypeId),
+				new Column().header("Type Name").headerAlign(HorizontalAlign.CENTER)
+						.dataAlign(HorizontalAlign.LEFT).with(CoapSupportType::getTypeName)));
 	}
 
 	@Override

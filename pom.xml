@@ -28,6 +28,7 @@
         <jackson.version>2.13.3</jackson.version>
         <guava.version>30.0-jre</guava.version>
         <jansi.version>2.4.0</jansi.version>
+        <ascii-table.version>1.2.0</ascii-table.version>
     </properties>
 
     <dependencyManagement>
@@ -91,6 +92,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.freva</groupId>
+                <artifactId>ascii-table</artifactId>
+                <version>${ascii-table.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

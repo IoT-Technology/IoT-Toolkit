@@ -3,6 +3,7 @@ package iot.technology.client.toolkit.coap.service;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.WebLink;
+import org.eclipse.californium.core.coap.MediaTypeRegistry;
 
 import java.net.URI;
 import java.util.Set;
@@ -62,4 +63,13 @@ public interface CoapClientService {
 	 * @return
 	 */
 	String getAvailableResources(Set<WebLink> webLinks);
+
+
+	/**
+	 * get coap media type registry
+	 *
+	 * @param mediaTypeRegistry CoAP Media Type Registry as defined in RFC 7252
+	 * @return command out
+	 */
+	String getSupportedMediaTypes(MediaTypeRegistry mediaTypeRegistry);
 }
