@@ -43,6 +43,7 @@
                     <mainClass>iot.technology.client.toolkit.app.ToolKitCommand</mainClass>
                     <buildArgs>
                         --no-fallback
+                        -H:+ReportExceptionStackTraces
                     </buildArgs>
                 </configuration>
                 <executions>
