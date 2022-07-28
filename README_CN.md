@@ -4,7 +4,9 @@
 
 `Toolkit`是一款支持多种物联网协议的客户端命令行工具。目前支持CoAP和MQTT协议，未来将支持更多的协议。它是用java语言编写的，但不依赖JRE环境。
 
-![](/png/toolkit.png)
+<p align="center">
+    <img src="/png/toolkit.png" alt="IoT Toolkit">
+</p>
 
 [📖 English Document](README.md) | 📖 中文文档
 
