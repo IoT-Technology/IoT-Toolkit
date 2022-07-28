@@ -1,27 +1,59 @@
-# A handy client toolkit CLI for IoT developers and learners
 
-`Toolkit` is a client command line tool that supports multiple IoT protocols. **CoAP** and  **MQTT** protocols are currently supported. more protocols will be supported in the future. it is written in the java language, but does not rely on the JRE environment.
+
+# 支持多种IoT协议的客户端命令行工具
+
+`Toolkit`是一款支持多种物联网协议的客户端命令行工具。目前支持CoAP和MQTT协议，未来将支持更多的协议。它是用java语言编写的，但不依赖JRE环境。
 
 ![](/png/toolkit.png)
 
-
-[📖 中文文档](README_CN.md) | 📖 英文文档
+[📖 English Document](README.md) | 📖 中文文档
 
 ----------------------------------------
 
-## Future
+<table style="text-align:center">
+  <tr>
+    <td>
+     <h4>支持多种IoT协议</h4>
+      该客户端命令行工具当前支持MQTT和CoAP协议，未来会支持更多协议。无须打开多个客户端软件，更方便
+    </td>
+    <td >
+      <h4>Java语言编写，但不依赖JRE环境</h4>
+      此项目使用Java语言编写，使用GraalVM Native Image技术使其不依赖JRE运行环境。
+    </td>
+    <td>
+     <h4>多平台支持: mac、linux和windows</h4>
+      提供linux、unix和windows版本的release包，方便在不同的操作系统中运行
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h4>低内存占用且更快的启动速度</h4>
+      静态编译运行通过AOT避免了JIT的CPU开销，通过轻量化SubstrateVM实现，
+      静态编译至native image中，提供了较快的vm性能和启动速度。
+    </td>
+    <td>
+      <h4>ANSI颜色和样式帮助</h4>
+       toolkit无论在windows还是linux下，都有很好的色彩输出。
+    </td>
+    <td>
+      <h4>现代化的设计，良好的交互</h4>
+      提供自动补全，国际化和多语言支持，用户交互良好且易于操作。
+    </td>
+  </tr>
+</table>
 
-- multi-platform support: mac、linux and windows;
 
-- very small and takes up little memory;
 
-- command's output look good in both on windows and linux
+下面是`Toolkit`下载的方便连接
 
-- written in the java language, but does not rely on the JRE environment
+| 平台      | Toolkit                                                                                                                                       |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Linux   | [toolkit-linux-0.0.1-release](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/v0.0.1/toolkit-linux-0.0.1-release)             |
+| Unix    | [toolkit-unix-0.0.1-release](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/v0.0.1/toolkit-unix-0.0.1-release)               |
+| Windows | [toolkit-windows-0.0.1-release.exe](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/v0.0.1/toolkit-windows-0.0.1-release.exe) |
 
-- integration of multiple protocols eliminates the neet to open multiple client software
 
-## CoAP
+# CoAP
 
 ```bash
 mushuwei@mushuweideMacBook-Pro-2 ~ % toolkit coap -h
@@ -61,7 +93,7 @@ Developed by mushuwei
 
 [![asciicast](https://asciinema.org/a/510628.svg)](https://asciinema.org/a/510628)
 
-## MQTT
+# MQTT
 
 ```bash
 mushuwei@mushuweideMacBook-Pro-2 ~ % toolkit mqtt -h
