@@ -14,7 +14,6 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "toolkit",
-		version = "0.0.1",
 		header = "IoT Client Toolkit CLI",
 		optionListHeading = "%nOptions are:%n",
 		requiredOptionMarker = '*',
@@ -25,7 +24,8 @@ import java.util.concurrent.Callable;
 		subcommands = {
 				CoapCommand.class,
 				MqttCommand.class
-		})
+		},
+		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
 public class ToolKitCommand implements Callable<Integer> {
 	final Integer SUCCESS = 0;
 

@@ -17,13 +17,13 @@ import static iot.technology.client.toolkit.coap.command.sub.CoapGetCommand.COAP
  */
 @CommandLine.Command(
 		name = "post",
-		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "Create/Update data in CoAP Resource",
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by mushuwei"
+		footer = "%nDeveloped by mushuwei",
+		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
 public class CoapPostCommand implements Callable<Integer> {
 

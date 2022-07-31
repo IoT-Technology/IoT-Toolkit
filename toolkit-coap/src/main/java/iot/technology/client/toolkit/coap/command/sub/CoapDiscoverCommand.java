@@ -19,12 +19,12 @@ import static iot.technology.client.toolkit.coap.service.impl.CoapClientServiceI
 @CommandLine.Command(
 		name = "discover",
 		aliases = "disc",
-		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "list available resources",
 		optionListHeading = "%nOptions are:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by mushuwei"
+		footer = "%nDeveloped by mushuwei",
+		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
 public class CoapDiscoverCommand implements Callable<Integer> {
 

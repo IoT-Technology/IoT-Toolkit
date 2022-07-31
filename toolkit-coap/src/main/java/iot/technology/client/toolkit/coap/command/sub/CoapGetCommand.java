@@ -16,12 +16,12 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "get",
-		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "Request data from CoAP Resource",
 		optionListHeading = "%nOptions are:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by mushuwei"
+		footer = "%nDeveloped by mushuwei",
+		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
 public class CoapGetCommand implements Callable<Integer> {
 

@@ -20,16 +20,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>iot.technology</groupId>
+            <artifactId>toolkit-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-codec-mqtt</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-handler</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.picocli</groupId>
-            <artifactId>picocli</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

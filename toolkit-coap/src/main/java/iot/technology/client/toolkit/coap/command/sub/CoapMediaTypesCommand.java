@@ -15,12 +15,12 @@ import static iot.technology.client.toolkit.coap.service.impl.CoapClientServiceI
 @CommandLine.Command(
 		name = "media-types",
 		aliases = "mt",
-		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "List supported MIME types",
 		optionListHeading = "%nOptions are:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by mushuwei"
+		footer = "%nDeveloped by mushuwei",
+		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
 public class CoapMediaTypesCommand implements Callable<Integer> {
 

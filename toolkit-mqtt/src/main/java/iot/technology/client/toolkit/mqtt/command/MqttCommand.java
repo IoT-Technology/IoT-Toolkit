@@ -12,7 +12,6 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "mqtt",
-		version = "0.0.1",
 		requiredOptionMarker = '*',
 		header = "@|fg(Cyan),bold MQTT Client Toolkit|@",
 		description = "@|fg(Cyan),italic user-friendly MQTT protocol client toolkit|@",
@@ -24,7 +23,8 @@ import java.util.concurrent.Callable;
 				MqttSubscribeCommand.class
 		},
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by mushuwei")
+		footer = "%nDeveloped by mushuwei",
+		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
 public class MqttCommand implements Callable<Integer> {
 
 	@Override

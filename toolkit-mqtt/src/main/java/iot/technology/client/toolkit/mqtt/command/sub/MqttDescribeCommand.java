@@ -13,13 +13,13 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
 		name = "describe",
 		aliases = "desc",
-		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "introduction and description of MQTT protocol",
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by mushuwei"
+		footer = "%nDeveloped by mushuwei",
+		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
 public class MqttDescribeCommand implements Callable<Integer> {
 

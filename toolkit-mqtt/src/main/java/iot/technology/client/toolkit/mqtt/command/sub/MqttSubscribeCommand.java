@@ -20,14 +20,14 @@ import java.util.concurrent.TimeoutException;
 @CommandLine.Command(
 		name = "subscribe",
 		aliases = "sub",
-		version = "0.0.1",
 		requiredOptionMarker = '*',
 		description = "subscribe for updates from the broker",
 		optionListHeading = "%nOptions are:%n",
 		mixinStandardHelpOptions = true,
 		sortOptions = false,
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by mushuwei"
+		footer = "%nDeveloped by mushuwei",
+		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
 public class MqttSubscribeCommand implements Callable<Integer> {
 

@@ -10,7 +10,6 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "coap",
-		version = "0.0.1",
 		requiredOptionMarker = '*',
 		header = "@|fg(blue),bold CoAP Client Toolkit|@",
 		description = "@|fg(blue),italic user-friendly CoAP protocol client toolkit|@",
@@ -26,7 +25,8 @@ import java.util.concurrent.Callable;
 				CoapDeleteCommand.class,
 		},
 		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
-		footer = "%nDeveloped by mushuwei")
+		footer = "%nDeveloped by mushuwei",
+		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
 public class CoapCommand implements Callable<Integer> {
 
 
