@@ -30,6 +30,11 @@
             <groupId>iot.technology</groupId>
             <artifactId>toolkit-mqtt</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.graalvm.nativeimage</groupId>
+            <artifactId>svm</artifactId>
+            <version>22.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

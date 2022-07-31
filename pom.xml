@@ -29,6 +29,7 @@
         <guava.version>30.0-jre</guava.version>
         <jansi.version>2.4.0</jansi.version>
         <ascii-table.version>1.2.0</ascii-table.version>
+        <graalvm-svm.version>22.1.0</graalvm-svm.version>
     </properties>
 
     <dependencyManagement>
@@ -97,6 +98,11 @@
                 <groupId>com.github.freva</groupId>
                 <artifactId>ascii-table</artifactId>
                 <version>${ascii-table.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.graalvm.nativeimage</groupId>
+                <artifactId>svm</artifactId>
+                <version>22.1.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
