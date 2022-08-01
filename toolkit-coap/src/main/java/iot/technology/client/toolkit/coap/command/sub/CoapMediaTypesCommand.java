@@ -2,6 +2,7 @@ package iot.technology.client.toolkit.coap.command.sub;
 
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.service.CoapFactory;
+import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import picocli.CommandLine;
 
@@ -42,7 +43,7 @@ public class CoapMediaTypesCommand implements Callable<Integer> {
 		String supportedMediaTypes = coapClientService.getSupportedMediaTypes(mediaTypeRegistry);
 		System.out.format(green("==================== Coap Supported Media Types ====================") + "%n");
 		System.out.println(supportedMediaTypes);
-		return 0;
+		return ExitCodeEnum.SUCCESS.getValue();
 	}
 
 }

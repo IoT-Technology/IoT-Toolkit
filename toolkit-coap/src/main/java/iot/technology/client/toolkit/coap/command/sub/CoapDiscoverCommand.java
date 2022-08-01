@@ -3,6 +3,7 @@ package iot.technology.client.toolkit.coap.command.sub;
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
+import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.WebLink;
 import picocli.CommandLine;
@@ -49,6 +50,6 @@ public class CoapDiscoverCommand implements Callable<Integer> {
 		String availableResources = coapClientService.getAvailableResources(webLinks);
 		System.out.format(green("==================== Available Resources ====================") + "%n");
 		System.out.println(availableResources);
-		return 0;
+		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

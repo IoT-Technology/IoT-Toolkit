@@ -2,6 +2,7 @@ package iot.technology.client.toolkit.mqtt.command.sub;
 
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.util.concurrent.Future;
+import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
@@ -120,6 +121,6 @@ public class MqttSubscribeCommand implements Callable<Integer> {
 					String.format("Failed to connect to MQTT broker at %s. Result code is: %s", hostPort, result.getReturnCode()));
 		}
 		mqttClientService.on(topic, handler, qosLevel);
-		return 0;
+		return ExitCodeEnum.NOTEND.getValue();
 	}
 }

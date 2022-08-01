@@ -2,6 +2,8 @@ package iot.technology.client.toolkit.app;
 
 import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
+import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
 import iot.technology.client.toolkit.common.utils.OsUtils;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import org.fusesource.jansi.AnsiConsole;
@@ -25,9 +27,10 @@ import java.util.concurrent.Callable;
 				CoapCommand.class,
 				MqttCommand.class
 		},
+		exitCodeOnExecutionException = 400,
+		exitCodeOnSuccess = 200,
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
 public class ToolKitCommand implements Callable<Integer> {
-	final Integer SUCCESS = 0;
 
 
 	public static void main(String[] args) {
@@ -37,9 +40,10 @@ public class ToolKitCommand implements Callable<Integer> {
 			AnsiConsole.systemInstall();
 		}
 		int exitStatus = new CommandLine(new ToolKitCommand())
+				.setExecutionExceptionHandler(new ExceptionMessageHandler())
 				.setCaseInsensitiveEnumValuesAllowed(true)
 				.execute(args);
-		if ((args.length > 2) && args[0].equals("mqtt") && (args[1].equals("sub") || args[1].equals("subscribe"))) {
+		if (exitStatus == ExitCodeEnum.NOTEND.getValue()) {
 			return;
 		}
 		System.exit(exitStatus);
@@ -50,6 +54,6 @@ public class ToolKitCommand implements Callable<Integer> {
 
 	public Integer call() {
 		System.out.println("A handy toolkit for IoT developers and learners.");
-		return SUCCESS;
+		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

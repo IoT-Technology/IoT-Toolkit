@@ -1,6 +1,7 @@
 package iot.technology.client.toolkit.coap.command;
 
 import iot.technology.client.toolkit.coap.command.sub.*;
+import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -32,6 +33,7 @@ public class CoapCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() {
-		return 0;
+		return ExitCodeEnum.SUCCESS.getValue();
 	}
+	
 }

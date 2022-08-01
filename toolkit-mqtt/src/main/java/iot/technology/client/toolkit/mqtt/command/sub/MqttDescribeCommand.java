@@ -1,5 +1,6 @@
 package iot.technology.client.toolkit.mqtt.command.sub;
 
+import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
@@ -39,6 +40,7 @@ public class MqttDescribeCommand implements Callable<Integer> {
 	@Override
 	public Integer call() {
 		mqttClientService.getMqttDescription();
-		return 0;
+		return ExitCodeEnum.SUCCESS.getValue();
 	}
+	
 }

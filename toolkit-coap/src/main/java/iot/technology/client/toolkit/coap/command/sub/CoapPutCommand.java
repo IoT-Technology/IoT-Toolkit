@@ -3,6 +3,7 @@ package iot.technology.client.toolkit.coap.command.sub;
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
+import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import picocli.CommandLine;
@@ -66,10 +67,10 @@ public class CoapPutCommand implements Callable<Integer> {
 
 		CoapClient coapClient = coapClientService.getCoapClient(uri);
 		CoapResponse response = coapClient.put(payloadContent, coapClientService.coapContentType(format));
-		
+
 		String requestInfo = coapClientService.requestInfo("put", uri.toString());
 		String responseStr = coapClientService.prettyPrint(response, requestInfo);
 		System.out.println(responseStr);
-		return 0;
+		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

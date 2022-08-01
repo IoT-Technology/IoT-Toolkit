@@ -3,6 +3,7 @@ package iot.technology.client.toolkit.coap.command.sub;
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
+import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import picocli.CommandLine;
@@ -55,6 +56,7 @@ public class CoapDeleteCommand implements Callable<Integer> {
 		String responseStr = coapClientService.prettyPrint(response, requestInfo);
 		result.append(responseStr);
 		System.out.println(result);
-		return 0;
+		return ExitCodeEnum.SUCCESS.getValue();
 	}
+	
 }
