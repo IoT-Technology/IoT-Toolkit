@@ -33,7 +33,7 @@ public class MqttSubscribeCommand implements Callable<Integer> {
 
 	@CommandLine.Option(
 			order = 0,
-			names = {"-h", "--hostname"},
+			names = {"-host", "--hostname"},
 			required = true,
 			description = "the broker host")
 	String host;
