@@ -35,7 +35,7 @@ jobs:
       - name: 'Set up Java'
         uses: actions/setup-java@v2
         with:
-          java-version: 17
+          java-version: 11
           distribution: 'zulu'
 
       - name: 'Cache Maven packages'
@@ -81,22 +81,16 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ ubuntu-latest, macOS-latest, windows-latest ]
+        os: [ ubuntu-20.04, macos-11, windows-2019 ]
         gu-binary: [ gu, gu.cmd ]
         exclude:
           # Exclude GraalVM native image builds
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             gu-binary: gu.cmd
-          - os: macos-latest
+          - os: macos-11
             gu-binary: gu.cmd
-          - os: windows-latest
+          - os: windows-2019
             gu-binary: gu
-          # Temporarily excluding builds for testing
-          # TODO: Remove this exclusion once we have native image builds for all platforms
-#          - os: ubuntu-latest
-#            gu-binary: gu
-#          - os: macos-latest
-#            gu-binary: gu
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -116,17 +110,19 @@ jobs:
 
       - name: 'Add Developer Command Prompt for Microsoft Visual C++ '
         if: ${{ runner.os == 'Windows' }}
-        uses: ilammy/msvc-dev-cmd@v1
+      - uses: ilammy/msvc-dev-cmd@v1.5.0
+      - uses: microsoft/setup-msbuild@v1
 
       - name: 'Set up Graal'
-        uses: DeLaGuardo/setup-graalvm@5.0
+        uses: ayltai/setup-graalvm@v1
         with:
           graalvm: '22.1.0'
-          java: 'java17'
+          java: 'java11'
 
       - name: 'Install native-image component'
         run: |
           ${{ matrix.gu-binary }} install native-image
+
       - name: 'Cache Maven packages'
         uses: actions/cache@v2.1.7
         with:
@@ -189,7 +185,7 @@ jobs:
       - name: 'Set up Java'
         uses: actions/setup-java@v2
         with:
-          java-version: 17
+          java-version: 11
           distribution: 'zulu'
 
       - name: 'Cache Maven packages'
