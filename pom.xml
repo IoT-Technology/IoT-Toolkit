@@ -49,7 +49,9 @@
         <ascii-table.version>1.2.0</ascii-table.version>
         <graalvm-svm.version>22.1.0</graalvm-svm.version>
         <mycila-license.version>4.1</mycila-license.version>
+        <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <native.maven.plugin.version>0.9.13</native.maven.plugin.version>
+        <jreleaser.version>1.1.0</jreleaser.version>
     </properties>
 
     <dependencyManagement>
@@ -131,9 +133,19 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.graalvm.buildtools</groupId>
                     <artifactId>native-maven-plugin</artifactId>
                     <version>${native.maven.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jreleaser</groupId>
+                    <artifactId>jreleaser-maven-plugin</artifactId>
+                    <version>${jreleaser.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>com.mycila</groupId>
