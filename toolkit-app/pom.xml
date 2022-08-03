@@ -20,7 +20,7 @@ Copyright (c) 2019-2022 IoT Technology
     <parent>
         <artifactId>iot-toolkit</artifactId>
         <groupId>iot.technology</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.3</version>
     </parent>
 
 
@@ -29,6 +29,8 @@ Copyright (c) 2019-2022 IoT Technology
     <packaging>jar</packaging>
 
     <properties>
+        <mainClass>iot.technology.client.toolkit.app.ToolKitCommand</mainClass>
+        <appName>toolkit</appName>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <native-image-plugin.version>21.2.0</native-image-plugin.version>
@@ -72,25 +74,35 @@ Copyright (c) 2019-2022 IoT Technology
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.graalvm.nativeimage</groupId>
-                <artifactId>native-image-maven-plugin</artifactId>
-                <version>${native-image-plugin.version}</version>
-                <configuration>
-                    <imageName>toolkit</imageName>
-                    <mainClass>iot.technology.client.toolkit.app.ToolKitCommand</mainClass>
-                    <buildArgs>
-                        --no-fallback
-                        -H:+ReportExceptionStackTraces
-                    </buildArgs>
-                </configuration>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <extensions>true</extensions>
                 <executions>
                     <execution>
+                        <id>build-native</id>
                         <goals>
-                            <goal>native-image</goal>
+                            <goal>build</goal>
                         </goals>
                         <phase>package</phase>
                     </execution>
+                    <execution>
+                        <id>release-native</id>
+                        <goals>
+                            <goal>release</goal>
+                        </goals>
+                        <phase>release</phase>
+                    </execution>
                 </executions>
+                <configuration>
+                    <imageName>${appName}-${project.version}</imageName>
+                    <mainClass>${mainClass}</mainClass>
+                    <buildArgs>
+                        <buildArg>--allow-incomplete-classpath</buildArg>
+                        <buildArg>--no-fallback</buildArg>
+                        <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+                        <buildArg>--verbose</buildArg>
+                    </buildArgs>
+                </configuration>
             </plugin>
 
             <plugin>

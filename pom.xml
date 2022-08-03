@@ -20,7 +20,7 @@ Copyright (c) 2019-2022 IoT Technology
 
     <groupId>iot.technology</groupId>
     <artifactId>iot-toolkit</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.3</version>
     <modules>
         <module>toolkit-mqtt</module>
         <module>toolkit-coap</module>
@@ -45,6 +45,7 @@ Copyright (c) 2019-2022 IoT Technology
         <ascii-table.version>1.2.0</ascii-table.version>
         <graalvm-svm.version>22.1.0</graalvm-svm.version>
         <mycila-license.version>4.1</mycila-license.version>
+        <native.maven.plugin.version>0.9.13</native.maven.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -129,6 +130,11 @@ Copyright (c) 2019-2022 IoT Technology
                     <groupId>com.mycila</groupId>
                     <artifactId>license-maven-plugin</artifactId>
                     <version>${mycila-license.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.graalvm.buildtools</groupId>
+                    <artifactId>native-maven-plugin</artifactId>
+                    <version>${native.maven.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
