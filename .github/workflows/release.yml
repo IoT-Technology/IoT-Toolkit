@@ -113,7 +113,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1.5.0
 
       - name: 'Set up Graal'
-        uses: ayltai/setup-graalvm@v1
+        uses: DeLaGuardo/setup-graalvm@5.0
         with:
           graalvm: '22.1.0'
           java: 'java11'
