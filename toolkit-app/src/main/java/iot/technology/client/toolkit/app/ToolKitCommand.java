@@ -4,7 +4,6 @@ import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
-import iot.technology.client.toolkit.common.utils.OsUtils;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.CommandLine;
@@ -35,19 +34,17 @@ public class ToolKitCommand implements Callable<Integer> {
 
 	public static void main(String[] args) {
 		LogLevelConfig.setLogLevel();
-		boolean isWin = OsUtils.isWindows();
-		if (isWin) {
-			AnsiConsole.systemInstall();
-		}
-		int exitStatus = new CommandLine(new ToolKitCommand())
-				.setExecutionExceptionHandler(new ExceptionMessageHandler())
-				.setCaseInsensitiveEnumValuesAllowed(true)
-				.execute(args);
-		if (exitStatus == ExitCodeEnum.NOTEND.getValue()) {
-			return;
-		}
-		System.exit(exitStatus);
-		if (isWin) {
+		AnsiConsole.systemInstall();
+		try {
+			int exitStatus = new CommandLine(new ToolKitCommand())
+					.setExecutionExceptionHandler(new ExceptionMessageHandler())
+					.setCaseInsensitiveEnumValuesAllowed(true)
+					.execute(args);
+			if (exitStatus == ExitCodeEnum.NOTEND.getValue()) {
+				return;
+			}
+			System.exit(exitStatus);
+		} finally {
 			AnsiConsole.systemUninstall();
 		}
 	}
