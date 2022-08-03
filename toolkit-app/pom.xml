@@ -1,17 +1,19 @@
 <!--
-Copyright (c) 2019-2022 IoT Technology
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+    Copyright © 2019-2022 The Toolkit Authors
 
-     http://www.apache.org/licenses/LICENSE-2.0
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -55,57 +57,6 @@ Copyright (c) 2019-2022 IoT Technology
     <build>
         <plugins>
             <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <configuration>
-                    <header>etc/license.txt</header>
-                    <strictCheck>true</strictCheck>
-                    <aggregate>true</aggregate>
-                    <excludes>
-                        <exclude>LICENSE.txt</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-                <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <id>build-native</id>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                    <execution>
-                        <id>release-native</id>
-                        <goals>
-                            <goal>release</goal>
-                        </goals>
-                        <phase>release</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <imageName>${appName}-${project.version}</imageName>
-                    <mainClass>${mainClass}</mainClass>
-                    <buildArgs>
-                        <buildArg>--allow-incomplete-classpath</buildArg>
-                        <buildArg>--no-fallback</buildArg>
-                        <buildArg>-H:+ReportExceptionStackTraces</buildArg>
-                        <buildArg>--verbose</buildArg>
-                    </buildArgs>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <!-- annotationProcessorPaths requires maven-compiler-plugin version 3.5 or higher -->
@@ -125,6 +76,52 @@ Copyright (c) 2019-2022 IoT Technology
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>native</id>
+            <activation>
+                <property>
+                    <name>native</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>build-native</id>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                            <execution>
+                                <id>release-native</id>
+                                <goals>
+                                    <goal>release</goal>
+                                </goals>
+                                <phase>release</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <imageName>${appName}-${project.version}</imageName>
+                            <mainClass>${mainClass}</mainClass>
+                            <buildArgs>
+                                <buildArg>--allow-incomplete-classpath</buildArg>
+                                <buildArg>--no-fallback</buildArg>
+                                <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+                                <buildArg>--verbose</buildArg>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 </project>
