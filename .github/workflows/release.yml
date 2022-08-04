@@ -26,6 +26,10 @@ on:
         description: "Next version"
         required: false
 
+env:
+  graalvm_version: '22.1.0'
+  java_version: '11'
+
 jobs:
   version:
     runs-on: ubuntu-latest
