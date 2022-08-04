@@ -17,15 +17,9 @@ jobs:
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and run HelloWorld.java
+      - name: echo graalvm info
         run: |
-          echo 'public class HelloWorld { public static void main(String[] args) { System.out.println("Hello, World!"); } }' > HelloWorld.java
-          javac HelloWorld.java
-          native-image HelloWorld
-          ./helloworld
+          java --version
+          gu --version   
+          native-image --version   
       
-      - name: Upload binary
-        uses: actions/upload-artifact@v2
-        with:
-          name: helloworld-${{ matrix.os }}
-          path: helloworld*
