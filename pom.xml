@@ -216,6 +216,18 @@
                                         <label>{{ projectVersionNumber }}-early-access</label>
                                     </snapshot>
                                 </project>
+                                <release>
+                                    <github>
+                                        <owner>IoT Technology</owner>
+                                        <name>toolkit</name>
+                                        <host>github.com</host>
+                                        <username>sanshengshui</username>
+                                        <apiEndpoint>https://api.github.com</apiEndpoint>
+                                        <tagName>{{projectVersion}}</tagName>
+                                        <releaseName>{{projectVersion}}</releaseName>
+                                        <branch>main</branch>
+                                    </github>
+                                </release>
                                 <packagers>
                                     <!-- brew for osx-->
                                     <brew>
