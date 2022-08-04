@@ -210,7 +210,7 @@ jobs:
           JRELEASER_BRANCH: master
           JRELEASER_HOMEBREW_GITHUB_TOKEN: ${{ secrets.JWT_RELEASE_TOKEN }}
           JRELEASER_HOMEBREW_GITHUB_BRANCH: master
-        run: mvn -e -B --file pom.xml -Prelease -DartifactsDir=artifacts jreleaser:full-release
+        run: mvn -e -B --file toolkit-app/pom.xml -Prelease -DartifactsDir=artifacts jreleaser:full-release
 
       - name: JReleaser output
         if: always()
