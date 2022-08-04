@@ -74,6 +74,7 @@ jobs:
           path: |
             HEAD
             *_VERSION
+
   # Build native executable per runner
   build:
     needs: [ version ]
@@ -108,19 +109,28 @@ jobs:
         with:
           ref: ${{ steps.head.outputs.content }}
 
-      - name: 'Add Developer Command Prompt for Microsoft Visual C++ '
-        if: ${{ runner.os == 'Windows' }}
-        uses: ilammy/msvc-dev-cmd@v1
+#      - name: 'Add Developer Command Prompt for Microsoft Visual C++ '
+#        if: ${{ runner.os == 'Windows' }}
+#        uses: ilammy/msvc-dev-cmd@v1
 
       - name: 'Set up Graal'
-        uses: DeLaGuardo/setup-graalvm@5.0
+        uses: graalvm/setup-graalvm@v1
         with:
-          graalvm: '21.3.0'
-          java: 'java11'
+          version: '22.1.0'
+          java-version: '11'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        - name: Example step
+          run: |
+            echo "GRAALVM_HOME: $GRAALVM_HOME"
+            echo "JAVA_HOME: $JAVA_HOME"
+            java --version
+            gu --version
+            native-image --version  
 
-      - name: 'Install native-image component'
-        run: |
-          ${{ matrix.gu-binary }} install native-image
+#      - name: 'Install native-image component'
+#        run: |
+#          ${{ matrix.gu-binary }} install native-image
 
       - name: 'Cache Maven packages'
         uses: actions/cache@v2.1.7
@@ -142,6 +152,7 @@ jobs:
           path: |
             target/*.zip
             target/*.tar.gz
+
   # Collect all executables and release
   release:
     needs: [ build ]
