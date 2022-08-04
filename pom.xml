@@ -33,7 +33,7 @@
     <name>IoT Technology ToolKit</name>
     <packaging>pom</packaging>
     <description>IoT Protocol Client CLI for IoT developers and learners</description>
-    <url>https://github.com/IoT-Technology/IoT-Toolkit</url>
+    <url>https://github.com/sanshengshui/IoT-Toolkit</url>
     <inceptionYear>2019</inceptionYear>
 
     <!-- licenses -->
@@ -48,15 +48,15 @@
     <!-- developers -->
     <developers>
         <developer>
-            <id>IoT-Technology</id>
-            <name>IoT-Technology</name>
+            <id>sanshengshui</id>
+            <name>sanshengshui</name>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:IoT-Technology/IoT-Toolkit.git</connection>
-        <developerConnection>scm:git:git@github.com:IoT-Technology/IoT-Toolkit.git</developerConnection>
-        <url>https://github.com/IoT-Technology/IoT-Toolkit</url>
+        <connection>scm:git:git@github.com:sanshengshui/IoT-Toolkit.git</connection>
+        <developerConnection>scm:git:git@github.com:sanshengshui/IoT-Toolkit.git</developerConnection>
+        <url>https://github.com/sanshengshui/IoT-Toolkit</url>
     </scm>
 
     <properties>
@@ -235,11 +235,11 @@
                                         <continueOnError>true</continueOnError>
                                         <multiPlatform>true</multiPlatform>
                                         <tap>
-                                            <owner>IoT Technology</owner>
+                                            <owner>sanshengshui</owner>
                                             <name>homebrew-toolkit</name>
                                         </tap>
                                         <commitAuthor>
-                                            <name>mushuwei</name>
+                                            <name>sanshengshui</name>
                                             <email>lovewsic@gmail.com</email>
                                         </commitAuthor>
                                     </brew>
@@ -254,13 +254,13 @@
                                         </commitAuthor>
                                         <bucket>
                                             <active>RELEASE</active>
-                                            <username>IoT-Technology</username>
+                                            <username>sanshengshui</username>
                                         </bucket>
                                     </chocolatey>
                                 </packagers>
                                 <release>
                                     <github>
-                                        <owner>IoT-Technology</owner>
+                                        <owner>sanshengshui</owner>
                                         <overwrite>true</overwrite>
                                     </github>
                                 </release>
