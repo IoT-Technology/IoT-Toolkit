@@ -5,7 +5,7 @@ on: [push, pull_request]
 env:
   graalvm_version: '22.1.0'
   java_version: '11'
-  branch: 'main'
+  branch: 'workflow'
 
 jobs:
   build-windows:
