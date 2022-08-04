@@ -30,6 +30,6 @@ jobs:
       - name: echo graalvm info
         run: |
           java --version
-          gu --version   
+          ${{ matrix.gu-binary }} --version
           native-image --version   
       
