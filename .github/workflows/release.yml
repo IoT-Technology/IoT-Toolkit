@@ -206,7 +206,7 @@ jobs:
 
       - name: 'Release with JReleaser'
         env:
-          JRELEASER_GITHUB_TOKEN: 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
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_BRANCH: main
           JRELEASER_HOMEBREW_GITHUB_TOKEN: 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
           JRELEASER_HOMEBREW_GITHUB_USERNAME: sanshengshui
