@@ -3,8 +3,8 @@ name: GraalVM Native Image builds
 on: [push, pull_request]
 
 env:
-  graalvm_version: '22.1.0'
-  java_version: '11'
+  graalvm_version: '21.3.2'
+  java_version: '17'
   branch: 'workflow'
 
 jobs:
