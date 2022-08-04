@@ -109,9 +109,6 @@ jobs:
         with:
           ref: ${{ steps.head.outputs.content }}
 
-#      - name: 'Add Developer Command Prompt for Microsoft Visual C++ '
-#        if: ${{ runner.os == 'Windows' }}
-#        uses: ilammy/msvc-dev-cmd@v1
 
       - name: 'Set up Graal'
         uses: graalvm/setup-graalvm@v1
@@ -120,17 +117,15 @@ jobs:
           java-version: '11'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-        - name: Example step
+
+      - name: 'echo graal info'
+          id : Graalvm_Info
           run: |
-            echo "GRAALVM_HOME: $GRAALVM_HOME"
-            echo "JAVA_HOME: $JAVA_HOME"
+            echo "GRAALVM_HOME = $GRAALVM_HOME"
+            echo "JAVA_HOME = $JAVA_HOME"
             java --version
             gu --version
             native-image --version  
-
-#      - name: 'Install native-image component'
-#        run: |
-#          ${{ matrix.gu-binary }} install native-image
 
       - name: 'Cache Maven packages'
         uses: actions/cache@v2.1.7
