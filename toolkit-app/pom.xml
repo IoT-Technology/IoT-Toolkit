@@ -41,6 +41,7 @@
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <jreleaser.version>1.1.0</jreleaser.version>
+        <native.maven.plugin.version>0.9.13</native.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -146,6 +147,7 @@
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
+                        <version>${native.maven.plugin.version}</version>
                         <extensions>true</extensions>
                         <executions>
                             <execution>
@@ -167,7 +169,6 @@
                             <imageName>${appName}-${project.version}</imageName>
                             <mainClass>${mainClass}</mainClass>
                             <buildArgs>
-                                <buildArg>--allow-incomplete-classpath</buildArg>
                                 <buildArg>--no-fallback</buildArg>
                                 <buildArg>-H:+ReportExceptionStackTraces</buildArg>
                             </buildArgs>
