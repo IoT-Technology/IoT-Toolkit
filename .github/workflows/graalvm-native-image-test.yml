@@ -1,8 +1,6 @@
 name: GraalVM Native Image builds
 
-on:
-  release:
-    types: [published]
+on: [push, pull_request]
 
 env:
   graalvm_version: '22.1.0'
@@ -49,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: toolkit-${{ matrix.os }}-x86_64
-          path: target/native-executable
+          path: toolkit-app/target
 
       - name: Rename binary
         run: mvnw target/native-executable target/flickr2-${{ runner.os }}-${{ github.event.release.tag_name }}-x86_64
@@ -89,13 +87,6 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
 
-      - name: Cache npm dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-            ~/.cache/Cypress/
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
 
       - name: Configure pagefile
         uses: al-cheb/configure-pagefile-action@v1.2
