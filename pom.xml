@@ -221,8 +221,6 @@
                                     <brew>
                                         <active>RELEASE</active>
                                         <continueOnError>true</continueOnError>
-                                        <templateDirectory>etc/toolkit/distributions/brew</templateDirectory>
-                                        <formulaName>toolkit</formulaName>
                                         <multiPlatform>true</multiPlatform>
                                         <tap>
                                             <owner>IoT Technology</owner>
@@ -245,23 +243,25 @@
                                     <chocolatey>
                                         <active>RELEASE</active>
                                         <continueOnError>true</continueOnError>
-                                        <templateDirectory>etc/toolkit/distributions/chocolatey</templateDirectory>
                                         <commitAuthor>
                                             <name>mushuwei</name>
                                             <email>lovewsic@gmail.com</email>
                                         </commitAuthor>
+                                        <bucket>
+                                            <active>RELEASE</active>
+                                            <username>IoT-Technology</username>
+                                        </bucket>
                                     </chocolatey>
 
                                     <!-- snaps for ubuntu-->
-                                    <snap>
-                                        <active>RELEASE</active>
-                                        <continueOnError>true</continueOnError>
-                                        <templateDirectory>etc/toolkit/distributions/snap</templateDirectory>
-                                        <commitAuthor>
-                                            <name>mushuwei</name>
-                                            <email>lovewsic@gmail.com</email>
-                                        </commitAuthor>
-                                    </snap>
+<!--                                    <snap>-->
+<!--                                        <active>RELEASE</active>-->
+<!--                                        <continueOnError>true</continueOnError>-->
+<!--                                        <commitAuthor>-->
+<!--                                            <name>mushuwei</name>-->
+<!--                                            <email>lovewsic@gmail.com</email>-->
+<!--                                        </commitAuthor>-->
+<!--                                    </snap>-->
                                 </packagers>
                                 <release>
                                     <github>
