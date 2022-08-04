@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -24,6 +24,10 @@ jobs:
       - name: Install upx
         run: sudo apt-get install upx
         if: ${{ runner.os == 'Linux' }}
+
+      - name: Install upx
+        run: brew install upx
+        if: ${{ runner.os == 'macOS' }}
 
       - name: Set up GraalVM (Java ${{ env.java_version }})
         uses: graalvm/setup-graalvm@v1
