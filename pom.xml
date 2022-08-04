@@ -232,13 +232,6 @@
                                         </commitAuthor>
                                     </brew>
 
-                                    <!-- sdkman for osx、windows and linux-->
-                                    <sdkman>
-                                        <active>ALWAYS</active>
-                                        <continueOnError>true</continueOnError>
-                                        <candidate>toolkit</candidate>
-                                    </sdkman>
-
                                     <!-- chocolatey for windows-->
                                     <chocolatey>
                                         <active>RELEASE</active>
@@ -252,16 +245,6 @@
                                             <username>IoT-Technology</username>
                                         </bucket>
                                     </chocolatey>
-
-                                    <!-- snaps for ubuntu-->
-<!--                                    <snap>-->
-<!--                                        <active>RELEASE</active>-->
-<!--                                        <continueOnError>true</continueOnError>-->
-<!--                                        <commitAuthor>-->
-<!--                                            <name>mushuwei</name>-->
-<!--                                            <email>lovewsic@gmail.com</email>-->
-<!--                                        </commitAuthor>-->
-<!--                                    </snap>-->
                                 </packagers>
                                 <release>
                                     <github>

@@ -206,13 +206,14 @@ jobs:
 
       - name: 'Release with JReleaser'
         env:
+          JRELEASER_GITHUB_TOKEN: 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
           JRELEASER_BRANCH: main
+          JRELEASER_HOMEBREW_GITHUB_TOKEN: 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
+          JRELEASER_HOMEBREW_GITHUB_USERNAME: sanshengshui
           JRELEASER_HOMEBREW_GITHUB_BRANCH: main
-          JRELEASER_GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}
-          JRELEASER_HOMEBREW_GITHUB_TOKEN: ${{ secrets.JWT_RELEASE_TOKEN }}
           JRELEASER_CHOCOLATEY_API_KEY: 6871b16d-656d-40ae-9465-74fbed432868
-          JRELEASER_SDKMAN_CONSUMER_KEY: ${{ secrets.JRELEASER_SDKMAN_CONSUMER_KEY }}
-          JRELEASER_SDKMAN_CONSUMER_TOKEN: ${{ secrets.JRELEASER_SDKMAN_CONSUMER_TOKEN }}
+          JRELEASER_CHOCOLATEY_GITHUB_TOKEN: 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
+          JRELEASER_CHOCOLATEY_GITHUB_USERNAME: sanshengshui
         run: mvn -e -B --file pom.xml -Prelease -DartifactsDir=artifacts jreleaser:full-release
 
       - name: JReleaser output
