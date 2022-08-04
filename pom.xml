@@ -48,8 +48,8 @@
     <!-- developers -->
     <developers>
         <developer>
-            <id>sanshengshui</id>
-            <name>mushuwei</name>
+            <id>IoT-Technology</id>
+            <name>IoT-Technology</name>
         </developer>
     </developers>
 
@@ -217,19 +217,55 @@
                                     </snapshot>
                                 </project>
                                 <packagers>
+                                    <!-- brew for osx-->
                                     <brew>
                                         <active>RELEASE</active>
                                         <continueOnError>true</continueOnError>
+                                        <templateDirectory>etc/toolkit/distributions/brew</templateDirectory>
+                                        <formulaName>toolkit</formulaName>
                                         <multiPlatform>true</multiPlatform>
+                                        <tap>
+                                            <owner>IoT Technology</owner>
+                                            <name>homebrew-toolkit</name>
+                                        </tap>
+                                        <commitAuthor>
+                                            <name>mushuwei</name>
+                                            <email>lovewsic@gmail.com</email>
+                                        </commitAuthor>
                                     </brew>
-                                    <!--<sdkman>-->
-                                    <!--    <active>RELEASE</active>-->
-                                    <!--    <continueOnError>true</continueOnError>-->
-                                    <!--</sdkman>-->
+
+                                    <!-- sdkman for osx、windows and linux-->
+                                    <sdkman>
+                                        <active>ALWAYS</active>
+                                        <continueOnError>true</continueOnError>
+                                        <candidate>toolkit</candidate>
+                                    </sdkman>
+
+                                    <!-- chocolatey for windows-->
+                                    <chocolatey>
+                                        <active>RELEASE</active>
+                                        <continueOnError>true</continueOnError>
+                                        <templateDirectory>etc/toolkit/distributions/chocolatey</templateDirectory>
+                                        <commitAuthor>
+                                            <name>mushuwei</name>
+                                            <email>lovewsic@gmail.com</email>
+                                        </commitAuthor>
+                                    </chocolatey>
+
+                                    <!-- snaps for ubuntu-->
+                                    <snap>
+                                        <active>RELEASE</active>
+                                        <continueOnError>true</continueOnError>
+                                        <templateDirectory>etc/toolkit/distributions/snap</templateDirectory>
+                                        <commitAuthor>
+                                            <name>mushuwei</name>
+                                            <email>lovewsic@gmail.com</email>
+                                        </commitAuthor>
+                                    </snap>
                                 </packagers>
                                 <release>
                                     <github>
-                                        <owner>mushuwei</owner>
+                                        <owner>IoT-Technology</owner>
                                         <overwrite>true</overwrite>
                                     </github>
                                 </release>
