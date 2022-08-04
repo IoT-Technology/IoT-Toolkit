@@ -232,6 +232,7 @@
                                         <continueOnError>true</continueOnError>
                                         <multiPlatform>true</multiPlatform>
                                         <tap>
+                                            <owner>sanshengshui</owner>
                                             <name>homebrew-toolkit</name>
                                         </tap>
                                         <commitAuthor>
@@ -249,13 +250,6 @@
                                             <email>lovewsic@gmail.com</email>
                                         </commitAuthor>
                                     </chocolatey>
-
-                                    <!-- sdkman -->
-                                    <sdkman>
-                                        <active>RELEASE</active>
-                                        <continueOnError>true</continueOnError>
-                                        <candidate>toolkit</candidate>
-                                    </sdkman>
                                 </packagers>
                                 <distributions>
                                     <toolkit>
