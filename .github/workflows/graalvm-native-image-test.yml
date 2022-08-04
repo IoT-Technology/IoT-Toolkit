@@ -3,8 +3,8 @@ name: GraalVM Native Image builds
 on: [push, pull_request]
 
 env:
-  graalvm_version: '21.3.2'
-  java_version: '17'
+  graalvm_version: '22.1.0'
+  java_version: '11'
   branch: 'workflow'
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2019]
+        os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -24,7 +24,8 @@ jobs:
       - uses: microsoft/setup-msbuild@v1
 
       - name: Install upx
-        run: choco install upx
+        run: sudo apt-get install upx
+        if: ${{ runner.os == 'Linux' }}
 
       - name: Set up GraalVM (Java ${{ env.java_version }})
         uses: graalvm/setup-graalvm@v1
