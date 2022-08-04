@@ -1,6 +1,9 @@
 name: GraalVM Native Image builds
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - workflow-test
 
 env:
   graalvm_version: '22.1.0'

@@ -66,7 +66,7 @@ jobs:
           git config --global user.name "GitHub Action"
           git commit -a -m "🏁 Releasing version $RELEASE_VERSION"
           git push
-          echo "removed: origin HEAD:master"
+          echo "removed: origin HEAD:main"
           git rev-parse HEAD > HEAD
           echo $RELEASE_VERSION > RELEASE_VERSION
           echo $PLAIN_VERSION > PLAIN_VERSION
@@ -207,9 +207,9 @@ jobs:
       - name: 'Release with JReleaser'
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JRELEASER_BRANCH: master
+          JRELEASER_BRANCH: main
           JRELEASER_HOMEBREW_GITHUB_TOKEN: ${{ secrets.JWT_RELEASE_TOKEN }}
-          JRELEASER_HOMEBREW_GITHUB_BRANCH: master
+          JRELEASER_HOMEBREW_GITHUB_BRANCH: main
         run: mvn -e -B --file pom.xml -Prelease -DartifactsDir=artifacts jreleaser:full-release
 
       - name: JReleaser output
