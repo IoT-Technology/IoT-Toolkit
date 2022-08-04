@@ -56,7 +56,7 @@ jobs:
         shell: cmd
 
       - name: Build native images
-        run: mvn -B -ntp package -Pnative,prod -DskipTests
+        run: mvn -B -X --file pom.xml -Pnative package
         shell: cmd
 
       - name: Archive binary
