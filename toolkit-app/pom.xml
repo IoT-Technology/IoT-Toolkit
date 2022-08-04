@@ -41,7 +41,6 @@
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <jreleaser.version>1.1.0</jreleaser.version>
-        <native.maven.plugin.version>0.9.13</native.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -123,56 +122,26 @@
             </activation>
             <build>
                 <plugins>
-<!--                    <plugin>-->
-<!--                        <groupId>org.graalvm.nativeimage</groupId>-->
-<!--                        <artifactId>native-image-maven-plugin</artifactId>-->
-<!--                        <version>${native-image-plugin.version}</version>-->
-<!--                        <configuration>-->
-<!--                            <imageName>toolkit</imageName>-->
-<!--                            <mainClass>iot.technology.client.toolkit.app.ToolKitCommand</mainClass>-->
-<!--                            <buildArgs>-->
-<!--                                &#45;&#45;no-fallback-->
-<!--                                -H:+ReportExceptionStackTraces-->
-<!--                            </buildArgs>-->
-<!--                        </configuration>-->
-<!--                        <executions>-->
-<!--                            <execution>-->
-<!--                                <goals>-->
-<!--                                    <goal>native-image</goal>-->
-<!--                                </goals>-->
-<!--                                <phase>package</phase>-->
-<!--                            </execution>-->
-<!--                        </executions>-->
-<!--                    </plugin>-->
                     <plugin>
-                        <groupId>org.graalvm.buildtools</groupId>
-                        <artifactId>native-maven-plugin</artifactId>
-                        <version>${native.maven.plugin.version}</version>
-                        <extensions>true</extensions>
+                        <groupId>org.graalvm.nativeimage</groupId>
+                        <artifactId>native-image-maven-plugin</artifactId>
+                        <version>${native-image-plugin.version}</version>
+                        <configuration>
+                            <imageName>toolkit</imageName>
+                            <mainClass>iot.technology.client.toolkit.app.ToolKitCommand</mainClass>
+                            <buildArgs>
+                                --no-fallback
+                                -H:+ReportExceptionStackTraces
+                            </buildArgs>
+                        </configuration>
                         <executions>
                             <execution>
-                                <id>build-native</id>
                                 <goals>
-                                    <goal>build</goal>
+                                    <goal>native-image</goal>
                                 </goals>
                                 <phase>package</phase>
                             </execution>
-                            <execution>
-                                <id>release-native</id>
-                                <goals>
-                                    <goal>release</goal>
-                                </goals>
-                                <phase>release</phase>
-                            </execution>
                         </executions>
-                        <configuration>
-                            <imageName>${appName}-${project.version}</imageName>
-                            <mainClass>${mainClass}</mainClass>
-                            <buildArgs>
-                                <buildArg>--no-fallback</buildArg>
-                                <buildArg>-H:+ReportExceptionStackTraces</buildArg>
-                            </buildArgs>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 11
-          distribution: 'zulu'
+          distribution: 'microsoft'
 
       - name: 'Cache Maven packages'
         uses: actions/cache@v2.1.7
@@ -67,6 +67,7 @@ jobs:
           echo $RELEASE_VERSION > RELEASE_VERSION
           echo $PLAIN_VERSION > PLAIN_VERSION
           echo $NEXT_VERSION > NEXT_VERSION
+
       - name: 'Upload version files'
         uses: actions/upload-artifact@v2
         with:
@@ -80,19 +81,11 @@ jobs:
     needs: [ version ]
     name: 'Build with Graal on ${{ matrix.os }}'
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest, macOS-latest, windows-latest ]
-        gu-binary: [ gu, gu.cmd ]
-        exclude:
-          # Exclude GraalVM native image builds
-          - os: ubuntu-latest
-            gu-binary: gu.cmd
-          - os: macos-latest
-            gu-binary: gu.cmd
-          - os: windows-latest
-            gu-binary: gu
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
 
     steps:
       - name: 'Download all build artifacts'
@@ -109,14 +102,30 @@ jobs:
         with:
           ref: ${{ steps.head.outputs.content }}
 
+      - name: Install upx in Linux
+        run: sudo apt-get install upx
+        if: ${{ runner.os == 'Linux' }}
 
-      - name: 'Set up Graal'
+      - name: Install upx in macOS
+        run: brew install upx
+        if: ${{ runner.os == 'macOS' }}
+
+      - name: Install upx in Windows
+        run: choco install upx
+        if: ${{ runner.os == 'Windows' }}
+
+      - name: Set up GraalVM (Java ${{ env.java_version }})
         uses: graalvm/setup-graalvm@v1
         with:
-          version: '22.1.0'
-          java-version: '11'
+          version: '${{ env.graalvm_version }}'
+          java-version: '${{ env.java_version }}'
           components: 'native-image'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: echo graalvm info
+        run: |
+            echo "GRAALVM_HOME: $GRAALVM_HOME"
+            echo "JAVA_HOME: $JAVA_HOME"
+            java --version    
 
       - name: 'Cache Maven packages'
         uses: actions/cache@v2.1.7
@@ -136,8 +145,8 @@ jobs:
         with:
           name: artifacts
           path: |
-            target/*.zip
-            target/*.tar.gz
+            toolkit-app/target/*.zip
+            toolkit-app/target/*.tar.gz
 
   # Collect all executables and release
   release:
@@ -182,7 +191,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 11
-          distribution: 'zulu'
+          distribution: 'microsoft'
 
       - name: 'Cache Maven packages'
         uses: actions/cache@v2.1.7
