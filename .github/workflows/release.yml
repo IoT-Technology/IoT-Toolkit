@@ -118,15 +118,6 @@ jobs:
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 'echo graal info'
-          id : Graalvm_Info
-          run: |
-            echo "GRAALVM_HOME = $GRAALVM_HOME"
-            echo "JAVA_HOME = $JAVA_HOME"
-            java --version
-            gu --version
-            native-image --version  
-
       - name: 'Cache Maven packages'
         uses: actions/cache@v2.1.7
         with:
