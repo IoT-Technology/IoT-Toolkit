@@ -48,38 +48,5 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
 
-      - name: Configure pagefile
-        uses: al-cheb/configure-pagefile-action@v1.2
-        with:
-          minimum-size: 10GB
-          maximum-size: 12GB
-
-      - name: Set up pagefile
-        run: |
-          (Get-CimInstance Win32_PageFileUsage).AllocatedBaseSize
-      - name: mvn --version
-        run: mvn --version
-        shell: cmd
-
-      - name: Maven resolve
-        run: mvn -B -ntp dependency:resolve-plugins
-        shell: cmd
-
       - name: Build native images
         run: mvn -B -X --file pom.xml -Pnative package
-        shell: cmd
-
-      - name: Archive binary
-        uses: actions/upload-artifact@v2
-        with:
-          name: toolkit-${{ matrix.os }}-x86_64.exe
-          path: target/native-executable.exe
-
-      - name: Rename binary
-        run: move target/native-executable.exe target/flickr2-${{ runner.os }}-${{ github.event.release.tag_name }}-x86_64.exe
-      - name: Upload release
-        uses: alexellis/upload-assets@0.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          asset_paths: '["target/flickr2-${{ runner.os }}*"]'
