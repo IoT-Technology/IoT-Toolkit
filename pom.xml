@@ -22,7 +22,7 @@
 
     <groupId>iot.technology</groupId>
     <artifactId>iot-toolkit</artifactId>
-    <version>0.1.7</version>
+    <version>0.1.8</version>
     <modules>
         <module>toolkit-mqtt</module>
         <module>toolkit-coap</module>
@@ -32,10 +32,36 @@
 
     <name>IoT Technology ToolKit</name>
     <packaging>pom</packaging>
+    <description>IoT Protocol Client CLI for IoT developers and learners</description>
+    <url>https://github.com/IoT-Technology/IoT-Toolkit</url>
     <inceptionYear>2019</inceptionYear>
+
+    <!-- licenses -->
+    <licenses>
+        <license>
+            <name>Apache-2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <!-- developers -->
+    <developers>
+        <developer>
+            <id>sanshengshui</id>
+            <name>mushuwei</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:IoT-Technology/IoT-Toolkit.git</connection>
+        <developerConnection>scm:git:git@github.com:IoT-Technology/IoT-Toolkit.git</developerConnection>
+        <url>https://github.com/IoT-Technology/IoT-Toolkit</url>
+    </scm>
 
     <properties>
         <main.dir>${user.dir}</main.dir>
+        <appName>toolkit</appName>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -50,7 +76,6 @@
         <graalvm-svm.version>22.1.0</graalvm-svm.version>
         <mycila-license.version>4.1</mycila-license.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
-        <native.maven.plugin.version>0.9.13</native.maven.plugin.version>
         <jreleaser.version>1.1.0</jreleaser.version>
     </properties>
 
@@ -133,11 +158,6 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.graalvm.buildtools</groupId>
-                    <artifactId>native-maven-plugin</artifactId>
-                    <version>${native.maven.plugin.version}</version>
-                </plugin>
-                <plugin>
                     <groupId>com.mycila</groupId>
                     <artifactId>license-maven-plugin</artifactId>
                     <version>${mycila-license.version}</version>
@@ -179,6 +199,75 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jreleaser</groupId>
+                        <artifactId>jreleaser-maven-plugin</artifactId>
+                        <version>${jreleaser.version}</version>
+                        <configuration>
+                            <jreleaser>
+                                <project>
+                                    <snapshot>
+                                        <label>{{ projectVersionNumber }}-early-access</label>
+                                    </snapshot>
+                                </project>
+                                <packagers>
+                                    <brew>
+                                        <active>RELEASE</active>
+                                        <continueOnError>true</continueOnError>
+                                        <multiPlatform>true</multiPlatform>
+                                    </brew>
+                                    <!--<sdkman>-->
+                                    <!--    <active>RELEASE</active>-->
+                                    <!--    <continueOnError>true</continueOnError>-->
+                                    <!--</sdkman>-->
+                                </packagers>
+                                <release>
+                                    <github>
+                                        <owner>mushuwei</owner>
+                                        <overwrite>true</overwrite>
+                                    </github>
+                                </release>
+                                <distributions>
+                                    <toolkit>
+                                        <name>${appName}</name>
+                                        <type>NATIVE_IMAGE</type>
+                                        <artifacts>
+                                            <artifact>
+                                                <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-linux-x86_64.tar.gz</path>
+                                                <transform>artifacts/{{distributionName}}-{{projectEffectiveVersion}}-linux-x86_64.tar.gz</transform>
+                                                <platform>linux-x86_64</platform>
+                                            </artifact>
+                                            <artifact>
+                                                <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-linux-x86_64.zip</path>
+                                                <transform>artifacts/{{distributionName}}-{{projectEffectiveVersion}}-linux-x86_64.zip</transform>
+                                                <platform>linux-x86_64</platform>
+                                            </artifact>
+                                            <artifact>
+                                                <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-windows-x86_64.zip</path>
+                                                <transform>artifacts/{{distributionName}}-{{projectEffectiveVersion}}-windows-x86_64.zip</transform>
+                                                <platform>windows-x86_64</platform>
+                                            </artifact>
+                                            <artifact>
+                                                <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-osx-x86_64.zip</path>
+                                                <transform>artifacts/{{distributionName}}-{{projectEffectiveVersion}}-osx-x86_64.zip</transform>
+                                                <platform>osx-x86_64</platform>
+                                            </artifact>
+                                        </artifacts>
+                                    </toolkit>
+                                </distributions>
+                            </jreleaser>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 </project>
