@@ -8,56 +8,6 @@ env:
   branch: 'main'
 
 jobs:
-  build:
-    name: GraalVM - ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: '${{ env.branch }}'
-      - name: Set up GraalVM (Java ${{ env.java_version }})
-        uses: graalvm/setup-graalvm@v1
-        with:
-          version: '${{ env.graalvm_version }}'
-          java-version: '${{ env.java_version }}'
-          components: 'native-image'
-
-      - name: Cache Maven dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
-
-
-      - name: Set up swap space
-        if: runner.os == 'Linux'
-        uses: pierotofy/set-swap-space@v1.0
-        with:
-          swap-size-gb: 10
-
-      - name: Build native images
-        run: mvnw -B -ntp package -Pnative,prod -DskipTests
-
-      - name: Archive binary
-        uses: actions/upload-artifact@v2
-        with:
-          name: toolkit-${{ matrix.os }}-x86_64
-          path: toolkit-app/target
-
-      - name: Rename binary
-        run: mvnw target/native-executable target/flickr2-${{ runner.os }}-${{ github.event.release.tag_name }}-x86_64
-      - name: Upload release
-        uses: alexellis/upload-assets@0.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          asset_paths: '["target/flickr2-${{ runner.os }}*"]'
-
   build-windows:
     name: GraalVM - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -97,16 +47,16 @@ jobs:
       - name: Set up pagefile
         run: |
           (Get-CimInstance Win32_PageFileUsage).AllocatedBaseSize
-      - name: mvnw --version
-        run: mvnw --version
+      - name: mvn --version
+        run: mvn --version
         shell: cmd
 
       - name: Maven resolve
-        run: mvnw -B -ntp dependency:resolve-plugins
+        run: mvn -B -ntp dependency:resolve-plugins
         shell: cmd
 
       - name: Build native images
-        run: mvnw -B -ntp package -Pnative,prod -DskipTests
+        run: mvn -B -ntp package -Pnative,prod -DskipTests
         shell: cmd
 
       - name: Archive binary
