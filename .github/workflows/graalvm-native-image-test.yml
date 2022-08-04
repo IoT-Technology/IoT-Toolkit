@@ -37,7 +37,7 @@ jobs:
           echo "GRAALVM_HOME: $GRAALVM_HOME"
           echo "JAVA_HOME: $JAVA_HOME"
           java --version
-          gu.cmd --version
+          gu --version
           native-image --version
 
       - name: Cache Maven dependencies
