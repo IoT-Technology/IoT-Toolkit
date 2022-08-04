@@ -22,7 +22,7 @@
 
     <groupId>iot.technology</groupId>
     <artifactId>iot-toolkit</artifactId>
-    <version>0.1.9</version>
+    <version>0.2.0</version>
     <modules>
         <module>toolkit-mqtt</module>
         <module>toolkit-coap</module>
