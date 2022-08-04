@@ -23,6 +23,9 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
       - uses: microsoft/setup-msbuild@v1
 
+      - name: Install upx
+        run: choco install upx
+
       - name: Set up GraalVM (Java ${{ env.java_version }})
         uses: graalvm/setup-graalvm@v1
         with:
