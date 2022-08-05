@@ -33,13 +33,16 @@
     <properties>
         <mainClass>iot.technology.client.toolkit.app.ToolKitCommand</mainClass>
         <appName>toolkit</appName>
-        <executable-suffix/>
+        <assembly-suffix/>
+        <directory>${project.basedir}/target</directory>
+        <skipCompress>false</skipCompress>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <native-image-plugin.version>21.2.0</native-image-plugin.version>
         <picocli-codegen.version>4.6.3</picocli-codegen.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
+        <appassembler-maven-plugin.version>2.1.0</appassembler-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -85,26 +88,89 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                    <skipIfEmpty>true</skipIfEmpty>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-cli-completion</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration combine.self="override">
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath />
+                                <argument>${mainClass}</argument>
+                                <argument>generate-completion</argument>
+                            </arguments>
+                            <outputFile>target/toolkit_completion</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>${appassembler-maven-plugin.version}</version>
+                <configuration>
+                    <assembleDirectory>${project.build.directory}/assembly</assembleDirectory>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <repositoryName>lib</repositoryName>
+                    <programs>
+                        <program>
+                            <mainClass>${mainClass}</mainClass>
+                            <id>toolkit</id>
+                        </program>
+                    </programs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-distribution</id>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${maven-assembly-plugin.version}</version>
                 <configuration>
-                    <attach>false</attach>
+                    <encoding>UTF-8</encoding>
                     <appendAssemblyId>false</appendAssemblyId>
-                    <finalName>${appName}-${project.version}-${os.detected.classifier}</finalName>
-                    <outputDirectory>${app.distribution.directory}</outputDirectory>
-                    <workDirectory>${project.build.directory}/assembly/work</workDirectory>
-                    <skipAssembly>true</skipAssembly>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>make-distribution</id>
+                        <id>assembly-java</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <finalName>${appName}-${project.version}</finalName>
+                            <attach>false</attach>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly-java.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -126,8 +192,8 @@
                         <artifactId>native-image-maven-plugin</artifactId>
                         <version>${native-image-plugin.version}</version>
                         <configuration>
-                            <imageName>toolkit</imageName>
-                            <mainClass>iot.technology.client.toolkit.app.ToolKitCommand</mainClass>
+                            <imageName>${appName}</imageName>
+                            <mainClass>${mainClass}</mainClass>
                             <buildArgs>
                                 --no-fallback
                                 -H:+ReportExceptionStackTraces
@@ -142,36 +208,53 @@
                             </execution>
                         </executions>
                     </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>dist</id>
-            <activation>
-                <property>
-                    <name>dist</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>compress-binary</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration combine.self="override">
+                                    <executable>upx</executable>
+                                    <skip>${skipCompress}</skip>
+                                    <arguments>
+                                        <argument>${project.build.directory}/toolkit${executable-suffix}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>${maven-assembly-plugin.version}</version>
-                        <configuration combine.self="append">
-                            <skipAssembly>false</skipAssembly>
-                            <descriptors>
-                                <descriptor>src/main/assembly/assembly.xml</descriptor>
-                            </descriptors>
-                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>assembly-native</id>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <finalName>neo4j-migrations-${project.version}-${os.detected.classifier}</finalName>
+                                    <attach>false</attach>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/assembly-native${assembly-suffix}.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
         </profile>
 
+
         <profile>
-            <id>dist-windows</id>
+            <id>windows</id>
             <activation>
                 <os>
                     <family>windows</family>
@@ -180,6 +263,41 @@
             <properties>
                 <executable-suffix>.exe</executable-suffix>
             </properties>
+        </profile>
+        <profile>
+            <id>osx</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <assembly-suffix>-osx</assembly-suffix>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>add-zsh-completion</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration combine.self="override">
+                                    <executable>${project.basedir}/../bin/add-zsh-completion-osx.sh</executable>
+                                    <arguments>
+                                        <argument>${project.build.directory}</argument>
+                                        <argument>toolkit_completion</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 

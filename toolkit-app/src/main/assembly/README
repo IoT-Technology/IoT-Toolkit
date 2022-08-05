@@ -1,0 +1,13 @@
+This is the CLI version of [toolkit][1].
+
+Use
+
+    ./bin/toolkit -h
+
+on a Unix like machine for usage instructions and
+
+    ./bin/toolkit.bat -h
+
+on Windows.
+
+[1]: https://github.com/IoT-Technology/IoT-Toolkit

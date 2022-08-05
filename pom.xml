@@ -63,6 +63,7 @@
 
     <properties>
         <main.dir>${user.dir}</main.dir>
+        <artifactsDir>toolkit-app/target</artifactsDir>
         <appName>toolkit</appName>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -253,27 +254,18 @@
                                 </packagers>
                                 <distributions>
                                     <toolkit>
-                                        <name>${appName}</name>
                                         <type>NATIVE_IMAGE</type>
                                         <artifacts>
                                             <artifact>
-                                                <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-linux-x86_64.tar.gz</path>
-                                                <transform>artifacts/{{distributionName}}-{{projectEffectiveVersion}}-linux-x86_64.tar.gz</transform>
+                                                <path>{{artifactsDir}}/{{appName}}-{{projectVersion}}-linux-x86_64.tar.gz</path>
                                                 <platform>linux-x86_64</platform>
                                             </artifact>
                                             <artifact>
-                                                <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-linux-x86_64.zip</path>
-                                                <transform>artifacts/{{distributionName}}-{{projectEffectiveVersion}}-linux-x86_64.zip</transform>
-                                                <platform>linux-x86_64</platform>
-                                            </artifact>
-                                            <artifact>
-                                                <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-windows-x86_64.zip</path>
-                                                <transform>artifacts/{{distributionName}}-{{projectEffectiveVersion}}-windows-x86_64.zip</transform>
+                                                <path>{{artifactsDir}}/{{appName}}-{{projectVersion}}-windows-x86_64.zip</path>
                                                 <platform>windows-x86_64</platform>
                                             </artifact>
                                             <artifact>
-                                                <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-osx-x86_64.zip</path>
-                                                <transform>artifacts/{{distributionName}}-{{projectEffectiveVersion}}-osx-x86_64.zip</transform>
+                                                <path>{{artifactsDir}}/{{appName}}-{{projectVersion}}-osx-x86_64.zip</path>
                                                 <platform>osx-x86_64</platform>
                                             </artifact>
                                         </artifacts>

@@ -27,7 +27,7 @@
         <file>
             <source>target/${project.artifactId}-${project.version}.jar</source>
             <outputDirectory>.</outputDirectory>
-            <destName>jwtc${executable-suffix}</destName>
+            <destName>toolkit${executable-suffix}</destName>
             <fileMode>0755</fileMode>
         </file>
     </files>
