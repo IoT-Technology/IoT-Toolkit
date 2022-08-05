@@ -27,7 +27,7 @@ on:
         required: false
 
 env:
-  graalvm_version: '22.2.0'
+  graalvm_version: '22.1.0'
   java_version: '11'
 
 jobs:
@@ -130,6 +130,10 @@ jobs:
             echo "GRAALVM_HOME: $GRAALVM_HOME"
             echo "JAVA_HOME: $JAVA_HOME"
             java --version    
+
+      - name: Remove WindowsImageHeapProviderFeature
+        run: '& 7z d "$env:JAVA_HOME\lib\svm\builder\svm.jar" com/oracle/svm/core/windows/WindowsImageHeapProviderFeature.class'
+        if: ${{ runner.os == 'Windows' }}
 
       - name: 'Cache Maven packages'
         uses: actions/cache@v2.1.7
