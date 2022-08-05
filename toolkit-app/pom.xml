@@ -33,7 +33,8 @@
     <properties>
         <mainClass>iot.technology.client.toolkit.app.ToolKitCommand</mainClass>
         <appName>toolkit</appName>
-        <assembly-suffix/>
+        <assembly-suffix />
+        <executable-suffix />
         <directory>${project.basedir}/target</directory>
         <skipCompress>false</skipCompress>
         <maven.compiler.source>11</maven.compiler.source>
@@ -239,7 +240,7 @@
                                 </goals>
                                 <phase>package</phase>
                                 <configuration>
-                                    <finalName>neo4j-migrations-${project.version}-${os.detected.classifier}</finalName>
+                                    <finalName>toolkit-${project.version}-${os.detected.classifier}</finalName>
                                     <attach>false</attach>
                                     <descriptors>
                                         <descriptor>src/main/assembly/assembly-native${assembly-suffix}.xml</descriptor>

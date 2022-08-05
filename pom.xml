@@ -79,6 +79,7 @@
         <graalvm-svm.version>22.1.0</graalvm-svm.version>
         <mycila-license.version>4.1</mycila-license.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
+        <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
         <jreleaser.version>1.1.0</jreleaser.version>
     </properties>
 
@@ -192,6 +193,14 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${exec-maven-plugin.version}</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

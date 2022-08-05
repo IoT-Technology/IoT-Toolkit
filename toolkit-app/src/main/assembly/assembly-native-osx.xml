@@ -44,7 +44,7 @@
             <outputDirectory>completion/zsh</outputDirectory>
         </file>
         <file>
-            <source>${project.build.directory}/neo4j-migrations${executable-suffix}</source>
+            <source>${project.build.directory}/toolkit${executable-suffix}</source>
             <outputDirectory>./bin</outputDirectory>
         </file>
     </files>

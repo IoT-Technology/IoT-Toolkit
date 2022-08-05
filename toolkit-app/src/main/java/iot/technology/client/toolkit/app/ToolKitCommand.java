@@ -21,6 +21,7 @@ import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import org.fusesource.jansi.AnsiConsole;
+import picocli.AutoComplete;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -38,6 +39,7 @@ import java.util.concurrent.Callable;
 		footer = "%nDeveloped by mushuwei",
 		mixinStandardHelpOptions = true,
 		subcommands = {
+				AutoComplete.GenerateCompletion.class,
 				CoapCommand.class,
 				MqttCommand.class
 		},
@@ -51,10 +53,13 @@ public class ToolKitCommand implements Callable<Integer> {
 		LogLevelConfig.setLogLevel();
 		AnsiConsole.systemInstall();
 		try {
-			int exitStatus = new CommandLine(new ToolKitCommand())
-					.setExecutionExceptionHandler(new ExceptionMessageHandler())
-					.setCaseInsensitiveEnumValuesAllowed(true)
-					.execute(args);
+			CommandLine commandLine = new CommandLine(new ToolKitCommand());
+			commandLine.setExecutionExceptionHandler(new ExceptionMessageHandler())
+					.setCaseInsensitiveEnumValuesAllowed(true);
+			CommandLine generateCompletionCmd = commandLine.getSubcommands().get("generate-completion");
+			generateCompletionCmd.getCommandSpec().usageMessage().hidden(true);
+
+			int exitStatus = commandLine.execute(args);
 			if (exitStatus == ExitCodeEnum.NOTEND.getValue()) {
 				return;
 			}
