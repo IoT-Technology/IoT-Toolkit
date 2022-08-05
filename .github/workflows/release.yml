@@ -138,19 +138,14 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: 'Build Native Image'
-        run: mvn -B --file pom.xml -Pnative package
-
       - name: 'Create distribution'
-        run: mvn -B --file pom.xml -Pdist package -DskipTests
+        run: mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
 
       - name: 'Upload build artifact'
         uses: actions/upload-artifact@v2
         with:
           name: artifacts
-          path: |
-            toolkit-app/target/*.zip
-            toolkit-app/target/*.tar.gz
+          path: toolkit-app/target/*.zip
 
   # Collect all executables and release
   release:
