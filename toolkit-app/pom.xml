@@ -44,7 +44,6 @@
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <appassembler-maven-plugin.version>2.1.0</appassembler-maven-plugin.version>
-        <native.maven.plugin.version>0.9.13</native.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -190,46 +189,26 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.graalvm.buildtools</groupId>
-                        <artifactId>native-maven-plugin</artifactId>
-                        <version>${native.maven.plugin.version}</version>
-                        <extensions>true</extensions>
+                        <groupId>org.graalvm.nativeimage</groupId>
+                        <artifactId>native-image-maven-plugin</artifactId>
+                        <version>${native-image-plugin.version}</version>
                         <configuration>
+                            <imageName>${appName}</imageName>
                             <mainClass>${mainClass}</mainClass>
-                            <imageName>neo4j-migrations</imageName>
-                            <buildArgs>--no-fallback</buildArgs>
+                            <buildArgs>
+                                --no-fallback
+                                -H:+ReportExceptionStackTraces
+                            </buildArgs>
                         </configuration>
                         <executions>
                             <execution>
-                                <id>create-native-image</id>
                                 <goals>
-                                    <goal>build</goal>
+                                    <goal>native-image</goal>
                                 </goals>
                                 <phase>package</phase>
                             </execution>
                         </executions>
                     </plugin>
-<!--                    <plugin>-->
-<!--                        <groupId>org.graalvm.nativeimage</groupId>-->
-<!--                        <artifactId>native-image-maven-plugin</artifactId>-->
-<!--                        <version>${native-image-plugin.version}</version>-->
-<!--                        <configuration>-->
-<!--                            <imageName>${appName}</imageName>-->
-<!--                            <mainClass>${mainClass}</mainClass>-->
-<!--                            <buildArgs>-->
-<!--                                &#45;&#45;no-fallback-->
-<!--                                -H:+ReportExceptionStackTraces-->
-<!--                            </buildArgs>-->
-<!--                        </configuration>-->
-<!--                        <executions>-->
-<!--                            <execution>-->
-<!--                                <goals>-->
-<!--                                    <goal>native-image</goal>-->
-<!--                                </goals>-->
-<!--                                <phase>package</phase>-->
-<!--                            </execution>-->
-<!--                        </executions>-->
-<!--                    </plugin>-->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
