@@ -225,7 +225,6 @@
                                     <arguments>
                                         <argument>${project.build.directory}/toolkit${executable-suffix}</argument>
                                     </arguments>
-                                    <skip></skip>
                                 </configuration>
                             </execution>
                         </executions>
