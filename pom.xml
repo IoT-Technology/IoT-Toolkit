@@ -266,7 +266,7 @@
                                         <type>NATIVE_IMAGE</type>
                                         <artifacts>
                                             <artifact>
-                                                <path>{{artifactsDir}}/{{appName}}-{{projectVersion}}-linux-x86_64.tar.gz</path>
+                                                <path>{{artifactsDir}}/{{appName}}-{{projectVersion}}-linux-x86_64.zip</path>
                                                 <platform>linux-x86_64</platform>
                                             </artifact>
                                             <artifact>
