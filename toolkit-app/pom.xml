@@ -225,6 +225,7 @@
                                     <arguments>
                                         <argument>${project.build.directory}/toolkit${executable-suffix}</argument>
                                     </arguments>
+                                    <skip></skip>
                                 </configuration>
                             </execution>
                         </executions>
@@ -263,8 +264,10 @@
             </activation>
             <properties>
                 <executable-suffix>.exe</executable-suffix>
+                <skipCompress>true</skipCompress>
             </properties>
         </profile>
+
         <profile>
             <id>osx</id>
             <activation>
