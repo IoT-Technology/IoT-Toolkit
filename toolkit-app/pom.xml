@@ -22,7 +22,7 @@
     <parent>
         <artifactId>iot-toolkit</artifactId>
         <groupId>iot.technology</groupId>
-        <version>0.3.7</version>
+        <version>0.3.8</version>
     </parent>
 
 
