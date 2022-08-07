@@ -205,8 +205,8 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_OVERWRITE: true
           JRELEASER_UPDATE: true
-          JRELEASER_CHOCOLATEY_API_KEY: ${{ JRELEASER_CHOCOLATEY_API_KEY }}
-          JRELEASER_CHOCOLATEY_GITHUB_TOKEN: ${{ JRELEASER_CHOCOLATEY_GITHUB_TOKEN }}
+          JRELEASER_CHOCOLATEY_API_KEY: ${{ secrets.JRELEASER_CHOCOLATEY_API_KEY }}
+          JRELEASER_CHOCOLATEY_GITHUB_TOKEN: ${{ secrets.JRELEASER_CHOCOLATEY_GITHUB_TOKEN }}
         run: mvn -e -B --file pom.xml -Prelease -DartifactsDir=artifacts jreleaser:full-release
 
       - name: JReleaser output
