@@ -164,6 +164,7 @@ jobs:
           path: artifacts/HEAD
 
       - name: 'Read versions'
+        shell: bash
         id: version
         run: |
           RELEASE_VERSION=`cat artifacts/RELEASE_VERSION`
@@ -200,6 +201,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: 'Release with JReleaser'
+        shell: bash
         env:
           JRELEASER_BRANCH: main
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
