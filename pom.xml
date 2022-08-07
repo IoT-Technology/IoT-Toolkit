@@ -242,21 +242,6 @@
                                     </github>
                                 </release>
                                 <packagers>
-                                    <!-- brew for osx-->
-                                    <brew>
-                                        <active>RELEASE</active>
-                                        <continueOnError>true</continueOnError>
-                                        <multiPlatform>true</multiPlatform>
-                                        <tap>
-                                            <owner>sanshengshui</owner>
-                                            <name>homebrew-toolkit</name>
-                                        </tap>
-                                        <commitAuthor>
-                                            <name>sanshengshui</name>
-                                            <email>lovewsic@gmail.com</email>
-                                        </commitAuthor>
-                                    </brew>
-
                                     <!-- chocolatey for windows-->
                                     <chocolatey>
                                         <active>RELEASE</active>
@@ -265,6 +250,9 @@
                                             <name>sanshengshui</name>
                                             <email>lovewsic@gmail.com</email>
                                         </commitAuthor>
+                                        <title>${appName}</title>
+                                        <username>iot-technology</username>
+                                        <iconUrl>https://github.com/IoT-Technology/IoT-Toolkit/blob/main/png/toolkit_logo.png</iconUrl>
                                     </chocolatey>
                                 </packagers>
                                 <distributions>

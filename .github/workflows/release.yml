@@ -150,7 +150,7 @@ jobs:
   # Collect all executables and release
   release:
     needs: [ build ]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       # must read HEAD before checkout
@@ -205,12 +205,8 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_OVERWRITE: true
           JRELEASER_UPDATE: true
-          JRELEASER_HOMEBREW_GITHUB_TOKEN: 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
-          JRELEASER_HOMEBREW_GITHUB_BRANCH: main
-          JRELEASER_HOMEBREW_GITHUB_USERNAME: sanshengshui
-          JRELEASER_CHOCOLATEY_API_KEY: 6871b16d-656d-40ae-9465-74fbed432868
-          JRELEASER_CHOCOLATEY_GITHUB_TOKEN: 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
-          JRELEASER_CHOCOLATEY_GITHUB_USERNAME: sanshengshui
+          JRELEASER_CHOCOLATEY_API_KEY: ${{ JRELEASER_CHOCOLATEY_API_KEY }}
+          JRELEASER_CHOCOLATEY_GITHUB_TOKEN: ${{ JRELEASER_CHOCOLATEY_GITHUB_TOKEN }}
         run: mvn -e -B --file pom.xml -Prelease -DartifactsDir=artifacts jreleaser:full-release
 
       - name: JReleaser output
