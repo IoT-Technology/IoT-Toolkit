@@ -230,9 +230,25 @@
                         <configuration>
                             <jreleaser>
                                 <project>
+                                    <name>toolkit</name>
                                     <snapshot>
                                         <label>{{ projectVersionNumber }}-early-access</label>
                                     </snapshot>
+                                    <description>IoT Protocol Client CLI</description>
+                                    <longDescription>
+                                        Toolkit is a client command line tool that supports multiple IoT protocols.
+                                        CoAP and MQTT protocols are currently supported. more protocols will be supported in the future.
+                                        it is written in the java language, but does not rely on the JRE environment.
+                                    </longDescription>
+                                    <website>https://github.com/IoT-Technology/IoT-Toolkit</website>
+                                    <tags>
+                                        <tag>cli</tag>
+                                        <tag>mqtt</tag>
+                                        <tag>mqtt-client</tag>
+                                        <tag>coap</tag>
+                                        <tag>coap-client</tag>
+                                    </tags>
+                                    <docsUrl>https://github.com/IoT-Technology/IoT-Toolkit/wiki</docsUrl>
                                 </project>
                                 <release>
                                     <github>
@@ -250,9 +266,16 @@
                                             <name>sanshengshui</name>
                                             <email>lovewsic@gmail.com</email>
                                         </commitAuthor>
-                                        <title>${appName}</title>
+                                        <title>toolkit</title>
                                         <username>iot-technology</username>
                                         <iconUrl>https://github.com/IoT-Technology/IoT-Toolkit/blob/main/png/toolkit_logo.png</iconUrl>
+                                        <bucket>
+                                            <active>RELEASE</active>
+                                            <name>toolkit</name>
+                                            <owner>iot-technology</owner>
+                                            <username>iot-technology</username>
+                                        </bucket>
+                                        <packageName>toolkit</packageName>
                                     </chocolatey>
                                 </packagers>
                                 <distributions>
