@@ -1,0 +1,8 @@
+---
+addReviewers: true
+addAssignees: author
+
+reviewers:
+  - sanshengshui
+
+numberOfReviewers: 0

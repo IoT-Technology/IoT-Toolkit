@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
+import iot.technology.client.toolkit.common.settings.ConfigCommand;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.AutoComplete;
@@ -40,6 +41,7 @@ import java.util.concurrent.Callable;
 		mixinStandardHelpOptions = true,
 		subcommands = {
 				AutoComplete.GenerateCompletion.class,
+				ConfigCommand.class,
 				CoapCommand.class,
 				MqttCommand.class
 		},

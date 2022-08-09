@@ -167,7 +167,7 @@
                     <artifactId>license-maven-plugin</artifactId>
                     <version>${mycila-license.version}</version>
                     <configuration>
-                        <header>${main.dir}/license-header-template.txt</header>
+                        <header>${main.dir}/etc/license/license-header-template.txt</header>
                         <properties>
                             <owner>The Toolkit Authors</owner>
                         </properties>
