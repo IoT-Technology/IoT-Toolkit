@@ -1,7 +1,7 @@
-package iot.technology.client.toolkit.common.settings;
+package iot.technology.client.toolkit.app.settings;
 
+import iot.technology.client.toolkit.app.settings.lang.LanguageCommand;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.settings.lang.LanguageCommand;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;

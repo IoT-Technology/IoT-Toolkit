@@ -39,6 +39,7 @@
         <skipCompress>false</skipCompress>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <native-image-plugin.version>21.2.0</native-image-plugin.version>
         <picocli-codegen.version>4.6.3</picocli-codegen.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>

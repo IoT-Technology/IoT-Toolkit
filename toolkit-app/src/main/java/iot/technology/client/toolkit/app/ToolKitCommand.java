@@ -16,15 +16,16 @@
 package iot.technology.client.toolkit.app;
 
 import iot.technology.client.toolkit.app.config.LogLevelConfig;
+import iot.technology.client.toolkit.app.settings.ConfigCommand;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
-import iot.technology.client.toolkit.common.settings.ConfigCommand;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.AutoComplete;
 import picocli.CommandLine;
 
+import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
 /**
@@ -47,9 +48,14 @@ import java.util.concurrent.Callable;
 		},
 		exitCodeOnExecutionException = 400,
 		exitCodeOnSuccess = 200,
+		resourceBundle = "i18n.messages",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
 public class ToolKitCommand implements Callable<Integer> {
 
+	ResourceBundle bundle = ResourceBundle.getBundle("i18n.messages");
+
+	@CommandLine.Spec
+	CommandLine.Model.CommandSpec spec;
 
 	public static void main(String[] args) {
 		LogLevelConfig.setLogLevel();
@@ -57,6 +63,7 @@ public class ToolKitCommand implements Callable<Integer> {
 		try {
 			CommandLine commandLine = new CommandLine(new ToolKitCommand());
 			commandLine.setExecutionExceptionHandler(new ExceptionMessageHandler())
+					.setAdjustLineBreaksForWideCJKCharacters(true)
 					.setCaseInsensitiveEnumValuesAllowed(true);
 			CommandLine generateCompletionCmd = commandLine.getSubcommands().get("generate-completion");
 			generateCompletionCmd.getCommandSpec().usageMessage().hidden(true);
