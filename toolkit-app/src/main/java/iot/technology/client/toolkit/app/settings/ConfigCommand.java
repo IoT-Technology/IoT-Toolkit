@@ -12,14 +12,14 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
 		name = "config",
 		requiredOptionMarker = '*',
-		optionListHeading = "%nOptions are:%n",
-		header = "@|fg(blue),bold Toolkit general configuration|@",
-		description = "@|fg(blue),italic Toolkit general configuration operation.|@",
+		optionListHeading = "%n${bundle:general.option}:%n",
+		header = "@|fg(blue),bold ${bundle:config.header}|@",
+		description = "@|fg(blue),italic ${bundle:config.description}|@",
 		mixinStandardHelpOptions = true,
 		subcommands = {
 				LanguageCommand.class
 		},
-		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
+		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )

@@ -19,12 +19,14 @@ import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.app.settings.ConfigCommand;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.AutoComplete;
 import picocli.CommandLine;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
@@ -33,13 +35,12 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "toolkit",
-		header = "IoT Client Toolkit CLI",
-		optionListHeading = "%nOptions are:%n",
+		header = "${bundle:general.header}",
+		optionListHeading = "%n${bundle:general.option}:%n",
 		requiredOptionMarker = '*',
-		description = "A handy @|fg(red),bold toolkit|@ for IoT developers and learners.",
-		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
+		description = "@|fg(red),bold ${bundle:general.description}|@",
+		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
-		mixinStandardHelpOptions = true,
 		subcommands = {
 				AutoComplete.GenerateCompletion.class,
 				ConfigCommand.class,
@@ -52,17 +53,19 @@ import java.util.concurrent.Callable;
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
 public class ToolKitCommand implements Callable<Integer> {
 
-	ResourceBundle bundle = ResourceBundle.getBundle("i18n.messages");
+	@CommandLine.ArgGroup
+	HelpVersionGroup helpVersionGroup;
 
-	@CommandLine.Spec
-	CommandLine.Model.CommandSpec spec;
+	ResourceBundle bundle = ResourceBundle.getBundle("i18n.messages");
 
 	public static void main(String[] args) {
 		LogLevelConfig.setLogLevel();
 		AnsiConsole.systemInstall();
 		try {
-			CommandLine commandLine = new CommandLine(new ToolKitCommand());
-			commandLine.setExecutionExceptionHandler(new ExceptionMessageHandler())
+			Locale.setDefault(new Locale("zh"));
+
+			CommandLine commandLine = new CommandLine(new ToolKitCommand())
+					.setExecutionExceptionHandler(new ExceptionMessageHandler())
 					.setAdjustLineBreaksForWideCJKCharacters(true)
 					.setCaseInsensitiveEnumValuesAllowed(true);
 			CommandLine generateCompletionCmd = commandLine.getSubcommands().get("generate-completion");
@@ -79,7 +82,7 @@ public class ToolKitCommand implements Callable<Integer> {
 	}
 
 	public Integer call() {
-		System.out.println("A handy toolkit for IoT developers and learners.");
+		System.out.println(bundle.getString("general.description"));
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

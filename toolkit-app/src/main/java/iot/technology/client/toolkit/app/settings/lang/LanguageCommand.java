@@ -11,11 +11,11 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
 		name = "lang",
 		requiredOptionMarker = '*',
-		optionListHeading = "%nOptions are:%n",
-		header = "@|fg(blue),bold Toolkit language configuration|@",
-		description = "@|fg(blue),italic Toolkit language configuration.|@",
+		optionListHeading = "%n${bundle:general.option}:%n",
+		header = "@|fg(blue),bold ${bundle:config.lang.header}|@",
+		description = "@|fg(blue),italic ${bundle:config.lang.description}|@",
 		mixinStandardHelpOptions = true,
-		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
+		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )

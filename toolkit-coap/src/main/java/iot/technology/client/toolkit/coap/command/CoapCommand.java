@@ -17,6 +17,7 @@ package iot.technology.client.toolkit.coap.command;
 
 import iot.technology.client.toolkit.coap.command.sub.*;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -27,10 +28,9 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
 		name = "coap",
 		requiredOptionMarker = '*',
-		header = "@|fg(blue),bold CoAP Client Toolkit|@",
-		description = "@|fg(blue),italic user-friendly CoAP protocol client toolkit|@",
-		optionListHeading = "%nOptions are:%n",
-		mixinStandardHelpOptions = true,
+		header = "@|fg(blue),bold ${bundle:coap.header}|@",
+		description = "@|fg(blue),italic ${bundle:coap.description}|@",
+		optionListHeading = "%n${bundle:general.option}:%n",
 		subcommands = {
 				CoapDescribeCommand.class,
 				CoapMediaTypesCommand.class,
@@ -40,15 +40,17 @@ import java.util.concurrent.Callable;
 				CoapPutCommand.class,
 				CoapDeleteCommand.class,
 		},
-		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
+		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
 public class CoapCommand implements Callable<Integer> {
 
+	@CommandLine.ArgGroup
+	HelpVersionGroup helpVersionGroup;
 
 	@Override
 	public Integer call() {
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
-	
+
 }

@@ -16,6 +16,7 @@
 package iot.technology.client.toolkit.mqtt.command;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttDescribeCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttPublishCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttSubscribeCommand;
@@ -29,19 +30,21 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
 		name = "mqtt",
 		requiredOptionMarker = '*',
-		header = "@|fg(Cyan),bold MQTT Client Toolkit|@",
-		description = "@|fg(Cyan),italic user-friendly MQTT protocol client toolkit|@",
-		optionListHeading = "%nOptions are:%n",
-		mixinStandardHelpOptions = true,
+		header = "@|fg(Cyan),bold ${bundle:mqtt.header}|@",
+		description = "@|fg(Cyan),italic ${bundle:mqtt.description}|@",
+		optionListHeading = "%n${bundle:general.option}:%n",
 		subcommands = {
 				MqttDescribeCommand.class,
 				MqttPublishCommand.class,
 				MqttSubscribeCommand.class
 		},
-		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
+		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
 public class MqttCommand implements Callable<Integer> {
+
+	@CommandLine.ArgGroup
+	HelpVersionGroup helpVersionGroup;
 
 	@Override
 	public Integer call() {
