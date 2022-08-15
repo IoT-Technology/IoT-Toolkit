@@ -23,6 +23,7 @@ import iot.technology.client.toolkit.coap.domain.AvailableResource;
 import iot.technology.client.toolkit.coap.domain.CoapSupportType;
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.common.constants.HttpStatus;
+import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.utils.CollectionUtils;
 import iot.technology.client.toolkit.common.utils.MimeTypeUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
@@ -53,6 +54,8 @@ import java.util.stream.Collectors;
  * @author mushuwei
  */
 public class CoapClientServiceImpl implements CoapClientService {
+
+	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
 	public int coapContentType(String contentType) {
@@ -89,7 +92,9 @@ public class CoapClientServiceImpl implements CoapClientService {
 		String rtt = (r.getApplicationRttNanos() != null) ? "" + r.getApplicationRttNanos() : "";
 
 		StringBuffer sb = new StringBuffer();
-		sb.append(green("----------------------------------- Response -----------------------------------"))
+		String separator = "----------------------------------- %s -----------------------------------";
+		String response = String.format(separator, bundle.getString("coap.response"));
+		sb.append(green(response))
 				.append(StringUtil.lineSeparator());
 		if (StringUtils.hasText(header)) {
 			sb.append(header).append(StringUtil.lineSeparator());
@@ -101,12 +106,12 @@ public class CoapClientServiceImpl implements CoapClientService {
 				.append(StringUtil.lineSeparator());
 		sb.append(String.format("Status : %s, Payload: %dB", status, r.getPayloadSize()))
 				.append(StringUtil.lineSeparator());
-		sb.append(green("................................... Payload ....................................") + StringUtil.lineSeparator())
-				.append(StringUtil.lineSeparator());
+		String payload = String.format(separator, bundle.getString("coap.payload"));
+		sb.append(green(payload) + StringUtil.lineSeparator()).append(StringUtil.lineSeparator());
 		if (r.getPayloadSize() > 0 && MediaTypeRegistry.isPrintable(r.getOptions().getContentFormat())) {
 			sb.append(prettyPayload(r)).append(StringUtil.lineSeparator());
 		}
-		sb.append(green("--------------------------------------------------------------------------------"));
+		sb.append(green(separator));
 
 		return sb.toString();
 	}

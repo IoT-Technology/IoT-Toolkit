@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import picocli.CommandLine;
@@ -34,10 +35,9 @@ import static iot.technology.client.toolkit.coap.command.sub.CoapGetCommand.COAP
 @CommandLine.Command(
 		name = "post",
 		requiredOptionMarker = '*',
-		description = "Create/Update data in CoAP Resource",
-		optionListHeading = "%nOptions are:%n",
-		mixinStandardHelpOptions = true,
-		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
+		description = "${bundle:coap.post.description}",
+		optionListHeading = "%n${bundle:general.option}:%n",
+		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
@@ -49,34 +49,31 @@ public class CoapPostCommand implements Callable<Integer> {
 		coapClientService = CoapFactory.getService();
 	}
 
-	@CommandLine.Option(
-			names = {"-h", "--help"},
-			versionHelp = false,
-			description = "Show this help message and exit.")
-	private boolean help;
+	@CommandLine.ArgGroup
+	HelpVersionGroup helpVersionGroup;
 
 	@CommandLine.Parameters(
 			index = "0",
-			description = "URI of the server to connect to")
+			description = "${bundle:coap.uri.description}")
 	private URI uri;
 
 	@CommandLine.Option(
 			names = {"-p", "--payload"},
 			required = false,
-			description = "POST message payload")
+			description = "${bundle:coap.request.payload.description}")
 	private String payload;
 
 	@CommandLine.Option(
 			names = {"-f", "--format"},
 			required = false,
-			description = "payload content-type",
+			description = "${bundle:coap.request.format.description}",
 			defaultValue = COAP_TEXT_PLAIN)
 	private String format;
 
 	@CommandLine.Option(
 			names = {"-a", "--accept"},
 			required = false,
-			description = "accepted response content-type",
+			description = "${bundle:coap.accept.description}",
 			defaultValue = COAP_TEXT_PLAIN)
 	private String accept;
 

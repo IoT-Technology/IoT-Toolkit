@@ -16,6 +16,7 @@
 package iot.technology.client.toolkit.mqtt.command.sub;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
@@ -30,10 +31,9 @@ import java.util.concurrent.Callable;
 		name = "describe",
 		aliases = "desc",
 		requiredOptionMarker = '*',
-		description = "introduction and description of MQTT protocol",
-		optionListHeading = "%nOptions are:%n",
-		mixinStandardHelpOptions = true,
-		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
+		description = "${bundle:mqtt.desc.description}",
+		optionListHeading = "%n${bundle:general.option}:%n",
+		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
@@ -46,16 +46,13 @@ public class MqttDescribeCommand implements Callable<Integer> {
 		this.mqttClientService = new MqttClientServiceImpl(mqttClientConfig, null);
 	}
 
-	@CommandLine.Option(
-			names = {"-h", "--help"},
-			versionHelp = false,
-			description = "Show this help message and exit.")
-	private boolean help;
+	@CommandLine.ArgGroup
+	HelpVersionGroup helpVersionGroup;
 
 	@Override
 	public Integer call() {
 		mqttClientService.getMqttDescription();
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
-	
+
 }

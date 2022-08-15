@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import picocli.CommandLine;
@@ -33,10 +34,9 @@ import java.util.concurrent.Callable;
 		name = "delete",
 		aliases = "del",
 		requiredOptionMarker = '*',
-		description = "Delete CoAP Resource",
-		optionListHeading = "%nOptions are:%n",
-		mixinStandardHelpOptions = true,
-		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
+		description = "${bundle:coap.del.description}",
+		optionListHeading = "%n${bundle:general.option}:%n",
+		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
@@ -48,15 +48,12 @@ public class CoapDeleteCommand implements Callable<Integer> {
 		coapClientService = CoapFactory.getService();
 	}
 
-	@CommandLine.Option(
-			names = {"-h", "--help"},
-			versionHelp = false,
-			description = "Show this help message and exit.")
-	private boolean help;
+	@CommandLine.ArgGroup
+	HelpVersionGroup helpVersionGroup;
 
 	@CommandLine.Parameters(
 			index = "0",
-			description = "URI of the server to connect to")
+			description = "${bundle:coap.uri.description}")
 	private URI uri;
 
 	@Override

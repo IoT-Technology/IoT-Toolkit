@@ -17,9 +17,11 @@ package iot.technology.client.toolkit.app;
 
 import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.app.settings.ConfigCommand;
+import iot.technology.client.toolkit.app.settings.lang.LangService;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
+import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import org.fusesource.jansi.AnsiConsole;
@@ -56,15 +58,18 @@ public class ToolKitCommand implements Callable<Integer> {
 	@CommandLine.ArgGroup
 	HelpVersionGroup helpVersionGroup;
 
-	ResourceBundle bundle = ResourceBundle.getBundle("i18n.messages");
+	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
+
 
 	public static void main(String[] args) {
 		LogLevelConfig.setLogLevel();
 		AnsiConsole.systemInstall();
 		try {
-			Locale.setDefault(new Locale("zh"));
-
+			String locale = LangService.currentLocale();
+			Locale.setDefault(new Locale(locale));
+			ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 			CommandLine commandLine = new CommandLine(new ToolKitCommand())
+					.setResourceBundle(bundle)
 					.setExecutionExceptionHandler(new ExceptionMessageHandler())
 					.setAdjustLineBreaksForWideCJKCharacters(true)
 					.setCaseInsensitiveEnumValuesAllowed(true);

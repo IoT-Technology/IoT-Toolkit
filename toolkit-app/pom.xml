@@ -60,9 +60,21 @@
             <groupId>org.graalvm.nativeimage</groupId>
             <artifactId>svm</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.jpountz.lz4</groupId>
+            <artifactId>lz4</artifactId>
+            <version>1.3.0</version>
+        </dependency>
     </dependencies>
 
     <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
         <!-- detect OS classifier, needed for distribution Zip file -->
         <extensions>
             <extension>

@@ -19,11 +19,13 @@ import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.StorageConstants;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.WebLink;
 import picocli.CommandLine;
 
 import java.net.URI;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
@@ -36,13 +38,15 @@ import static iot.technology.client.toolkit.coap.service.impl.CoapClientServiceI
 		name = "discover",
 		aliases = "disc",
 		requiredOptionMarker = '*',
-		description = "list available resources",
-		optionListHeading = "%nOptions are:%n",
-		footerHeading = "%nCopyright (c) 2019-2022, IoT Technology",
+		description = "${bundle:coap.disc.description}",
+		optionListHeading = "%n${bundle:general.option}:%n",
+		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
 )
 public class CoapDiscoverCommand implements Callable<Integer> {
+
+	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	private CoapClientService coapClientService;
 
@@ -52,7 +56,7 @@ public class CoapDiscoverCommand implements Callable<Integer> {
 
 	@CommandLine.Parameters(
 			index = "0",
-			description = "URI of the server to connect to")
+			description = "${bundle:coap.uri.description}")
 	private URI uri;
 
 
@@ -63,7 +67,8 @@ public class CoapDiscoverCommand implements Callable<Integer> {
 
 		Set<WebLink> webLinks = coapClient.discover();
 		String availableResources = coapClientService.getAvailableResources(webLinks);
-		System.out.format(green("==================== Available Resources ====================") + "%n");
+		String header = String.format("==================== %s ====================", bundle.getString("coap.available.resources"));
+		System.out.format(green(header) + "%n");
 		System.out.println(availableResources);
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
