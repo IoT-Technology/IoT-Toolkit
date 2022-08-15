@@ -211,6 +211,7 @@
                             <buildArgs>
                                 --no-fallback
                                 -H:+ReportExceptionStackTraces
+                                -Dfile.encoding=UTF-8
                             </buildArgs>
                         </configuration>
                         <executions>
