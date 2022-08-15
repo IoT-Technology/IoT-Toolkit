@@ -212,6 +212,7 @@
                                 --no-fallback
                                 -H:+ReportExceptionStackTraces
                                 -Dfile.encoding=UTF-8
+                                -H:-CheckToolchain
                             </buildArgs>
                         </configuration>
                         <executions>
