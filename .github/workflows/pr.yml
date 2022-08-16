@@ -1,0 +1,60 @@
+name: Pull Requests
+on: pull_request_target
+
+env:
+  graalvm_version: '22.1.0'
+  java_version: '11'
+
+jobs:
+  # Build native executable per runner
+  build:
+    name: 'Build with Graal on ${{ matrix.os }}'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macOS-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@v2
+
+      - name: Install upx in Linux
+        run: sudo apt-get install upx
+        if: ${{ runner.os == 'Linux' }}
+
+      - name: Install upx in macOS
+        run: brew install upx
+        if: ${{ runner.os == 'macOS' }}
+
+      - name: Install upx in Windows
+        run: choco install upx
+        if: ${{ runner.os == 'Windows' }}
+
+      - name: Set up GraalVM (Java ${{ env.java_version }})
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: '${{ env.graalvm_version }}'
+          java-version: '${{ env.java_version }}'
+          components: 'native-image'
+
+      - name: echo graalvm info
+        run: |
+          echo "GRAALVM_HOME: $GRAALVM_HOME"
+          echo "JAVA_HOME: $JAVA_HOME"
+          java --version    
+
+      - name: 'Cache Maven packages'
+        uses: actions/cache@v2.1.7
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: 'Create distribution'
+        run: mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
+      - uses: kentaro-m/auto-assign-action@v1.1.2
+        with:
+          configuration-path: ".github/auto_assign.yml"
+
