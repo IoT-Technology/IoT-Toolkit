@@ -210,6 +210,8 @@
                             <mainClass>${mainClass}</mainClass>
                             <buildArgs>
                                 --no-fallback
+                                -Dfile.encoding=UTF-8
+                                -H:-CheckToolchain
                                 -H:+ReportExceptionStackTraces
                                 -Dfile.encoding=UTF-8
                                 -H:-CheckToolchain
