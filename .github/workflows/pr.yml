@@ -54,7 +54,12 @@ jobs:
 
       - name: 'Create distribution'
         run: mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
-      - uses: kentaro-m/auto-assign-action@v1.1.2
+
+  create_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Auto assign'
+        uses: kentaro-m/auto-assign-action@v1.1.2
         with:
           configuration-path: ".github/auto_assign.yml"
 
