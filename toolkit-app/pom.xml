@@ -213,8 +213,6 @@
                                 -Dfile.encoding=UTF-8
                                 -H:-CheckToolchain
                                 -H:+ReportExceptionStackTraces
-                                -Dfile.encoding=UTF-8
-                                -H:-CheckToolchain
                             </buildArgs>
                         </configuration>
                         <executions>
