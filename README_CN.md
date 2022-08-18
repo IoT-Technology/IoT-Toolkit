@@ -12,6 +12,8 @@
 
 # 快速开始
 
+https://github.com/IoT-Technology/IoT-Toolkit/wiki
+
 # 特性
 
 <table style="text-align:center">
