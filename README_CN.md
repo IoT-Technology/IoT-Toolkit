@@ -3,7 +3,7 @@
 `Toolkit`是一款支持多种物联网协议的客户端命令行工具。目前支持**CoAP**和**MQTT**协议，未来将支持更多的协议。现代化的设计，提供**自动补全**、**多语言配置**且用户交互良好且易于操作。可在**linux**、**unix**和**windows**等操作系统中运行。
 
 <p align="center">
-    <img src="/png/toolkit.png" alt="IoT Toolkit">
+    <img src="/png/toolkit-logo.png" alt="IoT Toolkit">
 </p>
 
 [📖 English Document](README.md) | 📖 中文文档
@@ -12,7 +12,6 @@
 
 # 快速开始
 
-https://github.com/IoT-Technology/IoT-Toolkit/wiki
 
 # 特性
 
