@@ -1,5 +1,5 @@
 <h2 align="center">
-    <a href="https://github.com/sanshengshui/IoT-Toolkit/wiki" target="blank_">
+    <a href="https://github.com/IoT-Technology/IoT-Toolkit/wiki" target="blank_">
         <img height="250" alt="ToolKit" src="png/toolkit-logo.png"/>
     </a>
     <br>
@@ -7,8 +7,6 @@
 </h2>
 
 **Toolkit** 是一款支持多种物联网协议的客户端命令行工具。目前支持**CoAP**和**MQTT**协议，未来将支持更多的协议。现代化的设计，提供**自动补全**、**多语言配置**且用户交互良好且易于操作。可在**linux**、**unix**和**windows**等操作系统中运行。
-
-
 
 
 
