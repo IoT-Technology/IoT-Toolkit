@@ -1,20 +1,16 @@
 <h2 align="center">
     <a href="https://github.com/sanshengshui/IoT-Toolkit/wiki" target="blank_">
-        <img height="100" alt="HTTPie" src="https://raw.githubusercontent.com//IoT-Technology/IoT-Toolkit/blob/main/png/toolkit_logo.png" />
+        <img height="250" alt="ToolKit" src="png/toolkit-logo.png"/>
     </a>
     <br>
-    ToolKit: human-friendly IoT Client Client for the API era
+    ToolKit: 用户友好的IoT协议客户端命令行工具🔧
 </h2>
 
-</div>
-Toolkit is a IoT protocol client CLI for IoT developer and learners.
-CoAP and MQTT protocol are currently supported. 
-It supports colors, autocompletion, internationalization(chinese, english and german…) and multi-platforms
-<div align="center">
+**Toolkit** 是一款支持多种物联网协议的客户端命令行工具。目前支持**CoAP**和**MQTT**协议，未来将支持更多的协议。现代化的设计，提供**自动补全**、**多语言配置**且用户交互良好且易于操作。可在**linux**、**unix**和**windows**等操作系统中运行。
 
-# 支持多种IoT协议的客户端命令行工具
 
-`Toolkit`是一款支持多种物联网协议的客户端命令行工具。目前支持**CoAP**和**MQTT**协议，未来将支持更多的协议。现代化的设计，提供**自动补全**、**多语言配置**且用户交互良好且易于操作。可在**linux**、**unix**和**windows**等操作系统中运行。
+
+
 
 [📖 English Document](README.md) | 📖 中文文档
 
