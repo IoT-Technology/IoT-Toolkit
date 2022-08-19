@@ -6,6 +6,16 @@
     ToolKit: human-friendly IoT Protocol client CLI🔧
 </h2>
 
+<div align="center">
+
+[![GitHub issues](https://img.shields.io/github/issues/IoT-Technology/IoT-Toolkit)](https://github.com/IoT-Technology/IoT-Toolkit/issues)
+[![GitHub stars](https://img.shields.io/github/stars/IoT-Technology/IoT-Toolkit)](https://github.com/IoT-Technology/IoT-Toolkit/stargazers)
+![](https://img.shields.io/badge/language-java-orange.svg)
+![Chocolatey-downloads](https://img.shields.io/chocolatey/dt/toolkit)
+![GitHub release (latest by date)](https://img.shields.io/github/downloads/IoT-Technology/IoT-Toolkit/latest/total)
+
+</div>
+
 Toolkit is a IoT protocol client CLI for IoT developer and learners.
 CoAP and MQTT protocol are currently supported. It supports colors, autocompletion,
 internationalization(chinese, english and german…) and multi-platforms

@@ -6,6 +6,16 @@
     ToolKit: 用户友好的IoT协议客户端命令行工具🔧
 </h2>
 
+<div align="center">
+
+[![GitHub issues](https://img.shields.io/github/issues/IoT-Technology/IoT-Toolkit)](https://github.com/IoT-Technology/IoT-Toolkit/issues)
+[![GitHub stars](https://img.shields.io/github/stars/IoT-Technology/IoT-Toolkit)](https://github.com/IoT-Technology/IoT-Toolkit/stargazers)
+![](https://img.shields.io/badge/language-java-orange.svg)
+![Chocolatey-downloads](https://img.shields.io/chocolatey/dt/toolkit)
+![GitHub release (latest by date)](https://img.shields.io/github/downloads/IoT-Technology/IoT-Toolkit/latest/total)
+
+</div>
+
 **Toolkit** 是一款支持多种物联网协议的客户端命令行工具。目前支持**CoAP**和**MQTT**协议，未来将支持更多的协议。现代化的设计，提供**自动补全**、**多语言配置**且用户交互良好且易于操作。可在**linux**、**unix**和**windows**等操作系统中运行。
 
 
