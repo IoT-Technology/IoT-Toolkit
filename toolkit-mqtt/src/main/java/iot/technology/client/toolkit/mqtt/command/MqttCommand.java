@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttDescribeCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttPublishCommand;
+import iot.technology.client.toolkit.mqtt.command.sub.MqttSettingsCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttSubscribeCommand;
 import picocli.CommandLine;
 
@@ -35,6 +36,7 @@ import java.util.concurrent.Callable;
 		optionListHeading = "%n${bundle:general.option}:%n",
 		subcommands = {
 				MqttDescribeCommand.class,
+				MqttSettingsCommand.class,
 				MqttPublishCommand.class,
 				MqttSubscribeCommand.class
 		},

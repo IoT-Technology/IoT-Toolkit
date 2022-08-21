@@ -16,6 +16,7 @@
 package iot.technology.client.toolkit.mqtt.service;
 
 import io.netty.handler.codec.mqtt.MqttVersion;
+import io.netty.handler.ssl.SslContext;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttLastWill;
 
 import java.util.Random;
@@ -25,8 +26,10 @@ import java.util.Random;
  */
 public final class MqttClientConfig {
 
-	private String clientId;
+	private final SslContext sslContext;
 	private final String randomClientId;
+
+	private String clientId;
 	private int timeoutSeconds = 60;
 	private MqttVersion protocolVersion = MqttVersion.MQTT_3_1_1;
 	private String username = null;
@@ -39,6 +42,11 @@ public final class MqttClientConfig {
 	private long reconnectDelay = 1L;
 
 	public MqttClientConfig() {
+		this(null);
+	}
+
+	public MqttClientConfig(SslContext sslContext) {
+		this.sslContext = sslContext;
 		Random random = new Random();
 		String id = "toolkit_mqtt_";
 		String[] options = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
@@ -158,5 +166,9 @@ public final class MqttClientConfig {
 
 	public void setCleanSession(boolean cleanSession) {
 		this.cleanSession = cleanSession;
+	}
+
+	public SslContext getSslContext() {
+		return sslContext;
 	}
 }
