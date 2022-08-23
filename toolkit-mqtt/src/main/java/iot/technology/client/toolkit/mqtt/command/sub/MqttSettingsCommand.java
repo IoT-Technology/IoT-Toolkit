@@ -1,6 +1,7 @@
 package iot.technology.client.toolkit.mqtt.command.sub;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.MqttSettingsConstants;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
@@ -10,6 +11,7 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import picocli.CommandLine;
 
+import java.util.HashMap;
 import java.util.concurrent.Callable;
 
 /**
@@ -28,18 +30,25 @@ import java.util.concurrent.Callable;
 )
 public class MqttSettingsCommand implements Callable<Integer> {
 
+
 	@Override
 	public Integer call() throws Exception {
-		Terminal terminal = TerminalBuilder.builder().build();
+		Terminal terminal = TerminalBuilder.builder()
+				.system(true).build();
 		LineReader reader = LineReaderBuilder.builder()
 				.terminal(terminal)
 				.parser(new DefaultParser())
 				.build();
-		String prompt = "prompt> ";
+		HashMap<Integer, String> map = getPromptMap();
+		int site = 1;
 		while (true) {
 			String line = null;
 			try {
-				line = reader.readLine(prompt);
+				line = reader.readLine(map.get(site));
+				site = site + 1;
+				if (site > map.size()) {
+					break;
+				}
 				System.out.println(line);
 			} catch (UserInterruptException e) {
 				return ExitCodeEnum.ERROR.getValue();
@@ -47,5 +56,13 @@ public class MqttSettingsCommand implements Callable<Integer> {
 				return ExitCodeEnum.ERROR.getValue();
 			}
 		}
+		return ExitCodeEnum.SUCCESS.getValue();
+	}
+
+	public HashMap<Integer, String> getPromptMap() {
+		HashMap map = new HashMap();
+		map.put(1, MqttSettingsConstants.mqttVersionPrompt);
+		map.put(2, MqttSettingsConstants.clientIdPrompt);
+		return map;
 	}
 }
