@@ -1,7 +1,8 @@
 package iot.technology.client.toolkit.mqtt.command.sub;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.MqttSettingsConstants;
+import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
@@ -11,7 +12,7 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import picocli.CommandLine;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -39,30 +40,45 @@ public class MqttSettingsCommand implements Callable<Integer> {
 				.terminal(terminal)
 				.parser(new DefaultParser())
 				.build();
-		HashMap<Integer, String> map = getPromptMap();
-		int site = 1;
+		MqttSettingsRuleChainProcessor ruleChain = new MqttSettingsRuleChainProcessor();
+		Map<String, String> processor = ruleChain.getProcessor();
+		String code = ruleChain.getRootNode();
+
 		while (true) {
-			String line = null;
+			String data = null;
 			try {
-				line = reader.readLine(map.get(site));
-				site = site + 1;
-				if (site > map.size()) {
+				String node = processor.get(code);
+				TkNode tkNode = initComponent(node);
+				if (tkNode == null) {
 					break;
 				}
-				System.out.println(line);
+				data = reader.readLine(tkNode.nodePrompt());
+				tkNode.check(data);
+				System.out.println(tkNode.getValue(data));
+				code = tkNode.nextNode(data);
+				if (code.equals("end")) {
+					break;
+				}
 			} catch (UserInterruptException e) {
 				return ExitCodeEnum.ERROR.getValue();
 			} catch (EndOfFileException e) {
 				return ExitCodeEnum.ERROR.getValue();
 			}
 		}
-		return ExitCodeEnum.SUCCESS.getValue();
+		return ExitCodeEnum.NOTEND.getValue();
 	}
 
-	public HashMap<Integer, String> getPromptMap() {
-		HashMap map = new HashMap();
-		map.put(1, MqttSettingsConstants.mqttVersionPrompt);
-		map.put(2, MqttSettingsConstants.clientIdPrompt);
-		return map;
+	private TkNode initComponent(String node) {
+		TkNode tkNode = null;
+		if (node != null) {
+			try {
+				Class<?> componentClazz = Class.forName(node);
+				tkNode = (TkNode) (componentClazz.getDeclaredConstructor().newInstance());
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return tkNode;
 	}
+
 }
