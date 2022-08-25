@@ -15,6 +15,7 @@
  */
 package iot.technology.client.toolkit.common.utils;
 
+import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -67,5 +68,10 @@ public class ObjectUtils {
 			return Arrays.equals((short[]) o1, (short[]) o2);
 		}
 		return false;
+	}
+
+	public static boolean fileExists(String data) {
+		File file = new File(data);
+		return file.exists();
 	}
 }

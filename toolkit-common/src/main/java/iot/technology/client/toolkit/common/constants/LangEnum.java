@@ -24,6 +24,8 @@ public enum LangEnum {
 
 	ZH("zh", "chinese"),
 
+	FR("fr", "french"),
+
 	DE("de", "german");
 
 	private String value;

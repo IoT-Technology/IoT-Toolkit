@@ -5,6 +5,8 @@ package iot.technology.client.toolkit.common.rule;
  */
 public interface TkNode {
 
+	void prePrompt();
+
 	void check(String data);
 
 	String nodePrompt();

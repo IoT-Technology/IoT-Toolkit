@@ -4,9 +4,11 @@ package iot.technology.client.toolkit.common.constants;
  * @author mushuwei
  */
 public enum MqttVersionEnum {
-	MQTT_3_1_1("1", "3.1.1"),
+	MQTT_3_1("1", "3.1"),
 
-	MQTT_5_0("2", "5.0");
+	MQTT_3_1_1("2", "3.1.1"),
+
+	MQTT_5_0("3", "5.0");
 
 	private String code;
 

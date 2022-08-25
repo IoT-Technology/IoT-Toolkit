@@ -56,4 +56,17 @@ public abstract class StringUtils {
 			return true;
 		}
 	}
+
+	public static boolean isNumeric(String cs) {
+		if (isBlank(cs)) {
+			return false;
+		}
+		final int sz = cs.length();
+		for (int i = 0; i < sz; i++) {
+			if (!Character.isDigit(cs.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

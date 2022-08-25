@@ -61,4 +61,8 @@ public class HostNode implements TkNode {
 				+ "|[*])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])$");
 		return pattern.matcher(value).matches();
 	}
+
+	@Override
+	public void prePrompt() {
+	}
 }

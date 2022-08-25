@@ -41,4 +41,8 @@ public class ClientIdNode implements TkNode {
 		}
 		return StringUtils.isBlank(data) ? id : data;
 	}
+
+	@Override
+	public void prePrompt() {
+	}
 }

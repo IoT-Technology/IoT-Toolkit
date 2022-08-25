@@ -5,8 +5,9 @@ import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.MqttVersionEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -18,7 +19,8 @@ public class MqttVersionNode implements TkNode {
 
 	@Override
 	public void check(String data) {
-		if (Objects.isNull(data)
+		if (StringUtils.isBlank(data)
+				|| data.equals(MqttVersionEnum.MQTT_3_1.getCode())
 				|| data.equals(MqttVersionEnum.MQTT_3_1_1.getCode())
 				|| data.equals(MqttVersionEnum.MQTT_5_0.getCode())) {
 			return;
@@ -39,12 +41,22 @@ public class MqttVersionNode implements TkNode {
 
 	@Override
 	public String getValue(String data) {
-		if (Objects.isNull(data)) {
+		if (StringUtils.isBlank(data)) {
 			return MqttVersionEnum.MQTT_3_1_1.getValue();
+		}
+		if (data.equals(MqttVersionEnum.MQTT_3_1.getCode())) {
+			return MqttVersionEnum.MQTT_3_1.getValue();
 		}
 		if (data.equals(MqttVersionEnum.MQTT_5_0.getCode())) {
 			return MqttVersionEnum.MQTT_5_0.getValue();
 		}
 		return MqttVersionEnum.MQTT_3_1_1.getValue();
+	}
+
+	@Override
+	public void prePrompt() {
+		System.out.format(ColorUtils.greenItalic("(1) 3.1") + "%n");
+		System.out.format(ColorUtils.greenItalic("(2) 3.1.1 * ") + "%n");
+		System.out.format(ColorUtils.greenItalic("(3) 5.0") + "%n");
 	}
 }

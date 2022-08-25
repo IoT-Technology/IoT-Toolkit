@@ -52,6 +52,7 @@ public class MqttSettingsCommand implements Callable<Integer> {
 				if (tkNode == null) {
 					break;
 				}
+				tkNode.prePrompt();
 				data = reader.readLine(tkNode.nodePrompt());
 				tkNode.check(data);
 				System.out.println(tkNode.getValue(data));
