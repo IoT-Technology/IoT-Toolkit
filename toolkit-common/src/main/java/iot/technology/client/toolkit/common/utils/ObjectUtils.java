@@ -15,7 +15,10 @@
  */
 package iot.technology.client.toolkit.common.utils;
 
+import iot.technology.client.toolkit.common.rule.TkNode;
+
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 /**
@@ -73,5 +76,29 @@ public class ObjectUtils {
 	public static boolean fileExists(String data) {
 		File file = new File(data);
 		return file.exists();
+	}
+
+	public static Object setValue(Object obj, String propName, String value) {
+		try {
+			Field f = obj.getClass().getDeclaredField(propName);
+			f.setAccessible(true);
+			f.set(obj, value);
+		} catch (Exception e) {
+			return null;
+		}
+		return obj;
+	}
+
+	public static TkNode initComponent(String node) {
+		TkNode tkNode = null;
+		if (node != null) {
+			try {
+				Class<?> componentClazz = Class.forName(node);
+				tkNode = (TkNode) (componentClazz.getDeclaredConstructor().newInstance());
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return tkNode;
 	}
 }

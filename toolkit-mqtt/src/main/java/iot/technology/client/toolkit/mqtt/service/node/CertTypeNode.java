@@ -44,7 +44,8 @@ public class CertTypeNode implements TkNode {
 
 	@Override
 	public String getValue(String data) {
-		return data;
+		CertTypeEnum certTypeEnum = CertTypeEnum.getCertTypeEnum(data);
+		return certTypeEnum.getDesc();
 	}
 
 	@Override

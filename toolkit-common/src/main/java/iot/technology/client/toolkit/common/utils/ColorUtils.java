@@ -6,9 +6,14 @@ import picocli.CommandLine;
  * @author mushuwei
  */
 public class ColorUtils {
-	
+
 	public static String greenItalic(String text) {
 		return colorItalic(text, "green");
+	}
+
+	
+	public static String blackFaint(String text) {
+		return CommandLine.Help.Ansi.AUTO.string("@|faint,black" + " " + text + "|@");
 	}
 
 	public static String colorItalic(String text, String color) {

@@ -40,7 +40,7 @@ public class CleanSessionNode implements TkNode {
 
 	@Override
 	public String getValue(String data) {
-		return StringUtils.isBlank(data) ? ConfirmCodeEnum.YES.getValue() : data;
+		return StringUtils.isBlank(data) ? ConfirmCodeEnum.NO.getValue() : data;
 	}
 
 	@Override

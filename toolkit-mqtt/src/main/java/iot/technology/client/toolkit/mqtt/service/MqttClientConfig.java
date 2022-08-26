@@ -40,6 +40,8 @@ public final class MqttClientConfig {
 	private int maxBytesInMessage = 8092;
 	private boolean reconnect = true;
 	private long reconnectDelay = 1L;
+	private String host;
+	private Integer port;
 
 	public MqttClientConfig() {
 		this(null);
@@ -170,5 +172,21 @@ public final class MqttClientConfig {
 
 	public SslContext getSslContext() {
 		return sslContext;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public Integer getPort() {
+		return port;
+	}
+
+	public void setPort(Integer port) {
+		this.port = port;
 	}
 }

@@ -34,7 +34,7 @@ public class ClientCertNode implements TkNode {
 
 	@Override
 	public String nextNode(String data) {
-		return MqttSettingsCodeEnum.CLIENT_CERT.getCode();
+		return MqttSettingsCodeEnum.CLIENT_KEY.getCode();
 	}
 
 	@Override

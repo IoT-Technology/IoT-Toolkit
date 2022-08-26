@@ -25,4 +25,13 @@ public enum CertTypeEnum {
 		this.value = value;
 		this.desc = desc;
 	}
+
+	public static CertTypeEnum getCertTypeEnum(String value) {
+		for (CertTypeEnum elem : CertTypeEnum.values()) {
+			if (elem.getValue().equals(value)) {
+				return elem;
+			}
+		}
+		return null;
+	}
 }

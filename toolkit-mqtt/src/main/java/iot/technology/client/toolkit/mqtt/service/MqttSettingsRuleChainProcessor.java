@@ -24,7 +24,7 @@ public class MqttSettingsRuleChainProcessor {
 		map.put(MqttSettingsCodeEnum.USERNAME.getCode(), MqttSettingsCodeEnum.USERNAME.getClazzName());
 		map.put(MqttSettingsCodeEnum.PASSWORD.getCode(), MqttSettingsCodeEnum.PASSWORD.getClazzName());
 		map.put(MqttSettingsCodeEnum.SSL.getCode(), MqttSettingsCodeEnum.SSL.getClazzName());
-		map.put(MqttSettingsCodeEnum.CERT_TYPE.getCode(), MqttSettingsCodeEnum.CLIENT_ID.getClazzName());
+		map.put(MqttSettingsCodeEnum.CERT_TYPE.getCode(), MqttSettingsCodeEnum.CERT_TYPE.getClazzName());
 		map.put(MqttSettingsCodeEnum.CA.getCode(), MqttSettingsCodeEnum.CA.getClazzName());
 		map.put(MqttSettingsCodeEnum.CLIENT_KEY.getCode(), MqttSettingsCodeEnum.CLIENT_KEY.getClazzName());
 		map.put(MqttSettingsCodeEnum.CLIENT_CERT.getCode(), MqttSettingsCodeEnum.CLIENT_CERT.getClazzName());
