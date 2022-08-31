@@ -115,6 +115,57 @@ public class MqttSubscribeCommand implements Callable<Integer> {
 			showDefaultValue = CommandLine.Help.Visibility.ALWAYS)
 	Integer keepalive;
 
+	@CommandLine.Option(
+			order = 8,
+			names = {"--ca"},
+			description = "${bundle:mqtt.ca.desc}")
+	String ca;
+
+	@CommandLine.Option(
+			order = 9,
+			names = {"--key"},
+			description = "${bundle:mqtt.key.desc}")
+	String key;
+
+	@CommandLine.Option(
+			order = 10,
+			names = {"--cert"},
+			description = "${bundle:mqtt.cert.desc}")
+	String cert;
+
+	@CommandLine.Option(
+			order = 11,
+			names = {"--insecure"},
+			description = "${bundle:mqtt.insecure.desc}")
+	boolean insecure;
+
+	@CommandLine.Option(
+			order = 12,
+			names = {"--will-topic"},
+			description = "${bundle:mqtt.will.topic.desc}")
+	String willTopic;
+
+	@CommandLine.Option(
+			order = 13,
+			names = {"--will-qos"},
+			description = "${bundle:mqtt.will.qos.desc}"
+	)
+	Integer willQos;
+
+	@CommandLine.Option(
+			order = 14,
+			names = {"--will-retain"},
+			description = "${bundle:mqtt.will.retain.desc}"
+	)
+	String willRetain;
+
+	@CommandLine.Option(
+			order = 15,
+			names = {"--will-payload"},
+			description = "${bundle:mqtt.will.payload.desc}"
+	)
+	String willPayload;
+
 	@Override
 	public Integer call() throws Exception {
 		MqttClientConfig config = new MqttClientConfig();
