@@ -24,6 +24,7 @@ import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
+import iot.technology.client.toolkit.mqtt.service.domain.MqttLastWill;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttPubMessageHandler;
 import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
 import picocli.CommandLine;
@@ -154,14 +155,14 @@ public class MqttPublishCommand implements Callable<Integer> {
 			names = {"--will-qos"},
 			description = "${bundle:mqtt.will.qos.desc}"
 	)
-	Integer willQos;
+	int willQos;
 
 	@CommandLine.Option(
 			order = 14,
 			names = {"--will-retain"},
 			description = "${bundle:mqtt.will.retain.desc}"
 	)
-	String willRetain;
+	boolean willRetain;
 
 	@CommandLine.Option(
 			order = 15,
@@ -174,6 +175,14 @@ public class MqttPublishCommand implements Callable<Integer> {
 	@Override
 	public Integer call() throws Exception {
 		MqttClientConfig config = new MqttClientConfig();
+		MqttQoS willQosConfig = MqttQoS.valueOf(willQos);
+		MqttLastWill lastWill = MqttLastWill.builder()
+				.setTopic(willTopic)
+				.setQos(willQosConfig)
+				.setRetain(willRetain)
+				.setMessage(willPayload)
+				.build();
+		config.setLastWill(lastWill);
 		config.setClientId(Objects.nonNull(clientId) ? clientId : config.getClientId());
 		config.setUsername(Objects.nonNull(username) ? username : null);
 		config.setPassword(Objects.nonNull(password) ? password : null);
