@@ -24,6 +24,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.mqtt.*;
+import io.netty.handler.ssl.SslContext;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.DefaultPromise;
 import io.netty.util.concurrent.Future;
@@ -340,7 +341,7 @@ public class MqttClientServiceImpl implements MqttClientService {
 		bootstrap.group(this.eventLoop);
 		bootstrap.channel(NioSocketChannel.class);
 		bootstrap.remoteAddress(host, port);
-		bootstrap.handler(new MqttChannelInitializer(connectFuture, host, port));
+		bootstrap.handler(new MqttChannelInitializer(connectFuture, host, port, clientConfig.getSslContext()));
 		ChannelFuture future = bootstrap.connect();
 
 		future.addListener((ChannelFutureListener) f -> {
@@ -424,17 +425,24 @@ public class MqttClientServiceImpl implements MqttClientService {
 		private final Promise<MqttConnectResult> connectFuture;
 		private final String host;
 		private final int port;
+		private final SslContext sslContext;
 
 		public MqttChannelInitializer(Promise<MqttConnectResult> connectFuture,
 									  String host,
-									  int port) {
-			this.connectFuture = connectFuture;
+									  int port,
+									  SslContext context) {
 			this.host = host;
 			this.port = port;
+			this.connectFuture = connectFuture;
+			this.sslContext = context;
+
 		}
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
+			if (sslContext != null) {
+				ch.pipeline().addLast(sslContext.newHandler(ch.alloc(), host, port));
+			}
 			ch.pipeline().addLast("mqttDecoder", new MqttDecoder(clientConfig.getMaxBytesInMessage()));
 			ch.pipeline().addLast("mqttEncoder", MqttEncoder.INSTANCE);
 			ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(MqttClientServiceImpl.this.clientConfig.getTimeoutSeconds(),
