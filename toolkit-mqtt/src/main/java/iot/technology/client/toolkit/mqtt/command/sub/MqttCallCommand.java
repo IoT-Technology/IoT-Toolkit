@@ -1,13 +1,20 @@
 package iot.technology.client.toolkit.mqtt.command.sub;
 
+import io.netty.handler.codec.mqtt.MqttQoS;
+import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
+import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
+import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttCallDomain;
+import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
+import iot.technology.client.toolkit.mqtt.service.handler.MqttSubMessageHandler;
+import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
@@ -20,6 +27,9 @@ import picocli.CommandLine;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * @author mushuwei
@@ -41,7 +51,8 @@ public class MqttCallCommand implements Callable<Integer> {
 	@Override
 	public Integer call() throws Exception {
 		Terminal terminal = TerminalBuilder.builder()
-				.system(true).build();
+				.system(true)
+				.build();
 		LineReader reader = LineReaderBuilder.builder()
 				.terminal(terminal)
 				.parser(new DefaultParser())
@@ -76,7 +87,34 @@ public class MqttCallCommand implements Callable<Integer> {
 				return ExitCodeEnum.ERROR.getValue();
 			}
 		}
+		mqttSubLogic(domain);
 		return ExitCodeEnum.NOTEND.getValue();
+	}
+
+	private void mqttSubLogic(MqttCallDomain domain) {
+		MqttClientConfig config = domain.convertMqttClientConfig(domain);
+		MqttSubMessageHandler handler = new MqttSubMessageHandler();
+		MqttClientService mqttClientService = new MqttClientServiceImpl(config, handler);
+		MqttQoS qosLevel = MqttQoS.valueOf(Integer.parseInt(domain.getQos()));
+		Future<MqttConnectResult> connectFuture = mqttClientService.connect(domain.getHost(), Integer.parseInt(domain.getPort()));
+		MqttConnectResult result;
+		try {
+			result = connectFuture.get(config.getTimeoutSeconds(), TimeUnit.SECONDS);
+		} catch (TimeoutException | InterruptedException | ExecutionException ex) {
+			connectFuture.cancel(true);
+			mqttClientService.disconnect();
+			String hostPort = domain.getHost() + ":" + domain.getPort();
+			throw new RuntimeException(String.format("%s %s.", bundle.getString("mqtt.failed.connect"), hostPort));
+		}
+		if (!result.isSuccess()) {
+			connectFuture.cancel(true);
+			mqttClientService.disconnect();
+			String hostPort = domain.getHost() + ":" + domain.getPort();
+			throw new RuntimeException(
+					String.format("%s %s. %s %s", bundle.getString("mqtt.failed.connect"),
+							hostPort, bundle.getString("mqtt.result.code"), result.getReturnCode()));
+		}
+		mqttClientService.on(domain.getTopic(), handler, qosLevel);
 	}
 
 }

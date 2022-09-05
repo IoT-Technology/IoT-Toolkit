@@ -197,4 +197,5 @@ public class MqttSubscribeCommand implements Callable<Integer> {
 		mqttClientService.on(topic, handler, qosLevel);
 		return ExitCodeEnum.NOTEND.getValue();
 	}
+
 }

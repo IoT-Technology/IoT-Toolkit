@@ -17,6 +17,7 @@ package iot.technology.client.toolkit.mqtt.command;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
+import iot.technology.client.toolkit.mqtt.command.sub.MqttCallCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttDescribeCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttPublishCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttSubscribeCommand;
@@ -34,6 +35,7 @@ import java.util.concurrent.Callable;
 		description = "@|fg(Cyan),italic ${bundle:mqtt.description}|@",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		subcommands = {
+				MqttCallCommand.class,
 				MqttDescribeCommand.class,
 				MqttPublishCommand.class,
 				MqttSubscribeCommand.class

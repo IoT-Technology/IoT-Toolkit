@@ -439,7 +439,7 @@ public class MqttClientServiceImpl implements MqttClientService {
 		}
 
 		@Override
-		protected void initChannel(SocketChannel ch) throws Exception {
+		protected void initChannel(SocketChannel ch) {
 			if (sslContext != null) {
 				ch.pipeline().addLast(sslContext.newHandler(ch.alloc(), host, port));
 			}

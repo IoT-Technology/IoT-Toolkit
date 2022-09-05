@@ -55,6 +55,10 @@ public class MqttCallDomain implements Serializable {
 
 	private String lastWillPayload;
 
+	private String topic;
+
+	private String qos;
+
 	public MqttClientConfig convertMqttClientConfig(MqttCallDomain domain) {
 		MqttClientConfig config = new MqttClientConfig();
 		if (mqttVersion.equals(MqttVersionEnum.MQTT_3_1.getValue())) {
@@ -262,5 +266,21 @@ public class MqttCallDomain implements Serializable {
 
 	public void setLastWillPayload(String lastWillPayload) {
 		this.lastWillPayload = lastWillPayload;
+	}
+
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
+
+	public String getQos() {
+		return qos;
+	}
+
+	public void setQos(String qos) {
+		this.qos = qos;
 	}
 }

@@ -31,6 +31,7 @@ public final class MqttClientConfig {
 
 	private String clientId;
 	private int timeoutSeconds = 60;
+	private int keepAlive = 60;
 	private MqttVersion protocolVersion = MqttVersion.MQTT_3_1_1;
 	private String username = null;
 	private String password = null;
@@ -188,5 +189,13 @@ public final class MqttClientConfig {
 
 	public void setPort(Integer port) {
 		this.port = port;
+	}
+
+	public int getKeepAlive() {
+		return keepAlive;
+	}
+
+	public void setKeepAlive(int keepAlive) {
+		this.keepAlive = keepAlive;
 	}
 }
