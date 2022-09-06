@@ -37,6 +37,7 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "toolkit",
+		aliases = "iotkit",
 		header = "${bundle:general.header}",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		requiredOptionMarker = '*',

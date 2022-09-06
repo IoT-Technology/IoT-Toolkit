@@ -161,11 +161,6 @@
                 <artifactId>svm</artifactId>
                 <version>${graalvm-svm.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.mapdb</groupId>
-                <artifactId>mapdb</artifactId>
-                <version>${mapdb.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

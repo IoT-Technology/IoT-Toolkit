@@ -11,9 +11,13 @@ public class ColorUtils {
 		return colorItalic(text, "green");
 	}
 
-	
+
 	public static String blackFaint(String text) {
 		return CommandLine.Help.Ansi.AUTO.string("@|faint,black" + " " + text + "|@");
+	}
+
+	public static String blackBold(String text) {
+		return CommandLine.Help.Ansi.AUTO.string("@|faint,bold" + " " + text + "|@");
 	}
 
 	public static String colorItalic(String text, String color) {

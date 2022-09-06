@@ -113,7 +113,8 @@ public final class MqttChannelHandler extends SimpleChannelInboundHandler<MqttMe
 				}
 				message.payload().markReaderIndex();
 				subscription.setCalled(true);
-				subscription.getHandler().onMessage(message.variableHeader().topicName(), message.payload());
+				subscription.getHandler()
+						.onMessage(message.variableHeader().topicName(), message.fixedHeader().qosLevel(), message.payload());
 				if (subscription.isOnce()) {
 					this.client.off(subscription.getTopic(), subscription.getHandler());
 				}
@@ -122,7 +123,7 @@ public final class MqttChannelHandler extends SimpleChannelInboundHandler<MqttMe
 			}
 		}
 		if (!handlerInvoked && client.getDefaultHandler() != null) {
-			client.getDefaultHandler().onMessage(message.variableHeader().topicName(), message.payload());
+			client.getDefaultHandler().onMessage(message.variableHeader().topicName(), message.fixedHeader().qosLevel(), message.payload());
 		}
 		message.payload().release();
 	}

@@ -59,6 +59,11 @@
             <groupId>com.github.freva</groupId>
             <artifactId>ascii-table</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20220320</version>
+        </dependency>
     </dependencies>
 
 

@@ -6,7 +6,6 @@ import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -36,7 +35,7 @@ public class ConnectTimeoutNode implements TkNode {
 
 	@Override
 	public String getValue(String data) {
-		return Objects.nonNull(data) ? data : "10";
+		return StringUtils.isBlank(data) ? "10" : data;
 	}
 
 	@Override

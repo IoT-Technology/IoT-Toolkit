@@ -5,11 +5,12 @@ import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.TkNode;
 
+import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 /**
  * @author mushuwei
@@ -23,18 +24,7 @@ public class HostNode implements TkNode {
 		if (Objects.isNull(data)) {
 			throw new IllegalArgumentException(bundle.getString("mqtt.host.error"));
 		}
-		data = data.equals("localhost") ? "127.0.0.1" : data;
 		if (isIpAddress(data)) {
-			return;
-		}
-		boolean isHostAddress = false;
-		try {
-			String ip = InetAddress.getByName(data).getHostAddress();
-			isHostAddress = isIpAddress(ip);
-		} catch (UnknownHostException e) {
-			throw new IllegalArgumentException(bundle.getString("mqtt.host.error1"));
-		}
-		if (isHostAddress) {
 			return;
 		}
 		throw new IllegalArgumentException(bundle.getString("mqtt.host.error1"));
@@ -53,16 +43,29 @@ public class HostNode implements TkNode {
 
 	@Override
 	public String getValue(String data) {
-		return data;
+		String hostAddress = "";
+		try {
+			hostAddress = InetAddress.getByName(data).getHostAddress();
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
+		return hostAddress;
 	}
 
-	private boolean isIpAddress(String value) {
-		Pattern pattern = Pattern.compile("^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]"
-				+ "|[*])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])$");
-		return pattern.matcher(value).matches();
-	}
 
 	@Override
 	public void prePrompt() {
+	}
+
+	private boolean isIpAddress(String address) {
+		if (address.isEmpty()) {
+			return false;
+		}
+		try {
+			Object res = InetAddress.getByName(address);
+			return res instanceof Inet4Address || res instanceof Inet6Address;
+		} catch (final UnknownHostException exception) {
+			return false;
+		}
 	}
 }

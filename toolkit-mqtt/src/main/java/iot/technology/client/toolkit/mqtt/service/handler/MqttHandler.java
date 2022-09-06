@@ -16,11 +16,12 @@
 package iot.technology.client.toolkit.mqtt.service.handler;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.mqtt.MqttQoS;
 
 /**
  * @author mushuwei
  */
 public interface MqttHandler {
 
-	void onMessage(String topic, ByteBuf payload);
+	void onMessage(String topic, MqttQoS qos, ByteBuf payload);
 }

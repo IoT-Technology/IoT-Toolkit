@@ -21,8 +21,7 @@ public class MqttVersionNode implements TkNode {
 	public void check(String data) {
 		if (StringUtils.isBlank(data)
 				|| data.equals(MqttVersionEnum.MQTT_3_1.getCode())
-				|| data.equals(MqttVersionEnum.MQTT_3_1_1.getCode())
-				|| data.equals(MqttVersionEnum.MQTT_5_0.getCode())) {
+				|| data.equals(MqttVersionEnum.MQTT_3_1_1.getCode())) {
 			return;
 		}
 		throw new IllegalArgumentException(bundle.getString("mqttVersion.version.error"));
@@ -47,9 +46,6 @@ public class MqttVersionNode implements TkNode {
 		if (data.equals(MqttVersionEnum.MQTT_3_1.getCode())) {
 			return MqttVersionEnum.MQTT_3_1.getValue();
 		}
-		if (data.equals(MqttVersionEnum.MQTT_5_0.getCode())) {
-			return MqttVersionEnum.MQTT_5_0.getValue();
-		}
 		return MqttVersionEnum.MQTT_3_1_1.getValue();
 	}
 
@@ -57,6 +53,5 @@ public class MqttVersionNode implements TkNode {
 	public void prePrompt() {
 		System.out.format(ColorUtils.greenItalic("(1) 3.1") + "%n");
 		System.out.format(ColorUtils.greenItalic("(2) 3.1.1 * ") + "%n");
-		System.out.format(ColorUtils.greenItalic("(3) 5.0") + "%n");
 	}
 }

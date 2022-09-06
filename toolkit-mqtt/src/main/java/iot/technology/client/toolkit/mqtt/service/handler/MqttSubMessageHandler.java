@@ -16,18 +16,31 @@
 package iot.technology.client.toolkit.mqtt.service.handler;
 
 import io.netty.buffer.ByteBuf;
-import picocli.CommandLine;
+import io.netty.handler.codec.mqtt.MqttQoS;
+import iot.technology.client.toolkit.common.constants.EmojiEnum;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author mushuwei
  */
 public class MqttSubMessageHandler implements MqttHandler {
 
+	/**
+	 * @param topic   topic
+	 * @param qos     quality of service
+	 * @param payload
+	 */
 	@Override
-	public void onMessage(String topic, ByteBuf payload) {
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
-				topic + " success subscribe message: " + payload.toString(StandardCharsets.UTF_8) + "|@") + "%n");
+	public void onMessage(String topic, MqttQoS qos, ByteBuf payload) {
+		System.out.println("------subscribe" + String.format(EmojiEnum.subscribeEmoji) + "------");
+		System.out.format(String.format("Topic:%s   QoS:%s", topic, qos.value()) + "%n");
+		System.out.format(ColorUtils.blackBold(payload.toString(StandardCharsets.UTF_8)) + "%n");
+		LocalDateTime nowDateTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+		System.out.format(formatter.format(nowDateTime) + "%n");
 	}
 }

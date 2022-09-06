@@ -75,15 +75,16 @@ public class MqttCallDomain implements Serializable {
 		config.setUsername(username);
 		config.setPassword(password);
 		if (advanced.equals(ConfirmCodeEnum.YES.getValue())) {
-			config.setTimeoutSeconds(Integer.parseInt(keepAlive));
+			config.setKeepAlive(Integer.parseInt(keepAlive));
+			config.setTimeoutSeconds(Integer.parseInt(connectTimeout));
 			config.setCleanSession(cleanSession.equals(ConfirmCodeEnum.YES.getValue()));
 			config.setReconnect(autoReconnect.equals(ConfirmCodeEnum.YES.getValue()));
 
 		} else {
 			config.setReconnect(false);
 			config.setCleanSession(true);
-			//keepAlive = timeoutSecond, connectTimeout = ***
-			config.setTimeoutSeconds(10);
+			config.setTimeoutSeconds(config.getTimeoutSeconds());
+			config.setKeepAlive(config.getKeepAlive());
 		}
 		if (lastWillAndTestament.equals(ConfirmCodeEnum.YES.getValue())) {
 			MqttQoS qos = MqttQoS.valueOf(Integer.parseInt(lastWillQoS));

@@ -2,6 +2,7 @@ package iot.technology.client.toolkit.mqtt.command.sub;
 
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.util.concurrent.Future;
+import iot.technology.client.toolkit.common.constants.EmojiEnum;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.TkNode;
@@ -100,11 +101,18 @@ public class MqttCallCommand implements Callable<Integer> {
 		MqttConnectResult result;
 		try {
 			result = connectFuture.get(config.getTimeoutSeconds(), TimeUnit.SECONDS);
+			System.out.format("%s%s %s %s%s" + "%n",
+					bundle.getString("mqtt.clientId"),
+					domain.getClientId(),
+					bundle.getString("mqtt.connect.broker"),
+					domain.getHost() + ":" + domain.getPort(),
+					String.format(EmojiEnum.smileEmoji));
 		} catch (TimeoutException | InterruptedException | ExecutionException ex) {
 			connectFuture.cancel(true);
 			mqttClientService.disconnect();
 			String hostPort = domain.getHost() + ":" + domain.getPort();
-			throw new RuntimeException(String.format("%s %s.", bundle.getString("mqtt.failed.connect"), hostPort));
+			throw new RuntimeException(String.format("%s %s %s.", bundle.getString("mqtt.failed.connect"), hostPort,
+					String.format(EmojiEnum.pensiveEmoji)));
 		}
 		if (!result.isSuccess()) {
 			connectFuture.cancel(true);
@@ -114,7 +122,7 @@ public class MqttCallCommand implements Callable<Integer> {
 					String.format("%s %s. %s %s", bundle.getString("mqtt.failed.connect"),
 							hostPort, bundle.getString("mqtt.result.code"), result.getReturnCode()));
 		}
-		mqttClientService.on(domain.getTopic(), handler, qosLevel);
+		Future<Void> resultFuture = mqttClientService.on(domain.getTopic(), handler, qosLevel);
 	}
 
 }

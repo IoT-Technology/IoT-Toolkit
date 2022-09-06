@@ -445,9 +445,9 @@ public class MqttClientServiceImpl implements MqttClientService {
 			}
 			ch.pipeline().addLast("mqttDecoder", new MqttDecoder(clientConfig.getMaxBytesInMessage()));
 			ch.pipeline().addLast("mqttEncoder", MqttEncoder.INSTANCE);
-			ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(MqttClientServiceImpl.this.clientConfig.getTimeoutSeconds(),
-					MqttClientServiceImpl.this.clientConfig.getTimeoutSeconds(), 0));
-			ch.pipeline().addLast("mqttPingHandler", new MqttPingHandler(MqttClientServiceImpl.this.clientConfig.getTimeoutSeconds()));
+			ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(MqttClientServiceImpl.this.clientConfig.getKeepAlive(),
+					MqttClientServiceImpl.this.clientConfig.getKeepAlive(), 0));
+			ch.pipeline().addLast("mqttPingHandler", new MqttPingHandler(MqttClientServiceImpl.this.clientConfig.getKeepAlive()));
 			ch.pipeline().addLast("mqttHandler", new MqttChannelHandler(MqttClientServiceImpl.this, connectFuture));
 		}
 	}

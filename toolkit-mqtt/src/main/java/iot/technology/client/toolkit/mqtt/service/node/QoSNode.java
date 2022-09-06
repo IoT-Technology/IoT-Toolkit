@@ -51,12 +51,6 @@ public class QoSNode implements TkNode {
 
 	@Override
 	public String getValue(String data) {
-		if (data.equals("0")) {
-			return bundle.getString("mqtt.qos0.prompt");
-		}
-		if (data.equals("1")) {
-			return bundle.getString("mqtt.qos1.prompt");
-		}
-		return bundle.getString("mqtt.qos1.prompt");
+		return data;
 	}
 }
