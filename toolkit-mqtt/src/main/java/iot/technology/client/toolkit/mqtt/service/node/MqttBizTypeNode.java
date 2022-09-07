@@ -45,7 +45,7 @@ public class MqttBizTypeNode implements TkNode {
 	@Override
 	public String nextNode(String data) {
 		if (data.toLowerCase().equals(MqttBizEnum.SUB.getValue())) {
-			return MqttSettingsCodeEnum.END.getCode();
+			return MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode();
 		}
 		return MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode();
 	}

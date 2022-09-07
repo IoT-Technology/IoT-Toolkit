@@ -38,10 +38,9 @@ public class MqttSettingsRuleChainProcessor {
 		map.put(MqttSettingsCodeEnum.LAST_WILL_QOS.getCode(), MqttSettingsCodeEnum.LAST_WILL_QOS.getClazzName());
 		map.put(MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode(), MqttSettingsCodeEnum.LAST_WILL_RETAIN.getClazzName());
 		map.put(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode(), MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getClazzName());
-		map.put(MqttSettingsCodeEnum.TOPIC.getCode(), MqttSettingsCodeEnum.TOPIC.getClazzName());
-		map.put(MqttSettingsCodeEnum.QOS.getCode(), MqttSettingsCodeEnum.QOS.getClazzName());
 		map.put(MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getCode(), MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getClazzName());
 		map.put(MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode(), MqttSettingsCodeEnum.PUBLISH_MESSAGE.getClazzName());
+		map.put(MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode(), MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getClazzName());
 		return map;
 	}
 }

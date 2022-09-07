@@ -1,9 +1,11 @@
 package iot.technology.client.toolkit.mqtt.service.node;
 
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
+import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
+import iot.technology.client.toolkit.common.constants.PubData;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.TkNode;
-import iot.technology.client.toolkit.common.utils.StringUtils;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 
 import java.util.ResourceBundle;
 
@@ -16,25 +18,25 @@ public class PublishMessageNode implements TkNode {
 
 	@Override
 	public void prePrompt() {
+		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.prompt") + "topic:qos=message") + "%n");
+		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.example") + "hello:0=hello world") + "%n");
 
 	}
 
 	@Override
 	public void check(String data) {
-		if (StringUtils.isBlank(data)) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
-		}
+		PubData.validate(data);
 	}
 
 	@Override
 	public String nodePrompt() {
-		return bundle.getString(bundle.getString("publishMessage.prompt") + GlobalConstants.promptSuffix) +
+		return bundle.getString(MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode() + GlobalConstants.promptSuffix) +
 				GlobalConstants.promptSeparator;
 	}
 
 	@Override
 	public String nextNode(String data) {
-		return null;
+		return MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode();
 	}
 
 	@Override

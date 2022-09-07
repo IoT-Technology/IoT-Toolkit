@@ -38,7 +38,7 @@ public class lastWillAndTestamentNode implements TkNode {
 		if (data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())) {
 			return MqttSettingsCodeEnum.LAST_WILL_TOPIC.getCode();
 		}
-		return MqttSettingsCodeEnum.TOPIC.getCode();
+		return MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getCode();
 	}
 
 	@Override

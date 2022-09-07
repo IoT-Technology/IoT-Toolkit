@@ -182,18 +182,6 @@
     ]
   },
   {
-    "name" : "iot.technology.client.toolkit.mqtt.service.node.TopicNode",
-    "methods": [
-      { "name": "<init>", "parameterTypes": [] }
-    ]
-  },
-  {
-    "name" : "iot.technology.client.toolkit.mqtt.service.node.QoSNode",
-    "methods": [
-      { "name": "<init>", "parameterTypes": [] }
-    ]
-  },
-  {
     "name" : "iot.technology.client.toolkit.mqtt.service.node.MqttBizTypeNode",
     "methods": [
       { "name": "<init>", "parameterTypes": [] }
@@ -201,6 +189,12 @@
   },
   {
     "name" : "iot.technology.client.toolkit.mqtt.service.node.PublishMessageNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.mqtt.service.node.SubscribeMessageNode",
     "methods": [
       { "name": "<init>", "parameterTypes": [] }
     ]

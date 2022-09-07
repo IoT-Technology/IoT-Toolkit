@@ -47,13 +47,11 @@ public enum MqttSettingsCodeEnum {
 
 	LASTWILLANDTESTAMENT("lastWillAndTestament", "iot.technology.client.toolkit.mqtt.service.node.lastWillAndTestamentNode"),
 
-	TOPIC("topic", "iot.technology.client.toolkit.mqtt.service.node.TopicNode"),
-
-	QOS("qos", "iot.technology.client.toolkit.mqtt.service.node.QoSNode"),
-
 	MQTT_BIZ_TYPE("biz", "iot.technology.client.toolkit.mqtt.service.node.MqttBizTypeNode"),
 
 	PUBLISH_MESSAGE("publishMessage", "iot.technology.client.toolkit.mqtt.service.node.PublishMessageNode"),
+
+	SUBSCRIBE_MESSAGE("subscribeMessage", "iot.technology.client.toolkit.mqtt.service.node.SubscribeMessageNode"),
 
 	END("end", "");
 

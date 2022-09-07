@@ -36,11 +36,12 @@ public class MqttSubMessageHandler implements MqttHandler {
 	 */
 	@Override
 	public void onMessage(String topic, MqttQoS qos, ByteBuf payload) {
-		System.out.println("------subscribe" + String.format(EmojiEnum.subscribeEmoji) + "------");
+		System.out.format("%n" + "------subscribe" + String.format(EmojiEnum.subscribeEmoji) + "------" + "%n");
 		System.out.format(String.format("Topic:%s   QoS:%s", topic, qos.value()) + "%n");
 		System.out.format(ColorUtils.blackBold(payload.toString(StandardCharsets.UTF_8)) + "%n");
 		LocalDateTime nowDateTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
 		System.out.format(formatter.format(nowDateTime) + "%n");
+		System.out.format("------" + "end" + "------" + "%n");
 	}
 }

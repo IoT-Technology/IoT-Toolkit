@@ -5,6 +5,7 @@ import io.netty.handler.codec.mqtt.MqttVersion;
 import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.MqttVersionEnum;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
+import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 
 import java.io.Serializable;
 
@@ -59,6 +60,10 @@ public class MqttCallDomain implements Serializable {
 
 	private String qos;
 
+	private String biz;
+
+	private MqttClientService client;
+
 	public MqttClientConfig convertMqttClientConfig(MqttCallDomain domain) {
 		MqttClientConfig config = new MqttClientConfig();
 		if (mqttVersion.equals(MqttVersionEnum.MQTT_3_1.getValue())) {
@@ -99,7 +104,6 @@ public class MqttCallDomain implements Serializable {
 		}
 		return config;
 	}
-
 
 	public String getMqttVersion() {
 		return mqttVersion;
@@ -283,5 +287,22 @@ public class MqttCallDomain implements Serializable {
 
 	public void setQos(String qos) {
 		this.qos = qos;
+	}
+
+	public String getBiz() {
+		return biz;
+	}
+
+	public void setBiz(String biz) {
+		this.biz = biz;
+	}
+
+
+	public void setClient(MqttClientService client) {
+		this.client = client;
+	}
+
+	public MqttClientService getClient() {
+		return client;
 	}
 }
