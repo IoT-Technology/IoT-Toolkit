@@ -5,7 +5,7 @@ package iot.technology.client.toolkit.common.constants;
  */
 public interface EmojiEnum {
 
-	String successEmoji = "\u2714";
+	String successEmoji = "\u2705";
 
 	String errorEmoji = "\u2716";
 
@@ -14,4 +14,5 @@ public interface EmojiEnum {
 	String pensiveEmoji = "\uD83D\uDE14";
 
 	String subscribeEmoji = "\uD83D\uDCDD";
+
 }

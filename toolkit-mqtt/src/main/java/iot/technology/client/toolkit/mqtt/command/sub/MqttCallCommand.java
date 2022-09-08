@@ -95,6 +95,11 @@ public class MqttCallCommand implements Callable<Integer> {
 		return ExitCodeEnum.NOTEND.getValue();
 	}
 
+	/**
+	 * @param code   node code
+	 * @param data   user input data
+	 * @param domain mqtt settings domain
+	 */
 	public void mqttBizLogic(String code, String data, MqttCallDomain domain) {
 		if (code.equals(MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getCode())) {
 			MqttClientService mqttClientService = connectBroker(domain);
@@ -117,11 +122,21 @@ public class MqttCallCommand implements Callable<Integer> {
 		MqttConnectResult result;
 		try {
 			result = connectFuture.get(config.getTimeoutSeconds(), TimeUnit.SECONDS);
+			System.out.format("%s%s %s %s%s" + "%n",
+					bundle.getString("mqtt.clientId"),
+					domain.getClientId(),
+					bundle.getString("mqtt.connect.broker"),
+					domain.getHost() + ":" + domain.getPort(),
+					String.format(EmojiEnum.smileEmoji));
 		} catch (TimeoutException | InterruptedException | ExecutionException ex) {
 			connectFuture.cancel(true);
 			mqttClientService.disconnect();
 			String hostPort = domain.getHost() + ":" + domain.getPort();
-			throw new RuntimeException(String.format("%s %s.", bundle.getString("mqtt.failed.connect"), hostPort));
+			throw new RuntimeException(
+					String.format("%s %s %s.",
+							bundle.getString("mqtt.failed.connect"),
+							hostPort,
+							String.format(EmojiEnum.pensiveEmoji)));
 		}
 		if (!result.isSuccess()) {
 			connectFuture.cancel(true);
@@ -137,6 +152,7 @@ public class MqttCallCommand implements Callable<Integer> {
 	private void mqttPubLogic(PubData data, MqttClientService client) {
 		MqttQoS qosLevel = MqttQoS.valueOf(data.getQos());
 		client.publish(data.getTopic(), Unpooled.wrappedBuffer(data.getPayload().getBytes(UTF8)), qosLevel, false);
+		System.out.format(data.getPayload() + bundle.getString("publishMessage.success") + String.format(EmojiEnum.successEmoji) + "%n");
 	}
 
 	private void mqttSubLogic(SubData data, MqttClientService client) {

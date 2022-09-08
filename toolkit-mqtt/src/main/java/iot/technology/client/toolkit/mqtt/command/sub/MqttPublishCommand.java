@@ -24,7 +24,6 @@ import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
-import iot.technology.client.toolkit.mqtt.service.domain.MqttLastWill;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttPubMessageHandler;
 import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
 import picocli.CommandLine;
@@ -119,70 +118,10 @@ public class MqttPublishCommand implements Callable<Integer> {
 			names = {"-m", "--message"},
 			description = "${bundle:mqtt.message.desc}")
 	String message;
-
-	@CommandLine.Option(
-			order = 8,
-			names = {"--ca"},
-			description = "${bundle:mqtt.ca.desc}")
-	String ca;
-
-	@CommandLine.Option(
-			order = 9,
-			names = {"--key"},
-			description = "${bundle:mqtt.key.desc}")
-	String key;
-
-	@CommandLine.Option(
-			order = 10,
-			names = {"--cert"},
-			description = "${bundle:mqtt.cert.desc}")
-	String cert;
-
-	@CommandLine.Option(
-			order = 11,
-			names = {"--insecure"},
-			description = "${bundle:mqtt.insecure.desc}")
-	boolean insecure;
-
-	@CommandLine.Option(
-			order = 12,
-			names = {"--will-topic"},
-			description = "${bundle:mqtt.will.topic.desc}")
-	String willTopic;
-
-	@CommandLine.Option(
-			order = 13,
-			names = {"--will-qos"},
-			description = "${bundle:mqtt.will.qos.desc}"
-	)
-	int willQos;
-
-	@CommandLine.Option(
-			order = 14,
-			names = {"--will-retain"},
-			description = "${bundle:mqtt.will.retain.desc}"
-	)
-	boolean willRetain;
-
-	@CommandLine.Option(
-			order = 15,
-			names = {"--will-payload"},
-			description = "${bundle:mqtt.will.payload.desc}"
-	)
-	String willPayload;
-
-
+	
 	@Override
 	public Integer call() throws Exception {
 		MqttClientConfig config = new MqttClientConfig();
-		MqttQoS willQosConfig = MqttQoS.valueOf(willQos);
-		MqttLastWill lastWill = MqttLastWill.builder()
-				.setTopic(willTopic)
-				.setQos(willQosConfig)
-				.setRetain(willRetain)
-				.setMessage(willPayload)
-				.build();
-		config.setLastWill(lastWill);
 		config.setClientId(Objects.nonNull(clientId) ? clientId : config.getClientId());
 		config.setUsername(Objects.nonNull(username) ? username : null);
 		config.setPassword(Objects.nonNull(password) ? password : null);
