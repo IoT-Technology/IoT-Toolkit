@@ -273,7 +273,7 @@
                                         </commitAuthor>
                                         <title>toolkit</title>
                                         <username>iot-technology</username>
-                                        <iconUrl>https://github.com/IoT-Technology/IoT-Toolkit/blob/main/png/toolkit_logo.png</iconUrl>
+                                        <iconUrl>https://github.com/IoT-Technology/IoT-Toolkit/blob/main/png/toolkit-logo.png</iconUrl>
                                         <bucket>
                                             <active>RELEASE</active>
                                             <name>toolkit</name>
