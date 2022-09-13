@@ -71,9 +71,9 @@ Below is the link to download `Toolkit`
 
 | Platform | Toolkit                                                                                                                                    |
 |----------| ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Linux    | [toolkit-0.4.5-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.5/toolkit-0.4.5-linux-x86_64.zip)     |
-| Unix     | [toolkit-0.4.5-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.5/toolkit-0.4.5-osx-x86_64.zip)         |
-| Windows  | [toolkit-0.4.5-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.5/toolkit-0.4.5-windows-x86_64.zip) |
+| Linux    | [toolkit-0.4.8-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-linux-x86_64.zip)     |
+| Unix     | [toolkit-0.4.8-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-osx-x86_64.zip)         |
+| Windows  | [toolkit-0.4.8-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-windows-x86_64.zip) |
 
 In Windows, you can use **Chocolatey** to install
 
