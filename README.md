@@ -94,8 +94,6 @@ choco install toolkit
   </tr>
 </table>
 
-
-
 # Examples
 
 Set the language to German, Support 
@@ -112,8 +110,6 @@ Set the language to German, Support
 toolkit config -l=de 
 ```
 
-
-
 ## CoAP
 
 **Get**  the resource at `/test` path from data provided by [coap.me](https://coap.me/)
@@ -122,15 +118,11 @@ toolkit config -l=de
 toolkit coap get coap://coap.me/test
 ```
 
-
-
 **Update**  the data in the resource at `/sink` path  provided by [coap.me](https://coap.me/)
 
 ```bash
 toolkit coap post coap://coap.me/sink -p='testing for post data' -f=text/plain
 ```
-
-
 
 ## MQTT
 
@@ -140,15 +132,11 @@ toolkit coap post coap://coap.me/sink -p='testing for post data' -f=text/plain
 toolkit mqtt sub -host=test.mosquitto.org -q=0 -t=hello
 ```
 
-
-
 **Publish** a message to the `hello` topic of `test.mosquitto.org`
 
 ```bash
 toolkit mqtt pub -host=test.mosquitto.org -q=0 -t=hello -m='hi toolkit'
 ```
-
-
 
 **Interactive Mode**
 

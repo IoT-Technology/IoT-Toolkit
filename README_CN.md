@@ -18,13 +18,41 @@
 
 **Toolkit** 是一款支持多种物联网协议的客户端命令行工具。目前支持**CoAP**和**MQTT**协议，未来将支持更多的协议。现代化的设计，提供**自动补全**、**多语言配置**且用户交互良好且易于操作。可在**linux**、**unix**和**windows**等操作系统中运行。
 
+<div align="center">
 
+<img src="png/toolkit-show_zh.gif" alt="HTTPie in action" width="100%"/>
+
+</div>
 
 [📖 English Document](README.md) | 📖 中文文档
 
 ----------------------------------------
 
 # 快速开始
+
+## Linux & MacOS
+
+安装[SDKMAN!](https://sdkman.io/), 请看[安装文档](https://sdkman.io/install)
+
+```bash
+sdk install toolkit
+```
+
+## Windows
+
+安装[Chocolatey](), 请看[安装教程](https://chocolatey.org/install)
+
+```bash
+choco install toolkit
+```
+
+## 直接安装
+
+| Platform | Toolkit                                                                                                                                    |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Linux    | [toolkit-0.4.8-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-linux-x86_64.zip)     |
+| Unix     | [toolkit-0.4.8-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-osx-x86_64.zip)         |
+| Windows  | [toolkit-0.4.8-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-windows-x86_64.zip) |
 
 # 特性
 
@@ -62,22 +90,50 @@
   </tr>
 </table>
 
-# 下载地址
+# 范例
 
-下面是`Toolkit`下载的链接地址
+设置语言为德语，支持
 
-| 平台      | Toolkit                                                                                                                                    |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Linux   | [toolkit-0.4.5-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.5/toolkit-0.4.5-linux-x86_64.zip)     |
-| Unix    | [toolkit-0.4.5-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.5/toolkit-0.4.5-osx-x86_64.zip)         |
-| Windows | [toolkit-0.4.5-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.5/toolkit-0.4.5-windows-x86_64.zip) |
+- zh=中文
 
-在`windows`下，可以使用**Chocolatey**进行安装
+- de=德语
+
+- en=英语
+
+- fr=法语
 
 ```bash
-choco install toolkit
+toolkit config -l=de 
 ```
 
-# 贡献
+## CoAP
+
+请求由 [coap.me](https://coap.me/) 提供`/test` 路径下的资源
+
+```bash
+toolkit coap get coap://coap.me/test
+```
+
+更新由 [coap.me](https://coap.me/) 提供`/sink`路径下的资源
+
+```bash
+toolkit coap post coap://coap.me/sink -p='testing for post data' -f=text/plain
+```
+
+## MQTT
+
+订阅 `test.mosquitto.org` 下 `hello`主题下的数据
+
+```bash
+toolkit mqtt sub -host=test.mosquitto.org -q=0 -t=hello
+```
+
+发布消息到`test.mosquitto.org` 的`hello` 主题里
+
+```bash
+toolkit mqtt pub -host=test.mosquitto.org -q=0 -t=hello -m='hi toolkit'
+```
+
+# # 贡献
 
 可以通过解决现有的[Issues](https://github.com/IoT-Technology/IoT-Toolkit/issues)和[ Pull Requests](https://github.com/IoT-Technology/IoT-Toolkit/pulls)来踏入贡献`Toolkit`的第一步。如果您想请求一个特性或者报告bug，请使用提供的模版之一创建GitHub Issue。
