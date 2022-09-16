@@ -20,6 +20,13 @@ Toolkit is a IoT protocol client CLI for IoT developer and learners.
 CoAP and MQTT protocol are currently supported. It supports colors, autocompletion,
 internationalization(chinese, english and german…) and multi-platforms
 
+
+<div align="center">
+
+<img src="png/toolkit-show.gif" alt="HTTPie in action" width="100%"/>
+
+</div>
+
 [📖 中文文档](README_CN.md) | 📖 English Document
 
 ----------------------------------------
