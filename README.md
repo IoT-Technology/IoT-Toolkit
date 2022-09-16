@@ -20,10 +20,9 @@ Toolkit is a IoT protocol client CLI for IoT developer and learners.
 CoAP and MQTT protocol are currently supported. It supports colors, autocompletion,
 internationalization(chinese, english and german…) and multi-platforms
 
-
 <div align="center">
 
-<img src="png/toolkit-show.gif" alt="HTTPie in action" width="100%"/>
+<img src="png/toolkit-show_en.gif" alt="HTTPie in action" width="100%"/>
 
 </div>
 
@@ -31,8 +30,31 @@ internationalization(chinese, english and german…) and multi-platforms
 
 ----------------------------------------
 
-
 # Getting started
+
+## Linux & MacOS
+
+to install [SDKMAN!](https://sdkman.io/), see [its installation](https://sdkman.io/install).
+
+```bash
+sdk install toolkit
+```
+
+## Windows
+
+To install [Chocolatey](https://chocolatey.org/), see [its installation](https://chocolatey.org/install).
+
+```bash
+choco install toolkit
+```
+
+## Direct Download
+
+| Platform | Toolkit                                                                                                                                    |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Linux    | [toolkit-0.4.8-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-linux-x86_64.zip)     |
+| Unix     | [toolkit-0.4.8-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-osx-x86_64.zip)         |
+| Windows  | [toolkit-0.4.8-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-windows-x86_64.zip) |
 
 # Features
 
@@ -72,22 +94,69 @@ internationalization(chinese, english and german…) and multi-platforms
   </tr>
 </table>
 
-# Download address
 
-Below is the link to download `Toolkit`
 
-| Platform | Toolkit                                                                                                                                    |
-|----------| ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Linux    | [toolkit-0.4.8-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-linux-x86_64.zip)     |
-| Unix     | [toolkit-0.4.8-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-osx-x86_64.zip)         |
-| Windows  | [toolkit-0.4.8-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-windows-x86_64.zip) |
+# Examples
 
-In Windows, you can use **Chocolatey** to install
+Set the language to German, Support 
+
+- zh=chinese
+
+- de=german
+
+- en=english
+
+- fr=french
 
 ```bash
-choco install toolkit
+toolkit config -l=de 
+```
+
+
+
+## CoAP
+
+**Get**  the resource at `/test` path from data provided by [coap.me](https://coap.me/)
+
+```bash
+toolkit coap get coap://coap.me/test
+```
+
+
+
+**Update**  the data in the resource at `/sink` path  provided by [coap.me](https://coap.me/)
+
+```bash
+toolkit coap post coap://coap.me/sink -p='testing for post data' -f=text/plain
+```
+
+
+
+## MQTT
+
+**Subscribe** to updates with the `hello` topic from `test.mosquitto.org`
+
+```bash
+toolkit mqtt sub -host=test.mosquitto.org -q=0 -t=hello
+```
+
+
+
+**Publish** a message to the `hello` topic of `test.mosquitto.org`
+
+```bash
+toolkit mqtt pub -host=test.mosquitto.org -q=0 -t=hello -m='hi toolkit'
+```
+
+
+
+**Interactive Mode**
+
+```bash
+toolkit mqtt call
 ```
 
 # Contributing
+
 Have a look through existing [Issues](https://github.com/IoT-Technology/IoT-Toolkit/issues) and [Pull Requests](https://github.com/IoT-Technology/IoT-Toolkit/pulls) that you could help with.
 If you'd like to request a feature or report a bug, please [create a GitHub Issue](https://github.com/IoT-Technology/IoT-Toolkit/issues) using one of the templates provided.
