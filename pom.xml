@@ -72,7 +72,7 @@
         <netty.version>4.1.77.Final</netty.version>
         <eclipse.californium.version>3.6.0</eclipse.californium.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <jackson.version>2.13.3</jackson.version>
+        <jackson.version>2.14.0-rc1</jackson.version>
         <guava.version>30.0-jre</guava.version>
         <jansi.version>2.4.0</jansi.version>
         <ascii-table.version>1.2.0</ascii-table.version>
