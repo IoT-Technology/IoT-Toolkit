@@ -20,6 +20,7 @@ import io.netty.handler.ssl.SslContext;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttLastWill;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author mushuwei
@@ -50,7 +51,7 @@ public final class MqttClientConfig {
 
 	public MqttClientConfig(SslContext sslContext) {
 		this.sslContext = sslContext;
-		Random random = new Random();
+		ThreadLocalRandom random = ThreadLocalRandom.current();
 		String id = "toolkit_mqtt_";
 		String[] options = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
 		for (int i = 0; i < 8; i++) {
