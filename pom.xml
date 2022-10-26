@@ -28,6 +28,7 @@
         <module>toolkit-coap</module>
         <module>toolkit-app</module>
         <module>toolkit-common</module>
+        <module>toolkit-nbiot</module>
     </modules>
 
     <name>IoT Technology ToolKit</name>
