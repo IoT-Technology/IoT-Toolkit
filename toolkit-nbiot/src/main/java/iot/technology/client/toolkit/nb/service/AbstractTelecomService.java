@@ -1,0 +1,25 @@
+package iot.technology.client.toolkit.nb.service;
+
+import iot.technology.client.toolkit.common.constants.TelecomSettings;
+import iot.technology.client.toolkit.common.utils.SignUtils;
+import iot.technology.client.toolkit.nb.config.TelecomNbConfig;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class AbstractTelecomService {
+
+    public static Map<String, String> getHeaders(TelecomNbConfig config, long timestamp) {
+        Map<String, String> headers = new HashMap<>();
+        try {
+            String dateString = SignUtils.getTelecomDataString(timestamp);
+            headers.put("timestamp", "" + timestamp);
+            headers.put("application", config.getAppKey());
+            headers.put("Content-Type", TelecomSettings.mediaType);
+            headers.put("Date", dateString);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return headers;
+    }
+}

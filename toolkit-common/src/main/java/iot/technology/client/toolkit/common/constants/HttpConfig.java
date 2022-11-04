@@ -29,4 +29,32 @@ public class HttpConfig implements Serializable {
         this.writeTimeout = writeTimeout;
         this.retryOnConnectionFailure = retryOnConnectionFailure;
     }
+
+    public Integer getMaxIdleConnections() {
+        return maxIdleConnections;
+    }
+
+    public Integer getKeepAliveSecond() {
+        return keepAliveSecond;
+    }
+
+    public Integer getCallTimeout() {
+        return callTimeout;
+    }
+
+    public Integer getConnectTimeout() {
+        return connectTimeout;
+    }
+
+    public Integer getReadTimeout() {
+        return readTimeout;
+    }
+
+    public Integer getWriteTimeout() {
+        return writeTimeout;
+    }
+
+    public Boolean getRetryOnConnectionFailure() {
+        return retryOnConnectionFailure;
+    }
 }
