@@ -13,10 +13,9 @@ public abstract class AbstractTelecomService {
         Map<String, String> headers = new HashMap<>();
         try {
             String dateString = SignUtils.getTelecomDataString(timestamp);
-            headers.put("timestamp", "" + timestamp);
-            headers.put("application", config.getAppKey());
-            headers.put("Content-Type", TelecomSettings.mediaType);
-            headers.put("Date", dateString);
+            headers.put(TelecomSettings.TIMESTAMP, "" + timestamp);
+            headers.put(TelecomSettings.APPLICATION, config.getAppKey());
+            headers.put(TelecomSettings.DATA_HEADER, dateString);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

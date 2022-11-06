@@ -1,6 +1,5 @@
 package iot.technology.client.toolkit.nb.service.telecom;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import iot.technology.client.toolkit.common.constants.TelecomSettings;
 import iot.technology.client.toolkit.common.http.HttpGetResponseEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestEntity;
@@ -12,6 +11,11 @@ import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * product management
+ * 1、 delete product
+ * 2、 single query product by single productId
+ */
 public class TelecomProductService extends AbstractTelecomService {
 
     public static String queryProduct(TelecomNbConfig config) {
@@ -19,7 +23,7 @@ public class TelecomProductService extends AbstractTelecomService {
             long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
             HttpRequestEntity entity = new HttpRequestEntity();
             entity.setType("telecom");
-            entity.setUrl(TelecomSettings.PRODUCT_URL);
+            entity.setUrl(TelecomSettings.PID_URL);
             Map<String, String> headerMap =  getHeaders(config, timestamp);
             headerMap.put("version", "20181031202055");
             Map<String, String> params = new HashMap<>();
@@ -40,16 +44,22 @@ public class TelecomProductService extends AbstractTelecomService {
             long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
             HttpRequestEntity entity = new HttpRequestEntity();
             entity.setType("telecom");
-            entity.setUrl(TelecomSettings.PRODUCT_URL);
+            entity.setUrl(TelecomSettings.PID_URL);
             Map<String, String> headerMap =  getHeaders(config, timestamp);
             headerMap.put("version", "20181031202029");
+            headerMap.put("MasterKey", config.getMasterKey());
+            headerMap.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+
             Map<String, String> params = new HashMap<>();
             params.put("productId", config.getProductId());
-            headerMap.put("MasterKey", config.getMasterKey());
+            params.put("MasterKey", config.getMasterKey());
+
+            Map<String, String> queryParam = new HashMap<>();
+            queryParam.put("productId", config.getProductId());
             String signature = SignUtils.aepSignAlgorithm(params, timestamp, config.getAppKey(), config.getAppSecret(), null);
             headerMap.put("signature", signature);
             entity.setHeaders(headerMap);
-            entity.setParams(params);
+            entity.setParams(queryParam);
             HttpGetResponseEntity response = HttpRequestExecutor.executeDelete(entity);
             return response.getBody();
         } catch (Exception e) {
@@ -62,8 +72,8 @@ public class TelecomProductService extends AbstractTelecomService {
         TelecomNbConfig config = new TelecomNbConfig();
         config.setAppKey("WLGBbIxHJI4");
         config.setAppSecret("PiqkIxyCC0");
-        config.setMasterKey("09e418fdd0154c4aaef3231bf04bf19c");
-        config.setProductId("15413351");
+        config.setMasterKey("f91dd23fece44c52af93ffe67196fa77");
+        config.setProductId("15414775");
         String body = deleteProduct(config);
         System.out.println(body);
     }

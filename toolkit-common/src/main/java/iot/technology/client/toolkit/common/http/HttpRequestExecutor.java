@@ -5,7 +5,6 @@ import iot.technology.client.toolkit.common.constants.NbIoTHttpConfigEnum;
 import iot.technology.client.toolkit.common.constants.TelecomSettings;
 import okhttp3.*;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +26,7 @@ public class HttpRequestExecutor {
     }
 
     public static String executePost(HttpRequestEntity request) throws Exception {
-        RequestBody body = RequestBody.create(request.getJson(), MediaType.get(TelecomSettings.mediaType));
+        RequestBody body = RequestBody.create(request.getJson(), MediaType.get("application/json;charset=utf-8"));
         final OkHttpClient client = initOkHttp3(request.getType());
 
         HttpUrl.Builder httpBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
@@ -78,8 +77,6 @@ public class HttpRequestExecutor {
 
     public static HttpGetResponseEntity executeDelete(HttpRequestEntity request) throws Exception {
         final OkHttpClient client = initOkHttp3(request.getType());
-        Map<String, String> headers = request.getHeaders();
-        headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
         if (request.getParams() != null && !request.getParams().isEmpty()) {
