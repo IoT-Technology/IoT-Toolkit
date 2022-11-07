@@ -6,7 +6,6 @@ import iot.technology.client.toolkit.common.http.HttpRequestEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestExecutor;
 import iot.technology.client.toolkit.common.utils.JSONUtils;
 import iot.technology.client.toolkit.common.utils.SignUtils;
-import iot.technology.client.toolkit.nb.config.TelecomConfig;
 import iot.technology.client.toolkit.nb.domain.telecom.BatchDelDeviceDomain;
 import iot.technology.client.toolkit.nb.domain.telecom.BatchAddNBDeviceDomain;
 import iot.technology.client.toolkit.nb.domain.telecom.DeviceInfoDomain;
