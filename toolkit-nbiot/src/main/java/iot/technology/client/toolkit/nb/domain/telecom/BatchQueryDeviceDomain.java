@@ -3,7 +3,7 @@ package iot.technology.client.toolkit.nb.domain.telecom;
 import java.io.Serializable;
 import java.util.List;
 
-public class BatchDeviceDomain implements Serializable {
+public class BatchQueryDeviceDomain implements Serializable {
 
     private Integer productId;
 

@@ -2,14 +2,14 @@ package iot.technology.client.toolkit.nb.service;
 
 import iot.technology.client.toolkit.common.constants.TelecomSettings;
 import iot.technology.client.toolkit.common.utils.SignUtils;
-import iot.technology.client.toolkit.nb.config.TelecomNbConfig;
+import iot.technology.client.toolkit.nb.domain.telecom.TelecomConfigDomain;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractTelecomService {
 
-    public static Map<String, String> getHeaders(TelecomNbConfig config, long timestamp) {
+    public static Map<String, String> getHeaders(TelecomConfigDomain config, long timestamp) {
         Map<String, String> headers = new HashMap<>();
         try {
             String dateString = SignUtils.getTelecomDataString(timestamp);

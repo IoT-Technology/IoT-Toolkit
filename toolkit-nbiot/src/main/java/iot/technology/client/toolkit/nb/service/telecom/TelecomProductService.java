@@ -5,7 +5,7 @@ import iot.technology.client.toolkit.common.http.HttpGetResponseEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestExecutor;
 import iot.technology.client.toolkit.common.utils.SignUtils;
-import iot.technology.client.toolkit.nb.config.TelecomNbConfig;
+import iot.technology.client.toolkit.nb.domain.telecom.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
 
 import java.util.HashMap;
@@ -14,11 +14,11 @@ import java.util.Map;
 /**
  * product management
  * 1、 delete product
- * 2、 single query product by single productId
+ * 2、 single query product
  */
 public class TelecomProductService extends AbstractTelecomService {
 
-    public static String queryProduct(TelecomNbConfig config) {
+    public static String queryProduct(TelecomConfigDomain config) {
         try {
             long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
             HttpRequestEntity entity = new HttpRequestEntity();
@@ -39,7 +39,7 @@ public class TelecomProductService extends AbstractTelecomService {
         }
     }
 
-    public static String deleteProduct(TelecomNbConfig config) {
+    public static String deleteProduct(TelecomConfigDomain config) {
         try {
             long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
             HttpRequestEntity entity = new HttpRequestEntity();
@@ -69,7 +69,7 @@ public class TelecomProductService extends AbstractTelecomService {
     }
 
     public static void main(String[] args) {
-        TelecomNbConfig config = new TelecomNbConfig();
+        TelecomConfigDomain config = new TelecomConfigDomain();
         config.setAppKey("WLGBbIxHJI4");
         config.setAppSecret("PiqkIxyCC0");
         config.setMasterKey("f91dd23fece44c52af93ffe67196fa77");

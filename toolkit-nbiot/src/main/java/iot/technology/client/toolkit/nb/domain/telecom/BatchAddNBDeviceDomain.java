@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SingleAddDeviceDomain implements Serializable {
+public class BatchAddNBDeviceDomain implements Serializable {
 
     private String deviceName;
 

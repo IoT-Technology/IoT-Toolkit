@@ -6,15 +6,15 @@ import iot.technology.client.toolkit.common.http.HttpRequestEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestExecutor;
 import iot.technology.client.toolkit.common.utils.JSONUtils;
 import iot.technology.client.toolkit.common.utils.SignUtils;
-import iot.technology.client.toolkit.nb.config.TelecomNbConfig;
-import iot.technology.client.toolkit.nb.domain.telecom.SingleAddDeviceDomain;
-import iot.technology.client.toolkit.nb.domain.telecom.BatchDeviceDomain;
+import iot.technology.client.toolkit.nb.config.TelecomConfig;
+import iot.technology.client.toolkit.nb.domain.telecom.BatchDelDeviceDomain;
+import iot.technology.client.toolkit.nb.domain.telecom.BatchAddNBDeviceDomain;
+import iot.technology.client.toolkit.nb.domain.telecom.DeviceInfoDomain;
+import iot.technology.client.toolkit.nb.domain.telecom.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class TelecomDeviceService extends AbstractTelecomService {
 
-    public static String addDevice(TelecomNbConfig config, SingleAddDeviceDomain singleAddDeviceDomain) throws Exception {
+    public static String addNBDevice(TelecomConfigDomain config, BatchAddNBDeviceDomain batchAddNBDeviceDomain) throws Exception {
         long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
         HttpRequestEntity entity = new HttpRequestEntity();
         entity.setType(NBTypeEnum.TELECOM.getType());
@@ -36,7 +36,7 @@ public class TelecomDeviceService extends AbstractTelecomService {
         headerMap.put(TelecomSettings.VERSION, "20181031202117");
         headerMap.put(TelecomSettings.MASTER_KEY, config.getMasterKey());
 
-        String jsonStr = JSONUtils.toJsonString(singleAddDeviceDomain);
+        String jsonStr = JSONUtils.toJsonString(batchAddNBDeviceDomain);
         byte[] bodyBytes = jsonStr.getBytes(StandardCharsets.UTF_8);
 
         Map<String, String> params = new HashMap<>();
@@ -50,7 +50,7 @@ public class TelecomDeviceService extends AbstractTelecomService {
         return response;
     }
 
-    public static String delDevice(TelecomNbConfig config, BatchDeviceDomain batchDeviceDomain) throws Exception {
+    public static String delDeviceByImeiList(TelecomConfigDomain config, BatchDelDeviceDomain batchDelDeviceDomain) throws Exception {
         long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
         HttpRequestEntity entity = new HttpRequestEntity();
         entity.setType(NBTypeEnum.TELECOM.getType());
@@ -59,7 +59,7 @@ public class TelecomDeviceService extends AbstractTelecomService {
         headerMap.put(TelecomSettings.VERSION, "20211009132842");
         headerMap.put(TelecomSettings.MASTER_KEY, config.getMasterKey());
 
-        String jsonStr = JSONUtils.toJsonString(batchDeviceDomain);
+        String jsonStr = JSONUtils.toJsonString(batchDelDeviceDomain);
         byte[] bodyBytes = jsonStr.getBytes(StandardCharsets.UTF_8);
 
         Map<String, String> params = new HashMap<>();
@@ -73,26 +73,15 @@ public class TelecomDeviceService extends AbstractTelecomService {
         return response;
     }
 
+    public static String updateDevice(DeviceInfoDomain deviceInfo) {
+        return null;
+    }
+
+    public static String getDeviceList() {
+        return null;
+    }
+
+
     public static void main(String[] args) throws Exception {
-        TelecomNbConfig config = new TelecomNbConfig();
-        config.setAppKey("WLGBbIxHJI4");
-        config.setAppSecret("PiqkIxyCC0");
-        config.setMasterKey("546606b218d142579163e562ed5f58de");
-        config.setProductId("15415761");
-//        AddDeviceDomain domain = new AddDeviceDomain();
-//        domain.setDeviceName("苍南测试流量计CVC300W-B");
-//        domain.setImei("869619052948095");
-//        domain.setOperator("mushuwei123");
-//        domain.setProductId(15415761);
-//        AddDeviceDomain.OtherInfo otherInfo = new AddDeviceDomain.OtherInfo();
-//        otherInfo.setAutoObserver(0);
-//        domain.setOther(otherInfo);
-//        addDevice(config, domain);
-        BatchDeviceDomain domain = new BatchDeviceDomain();
-        domain.setProductId(Integer.valueOf(config.getProductId()));
-        List<String> deviceIds = new ArrayList<>();
-        deviceIds.add("d09bdd55e7554dfcad1d3ce9b26b8def");
-        domain.setDeviceIdList(deviceIds);
-        delDevice(config, domain);
     }
 }

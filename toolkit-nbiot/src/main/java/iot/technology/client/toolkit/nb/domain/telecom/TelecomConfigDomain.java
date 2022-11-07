@@ -1,8 +1,8 @@
-package iot.technology.client.toolkit.nb.config;
+package iot.technology.client.toolkit.nb.domain.telecom;
 
 import java.io.Serializable;
 
-public class TelecomNbConfig implements Serializable {
+public class TelecomConfigDomain implements Serializable {
 
     private String appKey;
 
@@ -11,6 +11,7 @@ public class TelecomNbConfig implements Serializable {
     private String masterKey;
 
     private String productId;
+
 
     public String getAppKey() {
         return appKey;
