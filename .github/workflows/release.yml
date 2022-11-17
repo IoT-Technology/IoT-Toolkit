@@ -27,7 +27,7 @@ on:
         required: false
 
 env:
-  graalvm_version: '22.1.0'
+  graalvm_version: '22.2.0'
   java_version: '11'
 
 jobs:
@@ -121,6 +121,7 @@ jobs:
       - name: Set up GraalVM (Java ${{ env.java_version }})
         uses: graalvm/setup-graalvm@v1
         with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           version: '${{ env.graalvm_version }}'
           java-version: '${{ env.java_version }}'
           components: 'native-image'

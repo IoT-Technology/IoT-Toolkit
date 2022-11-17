@@ -40,7 +40,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <graalvm.version>22.1</graalvm.version>
+        <graalvm.version>22.2</graalvm.version>
         <graalvm-buildtools.version>0.9.17</graalvm-buildtools.version>
         <picocli-codegen.version>4.6.3</picocli-codegen.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>

@@ -76,7 +76,7 @@
         <guava.version>30.0-jre</guava.version>
         <jansi.version>2.4.0</jansi.version>
         <ascii-table.version>1.2.0</ascii-table.version>
-        <graalvm-svm.version>22.1.0</graalvm-svm.version>
+        <graalvm-svm.version>22.2.0</graalvm-svm.version>
         <mycila-license.version>4.1</mycila-license.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>

@@ -2,7 +2,7 @@ name: Pull Requests
 on: pull_request_target
 
 env:
-  graalvm_version: '22.1.0'
+  graalvm_version: '22.2.0'
   java_version: '11'
 
 jobs:
