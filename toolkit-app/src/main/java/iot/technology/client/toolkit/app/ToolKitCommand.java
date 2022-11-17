@@ -91,7 +91,7 @@ public class ToolKitCommand implements Callable<Integer> {
 		System.out.println(bundle.getString("general.description"));
 		System.out.format("%s %s" + "%n",
 				bundle.getString("general.usage"),
-				"[--version] [--help] <command> [<args>]");
+				"toolkit [--version] [--help] <command> [<args>]");
 		System.out.format("" + "%n");
 		System.out.format("%s" + "%n", bundle.getString("general.common.commands.desc"));
 		System.out.format("" + "%n");
@@ -122,7 +122,7 @@ public class ToolKitCommand implements Callable<Integer> {
 		System.out.format("%s %s" + "%n",
 				"publish       ", bundle.getString("mqtt.pub.description"));
 		System.out.format("%s %s" + "%n",
-				"subscribe     ", bundle.getString("mqtt.desc.description"));
+				"subscribe     ", bundle.getString("mqtt.sub.description"));
 
 		System.out.format("" + "%n");
 		System.out.println(bundle.getString("general.main.page.help"));
