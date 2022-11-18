@@ -89,6 +89,43 @@ public class ToolKitCommand implements Callable<Integer> {
 
 	public Integer call() {
 		System.out.println(bundle.getString("general.description"));
+		System.out.format("%s %s" + "%n",
+				bundle.getString("general.usage"),
+				"toolkit [--version] [--help] <command> [<args>]");
+		System.out.format("" + "%n");
+		System.out.format("%s" + "%n", bundle.getString("general.common.commands.desc"));
+		System.out.format("" + "%n");
+		System.out.format("%s %s" + "%n",
+				bundle.getString("config.description"),
+				"(" + bundle.getString("general.reference") + "toolkit config -h" + ")");
+		System.out.format("%s %s" + "%n", "locale        ",
+				bundle.getString("config.lang.header") + " " + bundle.getString("config.locale"));
+
+		System.out.format("" + "%n");
+		System.out.format("%s %s" + "%n",
+				bundle.getString("coap.description"),
+				"(" + bundle.getString("general.reference") + "toolkit coap -h" + ")");
+		System.out.format("%s %s" + "%n",
+				"disc          ", bundle.getString("coap.disc.description"));
+		System.out.format("%s %s" + "%n",
+				"get           ", bundle.getString("coap.get.description"));
+		System.out.format("%s %s" + "%n",
+				"post          ", bundle.getString("coap.post.description"));
+		System.out.format("%s %s" + "%n",
+				"put           ", bundle.getString("coap.put.description"));
+		System.out.format("%s %s" + "%n",
+				"delete        ", bundle.getString("coap.del.description"));
+
+		System.out.format("" + "%n");
+		System.out.format("%s %s" + "%n", bundle.getString("mqtt.description"),
+				"(" + bundle.getString("general.reference") + "toolkit mqtt -h" + ")");
+		System.out.format("%s %s" + "%n",
+				"publish       ", bundle.getString("mqtt.pub.description"));
+		System.out.format("%s %s" + "%n",
+				"subscribe     ", bundle.getString("mqtt.sub.description"));
+
+		System.out.format("" + "%n");
+		System.out.println(bundle.getString("general.main.page.help"));
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

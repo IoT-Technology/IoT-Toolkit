@@ -22,7 +22,7 @@
     <parent>
         <artifactId>iot-toolkit</artifactId>
         <groupId>iot.technology</groupId>
-        <version>0.4.8</version>
+        <version>0.4.9</version>
     </parent>
 
 
@@ -40,10 +40,12 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <native-image-plugin.version>21.2.0</native-image-plugin.version>
+        <graalvm.version>22.2</graalvm.version>
+        <graalvm-buildtools.version>0.9.17</graalvm-buildtools.version>
         <picocli-codegen.version>4.6.3</picocli-codegen.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
+        <maven-compiler.version>3.8.1</maven-compiler.version>
         <appassembler-maven-plugin.version>2.1.0</appassembler-maven-plugin.version>
     </properties>
 
@@ -83,7 +85,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <!-- annotationProcessorPaths requires maven-compiler-plugin version 3.5 or higher -->
-                <version>3.8.1</version>
+                <version>${maven-compiler.version}</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
@@ -197,27 +199,31 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.graalvm.nativeimage</groupId>
-                        <artifactId>native-image-maven-plugin</artifactId>
-                        <version>${native-image-plugin.version}</version>
-                        <configuration>
-                            <imageName>${appName}</imageName>
-                            <mainClass>${mainClass}</mainClass>
-                            <buildArgs>
-                                --no-fallback
-                                -Dfile.encoding=UTF-8
-                                -H:-CheckToolchain
-                                -H:+ReportExceptionStackTraces
-                            </buildArgs>
-                        </configuration>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>${graalvm-buildtools.version}</version>
+                        <extensions>true</extensions>
                         <executions>
                             <execution>
+                                <id>build-native</id>
                                 <goals>
-                                    <goal>native-image</goal>
+                                    <goal>compile-no-fork</goal>
                                 </goals>
                                 <phase>package</phase>
                             </execution>
                         </executions>
+                        <configuration>
+                            <skip>false</skip>
+                            <imageName>${appName}</imageName>
+                            <requiredVersion>${graalvm.version}</requiredVersion>
+                            <mainClass>${mainClass}</mainClass>
+                            <buildArgs>
+                                <arg>--no-fallback</arg>
+                                <arg>-Dfile.encoding=UTF-8</arg>
+                                <arg>-H:-CheckToolchain</arg>
+                                <arg>-H:+ReportExceptionStackTraces</arg>
+                            </buildArgs>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>

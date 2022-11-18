@@ -24,6 +24,6 @@ public class VersionInfo implements CommandLine.IVersionProvider {
 
 	@Override
 	public String[] getVersion() throws Exception {
-		return new String[] {"0.0.3"};
+		return new String[] {"0.4.9"};
 	}
 }

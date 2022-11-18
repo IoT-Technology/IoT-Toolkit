@@ -22,7 +22,7 @@
 
     <groupId>iot.technology</groupId>
     <artifactId>iot-toolkit</artifactId>
-    <version>0.4.8</version>
+    <version>0.4.9</version>
     <modules>
         <module>toolkit-mqtt</module>
         <module>toolkit-coap</module>
@@ -71,13 +71,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <picocli.version>4.6.3</picocli.version>
         <netty.version>4.1.77.Final</netty.version>
-        <eclipse.californium.version>3.6.0</eclipse.californium.version>
+        <eclipse.californium.version>3.7.0</eclipse.californium.version>
         <slf4j.version>1.7.36</slf4j.version>
         <jackson.version>2.14.0-rc1</jackson.version>
         <guava.version>30.0-jre</guava.version>
         <jansi.version>2.4.0</jansi.version>
         <ascii-table.version>1.2.0</ascii-table.version>
-        <graalvm-svm.version>22.1.0</graalvm-svm.version>
+        <graalvm-svm.version>22.2.0</graalvm-svm.version>
         <mycila-license.version>4.1</mycila-license.version>
         <okhttp.version>5.0.0-alpha.10</okhttp.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
