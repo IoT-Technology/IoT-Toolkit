@@ -16,6 +16,8 @@
 package iot.technology.client.toolkit.app.settings.lang;
 
 import iot.technology.client.toolkit.common.constants.LangEnum;
+import iot.technology.client.toolkit.common.constants.SystemConfigConst;
+import iot.technology.client.toolkit.common.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,16 +32,11 @@ import java.util.Optional;
  */
 public class LangService {
 
-	public static final String userHome = System.getProperty("user.home");
-
-	private static final String FILE_NAME = userHome + File.separator + ".toolkit" + File.separator + "config" + File.separator + "lang";
-
-
 	public static void updateLocale(String locale) {
 		try {
-			File file = new File(FILE_NAME);
+			File file = new File(SystemConfigConst.CONFIG_LANG_FILE_NAME);
 			String ls = "locale=" + locale;
-			Path path = Paths.get(FILE_NAME);
+			Path path = Paths.get(SystemConfigConst.CONFIG_LANG_FILE_NAME);
 			if (!file.exists()) {
 				File fileParent = file.getParentFile();
 				if (!fileParent.exists()) {
@@ -57,10 +54,10 @@ public class LangService {
 	}
 
 	public static String currentLocale() {
-		File file = new File(FILE_NAME);
+		File file = new File(SystemConfigConst.CONFIG_LANG_FILE_NAME);
 		if (file.exists()) {
 			try {
-				Path path = Paths.get(FILE_NAME);
+				Path path = Paths.get(SystemConfigConst.CONFIG_LANG_FILE_NAME);
 				Optional<String> optional = Files.lines(path).filter(str -> str.contains("locale")).findFirst();
 				if (optional.isPresent()) {
 					String ls = optional.get();
@@ -74,25 +71,7 @@ public class LangService {
 				throw new RuntimeException(e);
 			}
 		}
-		noExistAndCreateFile();
+		FileUtils.noExistAndCreateFile(SystemConfigConst.CONFIG_LANG_FILE_NAME, "locale=en");
 		return LangEnum.EN.getValue();
-	}
-
-	public static void noExistAndCreateFile() {
-		try {
-			File file = new File(FILE_NAME);
-			if (!file.exists()) {
-				File fileParent = file.getParentFile();
-				if (!fileParent.exists()) {
-					fileParent.mkdirs();
-				}
-				if (!file.exists()) {
-					file.createNewFile();
-					Files.write(Paths.get(FILE_NAME), "locale=en".getBytes(StandardCharsets.UTF_8));
-				}
-			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 }
