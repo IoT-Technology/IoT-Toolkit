@@ -59,9 +59,14 @@ public class MqttSettingsRuleChainProcessor {
 		return map;
 	}
 
+	public String getRootPublishNewConfigNode() {
+		return MqttSettingsCodeEnum.SETTINGS_NAME.getCode();
+	}
+
 	public Map<String, String> getPublishNewConfigProcessor() {
 		Map<String, String> map = new HashMap<>();
 		map.put(MqttSettingsCodeEnum.SETTINGS_NAME.getCode(), MqttSettingsCodeEnum.SETTINGS_NAME.getClazzName());
+		map.put(MqttSettingsCodeEnum.MQTT_VERSION.getCode(), MqttSettingsCodeEnum.MQTT_VERSION.getClazzName());
 		map.put(MqttSettingsCodeEnum.CLIENT_ID.getCode(), MqttSettingsCodeEnum.CLIENT_ID.getClazzName());
 		map.put(MqttSettingsCodeEnum.HOST.getCode(), MqttSettingsCodeEnum.HOST.getClazzName());
 		map.put(MqttSettingsCodeEnum.PORT.getCode(), MqttSettingsCodeEnum.PORT.getClazzName());
@@ -77,13 +82,18 @@ public class MqttSettingsRuleChainProcessor {
 		map.put(MqttSettingsCodeEnum.KEEP_ALIVE.getCode(), MqttSettingsCodeEnum.KEEP_ALIVE.getClazzName());
 		map.put(MqttSettingsCodeEnum.CLEAN_SESSION.getCode(), MqttSettingsCodeEnum.CLEAN_SESSION.getClazzName());
 		map.put(MqttSettingsCodeEnum.AUTO_RECONNECT.getCode(), MqttSettingsCodeEnum.AUTO_RECONNECT.getClazzName());
+		map.put(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode(), MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getClazzName());
 		map.put(MqttSettingsCodeEnum.LAST_WILL_TOPIC.getCode(), MqttSettingsCodeEnum.LAST_WILL_TOPIC.getClazzName());
 		map.put(MqttSettingsCodeEnum.LAST_WILL_QOS.getCode(), MqttSettingsCodeEnum.LAST_WILL_QOS.getClazzName());
 		map.put(MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode(), MqttSettingsCodeEnum.LAST_WILL_RETAIN.getClazzName());
 		map.put(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode(), MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getClazzName());
+		map.put(MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode(), MqttSettingsCodeEnum.PUBLISH_MESSAGE.getClazzName());
+		return map;
 	}
 
 	public Map<String, String> getPublishSelectConfigProcessor() {
+		Map<String, String> map = new HashMap<>();
+		return map;
 
 	}
 }

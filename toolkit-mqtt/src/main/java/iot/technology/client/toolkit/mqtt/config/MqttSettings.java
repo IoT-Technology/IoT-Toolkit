@@ -5,13 +5,13 @@ import java.io.Serializable;
 /**
  * @author mushuwei
  */
-public class MqttSetting implements Serializable {
+public class MqttSettings implements Serializable {
 
 	private String name;
 
 	private MqttSettingInfo info;
 
-	private Integer usage;
+	private Integer usage = 1;
 
 	public String getName() {
 		return name;

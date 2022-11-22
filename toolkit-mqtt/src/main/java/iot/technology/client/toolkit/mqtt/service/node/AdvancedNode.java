@@ -4,6 +4,7 @@ import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
@@ -34,12 +35,13 @@ public class AdvancedNode implements TkNode {
 	}
 
 	@Override
-	public String nextNode(String data) {
-		if (data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())) {
+	public String nextNode(NodeContext context) {
+		if (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())) {
 			return MqttSettingsCodeEnum.CONNECT_TIMEOUT.getCode();
 		}
 		return MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode();
 	}
+
 
 	@Override
 	public void prePrompt() {

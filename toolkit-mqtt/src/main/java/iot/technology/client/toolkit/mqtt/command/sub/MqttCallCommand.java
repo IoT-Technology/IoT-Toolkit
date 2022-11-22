@@ -19,6 +19,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.common.constants.*;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
@@ -97,7 +98,11 @@ public class MqttCallCommand implements Callable<Integer> {
 				}
 				ObjectUtils.setValue(domain, code, tkNode.getValue(data));
 				mqttBizLogic(code, data, domain);
-				code = tkNode.nextNode(data);
+
+				NodeContext context = new NodeContext();
+				context.setData(data);
+				context.setType(NodeTypeEnum.MQTT_DEFAULT.getType());
+				code = tkNode.nextNode(context);
 				if (code.equals("end")) {
 					break;
 				}

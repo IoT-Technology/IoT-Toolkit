@@ -26,7 +26,7 @@ public interface TkNode {
 
 	String nodePrompt();
 
-	String nextNode(String data);
+	String nextNode(NodeContext context);
 
 	String getValue(String data);
 }

@@ -3,6 +3,7 @@ package iot.technology.client.toolkit.mqtt.service.node;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
@@ -33,9 +34,10 @@ public class ClientCertNode implements TkNode {
 	}
 
 	@Override
-	public String nextNode(String data) {
+	public String nextNode(NodeContext context) {
 		return MqttSettingsCodeEnum.CLIENT_KEY.getCode();
 	}
+	
 
 	@Override
 	public String getValue(String data) {

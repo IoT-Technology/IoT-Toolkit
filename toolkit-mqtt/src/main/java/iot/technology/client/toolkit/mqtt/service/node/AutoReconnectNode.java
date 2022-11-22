@@ -4,6 +4,7 @@ import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
@@ -34,9 +35,10 @@ public class AutoReconnectNode implements TkNode {
 	}
 
 	@Override
-	public String nextNode(String data) {
+	public String nextNode(NodeContext context) {
 		return MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode();
 	}
+	
 
 	@Override
 	public String getValue(String data) {

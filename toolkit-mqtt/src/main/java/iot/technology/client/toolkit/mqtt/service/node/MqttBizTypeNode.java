@@ -4,6 +4,7 @@ import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttBizEnum;
 import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
@@ -43,12 +44,13 @@ public class MqttBizTypeNode implements TkNode {
 	}
 
 	@Override
-	public String nextNode(String data) {
-		if (data.toLowerCase().equals(MqttBizEnum.SUB.getValue())) {
+	public String nextNode(NodeContext context) {
+		if (context.getData().toLowerCase().equals(MqttBizEnum.SUB.getValue())) {
 			return MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode();
 		}
 		return MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode();
 	}
+
 
 	@Override
 	public String getValue(String data) {

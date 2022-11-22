@@ -4,6 +4,7 @@ import iot.technology.client.toolkit.common.constants.CertTypeEnum;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
@@ -35,12 +36,13 @@ public class CertTypeNode implements TkNode {
 	}
 
 	@Override
-	public String nextNode(String data) {
-		if (data.equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())) {
+	public String nextNode(NodeContext context) {
+		if (context.getData().equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())) {
 			return MqttSettingsCodeEnum.ADVANCED.getCode();
 		}
 		return MqttSettingsCodeEnum.CA.getCode();
 	}
+
 
 	@Override
 	public String getValue(String data) {
