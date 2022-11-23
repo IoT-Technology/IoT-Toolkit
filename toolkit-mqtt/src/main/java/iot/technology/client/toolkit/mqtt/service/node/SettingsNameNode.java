@@ -17,12 +17,12 @@ public class SettingsNameNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 
 	@Override
-	public void check(String data) {
-		if (StringUtils.isBlank(data)) {
+	public void check(NodeContext context) {
+		if (StringUtils.isBlank(context.getData())) {
 			System.out.format("%s", bundle.getString("mqtt.settings.name.error"));
 		}
 
@@ -41,7 +41,7 @@ public class SettingsNameNode implements TkNode {
 
 
 	@Override
-	public String getValue(String data) {
-		return data;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 }

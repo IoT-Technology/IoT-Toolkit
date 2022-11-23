@@ -18,11 +18,11 @@ public class CaNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (StringUtils.isBlank(data)) {
+	public void check(NodeContext context) {
+		if (StringUtils.isBlank(context.getData())) {
 			throw new IllegalArgumentException(bundle.getString("param.error"));
 		}
-		if (!ObjectUtils.fileExists(data)) {
+		if (!ObjectUtils.fileExists(context.getData())) {
 			throw new IllegalArgumentException(bundle.getString("file.error"));
 		}
 	}
@@ -39,12 +39,12 @@ public class CaNode implements TkNode {
 	}
 
 	@Override
-	public String getValue(String data) {
-		return data;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 
 	}
 }

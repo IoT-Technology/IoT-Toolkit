@@ -18,7 +18,8 @@ public class LastWillRetainNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
+	public void check(NodeContext context) {
+		String data = context.getData();
 		if (!StringUtils.isBlank(data)) {
 			if (data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 					|| data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
@@ -40,11 +41,11 @@ public class LastWillRetainNode implements TkNode {
 	}
 
 	@Override
-	public String getValue(String data) {
-		return StringUtils.isBlank(data) ? ConfirmCodeEnum.NO.getValue() : data;
+	public String getValue(NodeContext context) {
+		return StringUtils.isBlank(context.getData()) ? ConfirmCodeEnum.NO.getValue() : context.getData();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 }

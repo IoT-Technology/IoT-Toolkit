@@ -17,7 +17,7 @@ public class UsernameNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
+	public void check(NodeContext context) {
 
 	}
 
@@ -34,15 +34,15 @@ public class UsernameNode implements TkNode {
 
 
 	@Override
-	public String getValue(String data) {
+	public String getValue(NodeContext context) {
 		String value = "";
-		if (!StringUtils.isBlank(data)) {
-			value = data;
+		if (!StringUtils.isBlank(context.getData())) {
+			value = context.getData();
 		}
 		return value;
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 }

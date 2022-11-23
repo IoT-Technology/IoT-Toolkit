@@ -9,6 +9,7 @@ import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -19,12 +20,12 @@ public class CertTypeNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (StringUtils.isBlank(data)) {
+	public void check(NodeContext context) {
+		if (StringUtils.isBlank(context.getData())) {
 			throw new IllegalArgumentException(bundle.getString("param.error"));
 		}
-		if (!data.equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())
-				&& !data.equals(CertTypeEnum.SELF_SIGNED.getValue())) {
+		if (!context.getType().equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())
+				&& !context.getData().equals(CertTypeEnum.SELF_SIGNED.getValue())) {
 			throw new IllegalArgumentException(bundle.getString("mqtt.cert.error"));
 		}
 	}
@@ -45,13 +46,13 @@ public class CertTypeNode implements TkNode {
 
 
 	@Override
-	public String getValue(String data) {
-		CertTypeEnum certTypeEnum = CertTypeEnum.getCertTypeEnum(data);
-		return certTypeEnum.getDesc();
+	public String getValue(NodeContext context) {
+		CertTypeEnum certTypeEnum = CertTypeEnum.getCertTypeEnum(context.getData());
+		return Objects.requireNonNull(certTypeEnum).getDesc();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 		System.out.format(ColorUtils.greenItalic("(1) CA signed Server") + "%n");
 		System.out.format(ColorUtils.greenItalic("(2) Self signed * ") + "%n");
 	}

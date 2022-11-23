@@ -17,8 +17,8 @@ public class ConnectTimeoutNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (!StringUtils.isBlank(data) && !StringUtils.isNumeric(data)) {
+	public void check(NodeContext context) {
+		if (!StringUtils.isBlank(context.getData()) && !StringUtils.isNumeric(context.getData())) {
 			throw new IllegalArgumentException(bundle.getString("number.error"));
 		}
 	}
@@ -35,11 +35,11 @@ public class ConnectTimeoutNode implements TkNode {
 	}
 
 	@Override
-	public String getValue(String data) {
-		return StringUtils.isBlank(data) ? "10" : data;
+	public String getValue(NodeContext context) {
+		return StringUtils.isBlank(context.getData()) ? "10" : context.getData();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 }

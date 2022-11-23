@@ -19,7 +19,8 @@ public class MqttVersionNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
+	public void check(NodeContext context) {
+		String data = context.getData();
 		if (StringUtils.isBlank(data)
 				|| data.equals(MqttVersionEnum.MQTT_3_1.getCode())
 				|| data.equals(MqttVersionEnum.MQTT_3_1_1.getCode())) {
@@ -38,10 +39,11 @@ public class MqttVersionNode implements TkNode {
 	public String nextNode(NodeContext context) {
 		return MqttSettingsCodeEnum.CLIENT_ID.getCode();
 	}
-	
+
 
 	@Override
-	public String getValue(String data) {
+	public String getValue(NodeContext context) {
+		String data = context.getData();
 		if (StringUtils.isBlank(data)) {
 			return MqttVersionEnum.MQTT_3_1_1.getValue();
 		}
@@ -52,7 +54,7 @@ public class MqttVersionNode implements TkNode {
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 		System.out.format(ColorUtils.greenItalic("(1) 3.1") + "%n");
 		System.out.format(ColorUtils.greenItalic("(2) 3.1.1 * ") + "%n");
 	}

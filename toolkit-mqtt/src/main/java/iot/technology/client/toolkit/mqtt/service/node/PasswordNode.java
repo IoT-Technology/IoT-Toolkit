@@ -17,7 +17,7 @@ public class PasswordNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
+	public void check(NodeContext context) {
 
 	}
 
@@ -34,7 +34,8 @@ public class PasswordNode implements TkNode {
 
 
 	@Override
-	public String getValue(String data) {
+	public String getValue(NodeContext context) {
+		String data = context.getData();
 		String value = "";
 		if (!StringUtils.isBlank(data)) {
 			value = data;
@@ -43,6 +44,6 @@ public class PasswordNode implements TkNode {
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 }

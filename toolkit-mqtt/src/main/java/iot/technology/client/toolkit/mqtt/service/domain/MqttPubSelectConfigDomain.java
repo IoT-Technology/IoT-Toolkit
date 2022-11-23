@@ -13,26 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.client.toolkit.common.constants;
+package iot.technology.client.toolkit.mqtt.service.domain;
+
+import iot.technology.client.toolkit.mqtt.service.MqttClientService;
+
+import java.io.Serializable;
 
 /**
  * @author mushuwei
  */
-public enum NodeTypeEnum {
+public class MqttPubSelectConfigDomain implements Serializable {
 
-	MQTT_DEFAULT("mqtt_default"),
-
-	MQTT_PUBLISH("mqtt_pub"),
-
-	MQTT_SUBSCRIBE("mqtt_sub");
-
-	private final String type;
-
-	NodeTypeEnum(String type) {
-		this.type = type;
-	}
-
-	public String getType() {
-		return type;
-	}
+	private MqttClientService client;
 }

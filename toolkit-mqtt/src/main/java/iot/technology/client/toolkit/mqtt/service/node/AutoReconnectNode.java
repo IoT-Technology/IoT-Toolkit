@@ -18,10 +18,10 @@ public class AutoReconnectNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (!StringUtils.isBlank(data)) {
-			if (data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
-					|| data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
+	public void check(NodeContext context) {
+		if (!StringUtils.isBlank(context.getData())) {
+			if (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
+					|| context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
 				return;
 			}
 			throw new IllegalArgumentException(bundle.getString("param.confirm.error"));
@@ -38,14 +38,14 @@ public class AutoReconnectNode implements TkNode {
 	public String nextNode(NodeContext context) {
 		return MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode();
 	}
-	
+
 
 	@Override
-	public String getValue(String data) {
-		return StringUtils.isBlank(data) ? ConfirmCodeEnum.YES.getValue() : data;
+	public String getValue(NodeContext context) {
+		return StringUtils.isBlank(context.getData()) ? ConfirmCodeEnum.YES.getValue() : context.getData();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 }

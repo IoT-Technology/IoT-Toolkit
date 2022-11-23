@@ -16,13 +16,13 @@ public class PortNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (StringUtils.isBlank(data)) {
+	public void check(NodeContext context) {
+		if (StringUtils.isBlank(context.getData())) {
 			throw new IllegalArgumentException(bundle.getString("param.error"));
 		}
-		Integer port = 0;
+		int port = 0;
 		try {
-			port = Integer.parseInt(data);
+			port = Integer.parseInt(context.getData());
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(bundle.getString("param.error"));
 		}
@@ -41,14 +41,14 @@ public class PortNode implements TkNode {
 	public String nextNode(NodeContext context) {
 		return MqttSettingsCodeEnum.USERNAME.getCode();
 	}
-	
+
 
 	@Override
-	public String getValue(String data) {
-		return data;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 }

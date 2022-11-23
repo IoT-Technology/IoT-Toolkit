@@ -18,12 +18,12 @@ public class AdvancedNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (StringUtils.isBlank(data)) {
+	public void check(NodeContext context) {
+		if (StringUtils.isBlank(context.getData())) {
 			throw new IllegalArgumentException(bundle.getString("param.error"));
 		}
-		if (!data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
-				&& !data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
+		if (!context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
+				&& !context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
 			throw new IllegalArgumentException(bundle.getString("param.confirm.error"));
 		}
 	}
@@ -44,11 +44,11 @@ public class AdvancedNode implements TkNode {
 
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 
 	@Override
-	public String getValue(String data) {
-		return data;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 }

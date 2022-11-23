@@ -82,6 +82,8 @@ public class MqttCallCommand implements Callable<Integer> {
 		String code = ruleChain.getRootNode();
 
 		MqttCallDomain domain = new MqttCallDomain();
+		NodeContext context = new NodeContext();
+		context.setType(NodeTypeEnum.MQTT_DEFAULT.getType());
 		while (true) {
 			String data = null;
 			try {
@@ -90,18 +92,16 @@ public class MqttCallCommand implements Callable<Integer> {
 				if (tkNode == null) {
 					break;
 				}
-				tkNode.prePrompt();
+				tkNode.prePrompt(context);
 				data = reader.readLine(tkNode.nodePrompt());
-				tkNode.check(data);
-				if (!StringUtils.isBlank(tkNode.getValue(data))) {
-					System.out.format(ColorUtils.blackFaint(bundle.getString("call.prompt") + tkNode.getValue(data)) + "%n");
+				context.setData(data);
+				tkNode.check(context);
+				if (!StringUtils.isBlank(tkNode.getValue(context))) {
+					System.out.format(ColorUtils.blackFaint(bundle.getString("call.prompt") + tkNode.getValue(context)) + "%n");
 				}
-				ObjectUtils.setValue(domain, code, tkNode.getValue(data));
+				ObjectUtils.setValue(domain, code, tkNode.getValue(context));
 				mqttBizLogic(code, data, domain);
 
-				NodeContext context = new NodeContext();
-				context.setData(data);
-				context.setType(NodeTypeEnum.MQTT_DEFAULT.getType());
 				code = tkNode.nextNode(context);
 				if (code.equals("end")) {
 					break;

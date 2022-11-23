@@ -21,11 +21,11 @@ public class HostNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (Objects.isNull(data)) {
+	public void check(NodeContext context) {
+		if (Objects.isNull(context.getData())) {
 			throw new IllegalArgumentException(bundle.getString("mqtt.host.error"));
 		}
-		if (isIpAddress(data)) {
+		if (isIpAddress(context.getData())) {
 			return;
 		}
 		throw new IllegalArgumentException(bundle.getString("mqtt.host.error1"));
@@ -41,13 +41,13 @@ public class HostNode implements TkNode {
 	public String nextNode(NodeContext context) {
 		return MqttSettingsCodeEnum.PORT.getCode();
 	}
-	
+
 
 	@Override
-	public String getValue(String data) {
+	public String getValue(NodeContext context) {
 		String hostAddress = "";
 		try {
-			hostAddress = InetAddress.getByName(data).getHostAddress();
+			hostAddress = InetAddress.getByName(context.getData()).getHostAddress();
 		} catch (UnknownHostException e) {
 			throw new RuntimeException(e);
 		}
@@ -56,7 +56,7 @@ public class HostNode implements TkNode {
 
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 
 	private boolean isIpAddress(String address) {

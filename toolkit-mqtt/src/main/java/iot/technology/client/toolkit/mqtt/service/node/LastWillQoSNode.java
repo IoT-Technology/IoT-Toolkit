@@ -19,11 +19,11 @@ public class LastWillQoSNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (StringUtils.isBlank(data) || !StringUtils.isNumeric(data)) {
+	public void check(NodeContext context) {
+		if (StringUtils.isBlank(context.getData()) || !StringUtils.isNumeric(context.getData())) {
 			throw new IllegalArgumentException(bundle.getString("param.error"));
 		}
-		Integer qosValue = Integer.parseInt(data);
+		Integer qosValue = Integer.parseInt(context.getData());
 		if (qosValue.equals(MqttQoS.AT_LEAST_ONCE.value())
 				|| qosValue.equals(MqttQoS.AT_MOST_ONCE.value())
 				|| qosValue.equals(MqttQoS.EXACTLY_ONCE.value())) {
@@ -42,15 +42,15 @@ public class LastWillQoSNode implements TkNode {
 	public String nextNode(NodeContext context) {
 		return MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode();
 	}
-	
+
 
 	@Override
-	public String getValue(String data) {
-		return data;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 		System.out.format(ColorUtils.greenItalic("(0) ") + bundle.getString("mqtt.qos0.prompt") + "%n");
 		System.out.format(ColorUtils.greenItalic("(1) ") + bundle.getString("mqtt.qos1.prompt") + "%n");
 		System.out.format(ColorUtils.greenItalic("(2) ") + bundle.getString("mqtt.qos2.prompt") + "%n");

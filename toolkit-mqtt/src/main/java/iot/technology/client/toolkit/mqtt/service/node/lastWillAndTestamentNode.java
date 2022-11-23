@@ -15,7 +15,8 @@ public class lastWillAndTestamentNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
+	public void check(NodeContext context) {
+		String data = context.getData();
 		if (StringUtils.isBlank(data)) {
 			throw new IllegalArgumentException(bundle.getString("param.error"));
 		}
@@ -47,11 +48,11 @@ public class lastWillAndTestamentNode implements TkNode {
 
 
 	@Override
-	public String getValue(String data) {
-		return data;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 }

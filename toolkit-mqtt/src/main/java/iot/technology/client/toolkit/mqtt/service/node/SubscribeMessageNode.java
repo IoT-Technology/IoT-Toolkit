@@ -18,14 +18,14 @@ public class SubscribeMessageNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 		System.out.format(ColorUtils.greenItalic(bundle.getString("subscribeMessage.pre.add.prompt") + "add topic:qos") + "%n");
 		System.out.format(ColorUtils.greenItalic(bundle.getString("subscribeMessage.pre.del.prompt") + "del topic") + "%n");
 	}
 
 	@Override
-	public void check(String data) {
-		SubData.validate(data);
+	public void check(NodeContext context) {
+		SubData.validate(context.getData());
 	}
 
 	@Override
@@ -38,10 +38,10 @@ public class SubscribeMessageNode implements TkNode {
 	public String nextNode(NodeContext context) {
 		return MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode();
 	}
-	
+
 
 	@Override
-	public String getValue(String data) {
-		return data;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 }

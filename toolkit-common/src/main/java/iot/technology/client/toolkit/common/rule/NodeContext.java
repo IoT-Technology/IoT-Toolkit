@@ -1,3 +1,18 @@
+/*
+ * Copyright © 2019-2022 The Toolkit Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package iot.technology.client.toolkit.common.rule;
 
 import java.io.Serializable;
@@ -10,6 +25,8 @@ public class NodeContext implements Serializable {
 	private String data;
 
 	private String type;
+
+	private String promptData;
 
 	public String getData() {
 		return data;
@@ -25,5 +42,13 @@ public class NodeContext implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getPromptData() {
+		return promptData;
+	}
+
+	public void setPromptData(String promptData) {
+		this.promptData = promptData;
 	}
 }

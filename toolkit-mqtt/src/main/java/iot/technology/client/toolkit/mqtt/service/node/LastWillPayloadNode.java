@@ -18,8 +18,8 @@ public class LastWillPayloadNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (StringUtils.isBlank(data)) {
+	public void check(NodeContext context) {
+		if (StringUtils.isBlank(context.getData())) {
 			throw new IllegalArgumentException(bundle.getString("param.error"));
 		}
 	}
@@ -40,14 +40,14 @@ public class LastWillPayloadNode implements TkNode {
 			return MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode();
 		}
 	}
-	
+
 
 	@Override
-	public String getValue(String data) {
-		return data;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 }
