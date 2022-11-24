@@ -200,6 +200,18 @@
     ]
   },
   {
+    "name" : "iot.technology.client.toolkit.mqtt.service.node.SettingsNameNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.mqtt.service.node.MqttSelectConfigNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
     "name" : "iot.technology.client.toolkit.mqtt.service.domain.MqttCallDomain",
     "fields" : [
       { "name" : "mqttVersion","allowUnsafeAccess": true},
@@ -225,6 +237,61 @@
       { "name" : "lastWillPayload","allowUnsafeAccess": true},
       { "name" : "topic","allowUnsafeAccess": true},
       { "name" : "qos","allowUnsafeAccess": true}
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.mqtt.service.domain.MqttPubNewConfigDomain",
+    "fields" : [
+      { "name" : "settingsName","allowUnsafeAccess": true},
+      { "name" : "mqttVersion","allowUnsafeAccess": true},
+      { "name" : "clientId","allowUnsafeAccess": true},
+      { "name" : "host","allowUnsafeAccess": true},
+      { "name" : "port","allowUnsafeAccess": true},
+      { "name" : "username","allowUnsafeAccess": true},
+      { "name" : "password","allowUnsafeAccess": true},
+      { "name" : "ssl","allowUnsafeAccess": true},
+      { "name" : "certType","allowUnsafeAccess": true},
+      { "name" : "ca","allowUnsafeAccess": true},
+      { "name" : "clientCert","allowUnsafeAccess": true},
+      { "name" : "clientKey","allowUnsafeAccess": true},
+      { "name" : "advanced","allowUnsafeAccess": true},
+      { "name" : "connectTimeout","allowUnsafeAccess": true},
+      { "name" : "keepAlive","allowUnsafeAccess": true},
+      { "name" : "cleanSession","allowUnsafeAccess": true},
+      { "name" : "autoReconnect","allowUnsafeAccess": true},
+      { "name" : "lastWillAndTestament","allowUnsafeAccess": true},
+      { "name" : "lastWillTopic","allowUnsafeAccess": true},
+      { "name" : "lastWillQoS","allowUnsafeAccess": true},
+      { "name" : "lastWillRetain","allowUnsafeAccess": true},
+      { "name" : "lastWillPayload","allowUnsafeAccess": true}
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.mqtt.service.domain.MqttPubSelectConfigDomain",
+    "fields" : [
+      { "name" : "selectConfig","allowUnsafeAccess": true},
+      { "name" : "settingsName","allowUnsafeAccess": true},
+      { "name" : "mqttVersion","allowUnsafeAccess": true},
+      { "name" : "clientId","allowUnsafeAccess": true},
+      { "name" : "host","allowUnsafeAccess": true},
+      { "name" : "port","allowUnsafeAccess": true},
+      { "name" : "username","allowUnsafeAccess": true},
+      { "name" : "password","allowUnsafeAccess": true},
+      { "name" : "ssl","allowUnsafeAccess": true},
+      { "name" : "certType","allowUnsafeAccess": true},
+      { "name" : "ca","allowUnsafeAccess": true},
+      { "name" : "clientCert","allowUnsafeAccess": true},
+      { "name" : "clientKey","allowUnsafeAccess": true},
+      { "name" : "advanced","allowUnsafeAccess": true},
+      { "name" : "connectTimeout","allowUnsafeAccess": true},
+      { "name" : "keepAlive","allowUnsafeAccess": true},
+      { "name" : "cleanSession","allowUnsafeAccess": true},
+      { "name" : "autoReconnect","allowUnsafeAccess": true},
+      { "name" : "lastWillAndTestament","allowUnsafeAccess": true},
+      { "name" : "lastWillTopic","allowUnsafeAccess": true},
+      { "name" : "lastWillQoS","allowUnsafeAccess": true},
+      { "name" : "lastWillRetain","allowUnsafeAccess": true},
+      { "name" : "lastWillPayload","allowUnsafeAccess": true}
     ]
   }
 ]

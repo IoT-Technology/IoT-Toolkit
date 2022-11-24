@@ -16,6 +16,7 @@
 package iot.technology.client.toolkit.common.rule;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author mushuwei
@@ -26,7 +27,7 @@ public class NodeContext implements Serializable {
 
 	private String type;
 
-	private String promptData;
+	private List<String> promptData;
 
 	public String getData() {
 		return data;
@@ -44,11 +45,11 @@ public class NodeContext implements Serializable {
 		this.type = type;
 	}
 
-	public String getPromptData() {
+	public List<String> getPromptData() {
 		return promptData;
 	}
 
-	public void setPromptData(String promptData) {
+	public void setPromptData(List<String> promptData) {
 		this.promptData = promptData;
 	}
 }

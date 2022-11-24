@@ -15,13 +15,10 @@
  */
 package iot.technology.client.toolkit.mqtt.service.domain;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.handler.codec.mqtt.MqttVersion;
 import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.MqttVersionEnum;
-import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 
@@ -118,42 +115,6 @@ public class MqttPubNewConfigDomain implements Serializable {
 			config.setLastWill(lastWill);
 		}
 		return config;
-	}
-
-	public String convertMqttSettings() {
-		MqttSettings settings = new MqttSettings();
-		settings.setName(settingsName + "@" + host + ":" + port);
-		MqttSettings.MqttSettingInfo info = new MqttSettings.MqttSettingInfo();
-		info.setVersion(mqttVersion);
-		info.setClientId(clientId);
-		info.setHost(host);
-		info.setPort(port);
-		info.setUsername(username);
-		info.setPassword(password);
-		info.setSsl(ssl);
-		info.setCertType(certType);
-		info.setCa(ca);
-		info.setClientCert(clientCert);
-		info.setClientKey(clientKey);
-		info.setAdvanced(advanced);
-		info.setConnectTimeout(connectTimeout);
-		info.setKeepAlive(keepAlive);
-		info.setCleanSession(cleanSession);
-		info.setAutoReconnect(autoReconnect);
-		info.setLastWillAndTestament(lastWillAndTestament);
-		info.setLastWillQoS(lastWillQoS);
-		info.setLastWillTopic(lastWillTopic);
-		info.setLastWillRetain(lastWillRetain);
-		info.setLastWillPayload(lastWillPayload);
-		settings.setInfo(info);
-		String json = "";
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			json = objectMapper.writeValueAsString(objectMapper);
-		} catch (JsonProcessingException e) {
-			System.out.println("config convert mqtt settings jsonString failed!");
-		}
-		return json;
 	}
 
 

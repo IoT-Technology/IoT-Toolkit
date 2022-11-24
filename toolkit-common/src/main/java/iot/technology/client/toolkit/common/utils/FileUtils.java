@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,10 +70,11 @@ public class FileUtils {
 				}
 				if (!file.exists()) {
 					file.createNewFile();
-					Files.write(path, body.getBytes(StandardCharsets.UTF_8));
+					Files.write(path, (body + System.getProperty("line.separator")).getBytes(StandardCharsets.UTF_8));
+					return true;
 				}
 			}
-			Files.write(path, body.getBytes(StandardCharsets.UTF_8));
+			Files.write(path, (body + System.getProperty("line.separator")).getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			return false;
 		}

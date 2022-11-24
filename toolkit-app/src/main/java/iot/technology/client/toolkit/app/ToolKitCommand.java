@@ -77,7 +77,7 @@ public class ToolKitCommand implements Callable<Integer> {
 			CommandLine generateCompletionCmd = commandLine.getSubcommands().get("generate-completion");
 			generateCompletionCmd.getCommandSpec().usageMessage().hidden(true);
 
-			int exitStatus = commandLine.execute("mqtt", "pub");
+			int exitStatus = commandLine.execute(args);
 			if (exitStatus == ExitCodeEnum.NOTEND.getValue()) {
 				return;
 			}

@@ -15,21 +15,18 @@
  */
 package iot.technology.client.toolkit.mqtt.command.sub;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.NodeTypeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.common.constants.SystemConfigConst;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
-import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttPubNewConfigDomain;
+import iot.technology.client.toolkit.mqtt.service.domain.MqttPubSelectConfigDomain;
 import iot.technology.client.toolkit.mqtt.service.impl.MqttBizService;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
@@ -42,10 +39,10 @@ import picocli.CommandLine;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * @author mushuwei
@@ -87,7 +84,7 @@ public class MqttPublishCommand implements Callable<Integer> {
 			NodeContext context = new NodeContext();
 			context.setType(NodeTypeEnum.MQTT_PUBLISH.getType());
 			while (true) {
-				String data = null;
+				String data;
 				try {
 					String node = processor.get(code);
 					TkNode tkNode = ObjectUtils.initComponent(node);
@@ -102,7 +99,7 @@ public class MqttPublishCommand implements Callable<Integer> {
 						System.out.format(ColorUtils.blackFaint(bundle.getString("call.prompt") + tkNode.getValue(context)) + "%n");
 					}
 					ObjectUtils.setValue(domain, code, tkNode.getValue(context));
-					bizService.mqttBizLogic(code, data, domain, true);
+					bizService.mqttNewConfigLogic(code, data, domain, true);
 					code = tkNode.nextNode(context);
 					if (code.equals("end")) {
 						break;
@@ -115,31 +112,46 @@ public class MqttPublishCommand implements Callable<Integer> {
 			}
 
 		}
-		List<MqttSettings> settingsList = FileUtils.getDataFromFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME).stream()
-				.map(data -> {
-					MqttSettings settings = null;
-					ObjectMapper mapper = new ObjectMapper();
-					try {
-						settings = mapper.readValue(data, MqttSettings.class);
-					} catch (JsonProcessingException e) {
-						System.out.println("settings json convert mqttSettings failed! ");
-					}
-					return settings;
-				}).sorted(Comparator.comparingInt((MqttSettings mqttSettings) -> mqttSettings != null ? mqttSettings.getUsage() : 1)
-						.reversed())
-				.collect(Collectors.toList());
+		List<String> configList = bizService.getMqttConfigList();
+		NodeContext context = new NodeContext();
+		context.setType(NodeTypeEnum.MQTT_PUBLISH.getType());
+		context.setPromptData(configList);
 
-		Map<String, MqttSettings> mqttSettingsMap = new HashMap<>();
-		AtomicInteger startIndex = new AtomicInteger();
-		settingsList.forEach(list -> {
-			mqttSettingsMap.put("" + startIndex, list);
-			startIndex.addAndGet(1);
-		});
-
-		/**
-		 * 1、0~9: select mqtt configs that was set earlier
-		 * 2、add a new mqtt settings
-		 */
+		MqttSettingsRuleChainProcessor ruleChain = new MqttSettingsRuleChainProcessor();
+		Map<String, String> processor = ruleChain.getPublishSelectConfigProcessor();
+		MqttPubSelectConfigDomain domain = new MqttPubSelectConfigDomain();
+		String code = ruleChain.getRootPublishSelectConfigNode();
+		while (true) {
+			String data;
+			try {
+				String node = processor.get(code);
+				if (code.equals(MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode())
+						&& !domain.getSelectConfig().equals("new")) {
+					bizService.mqttPubSelectConfigPreLogic(domain);
+				}
+				TkNode tkNode = ObjectUtils.initComponent(node);
+				if (tkNode == null) {
+					break;
+				}
+				tkNode.prePrompt(context);
+				data = reader.readLine(tkNode.nodePrompt());
+				context.setData(data);
+				tkNode.check(context);
+				if (!StringUtils.isBlank(tkNode.getValue(context))) {
+					System.out.format(ColorUtils.blackFaint(bundle.getString("call.prompt") + tkNode.getValue(context)) + "%n");
+				}
+				ObjectUtils.setValue(domain, code, tkNode.getValue(context));
+				bizService.mqttPubSelectConfigAfterLogic(code, data, domain, true);
+				code = tkNode.nextNode(context);
+				if (code.equals("end")) {
+					break;
+				}
+			} catch (UserInterruptException e) {
+				return ExitCodeEnum.ERROR.getValue();
+			} catch (EndOfFileException e) {
+				return ExitCodeEnum.ERROR.getValue();
+			}
+		}
 		return ExitCodeEnum.NOTEND.getValue();
 	}
 }
