@@ -20,6 +20,7 @@ import io.netty.handler.codec.mqtt.MqttVersion;
 import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.MqttVersionEnum;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
+import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 
@@ -121,7 +122,7 @@ public class MqttPubSelectConfigDomain implements Serializable {
 
 	public MqttClientConfig convertMqttSettingsToClientConfig(MqttSettings settings) {
 		MqttClientConfig config = new MqttClientConfig();
-		MqttSettings.MqttSettingInfo info = settings.getInfo();
+		MqttSettingsInfo info = settings.getInfo();
 		if (info.getVersion().equals(MqttVersionEnum.MQTT_3_1.getValue())) {
 			config.setProtocolVersion(MqttVersion.MQTT_3_1);
 		}

@@ -17,7 +17,6 @@ package iot.technology.client.toolkit.common.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -52,10 +51,6 @@ public class JsonUtils {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	public static JavaType getCollectionType(ObjectMapper mapper, Class<?> collectionClass, Class<?>... elementClasses) {
-		return mapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
 	}
 
 

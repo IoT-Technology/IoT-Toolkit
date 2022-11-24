@@ -25,6 +25,7 @@ import iot.technology.client.toolkit.common.constants.*;
 import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
+import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
@@ -163,7 +164,7 @@ public class MqttBizService {
 	private String convertMqttSettings(MqttPubNewConfigDomain domain) {
 		MqttSettings settings = new MqttSettings();
 		settings.setName(domain.getSettingsName() + "@" + domain.getHost() + ":" + domain.getPort());
-		MqttSettings.MqttSettingInfo info = new MqttSettings.MqttSettingInfo();
+		MqttSettingsInfo info = new MqttSettingsInfo();
 		info.setVersion(domain.getMqttVersion());
 		info.setClientId(domain.getClientId());
 		info.setHost(domain.getHost());
@@ -200,7 +201,8 @@ public class MqttBizService {
 			objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 			json = objectMapper.writeValueAsString(settings);
 		} catch (JsonProcessingException e) {
-			System.out.println("config convert mqtt settings jsonString failed!");
+			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return json;
 	}
@@ -208,7 +210,7 @@ public class MqttBizService {
 	private String convertMqttSettings(MqttPubSelectConfigDomain domain) {
 		MqttSettings settings = new MqttSettings();
 		settings.setName(domain.getSettingsName() + "@" + domain.getHost() + ":" + domain.getPort());
-		MqttSettings.MqttSettingInfo info = new MqttSettings.MqttSettingInfo();
+		MqttSettingsInfo info = new MqttSettingsInfo();
 		info.setVersion(domain.getMqttVersion());
 		info.setClientId(domain.getClientId());
 		info.setHost(domain.getHost());
