@@ -17,7 +17,6 @@ package iot.technology.client.toolkit.common.utils;
 
 import iot.technology.client.toolkit.common.rule.TkNode;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
@@ -71,11 +70,6 @@ public class ObjectUtils {
 			return Arrays.equals((short[]) o1, (short[]) o2);
 		}
 		return false;
-	}
-
-	public static boolean fileExists(String data) {
-		File file = new File(data);
-		return file.exists();
 	}
 
 	public static Object setValue(Object obj, String propName, String value) {

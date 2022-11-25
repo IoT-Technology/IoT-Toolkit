@@ -18,8 +18,8 @@ public class ClientIdNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
-
+	public boolean check(NodeContext context) {
+		return true;
 	}
 
 	@Override

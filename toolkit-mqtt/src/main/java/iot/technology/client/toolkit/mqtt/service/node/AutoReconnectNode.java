@@ -6,6 +6,7 @@ import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.util.ResourceBundle;
@@ -18,14 +19,17 @@ public class AutoReconnectNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		if (!StringUtils.isBlank(context.getData())) {
 			if (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 					|| context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
-				return;
+				context.setCheck(true);
+				return true;
 			}
-			throw new IllegalArgumentException(bundle.getString("param.confirm.error"));
 		}
+		System.out.format(ColorUtils.redError(bundle.getString("param.confirm.error")));
+		context.setCheck(false);
+		return false;
 	}
 
 	@Override
@@ -36,6 +40,9 @@ public class AutoReconnectNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.AUTO_RECONNECT.getCode();
+		}
 		return MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode();
 	}
 

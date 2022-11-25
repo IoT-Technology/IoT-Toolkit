@@ -19,14 +19,15 @@ public class MqttVersionNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		String data = context.getData();
 		if (StringUtils.isBlank(data)
 				|| data.equals(MqttVersionEnum.MQTT_3_1.getCode())
 				|| data.equals(MqttVersionEnum.MQTT_3_1_1.getCode())) {
-			return;
+			return true;
 		}
-		throw new IllegalArgumentException(bundle.getString("mqttVersion.version.error"));
+		System.out.format(ColorUtils.redError(bundle.getString("mqttVersion.version.error")));
+		return false;
 	}
 
 	@Override

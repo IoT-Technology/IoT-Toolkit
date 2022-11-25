@@ -22,7 +22,7 @@ public interface TkNode {
 
 	void prePrompt(NodeContext context);
 
-	void check(NodeContext context);
+	boolean check(NodeContext context);
 
 	String nodePrompt();
 

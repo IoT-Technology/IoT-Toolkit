@@ -325,11 +325,19 @@
   {
     "name" : "iot.technology.client.toolkit.mqtt.config.MqttSettings",
     "allDeclaredMethods" : true,
-    "allPublicMethods" : true
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
   },
   {
     "name" : "iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo",
     "allDeclaredMethods" : true,
-    "allPublicMethods" : true
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
   }
 ]

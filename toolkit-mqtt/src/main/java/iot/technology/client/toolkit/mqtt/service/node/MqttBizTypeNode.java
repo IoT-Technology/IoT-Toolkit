@@ -27,16 +27,18 @@ public class MqttBizTypeNode implements TkNode {
 	}
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		String data = context.getData();
 		if (StringUtils.isBlank(data)) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
 		if (data.equals(MqttBizEnum.SUB.getValue())
 				|| data.equals(MqttBizEnum.PUB.getValue())) {
-			return;
+			return true;
 		}
-		throw new IllegalArgumentException(bundle.getString("param.error"));
+		System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+		return false;
 	}
 
 	@Override

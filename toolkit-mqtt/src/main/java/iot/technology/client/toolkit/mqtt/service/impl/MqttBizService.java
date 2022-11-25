@@ -93,6 +93,9 @@ public class MqttBizService {
 	}
 
 	public void mqttPubSelectConfigPreLogic(MqttPubSelectConfigDomain domain) {
+		if (Objects.nonNull(domain.getClient()) && domain.getClient().isConnected()) {
+			return;
+		}
 		MqttSettings settings = JsonUtils.jsonToObject(domain.getSelectConfig(), MqttSettings.class);
 		MqttClientConfig config = domain.convertMqttSettingsToClientConfig(Objects.requireNonNull(settings));
 		MqttClientService mqttClientService = connectBroker(config);

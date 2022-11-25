@@ -20,14 +20,20 @@ public class CertTypeNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
+			return false;
 		}
-		if (!context.getType().equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())
-				&& !context.getData().equals(CertTypeEnum.SELF_SIGNED.getValue())) {
-			throw new IllegalArgumentException(bundle.getString("mqtt.cert.error"));
+		if (context.getType().equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())
+				|| context.getData().equals(CertTypeEnum.SELF_SIGNED.getValue())) {
+			context.setCheck(true);
+			return true;
 		}
+		System.out.format(ColorUtils.redError(bundle.getString("mqtt.cert.error")));
+		context.setCheck(false);
+		return false;
 	}
 
 	@Override
@@ -38,6 +44,9 @@ public class CertTypeNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.CERT_TYPE.getCode();
+		}
 		if (context.getData().equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())) {
 			return MqttSettingsCodeEnum.ADVANCED.getCode();
 		}

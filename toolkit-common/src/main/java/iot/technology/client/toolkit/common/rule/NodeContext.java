@@ -27,6 +27,8 @@ public class NodeContext implements Serializable {
 
 	private String type;
 
+	private boolean isCheck;
+
 	private List<String> promptData;
 
 	public String getData() {
@@ -51,5 +53,13 @@ public class NodeContext implements Serializable {
 
 	public void setPromptData(List<String> promptData) {
 		this.promptData = promptData;
+	}
+
+	public boolean isCheck() {
+		return isCheck;
+	}
+
+	public void setCheck(boolean check) {
+		isCheck = check;
 	}
 }

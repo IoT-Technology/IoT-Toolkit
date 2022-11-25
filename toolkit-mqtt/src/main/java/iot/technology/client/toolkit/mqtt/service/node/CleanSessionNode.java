@@ -6,6 +6,7 @@ import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.util.ResourceBundle;
@@ -18,14 +19,16 @@ public class CleanSessionNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
-		if (!StringUtils.isBlank(context.getData())) {
-			if (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
-					|| context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
-				return;
-			}
-			throw new IllegalArgumentException(bundle.getString("param.confirm.error"));
+	public boolean check(NodeContext context) {
+		if (StringUtils.isNotBlank(context.getData())
+				&& (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
+				|| context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))) {
+			context.setCheck(true);
+			return true;
 		}
+		System.out.format(ColorUtils.redError(bundle.getString("param.confirm.error")));
+		context.setCheck(false);
+		return false;
 	}
 
 	@Override
@@ -36,6 +39,9 @@ public class CleanSessionNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.CLEAN_SESSION.getCode();
+		}
 		return MqttSettingsCodeEnum.AUTO_RECONNECT.getCode();
 	}
 

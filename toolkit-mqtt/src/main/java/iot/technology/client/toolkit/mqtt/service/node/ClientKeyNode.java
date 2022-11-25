@@ -5,7 +5,8 @@ import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
-import iot.technology.client.toolkit.common.utils.ObjectUtils;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.util.ResourceBundle;
@@ -18,13 +19,16 @@ public class ClientKeyNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
-		if (!ObjectUtils.fileExists(context.getData())) {
-			throw new IllegalArgumentException(bundle.getString("file.error"));
+		if (!FileUtils.isExist(context.getData())) {
+			System.out.format(ColorUtils.redError(bundle.getString("file.error")));
+			return false;
 		}
+		return true;
 	}
 
 	@Override

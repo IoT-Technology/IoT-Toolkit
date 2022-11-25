@@ -6,6 +6,7 @@ import iot.technology.client.toolkit.common.constants.NodeTypeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.util.ResourceBundle;
@@ -18,10 +19,12 @@ public class LastWillPayloadNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
+		return true;
 	}
 
 	@Override

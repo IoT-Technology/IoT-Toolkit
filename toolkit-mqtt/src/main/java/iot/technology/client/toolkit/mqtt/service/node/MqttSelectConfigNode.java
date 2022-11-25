@@ -6,6 +6,7 @@ import iot.technology.client.toolkit.common.constants.NodeTypeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 
@@ -28,23 +29,25 @@ public class MqttSelectConfigNode implements TkNode {
 			List<String> configList = context.getPromptData();
 			Stream.iterate(0, i -> i + 1).limit(configList.size()).forEach(i -> {
 				MqttSettings settings = JsonUtils.jsonToObject(configList.get(i), MqttSettings.class);
-				System.out.format("%s   : %s" + "%n", i, Objects.requireNonNull(settings).getName());
+				System.out.format(ColorUtils.greenItalic(i + "   : " + Objects.requireNonNull(settings).getName()) + "%n");
 			});
 		}
-		System.out.format("%s : %s" + "%n", "new", bundle.getString("mqtt.new.config.desc"));
+		System.out.format(ColorUtils.greenItalic("new" + ":" + bundle.getString("mqtt.new.config.desc")) + "%n");
 	}
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		List<String> configList = context.getPromptData();
 		List<String> indexList = Stream.iterate(0, i -> i + 1)
 				.limit(configList.size())
 				.map(String::valueOf)
 				.collect(Collectors.toList());
 		boolean matchIndex = indexList.stream().anyMatch(index -> index.equals(context.getData()));
-		if (!matchIndex && !context.getData().equals("new")) {
-			System.out.format(bundle.getString("param.error"));
+		if (matchIndex && context.getData().equals("new")) {
+			return true;
 		}
+		System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+		return false;
 	}
 
 	@Override

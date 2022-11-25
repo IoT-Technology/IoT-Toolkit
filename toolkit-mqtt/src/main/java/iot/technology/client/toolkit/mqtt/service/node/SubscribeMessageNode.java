@@ -24,8 +24,10 @@ public class SubscribeMessageNode implements TkNode {
 	}
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		SubData.validate(context.getData());
+		context.setCheck(true);
+		return true;
 	}
 
 	@Override
@@ -36,6 +38,9 @@ public class SubscribeMessageNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode();
+		}
 		return MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode();
 	}
 

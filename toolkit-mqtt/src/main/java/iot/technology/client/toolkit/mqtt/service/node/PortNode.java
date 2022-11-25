@@ -5,6 +5,7 @@ import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.util.ResourceBundle;
@@ -16,19 +17,23 @@ public class PortNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
 		int port = 0;
 		try {
 			port = Integer.parseInt(context.getData());
 		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
 		if (port < 0 || port > 65535) {
-			throw new IllegalArgumentException(bundle.getString("mqtt.port.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("mqtt.port.error")));
+			return false;
 		}
+		return true;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package iot.technology.client.toolkit.mqtt.service.node;
 import iot.technology.client.toolkit.common.constants.*;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.util.ResourceBundle;
@@ -15,15 +16,18 @@ public class lastWillAndTestamentNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		String data = context.getData();
 		if (StringUtils.isBlank(data)) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
 		if (!data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 				&& !data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
-			throw new IllegalArgumentException(bundle.getString("param.confirm.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("param.confirm.error")));
+			return false;
 		}
+		return true;
 	}
 
 	@Override

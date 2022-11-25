@@ -17,8 +17,9 @@ public class UsernameNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
-
+	public boolean check(NodeContext context) {
+		context.setCheck(true);
+		return true;
 	}
 
 	@Override
@@ -29,6 +30,9 @@ public class UsernameNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.USERNAME.getCode();
+		}
 		return MqttSettingsCodeEnum.PASSWORD.getCode();
 	}
 

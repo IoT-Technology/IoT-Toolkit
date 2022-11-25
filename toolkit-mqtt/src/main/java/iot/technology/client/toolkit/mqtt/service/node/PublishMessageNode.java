@@ -25,8 +25,9 @@ public class PublishMessageNode implements TkNode {
 	}
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		PubData.validate(context.getData());
+		return true;
 	}
 
 	@Override

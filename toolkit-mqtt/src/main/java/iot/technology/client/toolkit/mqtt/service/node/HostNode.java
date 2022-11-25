@@ -5,6 +5,7 @@ import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -21,14 +22,16 @@ public class HostNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		if (Objects.isNull(context.getData())) {
-			throw new IllegalArgumentException(bundle.getString("mqtt.host.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("mqtt.host.error")));
+			return false;
 		}
 		if (isIpAddress(context.getData())) {
-			return;
+			return true;
 		}
-		throw new IllegalArgumentException(bundle.getString("mqtt.host.error1"));
+		System.out.format(ColorUtils.redError(bundle.getString("mqtt.host.error1")));
+		return false;
 	}
 
 	@Override

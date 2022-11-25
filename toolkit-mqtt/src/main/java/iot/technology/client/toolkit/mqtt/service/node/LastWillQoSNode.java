@@ -19,17 +19,19 @@ public class LastWillQoSNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData()) || !StringUtils.isNumeric(context.getData())) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
 		Integer qosValue = Integer.parseInt(context.getData());
 		if (qosValue.equals(MqttQoS.AT_LEAST_ONCE.value())
 				|| qosValue.equals(MqttQoS.AT_MOST_ONCE.value())
 				|| qosValue.equals(MqttQoS.EXACTLY_ONCE.value())) {
-			return;
+			return true;
 		}
-		throw new IllegalArgumentException(bundle.getString("mqtt.qos.error"));
+		System.out.format(ColorUtils.redError(bundle.getString("mqtt.qos.error")));
+		return false;
 	}
 
 	@Override

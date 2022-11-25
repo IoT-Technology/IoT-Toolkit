@@ -5,6 +5,7 @@ import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.util.ResourceBundle;
@@ -17,10 +18,12 @@ public class ConnectTimeoutNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(NodeContext context) {
+	public boolean check(NodeContext context) {
 		if (!StringUtils.isBlank(context.getData()) && !StringUtils.isNumeric(context.getData())) {
-			throw new IllegalArgumentException(bundle.getString("number.error"));
+			System.out.format(ColorUtils.redError(bundle.getString("number.error")));
+			return false;
 		}
+		return true;
 	}
 
 	@Override
