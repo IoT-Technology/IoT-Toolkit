@@ -20,6 +20,7 @@ public class PortNode implements TkNode {
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
 			return false;
 		}
 		int port = 0;
@@ -27,12 +28,15 @@ public class PortNode implements TkNode {
 			port = Integer.parseInt(context.getData());
 		} catch (NumberFormatException e) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
 			return false;
 		}
 		if (port < 0 || port > 65535) {
 			System.out.format(ColorUtils.redError(bundle.getString("mqtt.port.error")));
+			context.setCheck(false);
 			return false;
 		}
+		context.setCheck(true);
 		return true;
 	}
 
@@ -44,6 +48,9 @@ public class PortNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.PORT.getCode();
+		}
 		return MqttSettingsCodeEnum.USERNAME.getCode();
 	}
 

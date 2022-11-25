@@ -29,10 +29,10 @@ public class MqttSelectConfigNode implements TkNode {
 			List<String> configList = context.getPromptData();
 			Stream.iterate(0, i -> i + 1).limit(configList.size()).forEach(i -> {
 				MqttSettings settings = JsonUtils.jsonToObject(configList.get(i), MqttSettings.class);
-				System.out.format(ColorUtils.greenItalic(i + "   : " + Objects.requireNonNull(settings).getName()) + "%n");
+				System.out.format(ColorUtils.greenItalic(i + "   :" + Objects.requireNonNull(settings).getName()) + "%n");
 			});
 		}
-		System.out.format(ColorUtils.greenItalic("new" + ":" + bundle.getString("mqtt.new.config.desc")) + "%n");
+		System.out.format(ColorUtils.greenItalic("new" + " :" + bundle.getString("mqtt.new.config.desc")) + "%n");
 	}
 
 	@Override
@@ -43,10 +43,12 @@ public class MqttSelectConfigNode implements TkNode {
 				.map(String::valueOf)
 				.collect(Collectors.toList());
 		boolean matchIndex = indexList.stream().anyMatch(index -> index.equals(context.getData()));
-		if (matchIndex && context.getData().equals("new")) {
+		if (matchIndex || context.getData().equals("new")) {
+			context.setCheck(true);
 			return true;
 		}
-		System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+		System.out.format(ColorUtils.redError(bundle.getString("mqtt.select.config.error")));
+		context.setCheck(false);
 		return false;
 	}
 
@@ -58,6 +60,9 @@ public class MqttSelectConfigNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.SELECT_CONFIG.getCode();
+		}
 		if (context.getData().equals("new")) {
 			return MqttSettingsCodeEnum.SETTINGS_NAME.getCode();
 		}
@@ -69,6 +74,9 @@ public class MqttSelectConfigNode implements TkNode {
 
 	@Override
 	public String getValue(NodeContext context) {
+		if (!context.isCheck()) {
+			return context.getData();
+		}
 		if (context.getData().equals("new")) {
 			return context.getData();
 		}

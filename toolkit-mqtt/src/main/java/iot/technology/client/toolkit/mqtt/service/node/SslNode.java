@@ -21,13 +21,16 @@ public class SslNode implements TkNode {
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
 			return false;
 		}
 		if (!context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 				&& !context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.confirm.error")));
+			context.setCheck(false);
 			return false;
 		}
+		context.setCheck(true);
 		return true;
 	}
 
@@ -39,6 +42,9 @@ public class SslNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.SSL.getCode();
+		}
 		if (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())) {
 			return MqttSettingsCodeEnum.CERT_TYPE.getCode();
 		}

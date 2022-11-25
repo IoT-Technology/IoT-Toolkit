@@ -18,6 +18,7 @@ public class PasswordNode implements TkNode {
 
 	@Override
 	public boolean check(NodeContext context) {
+		context.setCheck(true);
 		return true;
 	}
 
@@ -29,6 +30,9 @@ public class PasswordNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.PASSWORD.getCode();
+		}
 		return MqttSettingsCodeEnum.SSL.getCode();
 	}
 

@@ -24,10 +24,12 @@ public class LastWillRetainNode implements TkNode {
 		if (!StringUtils.isBlank(data)) {
 			if (data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 					|| data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
+				context.setCheck(true);
 				return true;
 			}
 		}
 		System.out.format(ColorUtils.redError(bundle.getString("param.confirm.error")));
+		context.setCheck(false);
 		return false;
 	}
 
@@ -39,6 +41,9 @@ public class LastWillRetainNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode();
+		}
 		return MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode();
 	}
 

@@ -21,8 +21,10 @@ public class lastWillTopicNode implements TkNode {
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
 			return false;
 		}
+		context.setCheck(true);
 		return true;
 	}
 
@@ -34,6 +36,9 @@ public class lastWillTopicNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.LAST_WILL_TOPIC.getCode();
+		}
 		return MqttSettingsCodeEnum.LAST_WILL_QOS.getCode();
 	}
 

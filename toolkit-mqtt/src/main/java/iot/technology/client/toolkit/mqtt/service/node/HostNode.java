@@ -25,12 +25,15 @@ public class HostNode implements TkNode {
 	public boolean check(NodeContext context) {
 		if (Objects.isNull(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("mqtt.host.error")));
+			context.setCheck(false);
 			return false;
 		}
 		if (isIpAddress(context.getData())) {
+			context.setCheck(true);
 			return true;
 		}
 		System.out.format(ColorUtils.redError(bundle.getString("mqtt.host.error1")));
+		context.setCheck(false);
 		return false;
 	}
 
@@ -42,19 +45,16 @@ public class HostNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.HOST.getCode();
+		}
 		return MqttSettingsCodeEnum.PORT.getCode();
 	}
 
 
 	@Override
 	public String getValue(NodeContext context) {
-		String hostAddress = "";
-		try {
-			hostAddress = InetAddress.getByName(context.getData()).getHostAddress();
-		} catch (UnknownHostException e) {
-			throw new RuntimeException(e);
-		}
-		return hostAddress;
+		return context.getData();
 	}
 
 

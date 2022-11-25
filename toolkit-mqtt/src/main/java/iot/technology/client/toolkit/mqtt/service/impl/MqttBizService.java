@@ -15,9 +15,6 @@
  */
 package iot.technology.client.toolkit.mqtt.service.impl;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.util.concurrent.Future;
@@ -38,6 +35,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -100,6 +98,21 @@ public class MqttBizService {
 		MqttClientConfig config = domain.convertMqttSettingsToClientConfig(Objects.requireNonNull(settings));
 		MqttClientService mqttClientService = connectBroker(config);
 		domain.setClient(mqttClientService);
+		//update usages of mqtt configs
+		updateAllMqttConfigsByUsage(settings);
+
+	}
+
+	private void updateAllMqttConfigsByUsage(MqttSettings waitUpdateSettings) {
+		List<String> configList = this.getMqttConfigList();
+		List<MqttSettings> settingsList = JsonUtils.decodeJsonToList(configList, MqttSettings.class)
+				.stream().filter(cl -> !cl.getName().equals(waitUpdateSettings.getName())).collect(Collectors.toList());
+		waitUpdateSettings.setUsage(waitUpdateSettings.getUsage() + 1);
+		settingsList.add(waitUpdateSettings);
+		settingsList.sort(Comparator.comparingInt(MqttSettings::getUsage).reversed());
+		List<String> updateResults = settingsList.stream().map(JsonUtils::object2Json).collect(Collectors.toList());
+		FileUtils.updateAllFileContents(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, updateResults);
+
 	}
 
 	public void mqttPubSelectConfigAfterLogic(String code, String data, MqttPubSelectConfigDomain domain, boolean init) {
@@ -161,7 +174,8 @@ public class MqttBizService {
 	private void mqttPubLogic(PubData data, MqttClientService client) {
 		MqttQoS qosLevel = MqttQoS.valueOf(data.getQos());
 		client.publish(data.getTopic(), Unpooled.wrappedBuffer(data.getPayload().getBytes(StandardCharsets.UTF_8)), qosLevel, false);
-		System.out.format(data.getPayload() + bundle.getString("publishMessage.success") + String.format(EmojiEnum.successEmoji) + "%n");
+		System.out.format(
+				data.getPayload() + " " + bundle.getString("publishMessage.success") + String.format(EmojiEnum.successEmoji) + "%n");
 	}
 
 	private String convertMqttSettings(MqttPubNewConfigDomain domain) {
@@ -198,16 +212,7 @@ public class MqttBizService {
 			info.setLastWillPayload(domain.getLastWillPayload());
 		}
 		settings.setInfo(info);
-		String json = "";
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-			json = objectMapper.writeValueAsString(settings);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-		return json;
+		return JsonUtils.object2Json(settings);
 	}
 
 	private String convertMqttSettings(MqttPubSelectConfigDomain domain) {
@@ -244,15 +249,7 @@ public class MqttBizService {
 			info.setLastWillPayload(domain.getLastWillPayload());
 		}
 		settings.setInfo(info);
-		String json = "";
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-			json = objectMapper.writeValueAsString(settings);
-		} catch (JsonProcessingException e) {
-			System.out.println("config convert mqtt settings jsonString failed!");
-		}
-		return json;
+		return JsonUtils.object2Json(settings);
 	}
 
 }

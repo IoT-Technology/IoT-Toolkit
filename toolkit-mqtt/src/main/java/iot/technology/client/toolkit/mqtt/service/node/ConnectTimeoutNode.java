@@ -21,8 +21,10 @@ public class ConnectTimeoutNode implements TkNode {
 	public boolean check(NodeContext context) {
 		if (!StringUtils.isBlank(context.getData()) && !StringUtils.isNumeric(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("number.error")));
+			context.setCheck(false);
 			return false;
 		}
+		context.setCheck(true);
 		return true;
 	}
 
@@ -34,6 +36,9 @@ public class ConnectTimeoutNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.CONNECT_TIMEOUT.getCode();
+		}
 		return MqttSettingsCodeEnum.KEEP_ALIVE.getCode();
 	}
 

@@ -22,15 +22,18 @@ public class LastWillQoSNode implements TkNode {
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData()) || !StringUtils.isNumeric(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
 			return false;
 		}
 		Integer qosValue = Integer.parseInt(context.getData());
 		if (qosValue.equals(MqttQoS.AT_LEAST_ONCE.value())
 				|| qosValue.equals(MqttQoS.AT_MOST_ONCE.value())
 				|| qosValue.equals(MqttQoS.EXACTLY_ONCE.value())) {
+			context.setCheck(true);
 			return true;
 		}
 		System.out.format(ColorUtils.redError(bundle.getString("mqtt.qos.error")));
+		context.setCheck(false);
 		return false;
 	}
 
@@ -42,6 +45,9 @@ public class LastWillQoSNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.LAST_WILL_QOS.getCode();
+		}
 		return MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode();
 	}
 

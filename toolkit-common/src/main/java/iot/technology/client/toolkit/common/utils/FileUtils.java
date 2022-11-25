@@ -24,7 +24,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author mushuwei
@@ -59,6 +58,14 @@ public class FileUtils {
 		}
 	}
 
+	public static void updateAllFileContents(String fileName, List<String> bodyList) {
+		try {
+			Files.write(Paths.get(fileName), bodyList, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			System.out.format("fileName updateAllFileContents failed!!!");
+		}
+	}
+
 	public static boolean writeDataToFile(String fileName, String body) {
 		try {
 			File file = new File(fileName);
@@ -85,7 +92,7 @@ public class FileUtils {
 		List<String> datas = new ArrayList<>();
 		try {
 			Path path = Paths.get(fileName);
-			datas = Files.lines(path).collect(Collectors.toList());
+			datas = Files.readAllLines(path, StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			System.out.format("get data from %s failed!", fileName);
 		}

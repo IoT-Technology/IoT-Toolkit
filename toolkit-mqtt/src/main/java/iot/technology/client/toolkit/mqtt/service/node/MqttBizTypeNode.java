@@ -31,13 +31,16 @@ public class MqttBizTypeNode implements TkNode {
 		String data = context.getData();
 		if (StringUtils.isBlank(data)) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
 			return false;
 		}
 		if (data.equals(MqttBizEnum.SUB.getValue())
 				|| data.equals(MqttBizEnum.PUB.getValue())) {
+			context.setCheck(true);
 			return true;
 		}
 		System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+		context.setCheck(false);
 		return false;
 	}
 
@@ -49,6 +52,9 @@ public class MqttBizTypeNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getCode();
+		}
 		if (context.getData().toLowerCase().equals(MqttBizEnum.SUB.getValue())) {
 			return MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode();
 		}

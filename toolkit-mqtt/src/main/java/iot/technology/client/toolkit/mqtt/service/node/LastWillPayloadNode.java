@@ -22,8 +22,10 @@ public class LastWillPayloadNode implements TkNode {
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
 			return false;
 		}
+		context.setCheck(true);
 		return true;
 	}
 
@@ -35,6 +37,9 @@ public class LastWillPayloadNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode();
+		}
 		if (context.getType().equals(NodeTypeEnum.MQTT_DEFAULT.getType())) {
 			return MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getCode();
 		} else if (context.getType().equals(NodeTypeEnum.MQTT_PUBLISH.getType())) {

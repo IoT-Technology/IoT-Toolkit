@@ -19,6 +19,7 @@ public class ClientIdNode implements TkNode {
 
 	@Override
 	public boolean check(NodeContext context) {
+		context.setCheck(true);
 		return true;
 	}
 
@@ -30,6 +31,9 @@ public class ClientIdNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.CLIENT_ID.getCode();
+		}
 		return MqttSettingsCodeEnum.HOST.getCode();
 	}
 

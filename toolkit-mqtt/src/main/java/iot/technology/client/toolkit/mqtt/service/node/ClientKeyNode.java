@@ -22,12 +22,15 @@ public class ClientKeyNode implements TkNode {
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
 			return false;
 		}
 		if (!FileUtils.isExist(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("file.error")));
+			context.setCheck(false);
 			return false;
 		}
+		context.setCheck(true);
 		return true;
 	}
 
@@ -40,6 +43,9 @@ public class ClientKeyNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.CLIENT_KEY.getCode();
+		}
 		return MqttSettingsCodeEnum.ADVANCED.getCode();
 	}
 

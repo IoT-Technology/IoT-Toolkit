@@ -24,9 +24,11 @@ public class MqttVersionNode implements TkNode {
 		if (StringUtils.isBlank(data)
 				|| data.equals(MqttVersionEnum.MQTT_3_1.getCode())
 				|| data.equals(MqttVersionEnum.MQTT_3_1_1.getCode())) {
+			context.setCheck(true);
 			return true;
 		}
 		System.out.format(ColorUtils.redError(bundle.getString("mqttVersion.version.error")));
+		context.setCheck(false);
 		return false;
 	}
 
@@ -38,6 +40,9 @@ public class MqttVersionNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.MQTT_VERSION.getCode();
+		}
 		return MqttSettingsCodeEnum.CLIENT_ID.getCode();
 	}
 

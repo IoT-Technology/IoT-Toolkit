@@ -19,14 +19,15 @@ public class PublishMessageNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
-		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.prompt") + "topic:qos=message") + "%n");
-		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.example") + "hello:0=hello world") + "%n");
+		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.prompt") + " topic:qos=message") + "%n");
+		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.example") + " hello:0=hello world") + "%n");
 
 	}
 
 	@Override
 	public boolean check(NodeContext context) {
 		PubData.validate(context.getData());
+		context.setCheck(true);
 		return true;
 	}
 
@@ -38,6 +39,9 @@ public class PublishMessageNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode();
+		}
 		return MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode();
 	}
 

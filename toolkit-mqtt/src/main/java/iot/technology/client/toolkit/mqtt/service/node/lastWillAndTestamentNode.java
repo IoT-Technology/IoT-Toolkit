@@ -20,13 +20,16 @@ public class lastWillAndTestamentNode implements TkNode {
 		String data = context.getData();
 		if (StringUtils.isBlank(data)) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
 			return false;
 		}
 		if (!data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 				&& !data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.confirm.error")));
+			context.setCheck(false);
 			return false;
 		}
+		context.setCheck(true);
 		return true;
 	}
 
@@ -38,6 +41,9 @@ public class lastWillAndTestamentNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode();
+		}
 		if (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())) {
 			return MqttSettingsCodeEnum.LAST_WILL_TOPIC.getCode();
 		}
