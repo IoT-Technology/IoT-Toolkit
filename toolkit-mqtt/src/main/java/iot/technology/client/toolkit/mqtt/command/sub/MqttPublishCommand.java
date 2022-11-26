@@ -17,7 +17,6 @@ package iot.technology.client.toolkit.mqtt.command.sub;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.NodeTypeEnum;
-import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
@@ -34,7 +33,6 @@ import org.jline.terminal.TerminalBuilder;
 import picocli.CommandLine;
 
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
 /**
@@ -52,8 +50,8 @@ import java.util.concurrent.Callable;
 )
 public class MqttPublishCommand implements Callable<Integer> {
 
-	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
-
+	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
+	boolean usageHelpRequested;
 
 	@Override
 	public Integer call() throws Exception {
@@ -90,18 +88,10 @@ public class MqttPublishCommand implements Callable<Integer> {
 				context.setData(data);
 				tkNode.check(context);
 				bizService.printValueToConsole(code, tkNode.getValue(context), context);
-				if (isNew) {
-					ObjectUtils.setValue(domain, code, tkNode.getValue(context));
-					//TODO refactor some repeat logic
-					bizService.mqttNewConfigAfterLogic(code, data, domain, true);
-				} else {
-					ObjectUtils.setValue(domain, code, tkNode.getValue(context));
-					bizService.mqttPubSelectConfigAfterLogic(code, data, domain, true);
-				}
+				ObjectUtils.setValue(domain, code, tkNode.getValue(context));
+				bizService.mqttProcessorAfterLogic(code, data, domain, true);
 				code = tkNode.nextNode(context);
-			} catch (UserInterruptException e) {
-				return ExitCodeEnum.ERROR.getValue();
-			} catch (EndOfFileException e) {
+			} catch (UserInterruptException | EndOfFileException e) {
 				return ExitCodeEnum.ERROR.getValue();
 			}
 		}

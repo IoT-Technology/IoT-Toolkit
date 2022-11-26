@@ -128,7 +128,7 @@ public class MqttConfigSettingsDomain implements Serializable {
 		MqttSettingsInfo info = new MqttSettingsInfo();
 		info.setVersion(mqttVersion);
 		info.setClientId(clientId);
-		info.setHost(port);
+		info.setHost(host);
 		info.setPort(port);
 		info.setUsername(username);
 		info.setPassword(password);

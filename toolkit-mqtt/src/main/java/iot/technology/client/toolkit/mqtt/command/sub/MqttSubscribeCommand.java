@@ -15,23 +15,25 @@
  */
 package iot.technology.client.toolkit.mqtt.command.sub;
 
-import io.netty.handler.codec.mqtt.MqttQoS;
-import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
-import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
-import iot.technology.client.toolkit.mqtt.service.MqttClientService;
-import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
-import iot.technology.client.toolkit.mqtt.service.handler.MqttSubMessageHandler;
-import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
+import iot.technology.client.toolkit.common.constants.NodeTypeEnum;
+import iot.technology.client.toolkit.common.rule.NodeContext;
+import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ObjectUtils;
+import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
+import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
+import iot.technology.client.toolkit.mqtt.service.impl.MqttBizService;
+import org.jline.reader.EndOfFileException;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.UserInterruptException;
+import org.jline.reader.impl.DefaultParser;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 import picocli.CommandLine;
 
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * @author mushuwei
@@ -44,106 +46,56 @@ import java.util.concurrent.TimeoutException;
 		optionListHeading = "%n${bundle:general.option}:%n",
 		sortOptions = false,
 		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
-		footer = "%nDeveloped by mushuwei",
-		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
+		footer = "%nDeveloped by mushuwei"
 )
 public class MqttSubscribeCommand implements Callable<Integer> {
 
-	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
+	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
+	boolean usageHelpRequested;
 
-	@CommandLine.ArgGroup
-	HelpVersionGroup helpVersionGroup;
-
-	@CommandLine.Option(
-			order = 0,
-			names = {"-host", "--hostname"},
-			required = true,
-			description = "${bundle:mqtt.broker.desc}")
-	String host;
-
-	@CommandLine.Option(
-			order = 1,
-			names = {"-p", "--port"},
-			required = true,
-			description = "${bundle:mqtt.port.desc}",
-			defaultValue = "1883",
-			showDefaultValue = CommandLine.Help.Visibility.ALWAYS)
-	Integer port;
-
-	@CommandLine.Option(
-			order = 2,
-			names = {"-i", "--client-id"},
-			description = "${bundle:mqtt.client.id.desc}"
-	)
-	String clientId;
-
-	@CommandLine.Option(
-			order = 3,
-			names = {"-u", "--username"},
-			description = "${bundle:mqtt.username.desc}"
-	)
-	String username;
-
-	@CommandLine.Option(
-			order = 4,
-			names = {"-P", "--password"},
-			description = "${bundle:mqtt.password.desc}"
-	)
-	String password;
-
-	@CommandLine.Option(
-			order = 5,
-			names = {"-q", "--qos"},
-			defaultValue = "0",
-			showDefaultValue = CommandLine.Help.Visibility.ALWAYS,
-			description = "${bundle:mqtt.qos.desc}")
-	Integer qos;
-
-	@CommandLine.Option(
-			order = 6,
-			required = true,
-			names = {"-t", "--topic"},
-			description = "${bundle:mqtt.topic.desc}")
-	String topic;
-
-
-	@CommandLine.Option(
-			order = 7,
-			names = {"-k", "--keepalive"},
-			description = "${bundle:mqtt.keepalive.desc}",
-			defaultValue = "60",
-			showDefaultValue = CommandLine.Help.Visibility.ALWAYS)
-	Integer keepalive;
 
 	@Override
 	public Integer call() throws Exception {
-		MqttClientConfig config = new MqttClientConfig();
-		config.setClientId(Objects.nonNull(clientId) ? clientId : config.getClientId());
-		config.setUsername(Objects.nonNull(username) ? username : null);
-		config.setPassword(Objects.nonNull(password) ? password : null);
-		config.setTimeoutSeconds(keepalive);
-		MqttSubMessageHandler handler = new MqttSubMessageHandler();
-		MqttClientService mqttClientService = new MqttClientServiceImpl(config, handler);
-		MqttQoS qosLevel = MqttQoS.valueOf(qos);
-		Future<MqttConnectResult> connectFuture = mqttClientService.connect(host, port);
-		MqttConnectResult result;
-		try {
-			result = connectFuture.get(config.getTimeoutSeconds(), TimeUnit.SECONDS);
-		} catch (TimeoutException ex) {
-			connectFuture.cancel(true);
-			mqttClientService.disconnect();
-			String hostPort = host + ":" + port;
-			throw new RuntimeException(String.format("%s %s.", bundle.getString("mqtt.failed.connect"), hostPort));
+		Terminal terminal = TerminalBuilder.builder()
+				.system(true)
+				.build();
+		LineReader reader = LineReaderBuilder.builder()
+				.terminal(terminal)
+				.parser(new DefaultParser())
+				.build();
+
+		MqttBizService bizService = new MqttBizService();
+		MqttSettingsRuleChainProcessor ruleChain = new MqttSettingsRuleChainProcessor();
+		Map<String, String> processor = ruleChain.getMqttRuleChainProcessor();
+
+		MqttConfigSettingsDomain domain = new MqttConfigSettingsDomain();
+		boolean isNew = bizService.notExistOrContents();
+		NodeContext context = new NodeContext();
+		context.setType(NodeTypeEnum.MQTT_SUBSCRIBE.getType());
+		context.setPromptData(isNew ? null : bizService.getMqttConfigList());
+
+		String code = isNew ? ruleChain.getRootPublishNewConfigNode() : ruleChain.getRootPublishSelectConfigNode();
+
+		while (true) {
+			String data;
+			try {
+				String node = processor.get(code);
+				TkNode tkNode = ObjectUtils.initComponent(node);
+				if (tkNode == null) {
+					break;
+				}
+				tkNode.prePrompt(context);
+				data = reader.readLine(tkNode.nodePrompt());
+				context.setData(data);
+				tkNode.check(context);
+				bizService.printValueToConsole(code, tkNode.getValue(context), context);
+				ObjectUtils.setValue(domain, code, tkNode.getValue(context));
+				bizService.mqttProcessorAfterLogic(code, data, domain, true);
+				code = tkNode.nextNode(context);
+			} catch (UserInterruptException | EndOfFileException e) {
+				return ExitCodeEnum.ERROR.getValue();
+			}
 		}
-		if (!result.isSuccess()) {
-			connectFuture.cancel(true);
-			mqttClientService.disconnect();
-			String hostPort = host + ":" + port;
-			throw new RuntimeException(
-					String.format("%s %s. %s %s", bundle.getString("mqtt.failed.connect"),
-							hostPort, bundle.getString("mqtt.result.code"), result.getReturnCode()));
-		}
-		mqttClientService.on(topic, handler, qosLevel);
 		return ExitCodeEnum.NOTEND.getValue();
 	}
 
