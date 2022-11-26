@@ -19,6 +19,7 @@ import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.handler.codec.mqtt.MqttVersion;
 import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.MqttVersionEnum;
+import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
@@ -29,7 +30,7 @@ import java.io.Serializable;
 /**
  * @author mushuwei
  */
-public class MqttPubSelectConfigDomain implements Serializable {
+public class MqttConfigSettingsDomain implements Serializable {
 
 	private String selectConfig;
 
@@ -77,6 +78,7 @@ public class MqttPubSelectConfigDomain implements Serializable {
 
 	private String lastWillPayload;
 
+
 	private MqttClientService client;
 
 	public MqttClientConfig convertMqttClientConfig() {
@@ -120,26 +122,41 @@ public class MqttPubSelectConfigDomain implements Serializable {
 		return config;
 	}
 
-	public MqttClientConfig convertMqttSettingsToClientConfig(MqttSettings settings) {
-		MqttClientConfig config = new MqttClientConfig();
-		MqttSettingsInfo info = settings.getInfo();
-		if (info.getVersion().equals(MqttVersionEnum.MQTT_3_1.getValue())) {
-			config.setProtocolVersion(MqttVersion.MQTT_3_1);
+	public String convertMqttSettingsJsonString() {
+		MqttSettings settings = new MqttSettings();
+		settings.setName(settingsName + "@" + host + ":" + port);
+		MqttSettingsInfo info = new MqttSettingsInfo();
+		info.setVersion(mqttVersion);
+		info.setClientId(clientId);
+		info.setHost(port);
+		info.setPort(port);
+		info.setUsername(username);
+		info.setPassword(password);
+		info.setSsl(ssl);
+		info.setCertType(certType);
+		info.setCa(ca);
+		info.setClientCert(clientCert);
+		info.setClientKey(clientKey);
+		info.setAdvanced(advanced);
+		if (advanced.equals(ConfirmCodeEnum.YES.getValue())) {
+			info.setKeepAlive(keepAlive);
+			info.setAutoReconnect(autoReconnect);
+			info.setConnectTimeout(connectTimeout);
+			info.setCleanSession(cleanSession);
+		} else {
+			info.setAutoReconnect(ConfirmCodeEnum.NO.getValue());
+			info.setCleanSession(ConfirmCodeEnum.YES.getValue());
+			info.setConnectTimeout("10");
+			info.setKeepAlive("10");
 		}
-		if (info.getVersion().equals(MqttVersionEnum.MQTT_5_0.getValue())) {
-			config.setProtocolVersion(MqttVersion.MQTT_5);
+		if (lastWillAndTestament.equals(ConfirmCodeEnum.YES.getValue())) {
+			info.setLastWillQoS(lastWillQoS);
+			info.setLastWillTopic(lastWillTopic);
+			info.setLastWillRetain(lastWillRetain);
+			info.setLastWillPayload(lastWillPayload);
 		}
-		config.setProtocolVersion(MqttVersion.MQTT_3_1_1);
-		config.setClientId(info.getClientId());
-		config.setHost(info.getHost());
-		config.setPort(Integer.parseInt(info.getPort()));
-		config.setUsername(info.getUsername());
-		config.setPassword(info.getPassword());
-		config.setReconnect(info.getAutoReconnect().equals(ConfirmCodeEnum.YES.getValue()));
-		config.setCleanSession(info.getCleanSession().equals(ConfirmCodeEnum.YES.getValue()));
-		config.setKeepAlive(Integer.parseInt(info.getKeepAlive()));
-		config.setTimeoutSeconds(Integer.parseInt(info.getConnectTimeout()));
-		return config;
+		settings.setInfo(info);
+		return JsonUtils.object2Json(settings);
 	}
 
 	public String getSelectConfig() {
@@ -148,14 +165,6 @@ public class MqttPubSelectConfigDomain implements Serializable {
 
 	public void setSelectConfig(String selectConfig) {
 		this.selectConfig = selectConfig;
-	}
-
-	public MqttClientService getClient() {
-		return client;
-	}
-
-	public void setClient(MqttClientService client) {
-		this.client = client;
 	}
 
 	public String getSettingsName() {
@@ -333,4 +342,14 @@ public class MqttPubSelectConfigDomain implements Serializable {
 	public void setLastWillPayload(String lastWillPayload) {
 		this.lastWillPayload = lastWillPayload;
 	}
+
+	public MqttClientService getClient() {
+		return client;
+	}
+
+	public void setClient(MqttClientService client) {
+		this.client = client;
+	}
+
+
 }

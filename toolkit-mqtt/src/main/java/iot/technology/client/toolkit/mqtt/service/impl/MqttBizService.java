@@ -17,17 +17,20 @@ package iot.technology.client.toolkit.mqtt.service.impl;
 
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
+import io.netty.handler.codec.mqtt.MqttVersion;
 import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.common.constants.*;
+import iot.technology.client.toolkit.common.rule.NodeContext;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.MqttClientService;
+import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
-import iot.technology.client.toolkit.mqtt.service.domain.MqttPubNewConfigDomain;
-import iot.technology.client.toolkit.mqtt.service.domain.MqttPubSelectConfigDomain;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttPubMessageHandler;
 
 import java.io.IOException;
@@ -72,7 +75,7 @@ public class MqttBizService {
 	 * @param data   user input data
 	 * @param domain mqtt settings domain
 	 */
-	public void mqttNewConfigLogic(String code, String data, MqttPubNewConfigDomain domain, boolean init) {
+	public void mqttNewConfigAfterLogic(String code, String data, MqttConfigSettingsDomain domain, boolean init) {
 		if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode())
 				&& data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))
 				|| code.equals(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode())) {
@@ -80,7 +83,7 @@ public class MqttBizService {
 			MqttClientService mqttClientService = connectBroker(config);
 			domain.setClient(mqttClientService);
 			if (init) {
-				String settingsJson = convertMqttSettings(domain);
+				String settingsJson = domain.convertMqttSettingsJsonString();
 				FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, settingsJson);
 			}
 		}
@@ -90,12 +93,12 @@ public class MqttBizService {
 		}
 	}
 
-	public void mqttPubSelectConfigPreLogic(MqttPubSelectConfigDomain domain) {
+	public void mqttSelectOneConfigLogic(MqttConfigSettingsDomain domain) {
 		if (Objects.nonNull(domain.getClient()) && domain.getClient().isConnected()) {
 			return;
 		}
 		MqttSettings settings = JsonUtils.jsonToObject(domain.getSelectConfig(), MqttSettings.class);
-		MqttClientConfig config = domain.convertMqttSettingsToClientConfig(Objects.requireNonNull(settings));
+		MqttClientConfig config = this.convertMqttSettingsToClientConfig(Objects.requireNonNull(settings));
 		MqttClientService mqttClientService = connectBroker(config);
 		domain.setClient(mqttClientService);
 		//update usages of mqtt configs
@@ -115,26 +118,70 @@ public class MqttBizService {
 
 	}
 
-	public void mqttPubSelectConfigAfterLogic(String code, String data, MqttPubSelectConfigDomain domain, boolean init) {
-		if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode()) && data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))
-				|| code.equals(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode())) {
-			MqttClientConfig config = domain.convertMqttClientConfig();
-			MqttClientService mqttClientService = connectBroker(config);
-			domain.setClient(mqttClientService);
-			if (init) {
-				String settingsJson = convertMqttSettings(domain);
-				FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, settingsJson);
+	public MqttClientConfig convertMqttSettingsToClientConfig(MqttSettings settings) {
+		MqttClientConfig config = new MqttClientConfig();
+		MqttSettingsInfo info = settings.getInfo();
+		if (info.getVersion().equals(MqttVersionEnum.MQTT_3_1.getValue())) {
+			config.setProtocolVersion(MqttVersion.MQTT_3_1);
+		}
+		if (info.getVersion().equals(MqttVersionEnum.MQTT_5_0.getValue())) {
+			config.setProtocolVersion(MqttVersion.MQTT_5);
+		}
+		config.setProtocolVersion(MqttVersion.MQTT_3_1_1);
+		config.setClientId(info.getClientId());
+		config.setHost(info.getHost());
+		config.setPort(Integer.parseInt(info.getPort()));
+		config.setUsername(info.getUsername());
+		config.setPassword(info.getPassword());
+		config.setReconnect(info.getAutoReconnect().equals(ConfirmCodeEnum.YES.getValue()));
+		config.setCleanSession(info.getCleanSession().equals(ConfirmCodeEnum.YES.getValue()));
+		config.setKeepAlive(Integer.parseInt(info.getKeepAlive()));
+		config.setTimeoutSeconds(Integer.parseInt(info.getConnectTimeout()));
+		return config;
+	}
+
+	public void mqttPubSelectConfigAfterLogic(String code, String data, MqttConfigSettingsDomain domain, boolean init) {
+		do {
+			if (code.equals(MqttSettingsCodeEnum.SELECT_CONFIG.getCode()) && !data.equals("new")) {
+				this.mqttSelectOneConfigLogic(domain);
+				break;
 			}
-		}
-		if (code.equals(MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode())) {
-			PubData pubData = PubData.validate(data);
-			mqttPubLogic(pubData, domain.getClient());
-		}
+			if (code.equals(MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode())) {
+				PubData pubData = PubData.validate(data);
+				mqttPubLogic(pubData, domain.getClient());
+				break;
+			}
+			if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode()) &&
+					data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))
+					|| code.equals(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode())) {
+				MqttClientConfig config = domain.convertMqttClientConfig();
+				MqttClientService mqttClientService = connectBroker(config);
+				domain.setClient(mqttClientService);
+				if (init) {
+					String settingsJson = domain.convertMqttSettingsJsonString();
+					FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, settingsJson);
+				}
+			}
+
+		} while (false);
 	}
 
 
 	public List<String> getMqttConfigList() {
 		return FileUtils.getDataFromFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);
+	}
+
+	public void printValueToConsole(String code, String data, NodeContext context) {
+		if (StringUtils.isNotBlank(data) &&
+				context.isCheck() &&
+				code.equals(MqttSettingsCodeEnum.SELECT_CONFIG.getCode()) &&
+				!data.equals("new")) {
+			MqttSettings settings = JsonUtils.jsonToObject(data, MqttSettings.class);
+			System.out.format(
+					ColorUtils.blackFaint(bundle.getString("call.prompt") + Objects.requireNonNull(settings).getName()) + "%n");
+		} else {
+			System.out.format(ColorUtils.blackFaint(bundle.getString("call.prompt") + data) + "%n");
+		}
 	}
 
 
@@ -176,80 +223,6 @@ public class MqttBizService {
 		client.publish(data.getTopic(), Unpooled.wrappedBuffer(data.getPayload().getBytes(StandardCharsets.UTF_8)), qosLevel, false);
 		System.out.format(
 				data.getPayload() + " " + bundle.getString("publishMessage.success") + String.format(EmojiEnum.successEmoji) + "%n");
-	}
-
-	private String convertMqttSettings(MqttPubNewConfigDomain domain) {
-		MqttSettings settings = new MqttSettings();
-		settings.setName(domain.getSettingsName() + "@" + domain.getHost() + ":" + domain.getPort());
-		MqttSettingsInfo info = new MqttSettingsInfo();
-		info.setVersion(domain.getMqttVersion());
-		info.setClientId(domain.getClientId());
-		info.setHost(domain.getHost());
-		info.setPort(domain.getPort());
-		info.setUsername(domain.getUsername());
-		info.setPassword(domain.getPassword());
-		info.setSsl(domain.getSsl());
-		info.setCertType(domain.getCertType());
-		info.setCa(domain.getCa());
-		info.setClientCert(domain.getClientCert());
-		info.setClientKey(domain.getClientKey());
-		info.setAdvanced(domain.getAdvanced());
-		if (domain.getAdvanced().equals(ConfirmCodeEnum.YES.getValue())) {
-			info.setKeepAlive(domain.getKeepAlive());
-			info.setAutoReconnect(domain.getAutoReconnect());
-			info.setConnectTimeout(domain.getConnectTimeout());
-			info.setCleanSession(domain.getCleanSession());
-		} else {
-			info.setAutoReconnect(ConfirmCodeEnum.NO.getValue());
-			info.setCleanSession(ConfirmCodeEnum.YES.getValue());
-			info.setConnectTimeout("10");
-			info.setKeepAlive("10");
-		}
-		if (domain.getLastWillAndTestament().equals(ConfirmCodeEnum.YES.getValue())) {
-			info.setLastWillQoS(domain.getLastWillQoS());
-			info.setLastWillTopic(domain.getLastWillTopic());
-			info.setLastWillRetain(domain.getLastWillRetain());
-			info.setLastWillPayload(domain.getLastWillPayload());
-		}
-		settings.setInfo(info);
-		return JsonUtils.object2Json(settings);
-	}
-
-	private String convertMqttSettings(MqttPubSelectConfigDomain domain) {
-		MqttSettings settings = new MqttSettings();
-		settings.setName(domain.getSettingsName() + "@" + domain.getHost() + ":" + domain.getPort());
-		MqttSettingsInfo info = new MqttSettingsInfo();
-		info.setVersion(domain.getMqttVersion());
-		info.setClientId(domain.getClientId());
-		info.setHost(domain.getHost());
-		info.setPort(domain.getPort());
-		info.setUsername(domain.getUsername());
-		info.setPassword(domain.getPassword());
-		info.setSsl(domain.getSsl());
-		info.setCertType(domain.getCertType());
-		info.setCa(domain.getCa());
-		info.setClientCert(domain.getClientCert());
-		info.setClientKey(domain.getClientKey());
-		info.setAdvanced(domain.getAdvanced());
-		if (domain.getAdvanced().equals(ConfirmCodeEnum.YES.getValue())) {
-			info.setKeepAlive(domain.getKeepAlive());
-			info.setAutoReconnect(domain.getAutoReconnect());
-			info.setConnectTimeout(domain.getConnectTimeout());
-			info.setCleanSession(domain.getCleanSession());
-		} else {
-			info.setAutoReconnect(ConfirmCodeEnum.NO.getValue());
-			info.setCleanSession(ConfirmCodeEnum.YES.getValue());
-			info.setConnectTimeout("10");
-			info.setKeepAlive("10");
-		}
-		if (domain.getLastWillAndTestament().equals(ConfirmCodeEnum.YES.getValue())) {
-			info.setLastWillQoS(domain.getLastWillQoS());
-			info.setLastWillTopic(domain.getLastWillTopic());
-			info.setLastWillRetain(domain.getLastWillRetain());
-			info.setLastWillPayload(domain.getLastWillPayload());
-		}
-		settings.setInfo(info);
-		return JsonUtils.object2Json(settings);
 	}
 
 }
