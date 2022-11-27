@@ -16,10 +16,8 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
 import iot.technology.client.toolkit.coap.service.CoapClientService;
-import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
@@ -37,21 +35,16 @@ import java.util.concurrent.Callable;
 		description = "${bundle:coap.get.description}",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
-		footer = "%nDeveloped by mushuwei",
-		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapGetCommand implements Callable<Integer> {
 
 	public static final String COAP_TEXT_PLAIN = "" + MediaTypeRegistry.TEXT_PLAIN;
 
-	private CoapClientService coapClientService;
+	private final CoapClientService coapClientService = new CoapClientService();
 
-	public CoapGetCommand() {
-		coapClientService = CoapFactory.getService();
-	}
-
-	@CommandLine.ArgGroup
-	HelpVersionGroup helpVersionGroup;
+	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
+	boolean usageHelpRequested;
 
 	@CommandLine.Parameters(
 			index = "0",

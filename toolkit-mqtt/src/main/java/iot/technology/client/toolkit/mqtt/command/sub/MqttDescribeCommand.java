@@ -16,10 +16,7 @@
 package iot.technology.client.toolkit.mqtt.command.sub;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
-import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
-import iot.technology.client.toolkit.mqtt.service.MqttClientService;
-import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
+import iot.technology.client.toolkit.mqtt.service.MqttBizService;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -34,24 +31,19 @@ import java.util.concurrent.Callable;
 		description = "${bundle:mqtt.desc.description}",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
-		footer = "%nDeveloped by mushuwei",
-		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
+		footer = "%nDeveloped by mushuwei"
 )
 public class MqttDescribeCommand implements Callable<Integer> {
 
-	private final MqttClientService mqttClientService;
 
-	public MqttDescribeCommand() {
-		MqttClientConfig mqttClientConfig = new MqttClientConfig();
-		this.mqttClientService = new MqttClientServiceImpl(mqttClientConfig, null);
-	}
+	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
+	boolean usageHelpRequested;
 
-	@CommandLine.ArgGroup
-	HelpVersionGroup helpVersionGroup;
+	private final MqttBizService bizService = new MqttBizService();
 
 	@Override
 	public Integer call() {
-		mqttClientService.getMqttDescription();
+		bizService.getMqttDescription();
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 

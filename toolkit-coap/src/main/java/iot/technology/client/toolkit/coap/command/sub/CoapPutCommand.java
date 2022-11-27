@@ -16,7 +16,6 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
 import iot.technology.client.toolkit.coap.service.CoapClientService;
-import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
@@ -38,16 +37,11 @@ import static iot.technology.client.toolkit.coap.command.sub.CoapGetCommand.COAP
 		description = "${bundle:coap.put.description}",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
-		footer = "%nDeveloped by mushuwei",
-		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapPutCommand implements Callable<Integer> {
 
-	private CoapClientService coapClientService;
-
-	public CoapPutCommand() {
-		coapClientService = CoapFactory.getService();
-	}
+	private final CoapClientService coapClientService = new CoapClientService();
 
 	@CommandLine.ArgGroup
 	HelpVersionGroup helpVersionGroup;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.client.toolkit.mqtt.service.impl;
+package iot.technology.client.toolkit.mqtt.service;
 
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
@@ -27,12 +27,12 @@ import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
-import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
-import iot.technology.client.toolkit.mqtt.service.MqttClientService;
+import iot.technology.client.toolkit.mqtt.service.core.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttPubMessageHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttSubMessageHandler;
+import picocli.CommandLine;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -73,6 +73,33 @@ public class MqttBizService {
 
 	public List<String> getMqttConfigList() {
 		return FileUtils.getDataFromFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);
+	}
+
+	public void getMqttDescription() {
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
+				"MQTT (Message Queuing Telemetry Transport)" + "|@") + "%n");
+		System.out.format("" + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"MQTT is an OASIS standard messaging protocol for the Internet of Things (IoT)." + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"It is designed as an extremely lightweight publish/subscribe messaging transport" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"that is ideal for connecting remote devices with a small code footprint and" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"minimal network bandwidth. MQTT today is used in a wide variety of industries," + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+				"such as automotive, manufacturing, telecommunications, oil and gas, etc." + "|@") + "%n");
+		System.out.format("" + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Official address: "
+				+ "https://mqtt.org/" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 3.1.1 Specification: "
+				+ "http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Chinese MQTT 3.1.1 Specification: "
+				+ "https://iot.mushuwei.cn/#/mqtt3/" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 5 Specification: "
+				+ "https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html" + "|@") + "%n");
+		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Chinese MQTT 5 Specification: "
+				+ "https://iot.mushuwei.cn/#/mqtt5/" + "|@") + "%n");
 	}
 
 	public MqttClientConfig convertMqttSettingsToClientConfig(MqttSettings settings) {
@@ -154,7 +181,7 @@ public class MqttBizService {
 
 
 	private MqttClientService connectBroker(MqttClientConfig config) {
-		MqttClientService mqttClientService = new MqttClientServiceImpl(config, new MqttPubMessageHandler());
+		MqttClientService mqttClientService = new MqttClientService(config, new MqttPubMessageHandler());
 		Future<MqttConnectResult> connectFuture = mqttClientService.connect(config.getHost(), config.getPort());
 		MqttConnectResult result;
 		try {

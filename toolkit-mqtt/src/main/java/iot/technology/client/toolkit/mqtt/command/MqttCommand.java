@@ -39,8 +39,7 @@ import java.util.concurrent.Callable;
 				MqttSubscribeCommand.class
 		},
 		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
-		footer = "%nDeveloped by mushuwei",
-		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
+		footer = "%nDeveloped by mushuwei")
 public class MqttCommand implements Callable<Integer> {
 
 	@CommandLine.ArgGroup

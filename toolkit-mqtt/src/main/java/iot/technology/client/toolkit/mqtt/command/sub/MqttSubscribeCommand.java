@@ -20,9 +20,9 @@ import iot.technology.client.toolkit.common.constants.NodeTypeEnum;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
+import iot.technology.client.toolkit.mqtt.service.MqttBizService;
 import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
-import iot.technology.client.toolkit.mqtt.service.impl.MqttBizService;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
@@ -53,6 +53,8 @@ public class MqttSubscribeCommand implements Callable<Integer> {
 	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
 	boolean usageHelpRequested;
 
+	private final MqttBizService bizService = new MqttBizService();
+
 
 	@Override
 	public Integer call() throws Exception {
@@ -64,7 +66,7 @@ public class MqttSubscribeCommand implements Callable<Integer> {
 				.parser(new DefaultParser())
 				.build();
 
-		MqttBizService bizService = new MqttBizService();
+
 		MqttSettingsRuleChainProcessor ruleChain = new MqttSettingsRuleChainProcessor();
 		Map<String, String> processor = ruleChain.getMqttRuleChainProcessor();
 

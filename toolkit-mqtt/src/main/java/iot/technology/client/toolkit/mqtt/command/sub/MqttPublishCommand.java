@@ -20,14 +20,15 @@ import iot.technology.client.toolkit.common.constants.NodeTypeEnum;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
+import iot.technology.client.toolkit.mqtt.service.MqttBizService;
 import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
-import iot.technology.client.toolkit.mqtt.service.impl.MqttBizService;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
 import org.jline.reader.impl.DefaultParser;
+import org.jline.reader.impl.history.DefaultHistory;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import picocli.CommandLine;
@@ -53,6 +54,8 @@ public class MqttPublishCommand implements Callable<Integer> {
 	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
 	boolean usageHelpRequested;
 
+	private final MqttBizService bizService = new MqttBizService();
+
 	@Override
 	public Integer call() throws Exception {
 		Terminal terminal = TerminalBuilder.builder()
@@ -60,10 +63,10 @@ public class MqttPublishCommand implements Callable<Integer> {
 				.build();
 		LineReader reader = LineReaderBuilder.builder()
 				.terminal(terminal)
+				.history(new DefaultHistory())
 				.parser(new DefaultParser())
 				.build();
-
-		MqttBizService bizService = new MqttBizService();
+		
 		MqttSettingsRuleChainProcessor ruleChain = new MqttSettingsRuleChainProcessor();
 		Map<String, String> processor = ruleChain.getMqttRuleChainProcessor();
 

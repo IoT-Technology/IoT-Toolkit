@@ -16,9 +16,7 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
 import iot.technology.client.toolkit.coap.service.CoapClientService;
-import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import picocli.CommandLine;
@@ -26,7 +24,7 @@ import picocli.CommandLine;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
-import static iot.technology.client.toolkit.coap.service.impl.CoapClientServiceImpl.green;
+import static iot.technology.client.toolkit.coap.service.CoapClientService.green;
 
 /**
  * @author mushuwei
@@ -38,26 +36,21 @@ import static iot.technology.client.toolkit.coap.service.impl.CoapClientServiceI
 		description = "${bundle:coap.media.types.description}",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
-		footer = "%nDeveloped by mushuwei",
-		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapMediaTypesCommand implements Callable<Integer> {
 
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
-	private CoapClientService coapClientService;
+	private final CoapClientService coapClientService = new CoapClientService();
 
-	public CoapMediaTypesCommand() {
-		coapClientService = CoapFactory.getService();
-	}
-
-	@CommandLine.ArgGroup
-	HelpVersionGroup helpVersionGroup;
+	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
+	boolean usageHelpRequested;
 
 	@Override
 	public Integer call() throws Exception {
 		MediaTypeRegistry mediaTypeRegistry = new MediaTypeRegistry();
-		String supportedMediaTypes = coapClientService.getSupportedMediaTypes(mediaTypeRegistry);
+		String supportedMediaTypes = coapClientService.getSupportedMediaTypes();
 		String header = String.format("==================== %s ====================", bundle.getString("coap.media.types"));
 		System.out.format(green(header) + "%n");
 		System.out.println(supportedMediaTypes);

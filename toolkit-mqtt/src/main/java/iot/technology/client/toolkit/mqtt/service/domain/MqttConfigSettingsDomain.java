@@ -23,7 +23,7 @@ import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
-import iot.technology.client.toolkit.mqtt.service.MqttClientService;
+import iot.technology.client.toolkit.mqtt.service.core.MqttClientService;
 
 import java.io.Serializable;
 

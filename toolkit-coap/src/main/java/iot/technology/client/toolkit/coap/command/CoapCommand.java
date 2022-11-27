@@ -17,7 +17,6 @@ package iot.technology.client.toolkit.coap.command;
 
 import iot.technology.client.toolkit.coap.command.sub.*;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -41,12 +40,11 @@ import java.util.concurrent.Callable;
 				CoapDeleteCommand.class,
 		},
 		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
-		footer = "%nDeveloped by mushuwei",
-		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
+		footer = "%nDeveloped by mushuwei")
 public class CoapCommand implements Callable<Integer> {
 
-	@CommandLine.ArgGroup
-	HelpVersionGroup helpVersionGroup;
+	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
+	boolean usageHelpRequested;
 
 	@Override
 	public Integer call() {
