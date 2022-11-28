@@ -62,4 +62,5 @@ public class NodeContext implements Serializable {
 	public void setCheck(boolean check) {
 		isCheck = check;
 	}
+	
 }

@@ -13,28 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.client.toolkit.common.constants;
+package iot.technology.client.toolkit.mqtt.service.processor;
+
+import iot.technology.client.toolkit.common.rule.ProcessContext;
+import iot.technology.client.toolkit.common.rule.TkProcessor;
+import iot.technology.client.toolkit.mqtt.service.MqttBizService;
+
+import java.util.Objects;
 
 /**
  * @author mushuwei
  */
-public enum NodeTypeEnum {
+public class ListProcessor implements TkProcessor {
 
-	MQTT_DEFAULT("mqtt_default"),
+	private final MqttBizService bizService = new MqttBizService();
 
-	MQTT_PUBLISH("mqtt_pub"),
-
-	MQTT_SUBSCRIBE("mqtt_sub"),
-
-	MQTT_SETTINGS("mqtt_settings");
-
-	private final String type;
-
-	NodeTypeEnum(String type) {
-		this.type = type;
+	@Override
+	public boolean supports(ProcessContext context) {
+		return Objects.requireNonNull(context.getData()).equals("list");
 	}
 
-	public String getType() {
-		return type;
+	@Override
+	public void handle(ProcessContext context) {
 	}
 }

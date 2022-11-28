@@ -16,9 +16,9 @@
 package iot.technology.client.toolkit.mqtt.command;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttDescribeCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttPublishCommand;
+import iot.technology.client.toolkit.mqtt.command.sub.MqttSettingsCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttSubscribeCommand;
 import picocli.CommandLine;
 
@@ -35,6 +35,7 @@ import java.util.concurrent.Callable;
 		optionListHeading = "%n${bundle:general.option}:%n",
 		subcommands = {
 				MqttDescribeCommand.class,
+				MqttSettingsCommand.class,
 				MqttPublishCommand.class,
 				MqttSubscribeCommand.class
 		},
@@ -42,8 +43,8 @@ import java.util.concurrent.Callable;
 		footer = "%nDeveloped by mushuwei")
 public class MqttCommand implements Callable<Integer> {
 
-	@CommandLine.ArgGroup
-	HelpVersionGroup helpVersionGroup;
+	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
+	boolean usageHelpRequested;
 
 	@Override
 	public Integer call() {

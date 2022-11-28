@@ -62,4 +62,6 @@ public class MqttSettingsRuleChainProcessor {
 		map.put(MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode(), MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getClazzName());
 		return map;
 	}
+	
+
 }

@@ -13,28 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.client.toolkit.common.constants;
+package iot.technology.client.toolkit.common.rule;
+
 
 /**
  * @author mushuwei
  */
-public enum NodeTypeEnum {
+public interface TkProcessor {
 
-	MQTT_DEFAULT("mqtt_default"),
+	boolean supports(ProcessContext context);
 
-	MQTT_PUBLISH("mqtt_pub"),
-
-	MQTT_SUBSCRIBE("mqtt_sub"),
-
-	MQTT_SETTINGS("mqtt_settings");
-
-	private final String type;
-
-	NodeTypeEnum(String type) {
-		this.type = type;
-	}
-
-	public String getType() {
-		return type;
-	}
+	void handle(ProcessContext context);
 }
