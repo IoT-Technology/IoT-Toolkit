@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.common.rule.TkNode;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 /**
  * @author mushuwei
@@ -81,6 +82,31 @@ public class ObjectUtils {
 			return null;
 		}
 		return obj;
+	}
+
+	public static void topicAndQosValidator(String topicAndQos, String topic, int qos, ResourceBundle bundle) {
+		if (!topicAndQos.contains(":")) {
+			topic = topicAndQos;
+		} else {
+			int divide = topicAndQos.indexOf(":");
+			String qosStr = topicAndQos.substring(divide + 1);
+			String topicStr = topicAndQos.substring(0, divide);
+			if (StringUtils.isBlank(topicStr)) {
+				System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			}
+			topic = topicStr;
+			if (StringUtils.isBlank(qosStr) || !StringUtils.isNumeric(qosStr)) {
+				System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			}
+			Integer qosValue = Integer.parseInt(qosStr);
+			if (qosValue.equals(0)
+					|| qosValue.equals(1)
+					|| qosValue.equals(2)) {
+				qos = qosValue;
+			} else {
+				System.out.format(ColorUtils.redError(bundle.getString("mqtt.qos.error")));
+			}
+		}
 	}
 
 	public static TkNode initComponent(String node) {
