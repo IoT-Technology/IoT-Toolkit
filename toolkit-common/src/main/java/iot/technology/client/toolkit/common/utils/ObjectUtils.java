@@ -20,6 +20,7 @@ import iot.technology.client.toolkit.common.rule.TkNode;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * @author mushuwei
@@ -40,6 +41,11 @@ public class ObjectUtils {
 			return arrayEquals(o1, o2);
 		}
 		return false;
+	}
+
+	public static boolean isInteger(String str) {
+		Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+		return pattern.matcher(str).matches();
 	}
 
 	private static boolean arrayEquals(Object o1, Object o2) {
