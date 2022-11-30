@@ -65,7 +65,7 @@ public class ListProcessor implements TkProcessor {
 			String tableInfo = AsciiTable.getTable(AsciiTable.BASIC_ASCII_NO_OUTSIDE_BORDER, settingsListDomains, Arrays.asList(
 					new Column().header(bundle.getString("mqtt.serial.table.desc"))
 							.headerAlign(HorizontalAlign.CENTER)
-							.maxWidth(4, OverflowBehaviour.ELLIPSIS_RIGHT)
+							.maxWidth(8, OverflowBehaviour.ELLIPSIS_RIGHT)
 							.dataAlign(HorizontalAlign.LEFT)
 							.with(MqttSettingsListDomain::getSerial),
 					new Column().header(bundle.getString("mqtt.clientId.table.desc"))

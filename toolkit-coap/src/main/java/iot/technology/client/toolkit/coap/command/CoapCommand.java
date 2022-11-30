@@ -17,8 +17,11 @@ package iot.technology.client.toolkit.coap.command;
 
 import iot.technology.client.toolkit.coap.command.sub.*;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import picocli.CommandLine;
 
+import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
 /**
@@ -43,11 +46,20 @@ import java.util.concurrent.Callable;
 		footer = "%nDeveloped by mushuwei")
 public class CoapCommand implements Callable<Integer> {
 
+	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
+
 	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
 	boolean usageHelpRequested;
 
 	@Override
 	public Integer call() {
+		System.out.format("describe, desc:  " + ColorUtils.blueAnnotation(bundle.getString("coap.desc.description")));
+		System.out.format("media-type, mt:  " + ColorUtils.blueAnnotation(bundle.getString("coap.media.types.description")));
+		System.out.format("discover, disc:  " + ColorUtils.blueAnnotation(bundle.getString("coap.disc.description")));
+		System.out.format("get:             " + ColorUtils.blueAnnotation(bundle.getString("coap.get.description")));
+		System.out.format("post:            " + ColorUtils.blueAnnotation(bundle.getString("coap.post.description")));
+		System.out.format("put:             " + ColorUtils.blueAnnotation(bundle.getString("coap.put.description")));
+		System.out.format("delete, del:     " + ColorUtils.blueAnnotation(bundle.getString("coap.del.description")));
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 
