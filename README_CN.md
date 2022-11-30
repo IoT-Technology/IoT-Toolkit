@@ -49,10 +49,10 @@ choco install toolkit
 ## 直接安装
 
 | Platform | Toolkit                                                                                                                                    |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Linux    | [toolkit-0.4.8-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-linux-x86_64.zip)     |
-| Unix     | [toolkit-0.4.8-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-osx-x86_64.zip)         |
-| Windows  | [toolkit-0.4.8-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.4.8/toolkit-0.4.8-windows-x86_64.zip) |
+| -------- |--------------------------------------------------------------------------------------------------------------------------------------------|
+| Linux    | [toolkit-0.5.0-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.5.0/toolkit-0.5.0-linux-x86_64.zip)     |
+| Unix     | [toolkit-0.5.0-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.5.0/toolkit-0.5.0-osx-x86_64.zip)         |
+| Windows  | [toolkit-0.5.0-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.5.0/toolkit-0.5.0-windows-x86_64.zip) |
 
 # 特性
 
@@ -125,13 +125,13 @@ toolkit coap post coap://coap.me/sink -p='testing for post data' -f=text/plain
 订阅 `test.mosquitto.org` 下 `hello`主题下的数据
 
 ```bash
-toolkit mqtt sub -host=test.mosquitto.org -q=0 -t=hello
+toolkit mqtt sub
 ```
 
 发布消息到`test.mosquitto.org` 的`hello` 主题里
 
 ```bash
-toolkit mqtt pub -host=test.mosquitto.org -q=0 -t=hello -m='hi toolkit'
+toolkit mqtt pub
 ```
 
 # # 贡献
