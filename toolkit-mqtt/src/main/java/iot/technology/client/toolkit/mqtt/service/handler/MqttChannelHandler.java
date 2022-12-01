@@ -22,18 +22,18 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.Promise;
+import iot.technology.client.toolkit.mqtt.service.core.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.*;
-import iot.technology.client.toolkit.mqtt.service.impl.MqttClientServiceImpl;
 
 /**
  * @author mushuwei
  */
 public final class MqttChannelHandler extends SimpleChannelInboundHandler<MqttMessage> {
 
-	private final MqttClientServiceImpl client;
+	private final MqttClientService client;
 	private final Promise<MqttConnectResult> connectFuture;
 
-	public MqttChannelHandler(MqttClientServiceImpl client, Promise<MqttConnectResult> connectFuture) {
+	public MqttChannelHandler(MqttClientService client, Promise<MqttConnectResult> connectFuture) {
 		this.client = client;
 		this.connectFuture = connectFuture;
 	}

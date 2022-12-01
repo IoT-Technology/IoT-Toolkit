@@ -16,7 +16,6 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
 import iot.technology.client.toolkit.coap.service.CoapClientService;
-import iot.technology.client.toolkit.coap.service.CoapFactory;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
@@ -29,7 +28,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import static iot.technology.client.toolkit.coap.service.impl.CoapClientServiceImpl.green;
+import static iot.technology.client.toolkit.coap.service.CoapClientService.green;
 
 /**
  * @author mushuwei
@@ -41,18 +40,16 @@ import static iot.technology.client.toolkit.coap.service.impl.CoapClientServiceI
 		description = "${bundle:coap.disc.description}",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
-		footer = "%nDeveloped by mushuwei",
-		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class
+		footer = "%nDeveloped by mushuwei"
 )
 public class CoapDiscoverCommand implements Callable<Integer> {
 
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
-	private CoapClientService coapClientService;
+	private final CoapClientService coapClientService = new CoapClientService();
 
-	public CoapDiscoverCommand() {
-		coapClientService = CoapFactory.getService();
-	}
+	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
+	boolean usageHelpRequested;
 
 	@CommandLine.Parameters(
 			index = "0",

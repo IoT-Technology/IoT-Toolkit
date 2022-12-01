@@ -17,9 +17,10 @@ package iot.technology.client.toolkit.common.utils;
 
 import iot.technology.client.toolkit.common.rule.TkNode;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * @author mushuwei
@@ -40,6 +41,11 @@ public class ObjectUtils {
 			return arrayEquals(o1, o2);
 		}
 		return false;
+	}
+
+	public static boolean isInteger(String str) {
+		Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+		return pattern.matcher(str).matches();
 	}
 
 	private static boolean arrayEquals(Object o1, Object o2) {
@@ -73,11 +79,6 @@ public class ObjectUtils {
 		return false;
 	}
 
-	public static boolean fileExists(String data) {
-		File file = new File(data);
-		return file.exists();
-	}
-
 	public static Object setValue(Object obj, String propName, String value) {
 		try {
 			Field f = obj.getClass().getDeclaredField(propName);
@@ -87,6 +88,31 @@ public class ObjectUtils {
 			return null;
 		}
 		return obj;
+	}
+
+	public static void topicAndQosValidator(String topicAndQos, String topic, int qos, ResourceBundle bundle) {
+		if (!topicAndQos.contains(":")) {
+			topic = topicAndQos;
+		} else {
+			int divide = topicAndQos.indexOf(":");
+			String qosStr = topicAndQos.substring(divide + 1);
+			String topicStr = topicAndQos.substring(0, divide);
+			if (StringUtils.isBlank(topicStr)) {
+				System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			}
+			topic = topicStr;
+			if (StringUtils.isBlank(qosStr) || !StringUtils.isNumeric(qosStr)) {
+				System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			}
+			Integer qosValue = Integer.parseInt(qosStr);
+			if (qosValue.equals(0)
+					|| qosValue.equals(1)
+					|| qosValue.equals(2)) {
+				qos = qosValue;
+			} else {
+				System.out.format(ColorUtils.redError(bundle.getString("mqtt.qos.error")));
+			}
+		}
 	}
 
 	public static TkNode initComponent(String node) {

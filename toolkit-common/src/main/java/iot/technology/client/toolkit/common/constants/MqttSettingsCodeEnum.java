@@ -68,6 +68,10 @@ public enum MqttSettingsCodeEnum {
 
 	SUBSCRIBE_MESSAGE("subscribeMessage", "iot.technology.client.toolkit.mqtt.service.node.SubscribeMessageNode"),
 
+	SETTINGS_NAME("settingsName", "iot.technology.client.toolkit.mqtt.service.node.SettingsNameNode"),
+
+	SELECT_CONFIG("selectConfig", "iot.technology.client.toolkit.mqtt.service.node.MqttSelectConfigNode"),
+
 	END("end", "");
 
 	private String code;

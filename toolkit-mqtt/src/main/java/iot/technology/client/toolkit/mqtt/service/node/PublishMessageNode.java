@@ -4,6 +4,7 @@ import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.PubData;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 
@@ -17,15 +18,17 @@ public class PublishMessageNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void prePrompt() {
-		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.prompt") + "topic:qos=message") + "%n");
-		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.example") + "hello:0=hello world") + "%n");
+	public void prePrompt(NodeContext context) {
+		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.prompt") + " topic:qos=message") + "%n");
+		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.example") + " hello:0=hello world") + "%n");
 
 	}
 
 	@Override
-	public void check(String data) {
-		PubData.validate(data);
+	public boolean check(NodeContext context) {
+		PubData.validate(context.getData());
+		context.setCheck(true);
+		return true;
 	}
 
 	@Override
@@ -35,12 +38,16 @@ public class PublishMessageNode implements TkNode {
 	}
 
 	@Override
-	public String nextNode(String data) {
+	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode();
+		}
 		return MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode();
 	}
 
+
 	@Override
-	public String getValue(String data) {
-		return data;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 }

@@ -25,13 +25,18 @@ import java.util.Map;
  */
 public class MqttSettingsRuleChainProcessor {
 
-	public String getRootNode() {
-		return MqttSettingsCodeEnum.MQTT_VERSION.getCode();
+	public String getRootPublishNewConfigNode() {
+		return MqttSettingsCodeEnum.SETTINGS_NAME.getCode();
 	}
 
+	public String getRootPublishSelectConfigNode() {
+		return MqttSettingsCodeEnum.SELECT_CONFIG.getCode();
+	}
 
-	public Map<String, String> getProcessor() {
+	public Map<String, String> getMqttRuleChainProcessor() {
 		Map<String, String> map = new HashMap<>();
+		map.put(MqttSettingsCodeEnum.SETTINGS_NAME.getCode(), MqttSettingsCodeEnum.SETTINGS_NAME.getClazzName());
+		map.put(MqttSettingsCodeEnum.SELECT_CONFIG.getCode(), MqttSettingsCodeEnum.SELECT_CONFIG.getClazzName());
 		map.put(MqttSettingsCodeEnum.MQTT_VERSION.getCode(), MqttSettingsCodeEnum.MQTT_VERSION.getClazzName());
 		map.put(MqttSettingsCodeEnum.CLIENT_ID.getCode(), MqttSettingsCodeEnum.CLIENT_ID.getClazzName());
 		map.put(MqttSettingsCodeEnum.HOST.getCode(), MqttSettingsCodeEnum.HOST.getClazzName());
@@ -53,9 +58,10 @@ public class MqttSettingsRuleChainProcessor {
 		map.put(MqttSettingsCodeEnum.LAST_WILL_QOS.getCode(), MqttSettingsCodeEnum.LAST_WILL_QOS.getClazzName());
 		map.put(MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode(), MqttSettingsCodeEnum.LAST_WILL_RETAIN.getClazzName());
 		map.put(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode(), MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getClazzName());
-		map.put(MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getCode(), MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getClazzName());
 		map.put(MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode(), MqttSettingsCodeEnum.PUBLISH_MESSAGE.getClazzName());
 		map.put(MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode(), MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getClazzName());
 		return map;
 	}
+	
+
 }

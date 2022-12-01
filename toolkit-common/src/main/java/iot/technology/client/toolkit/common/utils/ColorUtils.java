@@ -26,6 +26,13 @@ public class ColorUtils {
 		return colorItalic(text, "green");
 	}
 
+	public static String redError(String text) {
+		return redBold(text, "red") + "%n";
+	}
+
+	public static String blueAnnotation(String text) {
+		return colorFaint(text, "blue") + "%n";
+	}
 
 	public static String blackFaint(String text) {
 		return CommandLine.Help.Ansi.AUTO.string("@|faint,black" + " " + text + "|@");
@@ -35,7 +42,15 @@ public class ColorUtils {
 		return CommandLine.Help.Ansi.AUTO.string("@|faint,bold" + " " + text + "|@");
 	}
 
+	public static String redBold(String text, String color) {
+		return CommandLine.Help.Ansi.AUTO.string("@|bold," + color + " " + text + "|@");
+	}
+
 	public static String colorItalic(String text, String color) {
 		return CommandLine.Help.Ansi.AUTO.string("@|italic," + color + " " + text + "|@");
+	}
+
+	public static String colorFaint(String text, String color) {
+		return CommandLine.Help.Ansi.AUTO.string("@|faint," + color + " " + text + "|@");
 	}
 }

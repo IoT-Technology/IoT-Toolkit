@@ -3,7 +3,9 @@ package iot.technology.client.toolkit.mqtt.service.node;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -20,14 +22,19 @@ public class HostNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (Objects.isNull(data)) {
-			throw new IllegalArgumentException(bundle.getString("mqtt.host.error"));
+	public boolean check(NodeContext context) {
+		if (Objects.isNull(context.getData())) {
+			System.out.format(ColorUtils.redError(bundle.getString("mqtt.host.error")));
+			context.setCheck(false);
+			return false;
 		}
-		if (isIpAddress(data)) {
-			return;
+		if (isIpAddress(context.getData())) {
+			context.setCheck(true);
+			return true;
 		}
-		throw new IllegalArgumentException(bundle.getString("mqtt.host.error1"));
+		System.out.format(ColorUtils.redError(bundle.getString("mqtt.host.error1")));
+		context.setCheck(false);
+		return false;
 	}
 
 	@Override
@@ -37,24 +44,22 @@ public class HostNode implements TkNode {
 	}
 
 	@Override
-	public String nextNode(String data) {
+	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.HOST.getCode();
+		}
 		return MqttSettingsCodeEnum.PORT.getCode();
 	}
 
+
 	@Override
-	public String getValue(String data) {
-		String hostAddress = "";
-		try {
-			hostAddress = InetAddress.getByName(data).getHostAddress();
-		} catch (UnknownHostException e) {
-			throw new RuntimeException(e);
-		}
-		return hostAddress;
+	public String getValue(NodeContext context) {
+		return context.getData();
 	}
 
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 
 	private boolean isIpAddress(String address) {

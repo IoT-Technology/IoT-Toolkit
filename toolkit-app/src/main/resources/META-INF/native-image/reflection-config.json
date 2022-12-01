@@ -200,8 +200,22 @@
     ]
   },
   {
-    "name" : "iot.technology.client.toolkit.mqtt.service.domain.MqttCallDomain",
+    "name" : "iot.technology.client.toolkit.mqtt.service.node.SettingsNameNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.mqtt.service.node.MqttSelectConfigNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain",
     "fields" : [
+      { "name" : "selectConfig","allowUnsafeAccess": true},
+      { "name" : "settingsName","allowUnsafeAccess": true},
       { "name" : "mqttVersion","allowUnsafeAccess": true},
       { "name" : "clientId","allowUnsafeAccess": true},
       { "name" : "host","allowUnsafeAccess": true},
@@ -222,9 +236,25 @@
       { "name" : "lastWillTopic","allowUnsafeAccess": true},
       { "name" : "lastWillQoS","allowUnsafeAccess": true},
       { "name" : "lastWillRetain","allowUnsafeAccess": true},
-      { "name" : "lastWillPayload","allowUnsafeAccess": true},
-      { "name" : "topic","allowUnsafeAccess": true},
-      { "name" : "qos","allowUnsafeAccess": true}
+      { "name" : "lastWillPayload","allowUnsafeAccess": true}
     ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.mqtt.config.MqttSettings",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
   }
 ]

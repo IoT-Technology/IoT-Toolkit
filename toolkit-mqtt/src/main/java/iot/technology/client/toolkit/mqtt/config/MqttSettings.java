@@ -13,16 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.client.toolkit.coap.service;
+package iot.technology.client.toolkit.mqtt.config;
 
-import iot.technology.client.toolkit.coap.service.impl.CoapClientServiceImpl;
+import java.io.Serializable;
 
 /**
  * @author mushuwei
  */
-public class CoapFactory {
+public class MqttSettings implements Serializable {
 
-	public static CoapClientService getService() {
-		return new CoapClientServiceImpl();
+	private String name;
+
+	private MqttSettingsInfo info;
+
+	private Integer usage = 1;
+
+	public String getName() {
+		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public MqttSettingsInfo getInfo() {
+		return info;
+	}
+
+	public void setInfo(MqttSettingsInfo info) {
+		this.info = info;
+	}
+
+	public Integer getUsage() {
+		return usage;
+	}
+
+	public void setUsage(Integer usage) {
+		this.usage = usage;
+	}
+
 }

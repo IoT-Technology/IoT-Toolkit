@@ -4,10 +4,12 @@ import iot.technology.client.toolkit.common.constants.CertTypeEnum;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -18,14 +20,20 @@ public class CertTypeNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-		if (StringUtils.isBlank(data)) {
-			throw new IllegalArgumentException(bundle.getString("param.error"));
+	public boolean check(NodeContext context) {
+		if (StringUtils.isBlank(context.getData())) {
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			context.setCheck(false);
+			return false;
 		}
-		if (!data.equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())
-				&& !data.equals(CertTypeEnum.SELF_SIGNED.getValue())) {
-			throw new IllegalArgumentException(bundle.getString("mqtt.cert.error"));
+		if (context.getType().equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())
+				|| context.getData().equals(CertTypeEnum.SELF_SIGNED.getValue())) {
+			context.setCheck(true);
+			return true;
 		}
+		System.out.format(ColorUtils.redError(bundle.getString("mqtt.cert.error")));
+		context.setCheck(false);
+		return false;
 	}
 
 	@Override
@@ -35,21 +43,25 @@ public class CertTypeNode implements TkNode {
 	}
 
 	@Override
-	public String nextNode(String data) {
-		if (data.equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())) {
+	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.CERT_TYPE.getCode();
+		}
+		if (context.getData().equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())) {
 			return MqttSettingsCodeEnum.ADVANCED.getCode();
 		}
 		return MqttSettingsCodeEnum.CA.getCode();
 	}
 
+
 	@Override
-	public String getValue(String data) {
-		CertTypeEnum certTypeEnum = CertTypeEnum.getCertTypeEnum(data);
-		return certTypeEnum.getDesc();
+	public String getValue(NodeContext context) {
+		CertTypeEnum certTypeEnum = CertTypeEnum.getCertTypeEnum(context.getData());
+		return Objects.requireNonNull(certTypeEnum).getDesc();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 		System.out.format(ColorUtils.greenItalic("(1) CA signed Server") + "%n");
 		System.out.format(ColorUtils.greenItalic("(2) Self signed * ") + "%n");
 	}

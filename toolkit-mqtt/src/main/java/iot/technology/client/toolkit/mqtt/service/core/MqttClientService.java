@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.client.toolkit.mqtt.service.impl;
+package iot.technology.client.toolkit.mqtt.service.core;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -31,12 +31,10 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.Promise;
 import iot.technology.client.toolkit.mqtt.service.MqttClientCallback;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
-import iot.technology.client.toolkit.mqtt.service.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.*;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttChannelHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttPingHandler;
-import picocli.CommandLine;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,7 +45,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author mushuwei
  */
-public class MqttClientServiceImpl implements MqttClientService {
+public class MqttClientService {
 
 	private final Set<String> serverSubscriptions = new HashSet<>();
 	private final ConcurrentMap<Integer, MqttPendingUnsubscription> pendingServerUnsubscribes = new ConcurrentHashMap<>();
@@ -67,11 +65,9 @@ public class MqttClientServiceImpl implements MqttClientService {
 
 	private volatile boolean disconnected = false;
 	private volatile boolean reconnect = false;
-	private String host;
-	private int port;
 	private MqttClientCallback callback;
 
-	public MqttClientServiceImpl(MqttHandler defaultHandler) {
+	public MqttClientService(MqttHandler defaultHandler) {
 		this.clientConfig = new MqttClientConfig();
 		this.defaultHandler = defaultHandler;
 	}
@@ -82,65 +78,34 @@ public class MqttClientServiceImpl implements MqttClientService {
 	 *
 	 * @param clientConfig The config object to use while looking for settings
 	 */
-	public MqttClientServiceImpl(MqttClientConfig clientConfig, MqttHandler defaultHandler) {
+	public MqttClientService(MqttClientConfig clientConfig, MqttHandler defaultHandler) {
 		this.clientConfig = clientConfig;
 		this.defaultHandler = defaultHandler;
 	}
 
-	@Override
-	public void getMqttDescription() {
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
-				"MQTT (Message Queuing Telemetry Transport)" + "|@") + "%n");
-		System.out.format("" + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"MQTT is an OASIS standard messaging protocol for the Internet of Things (IoT)." + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"It is designed as an extremely lightweight publish/subscribe messaging transport" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"that is ideal for connecting remote devices with a small code footprint and" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"minimal network bandwidth. MQTT today is used in a wide variety of industries," + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"such as automotive, manufacturing, telecommunications, oil and gas, etc." + "|@") + "%n");
-		System.out.format("" + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Official address: "
-				+ "https://mqtt.org/" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 3.1.1 Specification: "
-				+ "http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Chinese MQTT 3.1.1 Specification: "
-				+ "https://iot.mushuwei.cn/#/mqtt3/" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 5 Specification: "
-				+ "https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Chinese MQTT 5 Specification: "
-				+ "https://iot.mushuwei.cn/#/mqtt5/" + "|@") + "%n");
-	}
-
-	@Override
 	public Future<MqttConnectResult> connect(String host) {
 		return connect(host, 1883);
 	}
 
-	@Override
 	public Future<MqttConnectResult> connect(String host, int port) {
 		return connect(host, port, false);
 	}
 
-	@Override
+
 	public boolean isConnected() {
 		return !disconnected && channel != null && channel.isActive();
 	}
 
-	@Override
+
 	public EventLoopGroup getEventLoop() {
 		return eventLoop;
 	}
 
-	@Override
+
 	public void setEventLoop(EventLoopGroup eventLoop) {
 		this.eventLoop = eventLoop;
 	}
 
-	@Override
 	public void disconnect() {
 		disconnected = true;
 		if (this.channel != null) {
@@ -149,7 +114,7 @@ public class MqttClientServiceImpl implements MqttClientService {
 		}
 	}
 
-	@Override
+
 	public Future<Void> publish(String topic, ByteBuf payload, MqttQoS qos, boolean retain) {
 		Promise<Void> future = new DefaultPromise<>(this.eventLoop.next());
 		MqttFixedHeader fixedHeader = new MqttFixedHeader(MqttMessageType.PUBLISH, false, qos, retain, 0);
@@ -184,12 +149,11 @@ public class MqttClientServiceImpl implements MqttClientService {
 	}
 
 
-	@Override
 	public Future<Void> on(String topic, MqttHandler handler) {
 		return on(topic, handler, MqttQoS.AT_MOST_ONCE);
 	}
 
-	@Override
+
 	public Future<Void> on(String topic, MqttHandler handler, MqttQoS qos) {
 		return createSubscription(topic, handler, false, qos);
 	}
@@ -202,7 +166,6 @@ public class MqttClientServiceImpl implements MqttClientService {
 	 * @param handler The handler to unsubscribe
 	 * @return A future which will be completed when the server acknowledges our unsubscribe request
 	 */
-	@Override
 	public Future<Void> off(String topic, MqttHandler handler) {
 		Promise<Void> future = new DefaultPromise<>(this.eventLoop.next());
 		for (MqttSubscription subscription : this.handlerToSubscribtion.get(handler)) {
@@ -220,7 +183,6 @@ public class MqttClientServiceImpl implements MqttClientService {
 	 * @param topic The topic to unsubscribe for
 	 * @return A future which will be completed when the server acknowledges our unsubscribe request
 	 */
-	@Override
 	public Future<Void> off(String topic) {
 		Promise<Void> future = new DefaultPromise<>(this.eventLoop.next());
 		ImmutableSet<MqttSubscription> subscriptions = ImmutableSet.copyOf(this.subscriptions.get(topic));
@@ -239,7 +201,6 @@ public class MqttClientServiceImpl implements MqttClientService {
 	 *
 	 * @return The {@link MqttClientConfig} instance we use
 	 */
-	@Override
 	public MqttClientConfig getClientConfig() {
 		return clientConfig;
 	}
@@ -334,8 +295,6 @@ public class MqttClientServiceImpl implements MqttClientService {
 		if (this.eventLoop == null) {
 			this.eventLoop = new NioEventLoopGroup();
 		}
-		this.host = host;
-		this.port = port;
 		Promise<MqttConnectResult> connectFuture = new DefaultPromise<>(this.eventLoop.next());
 		Bootstrap bootstrap = new Bootstrap();
 		bootstrap.group(this.eventLoop);
@@ -445,10 +404,10 @@ public class MqttClientServiceImpl implements MqttClientService {
 			}
 			ch.pipeline().addLast("mqttDecoder", new MqttDecoder(clientConfig.getMaxBytesInMessage()));
 			ch.pipeline().addLast("mqttEncoder", MqttEncoder.INSTANCE);
-			ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(MqttClientServiceImpl.this.clientConfig.getKeepAlive(),
-					MqttClientServiceImpl.this.clientConfig.getKeepAlive(), 0));
-			ch.pipeline().addLast("mqttPingHandler", new MqttPingHandler(MqttClientServiceImpl.this.clientConfig.getKeepAlive()));
-			ch.pipeline().addLast("mqttHandler", new MqttChannelHandler(MqttClientServiceImpl.this, connectFuture));
+			ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(MqttClientService.this.clientConfig.getKeepAlive(),
+					MqttClientService.this.clientConfig.getKeepAlive(), 0));
+			ch.pipeline().addLast("mqttPingHandler", new MqttPingHandler(MqttClientService.this.clientConfig.getKeepAlive()));
+			ch.pipeline().addLast("mqttHandler", new MqttChannelHandler(MqttClientService.this, connectFuture));
 		}
 	}
 

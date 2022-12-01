@@ -3,6 +3,7 @@ package iot.technology.client.toolkit.mqtt.service.node;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
@@ -17,8 +18,9 @@ public class ClientIdNode implements TkNode {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
-	public void check(String data) {
-
+	public boolean check(NodeContext context) {
+		context.setCheck(true);
+		return true;
 	}
 
 	@Override
@@ -28,21 +30,25 @@ public class ClientIdNode implements TkNode {
 	}
 
 	@Override
-	public String nextNode(String data) {
+	public String nextNode(NodeContext context) {
+		if (!context.isCheck()) {
+			return MqttSettingsCodeEnum.CLIENT_ID.getCode();
+		}
 		return MqttSettingsCodeEnum.HOST.getCode();
 	}
 
+
 	@Override
-	public String getValue(String data) {
+	public String getValue(NodeContext context) {
 		String id = "toolkit_mqtt_";
 		String[] options = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
 		for (int i = 0; i < 8; i++) {
 			id += options[new Random().nextInt(options.length)];
 		}
-		return StringUtils.isBlank(data) ? id : data;
+		return StringUtils.isBlank(context.getData()) ? id : context.getData();
 	}
 
 	@Override
-	public void prePrompt() {
+	public void prePrompt(NodeContext context) {
 	}
 }

@@ -20,7 +20,7 @@ import io.netty.handler.codec.mqtt.MqttVersion;
 import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.MqttVersionEnum;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
-import iot.technology.client.toolkit.mqtt.service.MqttClientService;
+import iot.technology.client.toolkit.mqtt.service.core.MqttClientService;
 
 import java.io.Serializable;
 

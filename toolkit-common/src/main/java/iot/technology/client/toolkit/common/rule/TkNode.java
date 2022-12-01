@@ -20,13 +20,13 @@ package iot.technology.client.toolkit.common.rule;
  */
 public interface TkNode {
 
-	void prePrompt();
+	void prePrompt(NodeContext context);
 
-	void check(String data);
+	boolean check(NodeContext context);
 
 	String nodePrompt();
 
-	String nextNode(String data);
+	String nextNode(NodeContext context);
 
-	String getValue(String data);
+	String getValue(NodeContext context);
 }
