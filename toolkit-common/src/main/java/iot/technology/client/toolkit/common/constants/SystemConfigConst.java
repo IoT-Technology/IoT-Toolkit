@@ -37,4 +37,15 @@ public class SystemConfigConst {
 	public static final String SYS_MQTT_ROOT_PATH = USER_HOME + File.separator + "mqtt";
 
 	public static final String MQTT_SETTINGS_FILE_NAME = SYS_MQTT_ROOT_PATH + File.separator + "settings.json";
+
+	/**
+	 * toolkit nb settings and file name
+	 */
+	public static final String SYS_NB_ROOT_PATH = USER_HOME + File.separator + "nb";
+
+	public static final String SYS_NB_TELECOM_ROOT_PATH = SYS_NB_ROOT_PATH + File.separator + "telecom";
+
+	public static final String SYS_NB_TELECOM_APP_ROOT_PATH = SYS_NB_TELECOM_ROOT_PATH + File.separator + "app";
+
+	public static final String SYS_NB_TELECOM_PRODUCT_ROOT_PATH = SYS_NB_TELECOM_ROOT_PATH + File.separator + "product";
 }

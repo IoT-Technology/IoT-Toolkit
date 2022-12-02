@@ -4,10 +4,10 @@ import iot.technology.client.toolkit.common.constants.NBTypeEnum;
 import iot.technology.client.toolkit.common.constants.TelecomSettings;
 import iot.technology.client.toolkit.common.http.HttpRequestEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestExecutor;
-import iot.technology.client.toolkit.common.utils.JSONUtils;
+import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.SignUtils;
-import iot.technology.client.toolkit.nb.domain.telecom.BatchDelDeviceDomain;
 import iot.technology.client.toolkit.nb.domain.telecom.BatchAddNBDeviceDomain;
+import iot.technology.client.toolkit.nb.domain.telecom.BatchDelDeviceDomain;
 import iot.technology.client.toolkit.nb.domain.telecom.DeviceInfoDomain;
 import iot.technology.client.toolkit.nb.domain.telecom.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
@@ -35,7 +35,7 @@ public class TelecomDeviceService extends AbstractTelecomService {
         headerMap.put(TelecomSettings.VERSION, "20181031202117");
         headerMap.put(TelecomSettings.MASTER_KEY, config.getMasterKey());
 
-        String jsonStr = JSONUtils.toJsonString(batchAddNBDeviceDomain);
+        String jsonStr = JsonUtils.object2Json(batchAddNBDeviceDomain);
         byte[] bodyBytes = jsonStr.getBytes(StandardCharsets.UTF_8);
 
         Map<String, String> params = new HashMap<>();
@@ -58,7 +58,7 @@ public class TelecomDeviceService extends AbstractTelecomService {
         headerMap.put(TelecomSettings.VERSION, "20211009132842");
         headerMap.put(TelecomSettings.MASTER_KEY, config.getMasterKey());
 
-        String jsonStr = JSONUtils.toJsonString(batchDelDeviceDomain);
+        String jsonStr = JsonUtils.object2Json(batchDelDeviceDomain);
         byte[] bodyBytes = jsonStr.getBytes(StandardCharsets.UTF_8);
 
         Map<String, String> params = new HashMap<>();
