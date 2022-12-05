@@ -24,6 +24,7 @@ import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
+import iot.technology.client.toolkit.nb.command.NbCommand;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.AutoComplete;
 import picocli.CommandLine;
@@ -48,7 +49,8 @@ import java.util.concurrent.Callable;
 				AutoComplete.GenerateCompletion.class,
 				ConfigCommand.class,
 				CoapCommand.class,
-				MqttCommand.class
+				MqttCommand.class,
+				NbCommand.class
 		},
 		exitCodeOnExecutionException = 400,
 		exitCodeOnSuccess = 200,
@@ -76,6 +78,10 @@ public class ToolKitCommand implements Callable<Integer> {
 					.setCaseInsensitiveEnumValuesAllowed(true);
 			CommandLine generateCompletionCmd = commandLine.getSubcommands().get("generate-completion");
 			generateCompletionCmd.getCommandSpec().usageMessage().hidden(true);
+
+			CommandLine nbCmd = commandLine.getSubcommands().get("nb");
+			boolean isChinese = bundle.getLocale().equals(Locale.CHINESE);
+			nbCmd.getCommandSpec().usageMessage().hidden(!isChinese);
 
 			int exitStatus = commandLine.execute(args);
 			if (exitStatus == ExitCodeEnum.NOTEND.getValue()) {

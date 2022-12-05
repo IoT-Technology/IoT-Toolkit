@@ -59,6 +59,10 @@
             <artifactId>toolkit-mqtt</artifactId>
         </dependency>
         <dependency>
+            <groupId>iot.technology</groupId>
+            <artifactId>toolkit-nbiot</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.graalvm.nativeimage</groupId>
             <artifactId>svm</artifactId>
         </dependency>

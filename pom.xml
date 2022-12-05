@@ -79,7 +79,7 @@
         <ascii-table.version>1.8.0</ascii-table.version>
         <graalvm-svm.version>22.2.0</graalvm-svm.version>
         <mycila-license.version>4.1</mycila-license.version>
-        <okhttp.version>5.0.0-alpha.10</okhttp.version>
+        <okhttp.version>4.10.0</okhttp.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
         <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
@@ -101,6 +101,11 @@
             <dependency>
                 <groupId>iot.technology</groupId>
                 <artifactId>toolkit-mqtt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>iot.technology</groupId>
+                <artifactId>toolkit-nbiot</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
