@@ -39,10 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -76,30 +73,50 @@ public class MqttBizService {
 	}
 
 	public void getMqttDescription() {
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
-				"MQTT (Message Queuing Telemetry Transport)" + "|@") + "%n");
-		System.out.format("" + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"MQTT is an OASIS standard messaging protocol for the Internet of Things (IoT)." + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"It is designed as an extremely lightweight publish/subscribe messaging transport" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"that is ideal for connecting remote devices with a small code footprint and" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"minimal network bandwidth. MQTT today is used in a wide variety of industries," + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-				"such as automotive, manufacturing, telecommunications, oil and gas, etc." + "|@") + "%n");
-		System.out.format("" + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Official address: "
-				+ "https://mqtt.org/" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 3.1.1 Specification: "
-				+ "http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Chinese MQTT 3.1.1 Specification: "
-				+ "https://iot.mushuwei.cn/#/mqtt3/" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 5 Specification: "
-				+ "https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html" + "|@") + "%n");
-		System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Chinese MQTT 5 Specification: "
-				+ "https://iot.mushuwei.cn/#/mqtt5/" + "|@") + "%n");
+		if (bundle.getLocale().equals(Locale.CHINESE)) {
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
+					"MQTT (消息队列遥测传输)" + "|@") + "%n");
+			System.out.format("" + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"MQTT是用于物联网(IoT)的OASIS标准消息传递协议" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"它被设计为一种非常轻量级的发布/订阅消息传输" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"这是远距离传输设备的理想选择且代码量很小," + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"很小的网络带宽。MQTT如今被广泛应用于各种行业" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"如汽车、制造业、电信和石油天然气等。" + "|@") + "%n");
+			System.out.format("" + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "官方地址: " + "https://mqtt.org/" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "中文" + "MQTT 3.1/3.1.1" + "版本协议文档: "
+					+ "https://iot.mushuwei.cn/#/mqtt3/" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "中文" + "MQTT 5 " + "版本协议文档: "
+					+ "https://iot.mushuwei.cn/#/mqtt5/" + "|@") + "%n");
+		} else {
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
+					"MQTT (Message Queuing Telemetry Transport)" + "|@") + "%n");
+			System.out.format("" + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"MQTT is an OASIS standard messaging protocol for the Internet of Things (IoT)." + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"It is designed as an extremely lightweight publish/subscribe messaging transport" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"that is ideal for connecting remote devices with a small code footprint and" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"minimal network bandwidth. MQTT today is used in a wide variety of industries," + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
+					"such as automotive, manufacturing, telecommunications, oil and gas, etc." + "|@") + "%n");
+			System.out.format("" + "%n");
+			System.out.format(
+					CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Official address: " + "https://mqtt.org/" + "|@") + "%n");
+
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 3.1/3.1.1 Specification: "
+					+ "http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 5 Specification: "
+					+ "https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html" + "|@") + "%n");
+		}
+
 	}
 
 	public MqttClientConfig convertMqttSettingsToClientConfig(MqttSettings settings) {
