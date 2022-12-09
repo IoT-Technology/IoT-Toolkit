@@ -6,7 +6,7 @@ import iot.technology.client.toolkit.common.rule.TkNode;
 /**
  * @author mushuwei
  */
-public class TelAppKeyNode implements TkNode {
+public class NbTelecomProductConfigNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {

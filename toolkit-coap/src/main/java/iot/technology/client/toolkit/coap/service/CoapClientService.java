@@ -165,7 +165,7 @@ public class CoapClientService {
 	public void getCoapDescription() {
 		if (bundle.getLocale().equals(Locale.CHINESE)) {
 			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),bold " +
-					"RFC7252 CoAP (受限制的应用协议)" + "|@") + "%n");
+					"       RFC7252 CoAP (受限制的应用协议)" + "|@") + "%n");
 			System.out.format("" + "%n");
 			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
 					"受限应用协议(CoAP)是一种专门的web传输协议" + "|@") + "%n");
@@ -178,13 +178,13 @@ public class CoapClientService {
 			System.out.format("|      0        |      1        |      2        |      3        |%n");
 			System.out.format("|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|%n");
 			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|版本|类型|  TKL |    响应码      |            消息编号             |%n");
+			System.out.format("|版本|类型|  TKL |    响应码      |            消息编号         |%n");
 			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|   消息会话-如果有,消息会话长度字节(TKL) ...                        |%n");
+			System.out.format("|   消息会话-如果有,消息会话长度字节(TKL) ...                   |%n");
 			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|   可选项 (如果有   ) ...                                        |%n");
+			System.out.format("|   可选项 (如果有   ) ...                                      |%n");
 			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|1 1 1 1 1 1 1 1|    负载内容 (if any) ...                        |%n");
+			System.out.format("|1 1 1 1 1 1 1 1|    负载内容 (if any) ...                      |%n");
 			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
 			System.out.format("" + "%n");
 			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "官方地址: "

@@ -74,7 +74,7 @@ public class MqttBizService {
 
 	public void getMqttDescription() {
 		if (bundle.getLocale().equals(Locale.CHINESE)) {
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),bold " +
 					"MQTT (消息队列遥测传输)" + "|@") + "%n");
 			System.out.format("" + "%n");
 			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
@@ -88,10 +88,10 @@ public class MqttBizService {
 			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
 					"如汽车、制造业、电信和石油天然气等。" + "|@") + "%n");
 			System.out.format("" + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "官方地址: " + "https://mqtt.org/" + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "中文" + "MQTT 3.1/3.1.1" + "版本协议文档: "
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "官方地址: " + "https://mqtt.org/" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "中文" + "MQTT 3.1/3.1.1" + "版本协议文档: "
 					+ "https://iot.mushuwei.cn/#/mqtt3/" + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "中文" + "MQTT 5 " + "版本协议文档: "
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "中文" + "MQTT 5 " + "版本协议文档: "
 					+ "https://iot.mushuwei.cn/#/mqtt5/" + "|@") + "%n");
 		} else {
 			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
@@ -109,11 +109,10 @@ public class MqttBizService {
 					"such as automotive, manufacturing, telecommunications, oil and gas, etc." + "|@") + "%n");
 			System.out.format("" + "%n");
 			System.out.format(
-					CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Official address: " + "https://mqtt.org/" + "|@") + "%n");
-
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 3.1/3.1.1 Specification: "
+					CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The Official address: " + "https://mqtt.org/" + "|@") + "%n");
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The English MQTT 3.1/3.1.1 Specification: "
 					+ "http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html" + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English MQTT 5 Specification: "
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The English MQTT 5 Specification: "
 					+ "https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html" + "|@") + "%n");
 		}
 

@@ -28,7 +28,7 @@ public class TelecomProductService extends AbstractTelecomService {
 		try {
 			long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
 			HttpRequestEntity entity = new HttpRequestEntity();
-			entity.setType(NBTypeEnum.TELECOM.getType());
+			entity.setType(NBTypeEnum.TELECOM.getValue());
 			entity.setUrl(TelecomSettings.PRODUCT_URL);
 			Map<String, String> headerMap = getHeaders(config, timestamp);
 			headerMap.put(TelecomSettings.VERSION, TelecomSettings.QUERY_PRODUCT_API_VERSION);
@@ -52,7 +52,7 @@ public class TelecomProductService extends AbstractTelecomService {
 		try {
 			long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
 			HttpRequestEntity entity = new HttpRequestEntity();
-			entity.setType(NBTypeEnum.TELECOM.getType());
+			entity.setType(NBTypeEnum.TELECOM.getValue());
 			entity.setUrl(TelecomSettings.PRODUCT_URL);
 			Map<String, String> headerMap = getHeaders(config, timestamp);
 			headerMap.put(TelecomSettings.VERSION, TelecomSettings.DELETE_PRODUCT_API_VERSION);

@@ -2,17 +2,26 @@ package iot.technology.client.toolkit.common.constants;
 
 public enum NBTypeEnum {
 
-    TELECOM("telecom"),
+    TELECOM("1", "telecom"),
 
-    MOBILE("mobile");
+    MOBILE("2", "mobile"),
 
-    NBTypeEnum(String type) {
-        this.type = type;
+    LWM2M("3", "lwm2m");
+
+    NBTypeEnum(String code, String value) {
+        this.code = code;
+        this.value = value;
     }
 
-    private String type;
+    private String code;
 
-    public String getType() {
-        return type;
+    private String value;
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getValue() {
+        return value;
     }
 }
