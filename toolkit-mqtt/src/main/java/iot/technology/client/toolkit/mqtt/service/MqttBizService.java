@@ -34,18 +34,12 @@ import iot.technology.client.toolkit.mqtt.service.handler.MqttPubMessageHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttSubMessageHandler;
 import picocli.CommandLine;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
-
-import static iot.technology.client.toolkit.common.constants.SystemConfigConst.MQTT_SETTINGS_FILE_NAME;
 
 /**
  * @author mushuwei
@@ -53,20 +47,6 @@ import static iot.technology.client.toolkit.common.constants.SystemConfigConst.M
 public class MqttBizService {
 
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
-
-	public Boolean notExistOrContents() {
-		if (!FileUtils.isExist(MQTT_SETTINGS_FILE_NAME)) {
-			return true;
-		}
-		List<String> content;
-		try {
-			Path path = Paths.get(MQTT_SETTINGS_FILE_NAME);
-			content = Files.lines(path).collect(Collectors.toList());
-		} catch (IOException e) {
-			return true;
-		}
-		return content.isEmpty();
-	}
 
 	public List<String> getMqttConfigList() {
 		return FileUtils.getDataFromFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);

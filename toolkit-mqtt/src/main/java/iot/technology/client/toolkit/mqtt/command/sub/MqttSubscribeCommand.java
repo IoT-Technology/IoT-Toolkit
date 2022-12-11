@@ -17,8 +17,10 @@ package iot.technology.client.toolkit.mqtt.command.sub;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.NodeTypeEnum;
+import iot.technology.client.toolkit.common.constants.SystemConfigConst;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
 import iot.technology.client.toolkit.mqtt.service.MqttBizService;
 import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
@@ -71,7 +73,7 @@ public class MqttSubscribeCommand implements Callable<Integer> {
 		Map<String, String> processor = ruleChain.getMqttRuleChainProcessor();
 
 		MqttConfigSettingsDomain domain = new MqttConfigSettingsDomain();
-		boolean isNew = bizService.notExistOrContents();
+		boolean isNew = FileUtils.notExistOrContents(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);
 		NodeContext context = new NodeContext();
 		context.setType(NodeTypeEnum.MQTT_SUBSCRIBE.getType());
 		context.setPromptData(isNew ? null : bizService.getMqttConfigList());

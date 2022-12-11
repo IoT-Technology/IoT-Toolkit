@@ -9,11 +9,18 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class SignUtils {
 
@@ -55,7 +62,6 @@ public class SignUtils {
     /**
      *
      * @return offset of time
-     * @throws Exception
      */
     public static long getTelecomRequestTimeOffset() throws Exception {
         long offset = 0;
@@ -77,13 +83,64 @@ public class SignUtils {
 
     /**
      * get data string
+     *
      * @param timestamp unix timestamp
      * @return data string
      */
-    public static String getTelecomDataString (long timestamp) {
-        Date date = new Date(timestamp);
+    public static String getTelecomDataString(long timestamp) {
         DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
         ZoneId timeZone = TimeZone.getTimeZone("GMT").toZoneId();
         return dateformat.format(Instant.ofEpochMilli(timestamp).atZone(timeZone));
+    }
+
+    /**
+     * get mobile api token
+     *
+     * @param version         version
+     * @param resourceName    resource
+     * @param expirationTime  expiration time of api
+     * @param signatureMethod signature method
+     * @param accessKey       accessKey
+     * @return api token of mobile
+     */
+    public static String getMobileAssembleToken(String version, String resourceName, String expirationTime, String signatureMethod,
+                                                String accessKey) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            String res = URLEncoder.encode(resourceName, UTF_8);
+            String sig = URLEncoder.encode(generatorSignature(version, resourceName, expirationTime, accessKey, signatureMethod), "UTF-8");
+            sb.append("version=")
+                    .append(version)
+                    .append("&res=")
+                    .append(res)
+                    .append("&et=")
+                    .append(expirationTime)
+                    .append("&method=")
+                    .append(signatureMethod)
+                    .append("&sign=")
+                    .append(sig);
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | InvalidKeyException e) {
+            System.out.format(ColorUtils.redError("getMobileAssembleToken failed!"));
+        }
+        return sb.toString();
+    }
+
+    public static String generatorSignature(String version, String resourceName, String expirationTime, String accessKey,
+                                            String signatureMethod) throws
+            NoSuchAlgorithmException, InvalidKeyException {
+        String encryptText = expirationTime + "\n" + signatureMethod + "\n" + resourceName + "\n" + version;
+        String signature;
+        byte[] bytes = hmacEncrypt(encryptText, accessKey, signatureMethod);
+        signature = Base64.getEncoder().encodeToString(bytes);
+        return signature;
+    }
+
+    public static byte[] hmacEncrypt(String data, String key, String signatureMethod) throws NoSuchAlgorithmException, InvalidKeyException {
+        SecretKeySpec signinKey = new SecretKeySpec(Base64.getDecoder().decode(key.getBytes(UTF_8)),
+                "Hmac" + signatureMethod.toUpperCase());
+
+        Mac mac = Mac.getInstance("Hmac" + signatureMethod.toUpperCase());
+        mac.init(signinKey);
+        return mac.doFinal(data.getBytes(Charset.defaultCharset()));
     }
 }

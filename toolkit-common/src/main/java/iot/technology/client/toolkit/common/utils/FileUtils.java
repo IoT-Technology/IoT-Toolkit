@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author mushuwei
@@ -56,6 +57,20 @@ public class FileUtils {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static boolean notExistOrContents(String fileName) {
+		if (!FileUtils.isExist(fileName)) {
+			return true;
+		}
+		List<String> content;
+		try {
+			Path path = Paths.get(fileName);
+			content = Files.lines(path).collect(Collectors.toList());
+		} catch (IOException e) {
+			return true;
+		}
+		return content.isEmpty();
 	}
 
 	public static void updateAllFileContents(String fileName, List<String> bodyList) {
