@@ -10,6 +10,8 @@ public class BaseTelResponse implements Serializable {
 	private String msg;
 
 	private Integer code;
+	
+	private boolean success = false;
 
 	public String getMsg() {
 		return msg;
@@ -25,5 +27,13 @@ public class BaseTelResponse implements Serializable {
 
 	public void setCode(Integer code) {
 		this.code = code;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 }

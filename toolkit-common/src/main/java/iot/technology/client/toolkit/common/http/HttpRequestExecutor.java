@@ -2,10 +2,10 @@ package iot.technology.client.toolkit.common.http;
 
 import iot.technology.client.toolkit.common.constants.HttpConfig;
 import iot.technology.client.toolkit.common.constants.NbIoTHttpConfigEnum;
-import iot.technology.client.toolkit.common.constants.TelecomSettings;
 import okhttp3.*;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class HttpRequestExecutor {
@@ -50,7 +50,7 @@ public class HttpRequestExecutor {
         return null;
     }
 
-    public static HttpGetResponseEntity executeGet(HttpRequestEntity request) throws Exception {
+    public static HttpGetResponseEntity executeGet(HttpRequestEntity request) {
         final OkHttpClient client = initOkHttp3(request.getType());
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
@@ -68,9 +68,10 @@ public class HttpRequestExecutor {
         HttpGetResponseEntity entity = new HttpGetResponseEntity();
         try (Response response = call.execute()) {
             if (response.isSuccessful()) {
-                entity.setBody(response.body().string());
+                entity.setBody(Objects.requireNonNull(response.body()).string());
                 entity.setMultiMap(response.headers().toMultimap());
             }
+        } catch (Exception e) {
         }
         return entity;
     }

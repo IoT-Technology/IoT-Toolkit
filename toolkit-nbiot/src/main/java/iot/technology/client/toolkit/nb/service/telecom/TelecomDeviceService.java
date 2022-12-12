@@ -9,8 +9,8 @@ import iot.technology.client.toolkit.common.utils.SignUtils;
 import iot.technology.client.toolkit.nb.domain.telecom.BatchAddNBDeviceDomain;
 import iot.technology.client.toolkit.nb.domain.telecom.BatchDelDeviceDomain;
 import iot.technology.client.toolkit.nb.domain.telecom.DeviceInfoDomain;
-import iot.technology.client.toolkit.nb.domain.telecom.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
+import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;

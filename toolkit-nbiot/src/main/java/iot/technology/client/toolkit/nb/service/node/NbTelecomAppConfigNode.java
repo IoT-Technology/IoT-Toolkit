@@ -53,7 +53,7 @@ public class NbTelecomAppConfigNode implements TkNode {
 
 	@Override
 	public String nodePrompt() {
-		return bundle.getString(NbSettingsCodeEnum.NB_TELECOM_APP_CONFIG + GlobalConstants.promptSuffix) +
+		return bundle.getString(NbSettingsCodeEnum.NB_TELECOM_APP_CONFIG.getCode() + GlobalConstants.promptSuffix) +
 				GlobalConstants.promptSeparator;
 	}
 
@@ -70,6 +70,9 @@ public class NbTelecomAppConfigNode implements TkNode {
 
 	@Override
 	public String getValue(NodeContext context) {
+		if (!context.isCheck()) {
+			return context.getData();
+		}
 		if (context.getData().equals("new")) {
 			return context.getData();
 		}

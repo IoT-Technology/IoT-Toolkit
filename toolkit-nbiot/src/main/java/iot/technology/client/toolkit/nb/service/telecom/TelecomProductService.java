@@ -9,8 +9,8 @@ import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.SignUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.domain.telecom.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
+import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelDeleteProductResponse;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelQueryProductResponse;
 
@@ -24,7 +24,8 @@ import java.util.Map;
  */
 public class TelecomProductService extends AbstractTelecomService {
 
-	public static TelQueryProductResponse queryProduct(TelecomConfigDomain config) {
+	public TelQueryProductResponse queryProduct(TelecomConfigDomain config) {
+		TelQueryProductResponse queryProductResponse = new TelQueryProductResponse();
 		try {
 			long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
 			HttpRequestEntity entity = new HttpRequestEntity();
@@ -40,12 +41,25 @@ public class TelecomProductService extends AbstractTelecomService {
 			entity.setParams(params);
 			HttpGetResponseEntity response = HttpRequestExecutor.executeGet(entity);
 			if (StringUtils.isNotBlank(response.getBody())) {
-				return JsonUtils.jsonToObject(response.getBody(), TelQueryProductResponse.class);
+				queryProductResponse = JsonUtils.jsonToObject(response.getBody(), TelQueryProductResponse.class);
+				if (queryProductResponse.getCode() == 0) {
+					queryProductResponse.setSuccess(Boolean.TRUE);
+					return queryProductResponse;
+				} else {
+					System.out.format(ColorUtils.redError(queryProductResponse.getMsg()));
+					queryProductResponse.setSuccess(Boolean.FALSE);
+					return queryProductResponse;
+				}
+			} else {
+				queryProductResponse.setSuccess(Boolean.FALSE);
+				System.out.format(config.getProductId() + ColorUtils.redError(" queryProduct failed!"));
+				return queryProductResponse;
 			}
 		} catch (Exception e) {
-			System.out.format(ColorUtils.redError("query product failed!"));
+			queryProductResponse.setSuccess(Boolean.FALSE);
+			System.out.format(config.getProductId() + ColorUtils.redError(" queryProduct failed!"));
+			return queryProductResponse;
 		}
-		return null;
 	}
 
 	public static TelDeleteProductResponse deleteProduct(TelecomConfigDomain config) {

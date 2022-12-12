@@ -1,4 +1,4 @@
-package iot.technology.client.toolkit.nb.domain.telecom;
+package iot.technology.client.toolkit.nb.service.telecom.domain;
 
 import java.io.Serializable;
 

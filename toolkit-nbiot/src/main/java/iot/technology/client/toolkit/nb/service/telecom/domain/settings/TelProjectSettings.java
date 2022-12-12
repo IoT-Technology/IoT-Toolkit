@@ -13,8 +13,6 @@ public class TelProjectSettings implements Serializable {
 
 	private String appSecret;
 
-	private Integer serialNumber;
-
 	public String getProjectName() {
 		return projectName;
 	}
@@ -37,13 +35,5 @@ public class TelProjectSettings implements Serializable {
 
 	public void setAppSecret(String appSecret) {
 		this.appSecret = appSecret;
-	}
-
-	public Integer getSerialNumber() {
-		return serialNumber;
-	}
-
-	public void setSerialNumber(Integer serialNumber) {
-		this.serialNumber = serialNumber;
 	}
 }

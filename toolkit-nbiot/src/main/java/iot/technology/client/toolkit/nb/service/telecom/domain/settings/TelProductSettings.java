@@ -7,20 +7,20 @@ import java.io.Serializable;
  */
 public class TelProductSettings implements Serializable {
 
-	private Integer serialNumber;
+	private String appKey;
 
 	private String productName;
 
-	private Integer productId;
+	private String productId;
 
 	private String masterApiKey;
 
-	public Integer getSerialNumber() {
-		return serialNumber;
+	public String getAppKey() {
+		return appKey;
 	}
 
-	public void setSerialNumber(Integer serialNumber) {
-		this.serialNumber = serialNumber;
+	public void setAppKey(String appKey) {
+		this.appKey = appKey;
 	}
 
 	public String getProductName() {
@@ -31,11 +31,11 @@ public class TelProductSettings implements Serializable {
 		this.productName = productName;
 	}
 
-	public Integer getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 

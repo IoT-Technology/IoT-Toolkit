@@ -2,7 +2,7 @@ package iot.technology.client.toolkit.nb.service;
 
 import iot.technology.client.toolkit.common.constants.TelecomSettings;
 import iot.technology.client.toolkit.common.utils.SignUtils;
-import iot.technology.client.toolkit.nb.domain.telecom.TelecomConfigDomain;
+import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
 
 import java.util.HashMap;
 import java.util.Map;

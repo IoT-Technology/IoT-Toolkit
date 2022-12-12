@@ -1,13 +1,13 @@
 package iot.technology.client.toolkit.nb.command;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.NbSettingsCodeEnum;
-import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.common.rule.ProcessContext;
-import iot.technology.client.toolkit.common.rule.TkProcessor;
-import iot.technology.client.toolkit.common.utils.ColorUtils;
-import iot.technology.client.toolkit.nb.service.processor.TelecomProcessor;
+import iot.technology.client.toolkit.common.rule.NodeContext;
+import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.common.utils.ObjectUtils;
+import iot.technology.client.toolkit.nb.service.NbBizService;
+import iot.technology.client.toolkit.nb.service.NbConfigSettingsDomain;
+import iot.technology.client.toolkit.nb.service.NbRuleChainProcessor;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
@@ -17,10 +17,7 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import picocli.CommandLine;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -38,16 +35,12 @@ import java.util.concurrent.Callable;
 		footer = "%nDeveloped by mushuwei")
 public class NbCommand implements Callable<Integer> {
 
-	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
+	private final NbBizService bizService = new NbBizService();
+	private final NbRuleChainProcessor ruleChain = new NbRuleChainProcessor();
+	private final Map<String, String> processor = ruleChain.getNbRuleChainProcessor();
 
 	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
 	boolean usageHelpRequested;
-
-	public final List<TkProcessor> getTkProcessorList() {
-		List<TkProcessor> tkProcessorList = new ArrayList<>();
-		tkProcessorList.add(new TelecomProcessor());
-		return tkProcessorList;
-	}
 
 	@Override
 	public Integer call() throws Exception {
@@ -59,30 +52,33 @@ public class NbCommand implements Callable<Integer> {
 				.parser(new DefaultParser())
 				.build();
 
-		String prompt = bundle.getString(NbSettingsCodeEnum.NB_TYPE.getCode() + GlobalConstants.promptSuffix) +
-				GlobalConstants.promptSeparator;
-		printPrePrompt();
+		NodeContext context = new NodeContext();
+		NbConfigSettingsDomain domain = new NbConfigSettingsDomain();
+		String code = ruleChain.getNbTypeNode();
+
 		while (true) {
-			String data;
 			try {
-				data = reader.readLine(prompt);
-				ProcessContext context = new ProcessContext();
-				context.setData(data);
-				for (TkProcessor processor : getTkProcessorList()) {
-					if (processor.supports(context)) {
-						processor.handle(context);
-					}
+				String node = processor.get(code);
+				TkNode tkNode = ObjectUtils.initComponent(node);
+				if (tkNode == null) {
+					break;
 				}
+				tkNode.prePrompt(context);
+				String data = reader.readLine(tkNode.nodePrompt());
+				context.setData(data);
+				tkNode.check(context);
+				bizService.printValueToConsole(code, context);
+				ObjectUtils.setValue(domain, code, tkNode.getValue(context));
+				boolean processResult = bizService.nbProcessorAfterLogic(code, context, domain);
+				code = code.equals(NbSettingsCodeEnum.NB_TEL_API_KEY.getCode()) && !processResult ?
+						NbSettingsCodeEnum.NB_TYPE.getCode() : tkNode.nextNode(context);
+				
 			} catch (UserInterruptException | EndOfFileException e) {
 				return ExitCodeEnum.ERROR.getValue();
 			}
 		}
+		return ExitCodeEnum.SUCCESS.getValue();
 	}
 
-	public void printPrePrompt() {
-		if (bundle.getLocale().equals(Locale.CHINESE)) {
-			System.out.format(ColorUtils.greenItalic("(1) 电信AEP * ") + "%n");
-			System.out.format(ColorUtils.greenItalic("(2) 移动OneNET") + "%n");
-		}
-	}
+
 }
