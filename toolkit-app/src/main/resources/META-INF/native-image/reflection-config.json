@@ -256,5 +256,88 @@
     "allPublicClasses" : true,
     "allDeclaredConstructors" : true,
     "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.NbTypeNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.TelAppKeyNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.TelAppSecretNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.TelProductIdNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.NbTelecomAppConfigNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.TelApiKeyNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelQueryProductResponse",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.BaseTelResponse",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelQueryProductResponseBody",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.NbConfigSettingsDomain",
+    "fields" : [
+      { "name" : "nbType","allowUnsafeAccess": true},
+      { "name" : "nbTelecomAppConfig","allowUnsafeAccess": true},
+      { "name" : "nbTelAppSecret","allowUnsafeAccess": true},
+      { "name" : "nbTelAppKey","allowUnsafeAccess": true},
+      { "name" : "nbTelProductId","allowUnsafeAccess": true},
+      { "name" : "nbTelApiKey","allowUnsafeAccess": true}
+    ]
   }
 ]

@@ -40,10 +40,14 @@ public class TelecomBizService {
 					.parser(new DefaultParser())
 					.build();
 
-			String prompt = bundle.getString("nb.command.prompt") + GlobalConstants.promptSeparator;
-			while (true) {
+			String prompt = telecomConfigDomain.getProductName() + ":" + GlobalConstants.promptSeparator;
+			boolean isEnd = true;
+			while (isEnd) {
 				String data;
 				data = reader.readLine(prompt);
+				if (data.equals("quit")) {
+					return false;
+				}
 				ProcessContext context = new ProcessContext();
 				context.setData(data);
 				for (TkProcessor processor : getTkProcessorList()) {
@@ -55,6 +59,7 @@ public class TelecomBizService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		return true;
 	}
 
 }

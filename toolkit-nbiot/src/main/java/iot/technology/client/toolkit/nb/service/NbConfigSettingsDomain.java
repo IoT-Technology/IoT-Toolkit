@@ -3,7 +3,6 @@ package iot.technology.client.toolkit.nb.service;
 import iot.technology.client.toolkit.common.constants.NBTypeEnum;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
-import iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProductSettings;
 import iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings;
 
 import java.io.Serializable;
@@ -17,13 +16,9 @@ public class NbConfigSettingsDomain implements Serializable {
 
 	private String nbTelecomAppConfig;
 
-	private String nbTelProjectName;
-
 	private String nbTelAppSecret;
 
 	private String nbTelAppKey;
-
-	private String nbTelecomProductConfig;
 
 	private String nbTelProductId;
 
@@ -35,22 +30,28 @@ public class NbConfigSettingsDomain implements Serializable {
 			if (nbTelecomAppConfig.equals("new")) {
 				domain.setAppSecret(nbTelAppSecret);
 				domain.setAppKey(nbTelAppKey);
+				domain.setProductId(nbTelProductId);
+				domain.setMasterKey(nbTelApiKey);
 			} else {
 				TelProjectSettings projectSettings = JsonUtils.jsonToObject(nbTelecomAppConfig, TelProjectSettings.class);
 				domain.setAppKey(projectSettings.getAppKey());
 				domain.setAppSecret(projectSettings.getAppSecret());
-			}
-			if (nbTelecomProductConfig.equals("new")) {
-				domain.setProductId(nbTelProductId);
-				domain.setMasterKey(nbTelApiKey);
-			} else {
-				TelProductSettings productSettings = JsonUtils.jsonToObject(nbTelecomProductConfig, TelProductSettings.class);
-				domain.setProductId(productSettings.getProductId());
-				domain.setMasterKey(productSettings.getMasterApiKey());
+				domain.setProductId(projectSettings.getProductId());
+				domain.setMasterKey(projectSettings.getMasterApiKey());
 			}
 		}
 		return domain;
+	}
 
+	public TelecomConfigDomain oldSettingsConvertTelecomConfig() {
+		TelecomConfigDomain domain = new TelecomConfigDomain();
+		TelProjectSettings telProjectSettings = JsonUtils.jsonToObject(nbTelecomAppConfig, TelProjectSettings.class);
+		domain.setAppKey(telProjectSettings.getAppKey());
+		domain.setAppSecret(telProjectSettings.getAppSecret());
+		domain.setProductId(telProjectSettings.getProductId());
+		domain.setMasterKey(telProjectSettings.getMasterApiKey());
+		domain.setProductName(telProjectSettings.getProductName());
+		return domain;
 	}
 
 	public String getNbType() {
@@ -69,14 +70,6 @@ public class NbConfigSettingsDomain implements Serializable {
 		this.nbTelecomAppConfig = nbTelecomAppConfig;
 	}
 
-	public String getNbTelProjectName() {
-		return nbTelProjectName;
-	}
-
-	public void setNbTelProjectName(String nbTelProjectName) {
-		this.nbTelProjectName = nbTelProjectName;
-	}
-
 	public String getNbTelAppSecret() {
 		return nbTelAppSecret;
 	}
@@ -91,14 +84,6 @@ public class NbConfigSettingsDomain implements Serializable {
 
 	public void setNbTelAppKey(String nbTelAppKey) {
 		this.nbTelAppKey = nbTelAppKey;
-	}
-
-	public String getNbTelecomProductConfig() {
-		return nbTelecomProductConfig;
-	}
-
-	public void setNbTelecomProductConfig(String nbTelecomProductConfig) {
-		this.nbTelecomProductConfig = nbTelecomProductConfig;
 	}
 
 	public String getNbTelProductId() {

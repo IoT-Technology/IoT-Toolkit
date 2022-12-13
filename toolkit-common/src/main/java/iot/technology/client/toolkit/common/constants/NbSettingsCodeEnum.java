@@ -9,13 +9,9 @@ public enum NbSettingsCodeEnum {
 
 	NB_TELECOM_APP_CONFIG("nbTelecomAppConfig", "iot.technology.client.toolkit.nb.service.node.NbTelecomAppConfigNode"),
 
-	NB_TEL_PROJECT_NAME("nbTelProjectName", "iot.technology.client.toolkit.nb.service.node.TelProjectNameNode"),
-
 	NB_TEL_APP_SECRET("nbTelAppSecret", "iot.technology.client.toolkit.nb.service.node.TelAppSecretNode"),
 
 	NB_TEL_APP_KEY("nbTelAppKey", "iot.technology.client.toolkit.nb.service.node.TelAppKeyNode"),
-
-	NB_TELECOM_PRODUCT_CONFIG("nbTelecomProductConfig", "iot.technology.client.toolkit.nb.service.node.NbTelecomProductConfigNode"),
 
 	NB_TEL_PRODUCT_ID("nbTelProductId", "iot.technology.client.toolkit.nb.service.node.TelProductIdNode"),
 

@@ -41,7 +41,10 @@ public class TelApiKeyNode implements TkNode {
 
 	@Override
 	public String nextNode(NodeContext context) {
-		return NbSettingsCodeEnum.NB_TEL_API_KEY.getCode();
+		if (!context.isCheck()) {
+			return NbSettingsCodeEnum.NB_TEL_API_KEY.getCode();
+		}
+		return NbSettingsCodeEnum.NB_TYPE.getCode();
 	}
 
 	@Override

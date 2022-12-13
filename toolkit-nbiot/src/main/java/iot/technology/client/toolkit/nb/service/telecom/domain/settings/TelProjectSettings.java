@@ -7,19 +7,15 @@ import java.io.Serializable;
  */
 public class TelProjectSettings implements Serializable {
 
-	private String projectName;
+	private String productName;
 
 	private String appKey;
 
 	private String appSecret;
 
-	public String getProjectName() {
-		return projectName;
-	}
+	private String productId;
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+	private String masterApiKey;
 
 	public String getAppKey() {
 		return appKey;
@@ -35,5 +31,29 @@ public class TelProjectSettings implements Serializable {
 
 	public void setAppSecret(String appSecret) {
 		this.appSecret = appSecret;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public String getMasterApiKey() {
+		return masterApiKey;
+	}
+
+	public void setMasterApiKey(String masterApiKey) {
+		this.masterApiKey = masterApiKey;
 	}
 }

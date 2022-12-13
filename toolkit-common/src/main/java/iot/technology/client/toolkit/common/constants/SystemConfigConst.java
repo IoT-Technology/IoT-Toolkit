@@ -45,8 +45,6 @@ public class SystemConfigConst {
 
 	public static final String SYS_NB_TELECOM_ROOT_PATH = SYS_NB_ROOT_PATH + File.separator + "telecom";
 
-	public static final String SYS_NB_TELECOM_APP_FILE_NAME = SYS_NB_TELECOM_ROOT_PATH + File.separator + "app_settings.json";
-
 	public static final String SYS_NB_TELECOM_PRODUCT_FILE_NAME = SYS_NB_TELECOM_ROOT_PATH + File.separator + "product_settings.json";
 
 	public static final String SYS_NB_MOBILE_ROOT_PATH = SYS_NB_ROOT_PATH + File.separator + "mobile";

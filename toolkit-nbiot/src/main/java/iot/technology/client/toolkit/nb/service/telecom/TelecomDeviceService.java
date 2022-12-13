@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * device management
- *
+ * <p>
  * 1、add nb device
  * 2、delete device by imei list
  * 3、update device info
@@ -26,12 +26,16 @@ import java.util.Map;
  */
 public class TelecomDeviceService extends AbstractTelecomService {
 
+    public static String querySingleDeviceByImei(TelecomConfigDomain domain, String imei) {
+        return null;
+    }
+
     public static String addNBDevice(TelecomConfigDomain config, BatchAddNBDeviceDomain batchAddNBDeviceDomain) throws Exception {
         long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
         HttpRequestEntity entity = new HttpRequestEntity();
         entity.setType(NBTypeEnum.TELECOM.getValue());
         entity.setUrl(TelecomSettings.ADD_DEVICE_URL);
-        Map<String, String> headerMap =  getHeaders(config, timestamp);
+        Map<String, String> headerMap = getHeaders(config, timestamp);
         headerMap.put(TelecomSettings.VERSION, "20181031202117");
         headerMap.put(TelecomSettings.MASTER_KEY, config.getMasterKey());
 
@@ -80,7 +84,4 @@ public class TelecomDeviceService extends AbstractTelecomService {
         return null;
     }
 
-
-    public static void main(String[] args) throws Exception {
-    }
 }

@@ -28,7 +28,7 @@ public class NbTelecomAppConfigNode implements TkNode {
 			List<String> configList = context.getPromptData();
 			Stream.iterate(0, i -> i + 1).limit(configList.size()).forEach(i -> {
 				TelProjectSettings settings = JsonUtils.jsonToObject(configList.get(i), TelProjectSettings.class);
-				System.out.format(ColorUtils.greenItalic(i + "   :" + Objects.requireNonNull(settings).getProjectName()) + "%n");
+				System.out.format(ColorUtils.greenItalic(i + "   :" + Objects.requireNonNull(settings).getProductName()) + "%n");
 			});
 		}
 		System.out.format(ColorUtils.greenItalic("new" + " :" + bundle.getString("nb.new.config.desc")) + "%n");
@@ -63,9 +63,9 @@ public class NbTelecomAppConfigNode implements TkNode {
 			return NbSettingsCodeEnum.NB_TELECOM_APP_CONFIG.getCode();
 		}
 		if (context.getData().equals("new")) {
-			return NbSettingsCodeEnum.NB_TEL_PROJECT_NAME.getCode();
+			return NbSettingsCodeEnum.NB_TEL_APP_KEY.getCode();
 		}
-		return NbSettingsCodeEnum.NB_TEL_PROJECT_NAME.getCode();
+		return NbSettingsCodeEnum.NB_TYPE.getCode();
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package iot.technology.client.toolkit.nb.command;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.NbSettingsCodeEnum;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
@@ -69,10 +68,8 @@ public class NbCommand implements Callable<Integer> {
 				tkNode.check(context);
 				bizService.printValueToConsole(code, context);
 				ObjectUtils.setValue(domain, code, tkNode.getValue(context));
-				boolean processResult = bizService.nbProcessorAfterLogic(code, context, domain);
-				code = code.equals(NbSettingsCodeEnum.NB_TEL_API_KEY.getCode()) && !processResult ?
-						NbSettingsCodeEnum.NB_TYPE.getCode() : tkNode.nextNode(context);
-				
+				bizService.nbProcessorAfterLogic(code, domain, context);
+				code = tkNode.nextNode(context);
 			} catch (UserInterruptException | EndOfFileException e) {
 				return ExitCodeEnum.ERROR.getValue();
 			}
