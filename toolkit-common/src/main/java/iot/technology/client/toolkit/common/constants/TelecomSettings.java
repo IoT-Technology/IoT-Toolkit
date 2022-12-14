@@ -1,5 +1,6 @@
 package iot.technology.client.toolkit.common.constants;
 
+
 public interface TelecomSettings {
 
     /**
@@ -7,6 +8,7 @@ public interface TelecomSettings {
      */
     String HTTP_MEDIA_TYPE_HEADER = "Content-Type";
     String MEDIA_TYPE_FORM_URLENCODED = "application/x-www-form-urlencoded; charset=UTF-8";
+    String MEDIA_TYPE_JSON = "application/json; charset=UTF-8";
 
     /**
      * telecom general configurations
@@ -19,6 +21,7 @@ public interface TelecomSettings {
     String SIGNATURE = "signature";
     String timestampHeader = "x-ag-timestamp";
     String PRODUCT = "productId";
+    String IMEI = "imei";
 
 
     String ROOT_URL = "http://ag-api.ctwing.cn";
@@ -39,6 +42,9 @@ public interface TelecomSettings {
      * device management
      */
     String DEVICE_URL = "/aep_device_management";
+    String NB_DEVICE_URL = "/aep_nb_device_management";
+    String QUERY_DEVICE_BY_IMEI = ROOT_URL + NB_DEVICE_URL + "/getDeviceByImei";
+    String QUERY_DEVICE_BY_IMEI_API_VERSION = "20221130175656";
     String ADD_DEVICE_URL = ROOT_URL + DEVICE_URL + "/device";
     String DEL_DEVICE_URL = ROOT_URL + DEVICE_URL + "/deleteDevice";
 

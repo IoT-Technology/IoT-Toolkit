@@ -3,12 +3,17 @@ package iot.technology.client.toolkit.nb.service.processor;
 
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
+import iot.technology.client.toolkit.nb.service.processor.telecom.TelGetDeviceByImeiProcessor;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
+import org.jline.reader.Completer;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.impl.DefaultParser;
+import org.jline.reader.impl.completer.AggregateCompleter;
+import org.jline.reader.impl.completer.ArgumentCompleter;
+import org.jline.reader.impl.completer.NullCompleter;
+import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.reader.impl.history.DefaultHistory;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
@@ -24,8 +29,12 @@ public class TelecomBizService {
 
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
+	Completer listCompleter = new ArgumentCompleter(new StringsCompleter("get"), NullCompleter.INSTANCE);
+	Completer telecomCompleter = new AggregateCompleter(listCompleter);
+
 	public final List<TkProcessor> getTkProcessorList() {
 		List<TkProcessor> tkProcessorList = new ArrayList<>();
+		tkProcessorList.add(new TelGetDeviceByImeiProcessor());
 		return tkProcessorList;
 	}
 
@@ -36,19 +45,21 @@ public class TelecomBizService {
 					.build();
 			LineReader reader = LineReaderBuilder.builder()
 					.terminal(terminal)
+					.completer(telecomCompleter)
 					.history(new DefaultHistory())
 					.parser(new DefaultParser())
 					.build();
 
 			String prompt = telecomConfigDomain.getProductName() + ":" + GlobalConstants.promptSeparator;
 			boolean isEnd = true;
+			TelProcessContext context = new TelProcessContext();
+			context.setTelecomConfigDomain(telecomConfigDomain);
 			while (isEnd) {
 				String data;
 				data = reader.readLine(prompt);
 				if (data.equals("quit")) {
 					return false;
 				}
-				ProcessContext context = new ProcessContext();
 				context.setData(data);
 				for (TkProcessor processor : getTkProcessorList()) {
 					if (processor.supports(context)) {

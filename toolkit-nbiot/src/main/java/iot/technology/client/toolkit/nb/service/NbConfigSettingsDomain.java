@@ -24,6 +24,14 @@ public class NbConfigSettingsDomain implements Serializable {
 
 	private String nbTelApiKey;
 
+	private String nbMobileAppConfig;
+
+	private String nbMobProductName;
+
+	private String nbMobProductId;
+
+	private String nbMobAccessKey;
+
 	public TelecomConfigDomain convertTelecomConfig() {
 		TelecomConfigDomain domain = new TelecomConfigDomain();
 		if (nbType.equals(NBTypeEnum.TELECOM.getValue())) {
@@ -100,5 +108,37 @@ public class NbConfigSettingsDomain implements Serializable {
 
 	public void setNbTelApiKey(String nbTelApiKey) {
 		this.nbTelApiKey = nbTelApiKey;
+	}
+
+	public String getNbMobProductName() {
+		return nbMobProductName;
+	}
+
+	public void setNbMobProductName(String nbMobProductName) {
+		this.nbMobProductName = nbMobProductName;
+	}
+
+	public String getNbMobProductId() {
+		return nbMobProductId;
+	}
+
+	public void setNbMobProductId(String nbMobProductId) {
+		this.nbMobProductId = nbMobProductId;
+	}
+
+	public String getNbMobAccessKey() {
+		return nbMobAccessKey;
+	}
+
+	public void setNbMobAccessKey(String nbMobAccessKey) {
+		this.nbMobAccessKey = nbMobAccessKey;
+	}
+
+	public String getNbMobileAppConfig() {
+		return nbMobileAppConfig;
+	}
+
+	public void setNbMobileAppConfig(String nbMobileAppConfig) {
+		this.nbMobileAppConfig = nbMobileAppConfig;
 	}
 }
