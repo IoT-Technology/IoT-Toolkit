@@ -2,7 +2,6 @@ package iot.technology.client.toolkit.nb.service.processor.telecom;
 
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
-import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.nb.service.processor.TelProcessContext;
 import iot.technology.client.toolkit.nb.service.telecom.TelecomDeviceService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelQueryDeviceByImeiResponse;
@@ -25,6 +24,8 @@ public class TelGetDeviceByImeiProcessor implements TkProcessor {
 		TelProcessContext telProcessContext = (TelProcessContext) context;
 		TelQueryDeviceByImeiResponse response =
 				telecomDeviceService.querySingleDeviceByImei(telProcessContext.getTelecomConfigDomain(), imei);
-		System.out.println(JsonUtils.object2Json(response));
+		if (response.isSuccess()) {
+
+		}
 	}
 }

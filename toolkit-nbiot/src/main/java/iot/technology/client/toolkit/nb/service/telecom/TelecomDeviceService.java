@@ -60,14 +60,13 @@ public class TelecomDeviceService extends AbstractTelecomService {
                     System.out.format(ColorUtils.redError(queryDeviceByImeiResponse.getMsg()));
                     queryDeviceByImeiResponse.setSuccess(Boolean.FALSE);
                 }
-                return queryDeviceByImeiResponse;
             } else {
                 queryDeviceByImeiResponse.setSuccess(Boolean.FALSE);
                 System.out.format(config.getProductId() + ColorUtils.redError(" querySingleDeviceByImei failed!"));
-                return queryDeviceByImeiResponse;
             }
+            return queryDeviceByImeiResponse;
         } catch (Exception e) {
-            queryDeviceByImeiResponse.setSuccess(false);
+            queryDeviceByImeiResponse.setSuccess(Boolean.FALSE);
             System.out.format(config.getProductId() + ColorUtils.redError(" querySingleDeviceByImei failed!"));
             return queryDeviceByImeiResponse;
         }
