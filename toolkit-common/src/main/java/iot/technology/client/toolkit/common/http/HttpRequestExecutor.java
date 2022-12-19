@@ -25,7 +25,7 @@ public class HttpRequestExecutor {
         return okHttpBuilder.build();
     }
 
-    public static HttpResponseEntity executePost(HttpRequestEntity request) throws Exception {
+    public static HttpResponseEntity executePost(HttpRequestEntity request) {
         RequestBody body = RequestBody.create(request.getJson(), MediaType.get("application/json;charset=utf-8"));
         final OkHttpClient client = initOkHttp3(request.getType());
 
@@ -33,6 +33,29 @@ public class HttpRequestExecutor {
 
         Request.Builder builder = new Request.Builder();
         builder.url(httpBuilder.build()).post(body);
+        if (!request.getHeaders().isEmpty()) {
+            builder.headers(Headers.of(request.getHeaders()));
+        }
+        Call call = client.newCall(builder.build());
+        HttpResponseEntity entity = new HttpResponseEntity();
+        try (Response response = call.execute()) {
+            if (response.isSuccessful()) {
+                entity.setBody(Objects.requireNonNull(response.body()).string());
+                entity.setMultiMap(response.headers().toMultimap());
+            }
+        } catch (Exception e) {
+        }
+        return entity;
+    }
+
+    public static HttpResponseEntity executePut(HttpRequestEntity request) {
+        RequestBody body = RequestBody.create(request.getJson(), MediaType.get("application/json;charset=utf-8"));
+        final OkHttpClient client = initOkHttp3(request.getType());
+
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
+
+        Request.Builder builder = new Request.Builder();
+        builder.url(httpBuilder.build()).put(body);
         if (!request.getHeaders().isEmpty()) {
             builder.headers(Headers.of(request.getHeaders()));
         }
@@ -70,32 +93,6 @@ public class HttpRequestExecutor {
                 entity.setMultiMap(response.headers().toMultimap());
             }
         } catch (Exception e) {
-        }
-        return entity;
-    }
-
-    public static HttpResponseEntity executeDelete(HttpRequestEntity request) throws Exception {
-        final OkHttpClient client = initOkHttp3(request.getType());
-
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
-        if (request.getParams() != null && !request.getParams().isEmpty()) {
-            for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
-                urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());
-            }
-        }
-
-        Request.Builder builder = new Request.Builder().url(urlBuilder.build()).delete();
-
-        if (request.getHeaders() != null && !request.getHeaders().isEmpty()) {
-            builder.headers(Headers.of(request.getHeaders()));
-        }
-        Call call = client.newCall(builder.build());
-        HttpResponseEntity entity = new HttpResponseEntity();
-        try (Response response = call.execute()) {
-            if (response.isSuccessful()) {
-                entity.setBody(response.body().string());
-                entity.setMultiMap(response.headers().toMultimap());
-            }
         }
         return entity;
     }

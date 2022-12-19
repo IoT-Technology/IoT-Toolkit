@@ -10,9 +10,7 @@ import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
-import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelDelDeviceByImeiRequest;
-import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelDelDeviceByImeiResponse;
-import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelQueryDeviceByImeiResponse;
+import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -22,10 +20,10 @@ import java.util.Map;
 /**
  * device management
  * <p>
- * 1、add nb device
+ * 1、batch add nb device
  * 2、delete device by imei list
  * 3、update device info
- * 4、query device info by deviceId
+ * 4、query device info by imei
  */
 public class TelecomDeviceService extends AbstractTelecomService {
 
@@ -104,15 +102,90 @@ public class TelecomDeviceService extends AbstractTelecomService {
         }
     }
 
-//    public static void main(String[] args) throws Exception {
-//        TelecomConfigDomain config = new TelecomConfigDomain();
-//        config.setAppKey("WLGBbIxHJI4");
-//        config.setAppSecret("PiqkIxyCC0");
-//        config.setProductId("15311170");
-//        config.setMasterKey("b27336acc98b48889b5a819b65f247f6");
-//        List<String> imeiList = new ArrayList<>();
-//        imeiList.add("869619052948079");
-//        delDeviceByImei(config, imeiList);
-//    }
+    public TelUpdateDeviceResponse updateDevice(TelecomConfigDomain config, String imei, String deviceName) {
+        TelUpdateDeviceResponse updateDeviceResponse = new TelUpdateDeviceResponse();
+        try {
+            TelQueryDeviceByImeiResponse queryDeviceByImeiResponse = this.querySingleDeviceByImei(config, imei);
+            if (queryDeviceByImeiResponse.isSuccess()) {
+                TelQueryDeviceByImeiBody deviceInfo = queryDeviceByImeiResponse.getResult();
+                HttpRequestEntity entity = new HttpRequestEntity();
+                entity.setType(NBTypeEnum.TELECOM.getValue());
+                entity.setUrl(TelecomSettings.TEL_UPDATE_DEVICE);
+
+                Map<String, String> params = new HashMap<>();
+                params.put(TelecomSettings.MASTER_KEY, config.getMasterKey());
+                params.put("deviceId", deviceInfo.getDeviceId());
+
+                TelUpdateDeviceOtherRequest deviceOtherRequest = new TelUpdateDeviceOtherRequest();
+                deviceOtherRequest.setImsi(deviceInfo.getImsi());
+                deviceOtherRequest.setAutoObserver(deviceInfo.getAutoObserver());
+                TelUpdateDeviceRequest updateDeviceRequest = new TelUpdateDeviceRequest();
+                updateDeviceRequest.setDeviceName(deviceName);
+                updateDeviceRequest.setOperator("toolkit");
+                updateDeviceRequest.setProductId(Integer.valueOf(config.getProductId()));
+                updateDeviceRequest.setOther(deviceOtherRequest);
+
+                String requestJson = JsonUtils.object2Json(updateDeviceRequest);
+                entity.setJson(requestJson);
+                byte[] bodyArrays = requestJson.getBytes(StandardCharsets.UTF_8);
+                Map<String, String> headerMap = getHeaderMap(config, TelecomSettings.TEL_UPDATE_DEVICE_VERSION, params, bodyArrays);
+                entity.setHeaders(headerMap);
+                entity.setParams(params);
+                HttpResponseEntity response = HttpRequestExecutor.executePut(entity);
+                if (StringUtils.isNotBlank(response.getBody())) {
+                    updateDeviceResponse = JsonUtils.jsonToObject(response.getBody(), TelUpdateDeviceResponse.class);
+                    if (updateDeviceResponse.getCode() == 0) {
+                        updateDeviceResponse.setSuccess(Boolean.TRUE);
+                    } else {
+                        System.out.format(ColorUtils.redError(updateDeviceResponse.getMsg()));
+                        updateDeviceResponse.setSuccess(Boolean.FALSE);
+                    }
+                } else {
+                    updateDeviceResponse.setSuccess(Boolean.FALSE);
+                    System.out.format(config.getProductId() + ColorUtils.redError(" updateDevice failed!"));
+                }
+                return updateDeviceResponse;
+            }
+        } catch (Exception e) {
+            updateDeviceResponse.setSuccess(Boolean.TRUE);
+            System.out.format(config.getProductId() + ColorUtils.redError(" updateDevice failed!"));
+            return updateDeviceResponse;
+        }
+        return updateDeviceResponse;
+    }
+
+
+    public TelBatchAddDeviceResponse batchAddDevice(TelecomConfigDomain config, TelBatchAddDeviceRequest batchAddDeviceRequest) {
+        TelBatchAddDeviceResponse batchAddDeviceResponse = new TelBatchAddDeviceResponse();
+        try {
+            HttpRequestEntity entity = new HttpRequestEntity();
+            entity.setType(NBTypeEnum.TELECOM.getValue());
+            entity.setUrl(TelecomSettings.TEL_BATCH_ADD_NB_DEVICE);
+            String requestJson = JsonUtils.object2Json(batchAddDeviceRequest);
+            entity.setJson(requestJson);
+            byte[] bodyArrays = requestJson.getBytes(StandardCharsets.UTF_8);
+            Map<String, String> headerMap = getHeaderMap(config, TelecomSettings.TEL_BATCH_ADD_NB_DEVICE_API_VERSION, null, bodyArrays);
+            entity.setHeaders(headerMap);
+            entity.setParams(null);
+            HttpResponseEntity response = HttpRequestExecutor.executePost(entity);
+            if (StringUtils.isNotBlank(response.getBody())) {
+                batchAddDeviceResponse = JsonUtils.jsonToObject(response.getBody(), TelBatchAddDeviceResponse.class);
+                if (batchAddDeviceResponse.getCode() == 0) {
+                    batchAddDeviceResponse.setSuccess(Boolean.TRUE);
+                } else {
+                    System.out.format(ColorUtils.redError(batchAddDeviceResponse.getMsg()));
+                    batchAddDeviceResponse.setSuccess(Boolean.FALSE);
+                }
+            } else {
+                batchAddDeviceResponse.setSuccess(Boolean.FALSE);
+                System.out.format(config.getProductId() + ColorUtils.redError(" batchAddDevice failed!"));
+            }
+            return batchAddDeviceResponse;
+        } catch (Exception e) {
+            batchAddDeviceResponse.setSuccess(Boolean.FALSE);
+            System.out.format(config.getProductId() + ColorUtils.redError(" batchAddDevice failed!"));
+            return batchAddDeviceResponse;
+        }
+    }
 
 }
