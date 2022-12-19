@@ -2,12 +2,11 @@ package iot.technology.client.toolkit.nb.service.telecom;
 
 import iot.technology.client.toolkit.common.constants.NBTypeEnum;
 import iot.technology.client.toolkit.common.constants.TelecomSettings;
-import iot.technology.client.toolkit.common.http.HttpGetResponseEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestExecutor;
+import iot.technology.client.toolkit.common.http.HttpResponseEntity;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
-import iot.technology.client.toolkit.common.utils.SignUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
@@ -26,19 +25,15 @@ public class TelecomProductService extends AbstractTelecomService {
 	public TelQueryProductResponse queryProduct(TelecomConfigDomain config) {
 		TelQueryProductResponse queryProductResponse = new TelQueryProductResponse();
 		try {
-			long timestamp = System.currentTimeMillis() + SignUtils.getTelecomRequestTimeOffset();
 			HttpRequestEntity entity = new HttpRequestEntity();
 			entity.setType(NBTypeEnum.TELECOM.getValue());
-			entity.setUrl(TelecomSettings.PRODUCT_URL);
-			Map<String, String> headerMap = getHeaders(config, timestamp);
-			headerMap.put(TelecomSettings.VERSION, TelecomSettings.QUERY_PRODUCT_API_VERSION);
+			entity.setUrl(TelecomSettings.TEL_PRODUCT_URL);
 			Map<String, String> params = new HashMap<>();
 			params.put(TelecomSettings.PRODUCT, config.getProductId());
-			String signature = SignUtils.aepSignAlgorithm(params, timestamp, config.getAppKey(), config.getAppSecret(), null);
-			headerMap.put(TelecomSettings.SIGNATURE, signature);
+			Map<String, String> headerMap = getHeaderMap(config, TelecomSettings.TEL_QUERY_PRODUCT_API_VERSION, params, null);
 			entity.setHeaders(headerMap);
 			entity.setParams(params);
-			HttpGetResponseEntity response = HttpRequestExecutor.executeGet(entity);
+			HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
 			if (StringUtils.isNotBlank(response.getBody())) {
 				queryProductResponse = JsonUtils.jsonToObject(response.getBody(), TelQueryProductResponse.class);
 				if (queryProductResponse.getCode() == 0) {

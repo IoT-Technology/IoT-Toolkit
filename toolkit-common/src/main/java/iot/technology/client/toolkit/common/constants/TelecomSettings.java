@@ -24,28 +24,30 @@ public interface TelecomSettings {
     String IMEI = "imei";
 
 
-    String ROOT_URL = "http://ag-api.ctwing.cn";
+    /**
+     * Telecom API and API VERSION
+     */
+    String TEL_ROOT_URL = "http://ag-api.ctwing.cn";
     /**
      * echo url
      */
-    String ECHO_URL = ROOT_URL + "/echo";
+    String TEL_ECHO_URL = TEL_ROOT_URL + "/echo";
 
     /**
      * product management
      */
-    String QUERY_PRODUCT_API_VERSION = "20181031202055";
-    String DELETE_PRODUCT_API_VERSION = "20181031202029";
-    String PRODUCT_ROOT_URL = "/aep_product_management";
-    String PRODUCT_URL = ROOT_URL + PRODUCT_ROOT_URL + "/product";
+    String TEL_QUERY_PRODUCT_API_VERSION = "20181031202055";
+    String TEL_PRODUCT_ROOT_URL = "/aep_product_management";
+    String TEL_PRODUCT_URL = TEL_ROOT_URL + TEL_PRODUCT_ROOT_URL + "/product";
 
     /**
      * device management
      */
-    String DEVICE_URL = "/aep_device_management";
-    String NB_DEVICE_URL = "/aep_nb_device_management";
-    String QUERY_DEVICE_BY_IMEI = ROOT_URL + NB_DEVICE_URL + "/getDeviceByImei";
-    String QUERY_DEVICE_BY_IMEI_API_VERSION = "20221130175656";
-    String ADD_DEVICE_URL = ROOT_URL + DEVICE_URL + "/device";
-    String DEL_DEVICE_URL = ROOT_URL + DEVICE_URL + "/deleteDevice";
+    String TEL_DEVICE_URL = "/aep_device_management";
+    String TEL_NB_DEVICE_URL = "/aep_nb_device_management";
+    String TEL_QUERY_DEVICE_BY_IMEI = TEL_ROOT_URL + TEL_NB_DEVICE_URL + "/getDeviceByImei";
+    String TEL_DELETE_DEVICE_BY_IMEI = TEL_ROOT_URL + TEL_NB_DEVICE_URL + "/deleteDeviceByImei";
+    String TEL_QUERY_DEVICE_BY_IMEI_API_VERSION = "20221130175656";
+    String TEL_DELETE_DEVICE_BY_IMEI_API_VERSION = "20220226071405";
 
 }

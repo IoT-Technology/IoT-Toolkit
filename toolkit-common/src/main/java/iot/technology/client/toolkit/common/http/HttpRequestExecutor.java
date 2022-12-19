@@ -25,7 +25,7 @@ public class HttpRequestExecutor {
         return okHttpBuilder.build();
     }
 
-    public static String executePost(HttpRequestEntity request) throws Exception {
+    public static HttpResponseEntity executePost(HttpRequestEntity request) throws Exception {
         RequestBody body = RequestBody.create(request.getJson(), MediaType.get("application/json;charset=utf-8"));
         final OkHttpClient client = initOkHttp3(request.getType());
 
@@ -37,20 +37,18 @@ public class HttpRequestExecutor {
             builder.headers(Headers.of(request.getHeaders()));
         }
         Call call = client.newCall(builder.build());
-
+        HttpResponseEntity entity = new HttpResponseEntity();
         try (Response response = call.execute()) {
             if (response.isSuccessful()) {
-                try (ResponseBody responseBody = response.body()) {
-                    return responseBody.string();
-                }
-            } else {
-                System.out.format("request error, code:%s, url:%s", response.code(), request.getUrl());
+                entity.setBody(Objects.requireNonNull(response.body()).string());
+                entity.setMultiMap(response.headers().toMultimap());
             }
+        } catch (Exception e) {
         }
-        return null;
+        return entity;
     }
 
-    public static HttpGetResponseEntity executeGet(HttpRequestEntity request) {
+    public static HttpResponseEntity executeGet(HttpRequestEntity request) {
         final OkHttpClient client = initOkHttp3(request.getType());
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
@@ -65,7 +63,7 @@ public class HttpRequestExecutor {
             builder.headers(Headers.of(request.getHeaders()));
         }
         Call call = client.newCall(builder.build());
-        HttpGetResponseEntity entity = new HttpGetResponseEntity();
+        HttpResponseEntity entity = new HttpResponseEntity();
         try (Response response = call.execute()) {
             if (response.isSuccessful()) {
                 entity.setBody(Objects.requireNonNull(response.body()).string());
@@ -76,7 +74,7 @@ public class HttpRequestExecutor {
         return entity;
     }
 
-    public static HttpGetResponseEntity executeDelete(HttpRequestEntity request) throws Exception {
+    public static HttpResponseEntity executeDelete(HttpRequestEntity request) throws Exception {
         final OkHttpClient client = initOkHttp3(request.getType());
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
@@ -92,7 +90,7 @@ public class HttpRequestExecutor {
             builder.headers(Headers.of(request.getHeaders()));
         }
         Call call = client.newCall(builder.build());
-        HttpGetResponseEntity entity = new HttpGetResponseEntity();
+        HttpResponseEntity entity = new HttpResponseEntity();
         try (Response response = call.execute()) {
             if (response.isSuccessful()) {
                 entity.setBody(response.body().string());

@@ -1,9 +1,9 @@
 package iot.technology.client.toolkit.common.utils;
 
 import iot.technology.client.toolkit.common.constants.TelecomSettings;
-import iot.technology.client.toolkit.common.http.HttpGetResponseEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestEntity;
 import iot.technology.client.toolkit.common.http.HttpRequestExecutor;
+import iot.technology.client.toolkit.common.http.HttpResponseEntity;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -66,10 +66,10 @@ public class SignUtils {
     public static long getTelecomRequestTimeOffset() throws Exception {
         long offset = 0;
         HttpRequestEntity request = new HttpRequestEntity();
-        request.setUrl(TelecomSettings.ECHO_URL);
+        request.setUrl(TelecomSettings.TEL_ECHO_URL);
         request.setType("telecom");
         long start = System.currentTimeMillis();
-        HttpGetResponseEntity response = HttpRequestExecutor.executeGet(request);
+        HttpResponseEntity response = HttpRequestExecutor.executeGet(request);
         long end = System.currentTimeMillis();
 
         Map<String, List<String>> multiMap = response.getMultiMap();

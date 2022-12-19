@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class HttpGetResponseEntity implements Serializable {
+public class HttpResponseEntity implements Serializable {
 
     private String body;
 

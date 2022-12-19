@@ -23,6 +23,12 @@ public class TelQueryDeviceByImeiBody implements Serializable {
 
 	private Long createTime;
 
+	private String createBy;
+
+	private Long updateTime;
+
+	private String updateBy;
+
 	private Integer netStatus;
 
 	private Long onlineAt;
@@ -30,7 +36,7 @@ public class TelQueryDeviceByImeiBody implements Serializable {
 	private Long offlineAt;
 
 	private String firmwareVersion;
-	
+
 
 	public String getDeviceId() {
 		return deviceId;
@@ -126,5 +132,29 @@ public class TelQueryDeviceByImeiBody implements Serializable {
 
 	public void setImsi(String imsi) {
 		this.imsi = imsi;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public Long getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Long updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 	}
 }

@@ -4,6 +4,7 @@ package iot.technology.client.toolkit.nb.service.processor;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
+import iot.technology.client.toolkit.nb.service.processor.telecom.TelDelDeviceByImeiProcessor;
 import iot.technology.client.toolkit.nb.service.processor.telecom.TelGetDeviceByImeiProcessor;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
 import org.jline.reader.Completer;
@@ -30,11 +31,14 @@ public class TelecomBizService {
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	Completer listCompleter = new ArgumentCompleter(new StringsCompleter("get"), NullCompleter.INSTANCE);
-	Completer telecomCompleter = new AggregateCompleter(listCompleter);
+	Completer deleteCompleter = new ArgumentCompleter(new StringsCompleter("del"), NullCompleter.INSTANCE);
+
+	Completer telecomCompleter = new AggregateCompleter(listCompleter, deleteCompleter);
 
 	public final List<TkProcessor> getTkProcessorList() {
 		List<TkProcessor> tkProcessorList = new ArrayList<>();
 		tkProcessorList.add(new TelGetDeviceByImeiProcessor());
+		tkProcessorList.add(new TelDelDeviceByImeiProcessor());
 		return tkProcessorList;
 	}
 
