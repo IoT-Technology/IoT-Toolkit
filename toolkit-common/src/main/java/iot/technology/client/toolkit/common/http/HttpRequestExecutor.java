@@ -53,10 +53,14 @@ public class HttpRequestExecutor {
         final OkHttpClient client = initOkHttp3(request.getType());
 
         HttpUrl.Builder httpBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
-
+        if (request.getParams() != null && !request.getParams().isEmpty()) {
+            for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
+                httpBuilder.addQueryParameter(entry.getKey(), entry.getValue());
+            }
+        }
         Request.Builder builder = new Request.Builder();
         builder.url(httpBuilder.build()).put(body);
-        if (!request.getHeaders().isEmpty()) {
+        if (request.getHeaders() != null && !request.getHeaders().isEmpty()) {
             builder.headers(Headers.of(request.getHeaders()));
         }
         Call call = client.newCall(builder.build());

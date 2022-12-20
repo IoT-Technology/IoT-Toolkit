@@ -8,7 +8,6 @@ import iot.technology.client.toolkit.common.http.HttpResponseEntity;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.*;
 
@@ -16,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * device management
@@ -105,16 +105,19 @@ public class TelecomDeviceService extends AbstractTelecomService {
     public TelUpdateDeviceResponse updateDevice(TelecomConfigDomain config, String imei, String deviceName) {
         TelUpdateDeviceResponse updateDeviceResponse = new TelUpdateDeviceResponse();
         try {
-            TelQueryDeviceByImeiResponse queryDeviceByImeiResponse = this.querySingleDeviceByImei(config, imei);
+            TelQueryDeviceByImeiResponse queryDeviceByImeiResponse = querySingleDeviceByImei(config, imei);
             if (queryDeviceByImeiResponse.isSuccess()) {
                 TelQueryDeviceByImeiBody deviceInfo = queryDeviceByImeiResponse.getResult();
                 HttpRequestEntity entity = new HttpRequestEntity();
                 entity.setType(NBTypeEnum.TELECOM.getValue());
                 entity.setUrl(TelecomSettings.TEL_UPDATE_DEVICE);
 
-                Map<String, String> params = new HashMap<>();
-                params.put(TelecomSettings.MASTER_KEY, config.getMasterKey());
-                params.put("deviceId", deviceInfo.getDeviceId());
+                Map<String, String> encryptParams = new HashMap<>();
+                encryptParams.put(TelecomSettings.MASTER_KEY, config.getMasterKey());
+                encryptParams.put("deviceId", deviceInfo.getDeviceId());
+
+                Map<String, String> queryParams = new HashMap<>();
+                queryParams.put("deviceId", deviceInfo.getDeviceId());
 
                 TelUpdateDeviceOtherRequest deviceOtherRequest = new TelUpdateDeviceOtherRequest();
                 deviceOtherRequest.setImsi(deviceInfo.getImsi());
@@ -128,9 +131,10 @@ public class TelecomDeviceService extends AbstractTelecomService {
                 String requestJson = JsonUtils.object2Json(updateDeviceRequest);
                 entity.setJson(requestJson);
                 byte[] bodyArrays = requestJson.getBytes(StandardCharsets.UTF_8);
-                Map<String, String> headerMap = getHeaderMap(config, TelecomSettings.TEL_UPDATE_DEVICE_VERSION, params, bodyArrays);
+                Map<String, String> headerMap =
+                        getHeaderMap(config, TelecomSettings.TEL_UPDATE_DEVICE_API_VERSION, encryptParams, bodyArrays);
                 entity.setHeaders(headerMap);
-                entity.setParams(params);
+                entity.setParams(queryParams);
                 HttpResponseEntity response = HttpRequestExecutor.executePut(entity);
                 if (StringUtils.isNotBlank(response.getBody())) {
                     updateDeviceResponse = JsonUtils.jsonToObject(response.getBody(), TelUpdateDeviceResponse.class);
@@ -185,6 +189,54 @@ public class TelecomDeviceService extends AbstractTelecomService {
             batchAddDeviceResponse.setSuccess(Boolean.FALSE);
             System.out.format(config.getProductId() + ColorUtils.redError(" batchAddDevice failed!"));
             return batchAddDeviceResponse;
+        }
+    }
+
+    public TelQueryDeviceListResponse queryDeviceList(TelecomConfigDomain config, String searchValue, Integer pageNow) {
+        TelQueryDeviceListResponse queryDeviceListResponse = new TelQueryDeviceListResponse();
+        try {
+            HttpRequestEntity entity = new HttpRequestEntity();
+            entity.setType(NBTypeEnum.TELECOM.getValue());
+            entity.setUrl(TelecomSettings.TEL_QUERY_DEVICE_LIST);
+
+            Map<String, String> encryptParams = new HashMap<>();
+            Map<String, String> queryParams = new HashMap<>();
+
+            encryptParams.put(TelecomSettings.MASTER_KEY, config.getMasterKey());
+            encryptParams.put(TelecomSettings.PRODUCT, config.getProductId());
+            queryParams.put(TelecomSettings.PRODUCT, config.getProductId());
+            pageNow = Objects.isNull(pageNow) ? 1 : pageNow;
+            searchValue = Objects.isNull(searchValue) ? null : searchValue;
+            encryptParams.put("pageNow", String.valueOf(pageNow));
+            queryParams.put("pageNow", String.valueOf(pageNow));
+            encryptParams.put("pageSize", "20");
+            queryParams.put("pageSize", "20");
+            encryptParams.put("searchValue", searchValue);
+            queryParams.put("searchValue", searchValue);
+
+
+            Map<String, String> headerMap =
+                    getHeaderMap(config, TelecomSettings.TEL_QUERY_DEVICE_LIST_API_VERSION, encryptParams, null);
+            entity.setHeaders(headerMap);
+            entity.setParams(queryParams);
+            HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
+            if (StringUtils.isNotBlank(response.getBody())) {
+                queryDeviceListResponse = JsonUtils.jsonToObject(response.getBody(), TelQueryDeviceListResponse.class);
+                if (queryDeviceListResponse.getCode() == 0) {
+                    queryDeviceListResponse.setSuccess(Boolean.TRUE);
+                } else {
+                    System.out.format(ColorUtils.redError(queryDeviceListResponse.getMsg()));
+                    queryDeviceListResponse.setSuccess(Boolean.FALSE);
+                }
+            } else {
+                queryDeviceListResponse.setSuccess(Boolean.FALSE);
+                System.out.format(config.getProductId() + ColorUtils.redError(" queryDeviceList failed!"));
+            }
+            return queryDeviceListResponse;
+        } catch (Exception e) {
+            queryDeviceListResponse.setSuccess(Boolean.FALSE);
+            System.out.format(config.getProductId() + ColorUtils.redError(" queryDeviceList failed!"));
+            return queryDeviceListResponse;
         }
     }
 

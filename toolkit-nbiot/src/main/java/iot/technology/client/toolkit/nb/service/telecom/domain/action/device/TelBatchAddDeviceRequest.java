@@ -12,7 +12,7 @@ public class TelBatchAddDeviceRequest implements Serializable {
 
 	private String operator;
 
-	private List<TelDeviceRequest> devices;
+	private List<TelAddDeviceRequest> devices;
 
 	public Integer getProductId() {
 		return productId;
@@ -30,11 +30,11 @@ public class TelBatchAddDeviceRequest implements Serializable {
 		this.operator = operator;
 	}
 
-	public List<TelDeviceRequest> getDevices() {
+	public List<TelAddDeviceRequest> getDevices() {
 		return devices;
 	}
 
-	public void setDevices(List<TelDeviceRequest> devices) {
+	public void setDevices(List<TelAddDeviceRequest> devices) {
 		this.devices = devices;
 	}
 }

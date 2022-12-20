@@ -56,4 +56,15 @@ public class JsonUtils {
             return "";
         }
     }
+
+    public static String object2JsonWithInclude(Object o) {
+        try {
+            objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
+            return objectMapper.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            System.out.format("Parse Object to Json String error %s", e);
+            e.printStackTrace();
+            return "";
+        }
+    }
 }

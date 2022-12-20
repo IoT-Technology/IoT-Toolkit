@@ -8,7 +8,6 @@ import iot.technology.client.toolkit.common.http.HttpResponseEntity;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.service.AbstractTelecomService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelQueryProductResponse;
 

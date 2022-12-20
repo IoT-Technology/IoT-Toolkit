@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author mushuwei
  */
-public class TelDeviceRequest implements Serializable {
+public class TelAddDeviceRequest implements Serializable {
 
 	private String imei;
 
