@@ -16,7 +16,7 @@ public class TelGetDeviceByImeiProcessor implements TkProcessor {
 
 	@Override
 	public boolean supports(ProcessContext context) {
-		return context.getData().contains("get ");
+		return context.getData().startsWith("get");
 	}
 
 	@Override

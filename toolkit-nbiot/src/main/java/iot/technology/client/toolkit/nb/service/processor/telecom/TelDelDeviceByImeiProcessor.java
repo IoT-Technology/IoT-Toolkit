@@ -19,7 +19,7 @@ public class TelDelDeviceByImeiProcessor implements TkProcessor {
 
 	@Override
 	public boolean supports(ProcessContext context) {
-		return (context.getData().contains("del ") || context.getData().contains("delete "));
+		return (context.getData().startsWith("del") || context.getData().startsWith("delete"));
 	}
 
 	@Override
@@ -31,7 +31,8 @@ public class TelDelDeviceByImeiProcessor implements TkProcessor {
 			TelDelDeviceByImeiResponse response =
 					telecomDeviceService.delDeviceByImei(telProcessContext.getTelecomConfigDomain(), imeiList);
 			if (response.isSuccess()) {
-				System.out.format(ColorUtils.blackBold("imeiList:%s delete success"), imeiListString + "%n");
+				System.out.format(ColorUtils.blackBold("imeiList:%s delete success"), imeiListString);
+				System.out.format(" " + "%n");
 			}
 		}
 	}
