@@ -101,4 +101,31 @@ public class HttpRequestExecutor {
         return entity;
     }
 
+    public static HttpResponseEntity executeDelete(HttpRequestEntity request) {
+        RequestBody body = RequestBody.create(request.getJson(), MediaType.get("application/json;charset=utf-8"));
+        final OkHttpClient client = initOkHttp3(request.getType());
+
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
+        if (request.getParams() != null && !request.getParams().isEmpty()) {
+            for (Map.Entry<String, String> entry : request.getParams().entrySet()) {
+                httpBuilder.addQueryParameter(entry.getKey(), entry.getValue());
+            }
+        }
+        Request.Builder builder = new Request.Builder();
+        builder.url(httpBuilder.build()).delete(body);
+        if (request.getHeaders() != null && !request.getHeaders().isEmpty()) {
+            builder.headers(Headers.of(request.getHeaders()));
+        }
+        Call call = client.newCall(builder.build());
+        HttpResponseEntity entity = new HttpResponseEntity();
+        try (Response response = call.execute()) {
+            if (response.isSuccessful()) {
+                entity.setBody(Objects.requireNonNull(response.body()).string());
+                entity.setMultiMap(response.headers().toMultimap());
+            }
+        } catch (Exception e) {
+        }
+        return entity;
+    }
+
 }

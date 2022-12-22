@@ -49,7 +49,6 @@ public class SystemConfigConst {
 
 	public static final String SYS_NB_MOBILE_ROOT_PATH = SYS_NB_ROOT_PATH + File.separator + "mobile";
 
-	public static final String SYS_NB_MOBILE_APP_FILE_NAME = SYS_NB_MOBILE_ROOT_PATH + File.separator + "app_settings.json";
 
 	public static final String SYS_NB_MOBILE_PRODUCT_FILE_NAME = SYS_NB_MOBILE_ROOT_PATH + File.separator + "product_settings.json";
 }

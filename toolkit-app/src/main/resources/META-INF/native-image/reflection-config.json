@@ -294,6 +294,24 @@
     ]
   },
   {
+    "name" : "iot.technology.client.toolkit.nb.service.node.MobAppConfigNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.MobProductNameNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.MobAccessKeyNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings",
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
@@ -321,6 +339,15 @@
     "allPublicConstructors" : true
   },
   {
+    "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.BaseMobileResponse",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelQueryProductResponseBody",
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
@@ -337,7 +364,11 @@
       { "name" : "nbTelAppSecret","allowUnsafeAccess": true},
       { "name" : "nbTelAppKey","allowUnsafeAccess": true},
       { "name" : "nbTelProductId","allowUnsafeAccess": true},
-      { "name" : "nbTelApiKey","allowUnsafeAccess": true}
+      { "name" : "nbTelApiKey","allowUnsafeAccess": true},
+      { "name" : "mobAppConfig","allowUnsafeAccess": true},
+      { "name" : "mobProductName","allowUnsafeAccess": true},
+      { "name" : "mobProductId","allowUnsafeAccess": true},
+      { "name" : "mobAccessKey","allowUnsafeAccess": true}
     ]
   },
   {
@@ -450,6 +481,78 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelDeviceBody",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobAddDeviceResponse",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.AddDeviceBody",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceByImeiResponse",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceByImeiBody",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceListResponse",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceListBody",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceBody",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings",
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,

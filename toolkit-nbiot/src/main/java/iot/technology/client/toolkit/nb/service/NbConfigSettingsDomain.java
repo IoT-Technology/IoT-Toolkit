@@ -2,6 +2,8 @@ package iot.technology.client.toolkit.nb.service;
 
 import iot.technology.client.toolkit.common.constants.NBTypeEnum;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
+import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
+import iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings;
 
@@ -24,13 +26,13 @@ public class NbConfigSettingsDomain implements Serializable {
 
 	private String nbTelApiKey;
 
-	private String nbMobileAppConfig;
+	private String mobAppConfig;
 
-	private String nbMobProductName;
+	private String mobProductName;
 
-	private String nbMobProductId;
+	private String mobProductId;
 
-	private String nbMobAccessKey;
+	private String mobAccessKey;
 
 	public TelecomConfigDomain convertTelecomConfig() {
 		TelecomConfigDomain domain = new TelecomConfigDomain();
@@ -42,6 +44,7 @@ public class NbConfigSettingsDomain implements Serializable {
 				domain.setMasterKey(nbTelApiKey);
 			} else {
 				TelProjectSettings projectSettings = JsonUtils.jsonToObject(nbTelecomAppConfig, TelProjectSettings.class);
+				domain.setProductName(projectSettings.getProductName());
 				domain.setAppKey(projectSettings.getAppKey());
 				domain.setAppSecret(projectSettings.getAppSecret());
 				domain.setProductId(projectSettings.getProductId());
@@ -51,14 +54,21 @@ public class NbConfigSettingsDomain implements Serializable {
 		return domain;
 	}
 
-	public TelecomConfigDomain oldSettingsConvertTelecomConfig() {
-		TelecomConfigDomain domain = new TelecomConfigDomain();
-		TelProjectSettings telProjectSettings = JsonUtils.jsonToObject(nbTelecomAppConfig, TelProjectSettings.class);
-		domain.setAppKey(telProjectSettings.getAppKey());
-		domain.setAppSecret(telProjectSettings.getAppSecret());
-		domain.setProductId(telProjectSettings.getProductId());
-		domain.setMasterKey(telProjectSettings.getMasterApiKey());
-		domain.setProductName(telProjectSettings.getProductName());
+
+	public MobileConfigDomain convertMobileConfig() {
+		MobileConfigDomain domain = new MobileConfigDomain();
+		if (nbType.equals(NBTypeEnum.MOBILE.getValue())) {
+			if (mobAppConfig.equals("new")) {
+				domain.setProductName(mobProductName);
+				domain.setProductId(Integer.valueOf(mobProductId));
+				domain.setAccessKey(mobAccessKey);
+			} else {
+				MobProjectSettings mobProjectSettings = JsonUtils.jsonToObject(mobAppConfig, MobProjectSettings.class);
+				domain.setProductName(mobProjectSettings.getProductName());
+				domain.setProductId(mobProjectSettings.getProductId());
+				domain.setAccessKey(mobProjectSettings.getAccessKey());
+			}
+		}
 		return domain;
 	}
 
@@ -110,35 +120,35 @@ public class NbConfigSettingsDomain implements Serializable {
 		this.nbTelApiKey = nbTelApiKey;
 	}
 
-	public String getNbMobProductName() {
-		return nbMobProductName;
+	public String getMobAppConfig() {
+		return mobAppConfig;
 	}
 
-	public void setNbMobProductName(String nbMobProductName) {
-		this.nbMobProductName = nbMobProductName;
+	public void setMobAppConfig(String mobAppConfig) {
+		this.mobAppConfig = mobAppConfig;
 	}
 
-	public String getNbMobProductId() {
-		return nbMobProductId;
+	public String getMobProductName() {
+		return mobProductName;
 	}
 
-	public void setNbMobProductId(String nbMobProductId) {
-		this.nbMobProductId = nbMobProductId;
+	public void setMobProductName(String mobProductName) {
+		this.mobProductName = mobProductName;
 	}
 
-	public String getNbMobAccessKey() {
-		return nbMobAccessKey;
+	public String getMobProductId() {
+		return mobProductId;
 	}
 
-	public void setNbMobAccessKey(String nbMobAccessKey) {
-		this.nbMobAccessKey = nbMobAccessKey;
+	public void setMobProductId(String mobProductId) {
+		this.mobProductId = mobProductId;
 	}
 
-	public String getNbMobileAppConfig() {
-		return nbMobileAppConfig;
+	public String getMobAccessKey() {
+		return mobAccessKey;
 	}
 
-	public void setNbMobileAppConfig(String nbMobileAppConfig) {
-		this.nbMobileAppConfig = nbMobileAppConfig;
+	public void setMobAccessKey(String mobAccessKey) {
+		this.mobAccessKey = mobAccessKey;
 	}
 }
