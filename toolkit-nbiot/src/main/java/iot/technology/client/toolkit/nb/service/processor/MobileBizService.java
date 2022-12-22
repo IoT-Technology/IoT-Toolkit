@@ -3,7 +3,7 @@ package iot.technology.client.toolkit.nb.service.processor;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
-import iot.technology.client.toolkit.nb.service.processor.mobile.MobListDeviceProcessor;
+import iot.technology.client.toolkit.nb.service.processor.mobile.*;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.impl.DefaultParser;
@@ -21,6 +21,10 @@ public class MobileBizService {
 	public final List<TkProcessor> getTkProcessorList() {
 		List<TkProcessor> tkProcessorList = new ArrayList<>();
 		tkProcessorList.add(new MobListDeviceProcessor());
+		tkProcessorList.add(new MobAddDeviceProcessor());
+		tkProcessorList.add(new MobDelDeviceByImeiProcessor());
+		tkProcessorList.add(new MobGetDeviceByImeiProcessor());
+		tkProcessorList.add(new MobUpdateDeviceProcessor());
 		return tkProcessorList;
 	}
 

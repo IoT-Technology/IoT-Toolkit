@@ -306,6 +306,12 @@
     ]
   },
   {
+    "name" : "iot.technology.client.toolkit.nb.service.node.MobProductIdNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
     "name" : "iot.technology.client.toolkit.nb.service.node.MobAccessKeyNode",
     "methods": [
       { "name": "<init>", "parameterTypes": [] }
