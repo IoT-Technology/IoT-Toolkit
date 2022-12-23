@@ -20,11 +20,7 @@ import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
-import iot.technology.client.toolkit.common.utils.ColorUtils;
-import iot.technology.client.toolkit.mqtt.service.processor.AddProcessor;
-import iot.technology.client.toolkit.mqtt.service.processor.DelProcessor;
-import iot.technology.client.toolkit.mqtt.service.processor.ListProcessor;
-import iot.technology.client.toolkit.mqtt.service.processor.ShowProcessor;
+import iot.technology.client.toolkit.mqtt.service.processor.*;
 import org.jline.reader.*;
 import org.jline.reader.impl.DefaultParser;
 import org.jline.reader.impl.completer.AggregateCompleter;
@@ -66,7 +62,9 @@ public class MqttSettingsCommand implements Callable<Integer> {
 
 	Completer addCompleter = new ArgumentCompleter(new StringsCompleter("add"), NullCompleter.INSTANCE);
 
-	Completer mqttSettingsCompleter = new AggregateCompleter(listCompleter, showCompleter, delCompleter, addCompleter);
+	Completer helpCompleter = new ArgumentCompleter(new StringsCompleter("help"), NullCompleter.INSTANCE);
+
+	Completer mqttSettingsCompleter = new AggregateCompleter(listCompleter, showCompleter, delCompleter, addCompleter, helpCompleter);
 
 
 	public final List<TkProcessor> getTkProcessorList() {
@@ -75,6 +73,7 @@ public class MqttSettingsCommand implements Callable<Integer> {
 		tkProcessorList.add(new DelProcessor());
 		tkProcessorList.add(new ListProcessor());
 		tkProcessorList.add(new ShowProcessor());
+		tkProcessorList.add(new HelpProcessor());
 		return tkProcessorList;
 	}
 
@@ -91,7 +90,6 @@ public class MqttSettingsCommand implements Callable<Integer> {
 				.build();
 
 		String prompt = bundle.getString("mqtt.settings.command.prompt") + GlobalConstants.promptSeparator;
-		printSettingFunction();
 		while (true) {
 			String data;
 			try {
@@ -107,12 +105,5 @@ public class MqttSettingsCommand implements Callable<Integer> {
 				return ExitCodeEnum.ERROR.getValue();
 			}
 		}
-	}
-
-	public void printSettingFunction() {
-		System.out.format(ColorUtils.blueAnnotation("list: " + bundle.getString("mqtt.settings.list.desc")));
-		System.out.format(ColorUtils.blueAnnotation("show: " + bundle.getString("mqtt.settings.show.desc")));
-		System.out.format(ColorUtils.blueAnnotation("del: " + bundle.getString("mqtt.settings.del.desc")));
-		System.out.format(ColorUtils.blueAnnotation("desc: " + bundle.getString("mqtt.settings.add.desc")));
 	}
 }

@@ -26,6 +26,7 @@ public class TelecomBizService {
 		tkProcessorList.add(new TelUpdateDeviceProcessor());
 		tkProcessorList.add(new TelAddDeviceProcessor());
 		tkProcessorList.add(new TelListDeviceProcessor());
+		tkProcessorList.add(new TelHelpProcessor());
 		return tkProcessorList;
 	}
 

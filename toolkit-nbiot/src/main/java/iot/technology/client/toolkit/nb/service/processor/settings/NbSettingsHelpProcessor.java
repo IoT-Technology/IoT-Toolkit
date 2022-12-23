@@ -10,7 +10,7 @@ public class NbSettingsHelpProcessor implements TkProcessor {
 
 	@Override
 	public boolean supports(ProcessContext context) {
-		return false;
+		return context.getData().startsWith("help");
 	}
 
 	@Override

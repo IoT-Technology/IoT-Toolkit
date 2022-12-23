@@ -7,6 +7,8 @@ public enum NbSettingsCodeEnum {
 
 	NB_TYPE("nbType", "iot.technology.client.toolkit.nb.service.node.NbTypeNode"),
 
+	NB_SETTINGS("nbSettings", "iot.technology.client.toolkit.nb.service.node.NbSettingsNode"),
+
 	NB_TELECOM_APP_CONFIG("nbTelecomAppConfig", "iot.technology.client.toolkit.nb.service.node.NbTelecomAppConfigNode"),
 
 	NB_TEL_APP_SECRET("nbTelAppSecret", "iot.technology.client.toolkit.nb.service.node.TelAppSecretNode"),
@@ -24,6 +26,7 @@ public enum NbSettingsCodeEnum {
 	NB_MOB_PRODUCT_ID("mobProductId", "iot.technology.client.toolkit.nb.service.node.MobProductIdNode"),
 
 	NB_MOB_ACCESS_KEY("mobAccessKey", "iot.technology.client.toolkit.nb.service.node.MobAccessKeyNode");
+
 
 	private String code;
 
