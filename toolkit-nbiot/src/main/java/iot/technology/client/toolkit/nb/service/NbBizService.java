@@ -102,6 +102,39 @@ public class NbBizService {
 
 	}
 
+	public boolean nbSettingsProcessorAfterLogic(String code, NbConfigSettingsDomain domain) {
+		/**
+		 * user fill in  telecom type
+		 * and select new
+		 * 1、save telecom settings
+		 * 2、enter telecom biz logic
+		 */
+		if (code.equals(NbSettingsCodeEnum.NB_TEL_API_KEY.getCode())) {
+			TelecomConfigDomain telecomConfigDomain = domain.convertTelecomConfig();
+			TelQueryProductResponse queryProductResponse = productService.queryProduct(telecomConfigDomain);
+			if (Objects.nonNull(queryProductResponse) && queryProductResponse.isSuccess()) {
+				TelProjectSettings projectSettings = saveTelSettings(telecomConfigDomain, queryProductResponse);
+				telecomConfigDomain.setProductName(projectSettings.getProductName());
+			}
+		}
+		/**
+		 * user fill in mobile type
+		 * and select new
+		 * 1、save mobile settings
+		 * 2、enter mobile biz logic
+		 */
+		if (code.equals(NbSettingsCodeEnum.NB_MOB_ACCESS_KEY.getCode())) {
+			MobileConfigDomain mobileConfigDomain = domain.convertMobileConfig();
+			MobProjectSettings mobProjectSettings = new MobProjectSettings();
+			mobProjectSettings.setProductName(mobileConfigDomain.getProductName());
+			mobProjectSettings.setProductId(mobileConfigDomain.getProductId());
+			mobProjectSettings.setAccessKey(mobileConfigDomain.getAccessKey());
+			String settingsJson = JsonUtils.object2Json(mobProjectSettings);
+			FileUtils.writeDataToFile(SYS_NB_MOBILE_PRODUCT_FILE_NAME, settingsJson);
+		}
+		return false;
+	}
+
 	private TelProjectSettings saveTelSettings(TelecomConfigDomain telecomConfigDomain, TelQueryProductResponse queryProductResponse) {
 		TelQueryProductResponseBody body = queryProductResponse.getResult();
 		TelProjectSettings telProjectSettings = new TelProjectSettings();

@@ -17,6 +17,8 @@ public class TelProjectSettings implements Serializable {
 
 	private String masterApiKey;
 
+	private String serial;
+
 	public String getAppKey() {
 		return appKey;
 	}
@@ -55,5 +57,13 @@ public class TelProjectSettings implements Serializable {
 
 	public void setMasterApiKey(String masterApiKey) {
 		this.masterApiKey = masterApiKey;
+	}
+
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
 	}
 }

@@ -17,6 +17,7 @@ public class NbRuleChainProcessor {
 	public Map<String, String> getNbRuleChainProcessor() {
 		Map<String, String> map = new HashMap<>();
 		map.put(NbSettingsCodeEnum.NB_TYPE.getCode(), NbSettingsCodeEnum.NB_TYPE.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_SETTINGS.getCode(), NbSettingsCodeEnum.NB_SETTINGS.getClazzName());
 		map.put(NbSettingsCodeEnum.NB_TELECOM_APP_CONFIG.getCode(), NbSettingsCodeEnum.NB_TELECOM_APP_CONFIG.getClazzName());
 		map.put(NbSettingsCodeEnum.NB_TEL_APP_KEY.getCode(), NbSettingsCodeEnum.NB_TEL_APP_KEY.getClazzName());
 		map.put(NbSettingsCodeEnum.NB_TEL_APP_SECRET.getCode(), NbSettingsCodeEnum.NB_TEL_APP_SECRET.getClazzName());

@@ -13,6 +13,8 @@ public class MobProjectSettings implements Serializable {
 
 	private String accessKey;
 
+	private String serial;
+
 	public String getProductName() {
 		return productName;
 	}
@@ -35,5 +37,13 @@ public class MobProjectSettings implements Serializable {
 
 	public void setAccessKey(String accessKey) {
 		this.accessKey = accessKey;
+	}
+
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
 	}
 }

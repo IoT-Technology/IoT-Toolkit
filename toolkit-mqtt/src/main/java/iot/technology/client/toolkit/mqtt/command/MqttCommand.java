@@ -17,7 +17,6 @@ package iot.technology.client.toolkit.mqtt.command;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttDescribeCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttPublishCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttSettingsCommand;
@@ -26,6 +25,8 @@ import picocli.CommandLine;
 
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
+
+import static iot.technology.client.toolkit.common.utils.ColorUtils.colorItalic;
 
 /**
  * @author mushuwei
@@ -53,10 +54,10 @@ public class MqttCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() {
-		System.out.format("describe, desc: " + ColorUtils.blueAnnotation(bundle.getString("mqtt.desc.description")));
-		System.out.format("settings, set:  " + ColorUtils.blueAnnotation(bundle.getString("mqtt.settings.desc")));
-		System.out.format("publish, pub:   " + ColorUtils.blueAnnotation(bundle.getString("mqtt.pub.description")));
-		System.out.format("subscribe, sub: " + ColorUtils.blueAnnotation(bundle.getString("mqtt.sub.description")));
+		System.out.format("describe, desc: " + colorItalic(bundle.getString("mqtt.desc.description"), "blue") + "%n");
+		System.out.format("settings, set:  " + colorItalic(bundle.getString("mqtt.settings.desc"), "blue") + "%n");
+		System.out.format("publish, pub:   " + colorItalic(bundle.getString("mqtt.pub.description"), "blue") + "%n");
+		System.out.format("subscribe, sub: " + colorItalic(bundle.getString("mqtt.sub.description"), "blue") + "%n");
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

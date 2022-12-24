@@ -1,6 +1,7 @@
 package iot.technology.client.toolkit.nb.command.sub;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.NbSettingsCodeEnum;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
@@ -8,6 +9,7 @@ import iot.technology.client.toolkit.common.utils.ObjectUtils;
 import iot.technology.client.toolkit.nb.service.NbBizService;
 import iot.technology.client.toolkit.nb.service.NbConfigSettingsDomain;
 import iot.technology.client.toolkit.nb.service.NbRuleChainProcessor;
+import iot.technology.client.toolkit.nb.service.processor.NbSettingsContext;
 import iot.technology.client.toolkit.nb.service.processor.settings.*;
 import org.jline.reader.*;
 import org.jline.reader.impl.DefaultParser;
@@ -72,19 +74,24 @@ public class NbSettingsCommand implements Callable<Integer> {
 		Terminal terminal = TerminalBuilder.builder()
 				.system(true)
 				.build();
-
-		LineReader reader = LineReaderBuilder.builder()
-				.terminal(terminal)
-				.history(new DefaultHistory())
-				.parser(new DefaultParser())
-				.build();
-
 		NodeContext context = new NodeContext();
 		context.setType("settings");
 		NbConfigSettingsDomain domain = new NbConfigSettingsDomain();
 		String code = ruleChain.getNbTypeNode();
 
 		while (true) {
+			boolean isNbSettings = code.equals(NbSettingsCodeEnum.NB_SETTINGS.getCode());
+			LineReader reader = isNbSettings ?
+					LineReaderBuilder.builder()
+							.terminal(terminal)
+							.completer(nbSettingsCompleter)
+							.history(new DefaultHistory())
+							.parser(new DefaultParser())
+							.build() :
+					LineReaderBuilder.builder()
+							.terminal(terminal)
+							.parser(new DefaultParser())
+							.build();
 			try {
 				String node = processor.get(code);
 				TkNode tkNode = ObjectUtils.initComponent(node);
@@ -94,10 +101,18 @@ public class NbSettingsCommand implements Callable<Integer> {
 				tkNode.prePrompt(context);
 				String data = reader.readLine(tkNode.nodePrompt());
 				context.setData(data);
+				if (isNbSettings) {
+					NbSettingsContext nbSettingsContext = new NbSettingsContext();
+					nbSettingsContext.setNbType(domain.getNbType());
+					nbSettingsContext.setData(data);
+					for (TkProcessor processor : getTkProcessorList()) {
+						if (processor.supports(nbSettingsContext)) {
+							processor.handle(nbSettingsContext);
+						}
+					}
+				}
 				tkNode.check(context);
-				bizService.printValueToConsole(code, context);
 				ObjectUtils.setValue(domain, code, tkNode.getValue(context));
-
 				code = tkNode.nextNode(context);
 			} catch (UserInterruptException | EndOfFileException e) {
 				return ExitCodeEnum.ERROR.getValue();

@@ -44,6 +44,9 @@ public class TelApiKeyNode implements TkNode {
 		if (!context.isCheck()) {
 			return NbSettingsCodeEnum.NB_TEL_API_KEY.getCode();
 		}
+		if (context.getType() != null && context.getType().equals("settings")) {
+			return NbSettingsCodeEnum.END.getCode();
+		}
 		return NbSettingsCodeEnum.NB_TYPE.getCode();
 	}
 

@@ -44,6 +44,9 @@ public class MobAccessKeyNode implements TkNode {
 		if (!context.isCheck()) {
 			return NbSettingsCodeEnum.NB_MOB_ACCESS_KEY.getCode();
 		}
+		if (context.getType() != null && context.getType().equals("settings")) {
+			return NbSettingsCodeEnum.END.getCode();
+		}
 		return NbSettingsCodeEnum.NB_TYPE.getCode();
 	}
 
