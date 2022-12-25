@@ -23,6 +23,7 @@ import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import iot.technology.client.toolkit.nb.command.NbCommand;
 import org.fusesource.jansi.AnsiConsole;
@@ -103,14 +104,14 @@ public class ToolKitCommand implements Callable<Integer> {
 		System.out.format("" + "%n");
 		System.out.format("%s %s" + "%n",
 				bundle.getString("config.description"),
-				"(" + bundle.getString("general.reference") + "toolkit config -h" + ")");
+				"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit config -h", "red") + ")");
 		System.out.format("%s %s" + "%n", "locale        ",
 				bundle.getString("config.lang.header") + " " + bundle.getString("config.locale"));
 
 		System.out.format("" + "%n");
 		System.out.format("%s %s" + "%n",
 				bundle.getString("coap.description"),
-				"(" + bundle.getString("general.reference") + "toolkit coap -h" + ")");
+				"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit coap -h", "red") + ")");
 		System.out.format("%s %s" + "%n",
 				"disc          ", bundle.getString("coap.disc.description"));
 		System.out.format("%s %s" + "%n",
@@ -124,11 +125,19 @@ public class ToolKitCommand implements Callable<Integer> {
 
 		System.out.format("" + "%n");
 		System.out.format("%s %s" + "%n", bundle.getString("mqtt.description"),
-				"(" + bundle.getString("general.reference") + "toolkit mqtt -h" + ")");
+				"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit mqtt -h", "red") + ")");
 		System.out.format("%s %s" + "%n",
 				"publish       ", bundle.getString("mqtt.pub.description"));
 		System.out.format("%s %s" + "%n",
 				"subscribe     ", bundle.getString("mqtt.sub.description"));
+
+		System.out.format("" + "%n");
+		System.out.format("%s %s" + "%n", bundle.getString("nb.description"),
+				"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit nb -h", "red") + ")");
+		System.out.format("%s %s" + "%n",
+				"call          ", bundle.getString("nb.call.desc"));
+		System.out.format("%s %s" + "%n",
+				"set           ", bundle.getString("nb.desc.desc"));
 
 		System.out.format("" + "%n");
 		System.out.println(bundle.getString("general.main.page.help"));
