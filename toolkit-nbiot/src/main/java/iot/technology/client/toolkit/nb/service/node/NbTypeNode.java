@@ -65,6 +65,8 @@ public class NbTypeNode implements TkNode {
 			context.setPromptData(nbSettings);
 			return NbSettingsCodeEnum.NB_MOB_APP_CONFIG.getCode();
 		}
+		List<String> nbSettings = bizService.getNbSettingsFromFile(SystemConfigConst.SYS_NB_TELECOM_PRODUCT_FILE_NAME);
+		context.setPromptData(nbSettings);
 		return NbSettingsCodeEnum.NB_TELECOM_APP_CONFIG.getCode();
 	}
 
