@@ -28,54 +28,6 @@
 
 ----------------------------------------
 
-# 快速开始
-
-## MacOS
-
-### HOMEBREW 安装
-
-```bash
-brew install iot-technology/tap/toolkit
-```
-
-### SDKMAN安装
-
-安装[SDKMAN!](https://sdkman.io/), 请看[安装文档](https://sdkman.io/install)
-
-```bash
-sdk install toolkit
-```
-
-## Linux
-
-### SDKMAN安装
-
-安装[SDKMAN!](https://sdkman.io/), 请看[安装文档](https://sdkman.io/install)
-
-```bash
-sdk install toolkit
-```
-
-## Windows
-
-### Chocolatey安装
-
-安装[Chocolatey](), 请看[安装教程](https://chocolatey.org/install)
-
-```bash
-choco install toolkit
-```
-
-## 直接安装
-
-| Platform | Toolkit                                                                                                                                    |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Linux    | [toolkit-0.6.0-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-linux-x86_64.zip)     |
-| Unix     | [toolkit-0.6.0-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-osx-x86_64.zip)         |
-| Windows  | [toolkit-0.6.0-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-windows-x86_64.zip) |
-
-
-
 # 特性
 
 <table style="text-align:center">
@@ -112,6 +64,45 @@ choco install toolkit
   </tr>
 </table>
 
+
+# 快速开始
+
+## MacOS && Linux
+
+### HOMEBREW 安装
+
+```bash
+brew install iot-technology/tap/toolkit
+```
+
+### SDKMAN安装
+
+安装[SDKMAN!](https://sdkman.io/), 请看[安装文档](https://sdkman.io/install)
+
+```bash
+sdk install toolkit
+```
+
+## Windows
+
+### Chocolatey安装
+
+安装[Chocolatey](), 请看[安装教程](https://chocolatey.org/install)
+
+```bash
+choco install toolkit
+```
+
+## 直接安装
+
+| Platform | Toolkit                                                                                                                                    |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Linux    | [toolkit-0.6.0-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-linux-x86_64.zip)     |
+| Unix     | [toolkit-0.6.0-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-osx-x86_64.zip)         |
+| Windows  | [toolkit-0.6.0-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-windows-x86_64.zip) |
+
+
+
 # 多语言设置
 
 设置语言为德语，支持
@@ -133,6 +124,8 @@ toolkit config -l=de
 # IoT协议
 
 ## CoAP
+
+https://user-images.githubusercontent.com/23117382/209827565-3a9aa5bb-75a8-42b4-a9d7-66cc4e2ef1dc.mp4
 
 ```bash
 ➜  ~ tookit coap -h
@@ -159,6 +152,8 @@ Commands:
 
 ## MQTT
 
+https://user-images.githubusercontent.com/23117382/209825957-502fa489-6ff3-4f0f-a426-7c2cedc78739.mp4
+
 ```bash
 ➜  ~ toolkit mqtt -h
 MQTT 客户端工具包
@@ -183,6 +178,8 @@ Developed by mushuwei
 
 ## NB-IoT
 
+https://user-images.githubusercontent.com/23117382/209823597-bafff54f-ec2c-4df6-99d1-5d0ad5719ed8.mp4
+
 ```bash
 ➜  ~ toolkit nb -h
 NB-IoT 客户端工具包
@@ -196,8 +193,6 @@ Commands:
   settings, set   nb-iot 配置信息管理
   describe, desc  nb-iot 介绍和描述
 ```
-
-https://user-images.githubusercontent.com/23117382/209823597-bafff54f-ec2c-4df6-99d1-5d0ad5719ed8.mp4
 
 
 # 贡献
