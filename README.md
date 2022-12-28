@@ -183,7 +183,6 @@ Developed by mushuwei
 
 ## NB-IoT
 
-
 ```bash
 ➜  ~ toolkit nb -h
 NB-IoT 客户端工具包
@@ -198,6 +197,7 @@ Commands:
   describe, desc  nb-iot 介绍和描述
 ```
 
+https://user-images.githubusercontent.com/23117382/209823597-bafff54f-ec2c-4df6-99d1-5d0ad5719ed8.mp4
 
 
 # 贡献
