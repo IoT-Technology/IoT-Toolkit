@@ -47,7 +47,7 @@ public class NbSettingsDelProcessor implements TkProcessor {
 		if (nbSettingsContext.getNbType().equals(NBTypeEnum.MOBILE.getValue())) {
 			List<String> configStringList = FileUtils.getDataFromFile(SystemConfigConst.SYS_NB_MOBILE_PRODUCT_FILE_NAME);
 			configStringList.remove(configStringList.get(serial));
-			FileUtils.updateAllFileContents(SystemConfigConst.SYS_NB_TELECOM_PRODUCT_FILE_NAME, configStringList);
+			FileUtils.updateAllFileContents(SystemConfigConst.SYS_NB_MOBILE_PRODUCT_FILE_NAME, configStringList);
 		}
 	}
 }
