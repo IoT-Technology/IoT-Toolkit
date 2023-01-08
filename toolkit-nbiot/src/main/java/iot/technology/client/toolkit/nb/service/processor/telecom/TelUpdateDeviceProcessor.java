@@ -46,6 +46,7 @@ public class TelUpdateDeviceProcessor implements TkProcessor {
 			sb.append(String.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData()));
 			sb.append(StringUtils.lineSeparator());
 			System.out.println(sb);
+			return;
 		}
 		TelProcessContext telProcessContext = (TelProcessContext) context;
 		TelecomConfigDomain telecomConfigDomain = telProcessContext.getTelecomConfigDomain();

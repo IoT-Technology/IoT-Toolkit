@@ -18,6 +18,7 @@ package iot.technology.client.toolkit.nb.service.processor.mobile;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.mobile.MobileDeviceService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobAddDeviceResponse;
@@ -39,10 +40,12 @@ public class MobAddDeviceProcessor implements TkProcessor {
 
 	@Override
 	public void handle(ProcessContext context) {
+		StringBuilder sb = new StringBuilder();
 		List<String> arguArgs = List.of(context.getData().split(" "));
 		if (arguArgs.size() != 3) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
+			sb.append(String.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData()));
+			sb.append(StringUtils.lineSeparator());
+			System.out.println(sb);
 			return;
 		}
 		MobProcessContext mobProcessContext = (MobProcessContext) context;
@@ -51,8 +54,9 @@ public class MobAddDeviceProcessor implements TkProcessor {
 		String name = arguArgs.get(2);
 		MobAddDeviceResponse response = mobileDeviceService.addDevice(mobileConfigDomain, imei, name, null);
 		if (response.isSuccess()) {
-			System.out.format(ColorUtils.blackBold("imei:%s add success"), imei);
-			System.out.format(" " + "%n");
+			sb.append(String.format(ColorUtils.blackBold("imei:%s add success"), imei));
+			sb.append(StringUtils.lineSeparator());
+			System.out.println(sb);
 		}
 	}
 }

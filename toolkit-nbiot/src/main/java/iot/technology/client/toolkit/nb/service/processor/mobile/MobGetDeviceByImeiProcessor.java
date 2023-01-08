@@ -18,6 +18,7 @@ package iot.technology.client.toolkit.nb.service.processor.mobile;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.mobile.MobileDeviceService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceByImeiResponse;
@@ -40,9 +41,11 @@ public class MobGetDeviceByImeiProcessor implements TkProcessor {
 	@Override
 	public void handle(ProcessContext context) {
 		List<String> arguArgs = List.of(context.getData().split(" "));
+		StringBuilder sb = new StringBuilder();
 		if (arguArgs.size() != 2) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
+			sb.append(String.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData()));
+			sb.append(StringUtils.lineSeparator());
+			System.out.println(sb);
 			return;
 		}
 		String imei = arguArgs.get(1);

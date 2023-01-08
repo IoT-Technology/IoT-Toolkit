@@ -83,6 +83,8 @@ public class MobileDeviceService extends AbstractMobileService {
 			entity.setUrl(MobileSettings.MOBILE_DEVICE_URL + "/" + queryDeviceByImeiResponse.getData().getId());
 			Map<String, String> headerMap = getHeaderMap(config);
 			entity.setHeaders(headerMap);
+			Map<String, String> bodyMap = new HashMap<>();
+			entity.setJson(JsonUtils.object2Json(bodyMap));
 			HttpResponseEntity response = HttpRequestExecutor.executeDelete(entity);
 			if (StringUtils.isNotBlank(response.getBody())) {
 				baseMobileResponse = JsonUtils.jsonToObject(response.getBody(), BaseMobileResponse.class);
@@ -186,12 +188,12 @@ public class MobileDeviceService extends AbstractMobileService {
 			Map<String, String> headerMap = getHeaderMap(config);
 			entity.setHeaders(headerMap);
 
-			Map<String, String> body = new HashMap<>();
-			body.put("protocol", "LwM2M");
+			Map<String, Object> body = new HashMap<>();
+			body.put("protocol", "LWM2M");
 			body.put("title", name);
-			StringBuilder sb = new StringBuilder();
-			sb.append("{\"").append(imei).append("\":\"").append(imei).append("\"}");
-			body.put("auth_info", sb.toString());
+			Map<String, Object> authInfoMap = new HashMap<>();
+			authInfoMap.put(imei, imei);
+			body.put("auth_info", authInfoMap);
 			if (Objects.nonNull(pskValue)) {
 				body.put("psk", pskValue);
 			}
