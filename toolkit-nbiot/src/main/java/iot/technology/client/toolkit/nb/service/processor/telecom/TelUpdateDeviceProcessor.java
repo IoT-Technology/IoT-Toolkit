@@ -18,6 +18,7 @@ package iot.technology.client.toolkit.nb.service.processor.telecom;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.processor.TelProcessContext;
 import iot.technology.client.toolkit.nb.service.telecom.TelecomDeviceService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
@@ -40,10 +41,11 @@ public class TelUpdateDeviceProcessor implements TkProcessor {
 	@Override
 	public void handle(ProcessContext context) {
 		List<String> arguArgs = List.of(context.getData().split(" "));
+		StringBuilder sb = new StringBuilder();
 		if (arguArgs.size() != 3) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
-			return;
+			sb.append(String.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData()));
+			sb.append(StringUtils.lineSeparator());
+			System.out.println(sb);
 		}
 		TelProcessContext telProcessContext = (TelProcessContext) context;
 		TelecomConfigDomain telecomConfigDomain = telProcessContext.getTelecomConfigDomain();
@@ -51,8 +53,9 @@ public class TelUpdateDeviceProcessor implements TkProcessor {
 		String name = arguArgs.get(2);
 		TelUpdateDeviceResponse updateDeviceResponse = telecomDeviceService.updateDevice(telecomConfigDomain, imei, name);
 		if (updateDeviceResponse.isSuccess()) {
-			System.out.format(ColorUtils.blackBold("imei:%s update success"), imei + "%n");
-			System.out.format(" " + "%n");
+			sb.append(String.format(ColorUtils.blackBold("imei:%s update success"), imei));
+			sb.append(StringUtils.lineSeparator());
+			System.out.println(sb);
 		}
 	}
 }

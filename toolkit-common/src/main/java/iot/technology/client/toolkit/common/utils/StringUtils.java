@@ -20,6 +20,12 @@ package iot.technology.client.toolkit.common.utils;
  */
 public abstract class StringUtils {
 
+	public static final String lineSeparator = System.getProperty("line.separator");
+
+	public static String lineSeparator() {
+		return lineSeparator;
+	}
+
 	public static boolean hasText(String str) {
 		return (str != null && !str.isEmpty() && containsText(str));
 	}
