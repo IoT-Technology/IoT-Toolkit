@@ -119,7 +119,7 @@ public class MobileDeviceService extends AbstractMobileService {
 			entity.setHeaders(headerMap);
 			Map<String, String> params = new HashMap<>();
 			params.put("title", name);
-			entity.setParams(params);
+			entity.setJson(JsonUtils.object2Json(params));
 			HttpResponseEntity response = HttpRequestExecutor.executePut(entity);
 			if (StringUtils.isNotBlank(response.getBody())) {
 				baseMobileResponse = JsonUtils.jsonToObject(response.getBody(), BaseMobileResponse.class);
