@@ -73,7 +73,7 @@ public class CoapClientService {
 
 
 	public String requestInfo(String method, String path) {
-		return "" + cyan(method.toUpperCase(Locale.ROOT) + " " + cyan(path));
+		return "  " + cyan(method.toUpperCase(Locale.ROOT) + ":" + cyan(path));
 	}
 
 
@@ -81,38 +81,43 @@ public class CoapClientService {
 		if (coapResponse == null) {
 			return CommandLine.Help.Ansi.AUTO.string("@|bold,red NULL response!|@");
 		}
-
 		Response r = coapResponse.advanced();
 		int httpStatusCode = r.getCode().codeClass * 100 + r.getCode().codeDetail;
 		HttpStatus httpStatus = HttpStatus.resolve(httpStatusCode);
-		String status =
-				colorText(String.format("%s-%s", httpStatusCode, Objects.requireNonNull(httpStatus).getReasonPhrase()),
-						httpStatus.isError() ? "red" : "cyan");
-
-		String rtt = (r.getApplicationRttNanos() != null) ? "" + r.getApplicationRttNanos() : "";
+		String status = colorText(String.format("%s-%s", httpStatusCode, Objects.requireNonNull(httpStatus).getReasonPhrase()),
+				httpStatus.isError() ? "red" : "cyan");
+		String rtt = Objects.nonNull(r.getApplicationRttNanos()) ? "" + r.getApplicationRttNanos() / 1000000 : "";
 
 		StringBuilder sb = new StringBuilder();
-		String separator = "----------------------------------- %s -----------------------------------";
-		String response = String.format(separator, bundle.getString("coap.response"));
-		sb.append(green(response))
-				.append(StringUtil.lineSeparator());
+		sb.append(StringUtil.lineSeparator());
+		String separator = "------------ %s ------------";
+		// resource url
 		if (StringUtils.hasText(header)) {
-			sb.append(header).append(StringUtil.lineSeparator());
+			sb.append(header).append(StringUtil.lineSeparator);
 		}
-		sb.append(
-						String.format("MID: %d, Type: %s, Token: %s, RTT: %sms", r.getMID(), cyan(r.getType().toString()), r.getTokenString(), rtt))
-				.append(StringUtil.lineSeparator());
-		sb.append(String.format("Options: %s", r.getOptions().toString()))
-				.append(StringUtil.lineSeparator());
-		sb.append(String.format("Status : %s, Payload: %dB", status, r.getPayloadSize()))
-				.append(StringUtil.lineSeparator());
-		String payload = String.format(separator, bundle.getString("coap.payload"));
-		sb.append(green(payload)).append(StringUtil.lineSeparator()).append(StringUtil.lineSeparator());
+		String responseHeader = String.format(separator, bundle.getString("coap.response"));
+		//coap response
+		sb.append(green(responseHeader)).append(StringUtil.lineSeparator());
+		// application RTT (round trip time)
+		sb.append(String.format("RTT:        %sms", cyan(rtt))).append(StringUtil.lineSeparator());
+		// coap type
+		sb.append(String.format("Type:       %s", cyan(r.getType().toString()))).append(StringUtil.lineSeparator());
+		// coap token
+		sb.append(String.format("Token:      %s", cyan(r.getTokenString()))).append(StringUtil.lineSeparator());
+		// coap code
+		sb.append(String.format("Code:       %s", status)).append(StringUtil.lineSeparator());
+		// coap MID
+		sb.append(String.format("MID:        %s", cyan(r.getMID() + ""))).append(StringUtil.lineSeparator());
+		// coap options
+		sb.append(String.format("Options:    %s", cyan(r.getOptions().toString()))).append(StringUtil.lineSeparator());
+
+		String payloadHeader = String.format(separator, bundle.getString("coap.payload"));
+		sb.append(green(payloadHeader)).append(StringUtil.lineSeparator());
+
+		// coap payload
 		if (r.getPayloadSize() > 0 && MediaTypeRegistry.isPrintable(r.getOptions().getContentFormat())) {
 			sb.append(prettyPayload(r)).append(StringUtil.lineSeparator());
 		}
-		sb.append(green(separator));
-
 		return sb.toString();
 	}
 
