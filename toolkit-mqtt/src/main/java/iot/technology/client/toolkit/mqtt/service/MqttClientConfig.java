@@ -24,8 +24,7 @@ import iot.technology.client.toolkit.mqtt.service.domain.MqttLastWill;
  */
 public final class MqttClientConfig {
 
-	private final SslContext sslContext;
-
+	private SslContext sslContext;
 	private String clientId;
 	private int timeoutSeconds = 10;
 	private int keepAlive = 10;
@@ -158,6 +157,10 @@ public final class MqttClientConfig {
 
 	public SslContext getSslContext() {
 		return sslContext;
+	}
+
+	public void setSslContext(SslContext context) {
+		this.sslContext = context;
 	}
 
 	public String getHost() {

@@ -17,14 +17,20 @@ package iot.technology.client.toolkit.mqtt.service.domain;
 
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.handler.codec.mqtt.MqttVersion;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import iot.technology.client.toolkit.common.constants.CertTypeEnum;
 import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.MqttVersionEnum;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
 import iot.technology.client.toolkit.mqtt.service.MqttClientConfig;
 import iot.technology.client.toolkit.mqtt.service.core.MqttClientService;
 
+import javax.net.ssl.SSLException;
+import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -107,6 +113,21 @@ public class MqttConfigSettingsDomain implements Serializable {
 			config.setCleanSession(true);
 			config.setTimeoutSeconds(config.getTimeoutSeconds());
 			config.setKeepAlive(config.getKeepAlive());
+		}
+		if (ssl.equals(ConfirmCodeEnum.YES.getValue()) && certType.equals(CertTypeEnum.SELF_SIGNED.getDesc())) {
+			SslContext sslContext = null;
+			try {
+				sslContext = SslContextBuilder.forClient()
+						.keyManager(new File(clientCert), new File(clientKey))
+						.trustManager(new File(ca))
+						.build();
+			} catch (SSLException e) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("sslContext load fail!");
+				sb.append(StringUtils.lineSeparator());
+				System.out.println(sb);
+			}
+			config.setSslContext(sslContext);
 		}
 		if (lastWillAndTestament.equals(ConfirmCodeEnum.YES.getValue())) {
 			MqttQoS qos = MqttQoS.valueOf(Integer.parseInt(lastWillQoS));
