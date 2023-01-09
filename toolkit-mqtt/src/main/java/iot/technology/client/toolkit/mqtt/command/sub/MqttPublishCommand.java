@@ -92,8 +92,9 @@ public class MqttPublishCommand implements Callable<Integer> {
 				data = reader.readLine(tkNode.nodePrompt());
 				context.setData(data);
 				tkNode.check(context);
-				bizService.printValueToConsole(code, tkNode.getValue(context), context);
-				ObjectUtils.setValue(domain, code, tkNode.getValue(context));
+				String codeData = tkNode.getValue(context);
+				bizService.printValueToConsole(code, codeData, context);
+				ObjectUtils.setValue(domain, code, codeData);
 				bizService.mqttProcessorAfterLogic(code, data, domain, true);
 				code = tkNode.nextNode(context);
 			} catch (UserInterruptException | EndOfFileException e) {

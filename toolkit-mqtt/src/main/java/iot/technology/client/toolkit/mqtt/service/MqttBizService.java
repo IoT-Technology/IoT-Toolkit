@@ -127,13 +127,20 @@ public class MqttBizService {
 				break;
 			}
 			if (code.equals(MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode())) {
-				PubData pubData = PubData.validate(data);
-				mqttPubLogic(pubData, domain.getClient());
+				TopicAndQos bizDomain = new TopicAndQos();
+				boolean validate = PubData.validate(data, bizDomain);
+				if (validate) {
+					mqttPubLogic(bizDomain, domain.getClient());
+				}
 				break;
 			}
 			if (code.equals(MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode())) {
-				SubData subData = SubData.validate(data);
-				mqttSubLogic(subData, domain.getClient());
+				TopicAndQos bizDomain = new TopicAndQos();
+				boolean validate = SubData.validate(data, bizDomain);
+				if (validate) {
+					mqttSubLogic(bizDomain, domain.getClient());
+				}
+				break;
 			}
 			if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode()) &&
 					data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))
@@ -209,20 +216,21 @@ public class MqttBizService {
 		return mqttClientService;
 	}
 
-	private void mqttPubLogic(PubData data, MqttClientService client) {
-		MqttQoS qosLevel = MqttQoS.valueOf(data.getQos());
-		client.publish(data.getTopic(), Unpooled.wrappedBuffer(data.getPayload().getBytes(StandardCharsets.UTF_8)), qosLevel, false);
+	private void mqttPubLogic(TopicAndQos bizDomain, MqttClientService client) {
+		MqttQoS qosLevel = MqttQoS.valueOf(bizDomain.getQos());
+		client.publish(bizDomain.getTopic(), Unpooled.wrappedBuffer(bizDomain.getPayload().getBytes(StandardCharsets.UTF_8)), qosLevel,
+				false);
 		System.out.format(
-				data.getPayload() + " " + bundle.getString("publishMessage.success") + String.format(EmojiEnum.successEmoji) + "%n");
+				bizDomain.getPayload() + " " + bundle.getString("publishMessage.success") + String.format(EmojiEnum.successEmoji) + "%n");
 	}
 
-	private void mqttSubLogic(SubData data, MqttClientService client) {
-		MqttQoS qosLevel = MqttQoS.valueOf(data.getQos());
+	private void mqttSubLogic(TopicAndQos bizDomain, MqttClientService client) {
+		MqttQoS qosLevel = MqttQoS.valueOf(bizDomain.getQos());
 		MqttSubMessageHandler handler = new MqttSubMessageHandler();
-		if (data.getOperation().equals("add")) {
-			client.on(data.getTopic(), handler, qosLevel);
+		if (bizDomain.getOperation().equals("add")) {
+			client.on(bizDomain.getTopic(), handler, qosLevel);
 		} else {
-			client.off(data.getTopic());
+			client.off(bizDomain.getTopic());
 		}
 	}
 

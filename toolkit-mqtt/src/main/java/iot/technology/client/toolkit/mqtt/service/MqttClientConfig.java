@@ -19,16 +19,12 @@ import io.netty.handler.codec.mqtt.MqttVersion;
 import io.netty.handler.ssl.SslContext;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttLastWill;
 
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * @author mushuwei
  */
 public final class MqttClientConfig {
 
 	private final SslContext sslContext;
-	private final String randomClientId;
 
 	private String clientId;
 	private int timeoutSeconds = 10;
@@ -51,14 +47,6 @@ public final class MqttClientConfig {
 
 	public MqttClientConfig(SslContext sslContext) {
 		this.sslContext = sslContext;
-		ThreadLocalRandom random = ThreadLocalRandom.current();
-		String id = "toolkit_mqtt_";
-		String[] options = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
-		for (int i = 0; i < 8; i++) {
-			id += options[random.nextInt(options.length)];
-		}
-		this.clientId = id;
-		this.randomClientId = id;
 	}
 
 
@@ -92,11 +80,7 @@ public final class MqttClientConfig {
 	}
 
 	public void setClientId(String clientId) {
-		if (clientId == null) {
-			this.clientId = randomClientId;
-		} else {
-			this.clientId = clientId;
-		}
+		this.clientId = clientId;
 	}
 
 	public int getMaxBytesInMessage() {

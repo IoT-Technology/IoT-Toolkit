@@ -33,31 +33,23 @@ public class SubData implements Serializable {
 
 	private int qos;
 
-	public static SubData validate(String data) {
-		SubData subData = new SubData();
-		String topic = "";
-		int qos = 0;
+	public static boolean validate(String data, TopicAndQos bizDomain) {
 		ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
-		if (StringUtils.isBlank(data)) {
+		if (StringUtils.isBlank(data)
+				|| (!data.startsWith("add") && !data.startsWith("del"))
+				|| !data.contains(" ")) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-		}
-		if ((!data.contains("add") && !data.contains("del")) || !data.contains(" ")) {
-			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
 		int spaceIndex = data.indexOf(" ");
-		String operationStr = data.substring(0, spaceIndex);
-		if ((!operationStr.contains("add") && !operationStr.contains("del"))) {
-			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-		}
-		subData.setOperation(operationStr);
+		String operation = data.substring(0, spaceIndex);
+		bizDomain.setOperation(operation);
 		String topicAndQos = data.substring(spaceIndex + 1).trim();
 		if (StringUtils.isBlank(topicAndQos)) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
-		ObjectUtils.topicAndQosValidator(topicAndQos, topic, qos, bundle);
-		subData.setTopic(topic);
-		subData.setQos(qos);
-		return subData;
+		return ObjectUtils.topicAndQosValidator(topicAndQos, bizDomain);
 	}
 
 

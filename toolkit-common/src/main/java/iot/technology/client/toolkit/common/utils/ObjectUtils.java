@@ -15,6 +15,8 @@
  */
 package iot.technology.client.toolkit.common.utils;
 
+import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.constants.TopicAndQos;
 import iot.technology.client.toolkit.common.rule.TkNode;
 
 import java.lang.reflect.Field;
@@ -90,29 +92,27 @@ public class ObjectUtils {
 		return obj;
 	}
 
-	public static void topicAndQosValidator(String topicAndQos, String topic, int qos, ResourceBundle bundle) {
+	public static boolean topicAndQosValidator(String topicAndQos, TopicAndQos domain) {
+		ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 		if (!topicAndQos.contains(":")) {
-			topic = topicAndQos;
-		} else {
-			int divide = topicAndQos.indexOf(":");
-			String qosStr = topicAndQos.substring(divide + 1);
-			String topicStr = topicAndQos.substring(0, divide);
-			if (StringUtils.isBlank(topicStr)) {
-				System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-			}
-			topic = topicStr;
-			if (StringUtils.isBlank(qosStr) || !StringUtils.isNumeric(qosStr)) {
-				System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-			}
-			Integer qosValue = Integer.parseInt(qosStr);
-			if (qosValue.equals(0)
-					|| qosValue.equals(1)
-					|| qosValue.equals(2)) {
-				qos = qosValue;
-			} else {
-				System.out.format(ColorUtils.redError(bundle.getString("mqtt.qos.error")));
-			}
+			domain.setTopic(topicAndQos);
+			return true;
 		}
+		int divide = topicAndQos.indexOf(":");
+		String qosStr = topicAndQos.substring(divide + 1);
+		String topicStr = topicAndQos.substring(0, divide);
+		if (StringUtils.isBlank(topicStr)) {
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
+		}
+		domain.setTopic(topicStr);
+		if (StringUtils.isBlank(qosStr) || !StringUtils.isNumeric(qosStr)) {
+			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
+		}
+		int qosValue = Integer.parseInt(qosStr) < 0 || Integer.parseInt(qosStr) > 2 ? 0 : Integer.parseInt(qosStr);
+		domain.setQos(qosValue);
+		return true;
 	}
 
 	public static TkNode initComponent(String node) {

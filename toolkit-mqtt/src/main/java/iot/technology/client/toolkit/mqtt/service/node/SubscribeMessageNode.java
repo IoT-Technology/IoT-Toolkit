@@ -1,9 +1,6 @@
 package iot.technology.client.toolkit.mqtt.service.node;
 
-import iot.technology.client.toolkit.common.constants.GlobalConstants;
-import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
-import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.common.constants.SubData;
+import iot.technology.client.toolkit.common.constants.*;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
@@ -25,9 +22,10 @@ public class SubscribeMessageNode implements TkNode {
 
 	@Override
 	public boolean check(NodeContext context) {
-		SubData.validate(context.getData());
-		context.setCheck(true);
-		return true;
+		TopicAndQos bizDomain = new TopicAndQos();
+		boolean validate = SubData.validate(context.getData(), bizDomain);
+		context.setCheck(validate);
+		return validate;
 	}
 
 	@Override

@@ -1,9 +1,6 @@
 package iot.technology.client.toolkit.mqtt.service.node;
 
-import iot.technology.client.toolkit.common.constants.GlobalConstants;
-import iot.technology.client.toolkit.common.constants.MqttSettingsCodeEnum;
-import iot.technology.client.toolkit.common.constants.PubData;
-import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.constants.*;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
@@ -19,16 +16,19 @@ public class PublishMessageNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
-		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.prompt") + " topic:qos=message") + "%n");
-		System.out.format(ColorUtils.greenItalic(bundle.getString("publishMessage.pre.example") + " hello:0=hello world") + "%n");
+		System.out.format(ColorUtils.greenItalic(
+				bundle.getString("publishMessage.pre.prompt") + " topic:qos message or topic message (qos default 0)") + "%n");
+		System.out.format(
+				ColorUtils.greenItalic(bundle.getString("publishMessage.pre.example") + " hello:0 hello world") + "%n");
 
 	}
 
 	@Override
 	public boolean check(NodeContext context) {
-		PubData.validate(context.getData());
-		context.setCheck(true);
-		return true;
+		TopicAndQos bizDomain = new TopicAndQos();
+		boolean validate = PubData.validate(context.getData(), bizDomain);
+		context.setCheck(validate);
+		return validate;
 	}
 
 	@Override

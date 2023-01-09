@@ -33,31 +33,29 @@ public class PubData implements Serializable {
 
 	private String payload;
 
-	public static PubData validate(String data) {
+	public static boolean validate(String data, TopicAndQos bizDomain) {
 		ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
-		PubData pubData = new PubData();
-		String topic = "";
-		int qos = 0;
-		if (StringUtils.isBlank(data)) {
+		if (StringUtils.isBlank(data) || !data.contains(" ")) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
-		if (!data.contains("=")) {
-			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-		}
-		int equalIndex = data.indexOf("=");
+		int equalIndex = data.indexOf(" ");
 		String topicAndQos = data.substring(0, equalIndex);
 		if (StringUtils.isBlank(topicAndQos)) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+			return false;
 		}
-		ObjectUtils.topicAndQosValidator(topicAndQos, topic, qos, bundle);
-		String payload = data.substring(equalIndex + 1);
-		if (StringUtils.isBlank(payload)) {
-			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+		boolean validateResult = ObjectUtils.topicAndQosValidator(topicAndQos, bizDomain);
+		if (validateResult) {
+			String payload = data.substring(equalIndex + 1);
+			if (StringUtils.isBlank(payload)) {
+				System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+				return false;
+			}
+			bizDomain.setPayload(payload);
+			return true;
 		}
-		pubData.setTopic(topic);
-		pubData.setQos(qos);
-		pubData.setPayload(payload);
-		return pubData;
+		return false;
 	}
 
 	public String getTopic() {
