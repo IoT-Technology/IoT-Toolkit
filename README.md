@@ -96,10 +96,10 @@ choco install toolkit
 ## 直接安装
 
 | Platform | Toolkit                                                                                                                                    |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Linux    | [toolkit-0.6.0-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-linux-x86_64.zip)     |
-| Unix     | [toolkit-0.6.0-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-osx-x86_64.zip)         |
-| Windows  | [toolkit-0.6.0-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-windows-x86_64.zip) |
+| -------- |--------------------------------------------------------------------------------------------------------------------------------------------|
+| Linux    | [toolkit-0.6.1-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-linux-x86_64.zip)     |
+| Unix     | [toolkit-0.6.1-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-osx-x86_64.zip)         |
+| Windows  | [toolkit-0.6.1-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-windows-x86_64.zip) |
 
 
 
