@@ -35,7 +35,7 @@ import static iot.technology.client.toolkit.coap.service.CoapClientService.green
 		requiredOptionMarker = '*',
 		description = "${bundle:coap.media.types.description}",
 		optionListHeading = "%n${bundle:general.option}:%n",
-		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
+		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei"
 )
 public class CoapMediaTypesCommand implements Callable<Integer> {

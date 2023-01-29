@@ -44,7 +44,7 @@ import java.util.concurrent.Callable;
 		optionListHeading = "%n${bundle:general.option}:%n",
 		requiredOptionMarker = '*',
 		description = "@|fg(red),bold ${bundle:general.description}|@",
-		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
+		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		subcommands = {
 				AutoComplete.GenerateCompletion.class,

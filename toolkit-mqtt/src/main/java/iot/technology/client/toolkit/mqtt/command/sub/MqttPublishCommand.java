@@ -48,7 +48,7 @@ import java.util.concurrent.Callable;
 		description = "${bundle:mqtt.pub.description}",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		sortOptions = false,
-		footerHeading = "%nCopyright (c) 2019-2022, ${bundle:general.copyright}",
+		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei"
 )
 public class MqttPublishCommand implements Callable<Integer> {
