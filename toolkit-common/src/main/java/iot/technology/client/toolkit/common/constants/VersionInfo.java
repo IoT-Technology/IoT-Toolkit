@@ -24,6 +24,6 @@ public class VersionInfo implements CommandLine.IVersionProvider {
 
 	@Override
 	public String[] getVersion() throws Exception {
-		return new String[] {"0.6.1"};
+		return new String[] {StorageConstants.TOOLKIT_VERSION};
 	}
 }

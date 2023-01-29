@@ -38,7 +38,7 @@ public class MobileBizService {
 		tkProcessorList.add(new MobListDeviceProcessor());
 		tkProcessorList.add(new MobAddDeviceProcessor());
 		tkProcessorList.add(new MobDelDeviceByImeiProcessor());
-		tkProcessorList.add(new MobGetDeviceByImeiProcessor());
+		tkProcessorList.add(new MobShowDeviceByImeiProcessor());
 		tkProcessorList.add(new MobUpdateDeviceProcessor());
 		tkProcessorList.add(new MobHelpProcessor());
 		return tkProcessorList;

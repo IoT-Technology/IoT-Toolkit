@@ -29,13 +29,13 @@ import java.util.List;
 /**
  * @author mushuwei
  */
-public class MobGetDeviceByImeiProcessor implements TkProcessor {
+public class MobShowDeviceByImeiProcessor implements TkProcessor {
 
 	private final MobileDeviceService mobileDeviceService = new MobileDeviceService();
 
 	@Override
 	public boolean supports(ProcessContext context) {
-		return context.getData().startsWith("get");
+		return context.getData().startsWith("show");
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.util.ResourceBundle;
 
@@ -36,20 +37,35 @@ public class MobHelpProcessor implements TkProcessor {
 
 	@Override
 	public void handle(ProcessContext context) {
-		System.out.format(ColorUtils.blueAnnotation("list: " + bundle.getString("nb.operation.list.desc")));
-		System.out.format("    usage: list pageNo searchValue" + "%n");
-		System.out.format(" " + "%n");
-		System.out.format(ColorUtils.blueAnnotation("get: " + bundle.getString("nb.operation.get.desc")));
-		System.out.format("    usage: get imei" + "%n");
-		System.out.format(" " + "%n");
-		System.out.format(ColorUtils.blueAnnotation("del:  " + bundle.getString("nb.operation.del.desc")));
-		System.out.format("    usage: del imei" + "%n");
-		System.out.format(" " + "%n");
-		System.out.format(ColorUtils.blueAnnotation("add:  " + bundle.getString("nb.operation.add.desc")));
-		System.out.format("    usage: add imei name" + "%n");
-		System.out.format(" " + "%n");
-		System.out.format(ColorUtils.blueAnnotation("update:  " + bundle.getString("nb.operation.update.desc")));
-		System.out.format("    usage: update imei name" + "%n");
-		System.out.format(" " + "%n");
+		StringBuilder sb = new StringBuilder();
+		// list telecom nb-iot devices
+		sb.append(ColorUtils.blueAnnotation("list:    " + bundle.getString("nb.operation.list.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: list pageNo searchValue").append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+
+		// get telecom nb-iot device detail info
+		sb.append(ColorUtils.blueAnnotation("show:     " + bundle.getString("nb.operation.get.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: show imei").append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+
+		// delete telecom nb-iot device
+		sb.append(ColorUtils.blueAnnotation("del:     " + bundle.getString("nb.operation.del.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: del imei").append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+
+		// add telecom nb-iot device
+		sb.append(ColorUtils.blueAnnotation("add:     " + bundle.getString("nb.operation.add.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: add imei name").append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+
+		// update telecom nb-iot device name
+		sb.append(ColorUtils.blueAnnotation("update:  " + bundle.getString("nb.operation.update.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: update imei name").append(StringUtils.lineSeparator());
+		System.out.format(sb.toString());
 	}
 }

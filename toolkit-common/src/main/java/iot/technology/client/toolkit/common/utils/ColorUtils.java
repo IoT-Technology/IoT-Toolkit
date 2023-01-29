@@ -31,7 +31,7 @@ public class ColorUtils {
 	}
 
 	public static String blueAnnotation(String text) {
-		return colorFaint(text, "blue") + "%n";
+		return colorFaint(text, "blue");
 	}
 
 	public static String blackFaint(String text) {

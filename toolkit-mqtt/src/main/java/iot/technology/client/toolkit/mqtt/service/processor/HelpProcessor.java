@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.util.ResourceBundle;
 
@@ -36,17 +37,29 @@ public class HelpProcessor implements TkProcessor {
 
 	@Override
 	public void handle(ProcessContext context) {
-		System.out.format(ColorUtils.blueAnnotation("list: " + bundle.getString("mqtt.settings.list.desc")));
-		System.out.format("    usage: list" + "%n");
-		System.out.format(" " + "%n");
-		System.out.format(ColorUtils.blueAnnotation("show: " + bundle.getString("mqtt.settings.show.desc")));
-		System.out.format("    usage: show serial" + "%n");
-		System.out.format(" " + "%n");
-		System.out.format(ColorUtils.blueAnnotation("del:  " + bundle.getString("mqtt.settings.del.desc")));
-		System.out.format("    usage: del serial" + "%n");
-		System.out.format(" " + "%n");
-		System.out.format(ColorUtils.blueAnnotation("add:  " + bundle.getString("mqtt.settings.add.desc")));
-		System.out.format("    usage: add" + "%n");
-		System.out.format(" " + "%n");
+		StringBuilder sb = new StringBuilder();
+		// list all mqtt settings
+		sb.append(ColorUtils.blueAnnotation("list: " + bundle.getString("mqtt.settings.list.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: list").append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+
+		// show mqtt setting detail
+		sb.append(ColorUtils.blueAnnotation("show: " + bundle.getString("mqtt.settings.show.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: list").append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+
+		// delete mqtt settings
+		sb.append(ColorUtils.blueAnnotation("del:  " + bundle.getString("mqtt.settings.del.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: del serial").append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+
+		// add mqtt setting
+		sb.append(ColorUtils.blueAnnotation("add:  " + bundle.getString("mqtt.settings.add.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: add").append(StringUtils.lineSeparator());
+		System.out.format(sb.toString());
 	}
 }

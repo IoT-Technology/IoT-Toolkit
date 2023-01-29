@@ -36,7 +36,7 @@ public class TelecomBizService {
 
 	public final List<TkProcessor> getTkProcessorList() {
 		List<TkProcessor> tkProcessorList = new ArrayList<>();
-		tkProcessorList.add(new TelGetDeviceByImeiProcessor());
+		tkProcessorList.add(new TelShowDeviceByImeiProcessor());
 		tkProcessorList.add(new TelDelDeviceByImeiProcessor());
 		tkProcessorList.add(new TelUpdateDeviceProcessor());
 		tkProcessorList.add(new TelAddDeviceProcessor());

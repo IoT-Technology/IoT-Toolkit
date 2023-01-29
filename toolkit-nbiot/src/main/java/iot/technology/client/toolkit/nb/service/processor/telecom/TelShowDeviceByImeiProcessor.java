@@ -25,13 +25,13 @@ import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.Tel
 /**
  * @author mushuwei
  */
-public class TelGetDeviceByImeiProcessor implements TkProcessor {
+public class TelShowDeviceByImeiProcessor implements TkProcessor {
 
 	private final TelecomDeviceService telecomDeviceService = new TelecomDeviceService();
 
 	@Override
 	public boolean supports(ProcessContext context) {
-		return context.getData().startsWith("get");
+		return context.getData().startsWith("show");
 	}
 
 	@Override
