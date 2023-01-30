@@ -85,7 +85,7 @@ public class ToolKitCommand implements Callable<Integer> {
 			boolean isChinese = bundle.getLocale().equals(Locale.CHINESE);
 			nbCmd.getCommandSpec().usageMessage().hidden(!isChinese);
 
-			int exitStatus = commandLine.execute("nb", "call");
+			int exitStatus = commandLine.execute(args);
 			if (exitStatus == ExitCodeEnum.NOTEND.getValue()) {
 				return;
 			}
