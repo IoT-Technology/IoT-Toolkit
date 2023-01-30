@@ -39,25 +39,25 @@ public class HelpProcessor implements TkProcessor {
 	public void handle(ProcessContext context) {
 		StringBuilder sb = new StringBuilder();
 		// list all mqtt settings
-		sb.append(ColorUtils.blueAnnotation("list: " + bundle.getString("mqtt.settings.list.desc")))
+		sb.append(ColorUtils.cyanAnnotation("list: " + bundle.getString("mqtt.settings.list.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: list").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// show mqtt setting detail
-		sb.append(ColorUtils.blueAnnotation("show: " + bundle.getString("mqtt.settings.show.desc")))
+		sb.append(ColorUtils.cyanAnnotation("show: " + bundle.getString("mqtt.settings.show.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: list").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// delete mqtt settings
-		sb.append(ColorUtils.blueAnnotation("del:  " + bundle.getString("mqtt.settings.del.desc")))
+		sb.append(ColorUtils.cyanAnnotation("del:  " + bundle.getString("mqtt.settings.del.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: del serial").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// add mqtt setting
-		sb.append(ColorUtils.blueAnnotation("add:  " + bundle.getString("mqtt.settings.add.desc")))
+		sb.append(ColorUtils.cyanAnnotation("add:  " + bundle.getString("mqtt.settings.add.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: add").append(StringUtils.lineSeparator());
 		System.out.format(sb.toString());

@@ -51,9 +51,9 @@ public class NbCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() throws Exception {
-		System.out.format("call:           " + colorItalic(bundle.getString("nb.call.desc"), "blue") + "%n");
-		System.out.format("settings, set:  " + colorItalic(bundle.getString("nb.settings.desc"), "blue") + "%n");
-		System.out.format("describe, desc: " + colorItalic(bundle.getString("nb.desc.desc"), "blue") + "%n");
+		System.out.format("call:           " + colorItalic(bundle.getString("nb.call.desc"), "cyan") + "%n");
+		System.out.format("settings, set:  " + colorItalic(bundle.getString("nb.settings.desc"), "cyan") + "%n");
+		System.out.format("describe, desc: " + colorItalic(bundle.getString("nb.desc.desc"), "cyan") + "%n");
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 

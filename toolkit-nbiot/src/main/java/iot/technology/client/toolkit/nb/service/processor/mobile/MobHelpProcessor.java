@@ -39,31 +39,31 @@ public class MobHelpProcessor implements TkProcessor {
 	public void handle(ProcessContext context) {
 		StringBuilder sb = new StringBuilder();
 		// list telecom nb-iot devices
-		sb.append(ColorUtils.blueAnnotation("list:    " + bundle.getString("nb.operation.list.desc")))
+		sb.append(ColorUtils.cyanAnnotation("list:    " + bundle.getString("nb.operation.list.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: list pageNo searchValue").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// get telecom nb-iot device detail info
-		sb.append(ColorUtils.blueAnnotation("show:     " + bundle.getString("nb.operation.get.desc")))
+		sb.append(ColorUtils.cyanAnnotation("show:     " + bundle.getString("nb.operation.get.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: show imei").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// delete telecom nb-iot device
-		sb.append(ColorUtils.blueAnnotation("del:     " + bundle.getString("nb.operation.del.desc")))
+		sb.append(ColorUtils.cyanAnnotation("del:     " + bundle.getString("nb.operation.del.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: del imei").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// add telecom nb-iot device
-		sb.append(ColorUtils.blueAnnotation("add:     " + bundle.getString("nb.operation.add.desc")))
+		sb.append(ColorUtils.cyanAnnotation("add:     " + bundle.getString("nb.operation.add.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: add imei name").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// update telecom nb-iot device name
-		sb.append(ColorUtils.blueAnnotation("update:  " + bundle.getString("nb.operation.update.desc")))
+		sb.append(ColorUtils.cyanAnnotation("update:  " + bundle.getString("nb.operation.update.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: update imei name").append(StringUtils.lineSeparator());
 		System.out.format(sb.toString());

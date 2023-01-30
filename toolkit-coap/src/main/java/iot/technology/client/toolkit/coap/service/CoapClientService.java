@@ -169,7 +169,7 @@ public class CoapClientService {
 
 	public void getCoapDescription() {
 		if (bundle.getLocale().equals(Locale.CHINESE)) {
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),bold " +
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
 					"       RFC7252 CoAP (受限制的应用协议)" + "|@") + "%n");
 			System.out.format("" + "%n");
 			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
@@ -192,12 +192,12 @@ public class CoapClientService {
 			System.out.format("|1 1 1 1 1 1 1 1|    负载内容 (if any) ...                      |%n");
 			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
 			System.out.format("" + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "官方地址: "
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "官方地址: "
 					+ "https://coap.technology/" + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "中文协议文档: "
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "中文协议文档: "
 					+ "https://iot.mushuwei.cn/#/coap/" + "|@") + "%n");
 		} else {
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),bold " +
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
 					"RFC7252 CoAP (Constrained Application Protocol)" + "|@") + "%n");
 			System.out.format("" + "%n");
 			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
@@ -222,9 +222,9 @@ public class CoapClientService {
 			System.out.format("|1 1 1 1 1 1 1 1|   Payload (if any) ...                        |%n");
 			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
 			System.out.format("" + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The Official address: "
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Official address: "
 					+ "https://coap.technology/" + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(blue),italic " + "The English reference: "
+			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English reference: "
 					+ "https://www.rfc-editor.org/rfc/rfc7252.html" + "|@") + "%n");
 		}
 	}

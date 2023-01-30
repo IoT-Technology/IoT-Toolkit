@@ -54,10 +54,10 @@ public class MqttCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() {
-		System.out.format("describe, desc: " + colorItalic(bundle.getString("mqtt.desc.description"), "blue") + "%n");
-		System.out.format("settings, set:  " + colorItalic(bundle.getString("mqtt.settings.desc"), "blue") + "%n");
-		System.out.format("publish, pub:   " + colorItalic(bundle.getString("mqtt.pub.description"), "blue") + "%n");
-		System.out.format("subscribe, sub: " + colorItalic(bundle.getString("mqtt.sub.description"), "blue") + "%n");
+		System.out.format("describe, desc: " + colorItalic(bundle.getString("mqtt.desc.description"), "cyan") + "%n");
+		System.out.format("settings, set:  " + colorItalic(bundle.getString("mqtt.settings.desc"), "cyan") + "%n");
+		System.out.format("publish, pub:   " + colorItalic(bundle.getString("mqtt.pub.description"), "cyan") + "%n");
+		System.out.format("subscribe, sub: " + colorItalic(bundle.getString("mqtt.sub.description"), "cyan") + "%n");
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

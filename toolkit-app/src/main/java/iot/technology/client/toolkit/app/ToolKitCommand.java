@@ -24,6 +24,7 @@ import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import iot.technology.client.toolkit.nb.command.NbCommand;
 import org.fusesource.jansi.AnsiConsole;
@@ -95,52 +96,62 @@ public class ToolKitCommand implements Callable<Integer> {
 	}
 
 	public Integer call() {
-		System.out.println(bundle.getString("general.description"));
-		System.out.format("%s %s" + "%n",
-				bundle.getString("general.usage"),
-				"toolkit [--version] [--help] <command> [<args>]");
-		System.out.format("" + "%n");
-		System.out.format("%s" + "%n", bundle.getString("general.common.commands.desc"));
-		System.out.format("" + "%n");
-		System.out.format("%s %s" + "%n",
-				bundle.getString("config.description"),
-				"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit config -h", "red") + ")");
-		System.out.format("%s %s" + "%n", "locale        ",
-				bundle.getString("config.lang.header") + " " + bundle.getString("config.locale"));
+		StringBuilder sb = new StringBuilder();
+		sb.append(bundle.getString("general.description")).append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", bundle.getString("general.usage"), "toolkit [--version] [--help] <command> [<args>]"))
+				.append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
 
-		System.out.format("" + "%n");
-		System.out.format("%s %s" + "%n",
-				bundle.getString("coap.description"),
-				"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit coap -h", "red") + ")");
-		System.out.format("%s %s" + "%n",
-				"disc          ", bundle.getString("coap.disc.description"));
-		System.out.format("%s %s" + "%n",
-				"get           ", bundle.getString("coap.get.description"));
-		System.out.format("%s %s" + "%n",
-				"post          ", bundle.getString("coap.post.description"));
-		System.out.format("%s %s" + "%n",
-				"put           ", bundle.getString("coap.put.description"));
-		System.out.format("%s %s" + "%n",
-				"delete        ", bundle.getString("coap.del.description"));
+		sb.append(bundle.getString("general.common.commands.desc")).append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
 
-		System.out.format("" + "%n");
-		System.out.format("%s %s" + "%n", bundle.getString("mqtt.description"),
-				"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit mqtt -h", "red") + ")");
-		System.out.format("%s %s" + "%n",
-				"publish       ", bundle.getString("mqtt.pub.description"));
-		System.out.format("%s %s" + "%n",
-				"subscribe     ", bundle.getString("mqtt.sub.description"));
+		// toolkit config simple description
+		sb.append(String.format("%s %s", bundle.getString("config.description"),
+						"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit config -h", "red") + ")"))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "locale        ",
+						bundle.getString("config.lang.header") + " " + bundle.getString("config.locale")))
+				.append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
 
-		System.out.format("" + "%n");
-		System.out.format("%s %s" + "%n", bundle.getString("nb.description"),
-				"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit nb -h", "red") + ")");
-		System.out.format("%s %s" + "%n",
-				"call          ", bundle.getString("nb.call.desc"));
-		System.out.format("%s %s" + "%n",
-				"set           ", bundle.getString("nb.desc.desc"));
+		// toolkit coap simple description
+		sb.append(String.format("%s %s", bundle.getString("coap.description"),
+						"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit coap -h", "red") + ")"))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "disc:          ", bundle.getString("coap.disc.description")))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "get:           ", bundle.getString("coap.get.description")))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "post:          ", bundle.getString("coap.post.description")))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "put            ", bundle.getString("coap.put.description")))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "delete:        ", bundle.getString("coap.del.description"))
+				.equals(StringUtils.lineSeparator()));
+		sb.append(StringUtils.lineSeparator());
 
-		System.out.format("" + "%n");
-		System.out.println(bundle.getString("general.main.page.help"));
+		// toolkit mqtt simple description
+		sb.append(String.format("%s %s", bundle.getString("mqtt.description"),
+						"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit mqtt -h", "red") + ")"))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "publish:       ", bundle.getString("mqtt.pub.description")))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "subscribe:     ", bundle.getString("mqtt.sub.description")))
+				.append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+
+		// toolkit nb simple description
+		sb.append(String.format("%s %s", bundle.getString("nb.description"),
+						"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit nb -h", "red") + ")"))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "call:          ", bundle.getString("nb.call.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s", "set:           ", bundle.getString("nb.desc.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+
+		sb.append(bundle.getString("general.main.page.help"));
+		System.out.println(sb);
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

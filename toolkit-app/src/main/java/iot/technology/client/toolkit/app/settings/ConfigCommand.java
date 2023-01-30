@@ -33,8 +33,8 @@ import java.util.concurrent.Callable;
 		name = "config",
 		requiredOptionMarker = '*',
 		optionListHeading = "%n${bundle:general.option}:%n",
-		header = "@|fg(blue),bold ${bundle:config.header}|@",
-		description = "@|fg(blue),italic ${bundle:config.description}|@",
+		header = "@|fg(Cyan),bold ${bundle:config.header}|@",
+		description = "@|fg(Cyan),italic ${bundle:config.description}|@",
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class

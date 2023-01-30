@@ -30,16 +30,16 @@ public class ColorUtils {
 		return redBold(text, "red") + "%n";
 	}
 
-	public static String blueAnnotation(String text) {
-		return colorFaint(text, "blue");
+	public static String cyanAnnotation(String text) {
+		return colorFaint(text, "cyan");
 	}
 
 	public static String blackFaint(String text) {
-		return CommandLine.Help.Ansi.AUTO.string("@|faint,black" + " " + text + "|@");
+		return CommandLine.Help.Ansi.AUTO.string("@|faint" + " " + text + "|@");
 	}
 
 	public static String blackBold(String text) {
-		return CommandLine.Help.Ansi.AUTO.string("@|faint,bold" + " " + text + "|@");
+		return CommandLine.Help.Ansi.AUTO.string("@|faint" + " " + text + "|@");
 	}
 
 	public static String redBold(String text, String color) {

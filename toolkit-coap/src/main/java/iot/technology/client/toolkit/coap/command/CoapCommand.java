@@ -31,8 +31,8 @@ import static iot.technology.client.toolkit.common.utils.ColorUtils.colorItalic;
 @CommandLine.Command(
 		name = "coap",
 		requiredOptionMarker = '*',
-		header = "@|fg(blue),bold ${bundle:coap.header}|@",
-		description = "@|fg(blue),italic ${bundle:coap.description}|@",
+		header = "@|fg(Cyan),bold ${bundle:coap.header}|@",
+		description = "@|fg(Cyan),italic ${bundle:coap.description}|@",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		subcommands = {
 				CoapDescribeCommand.class,
@@ -54,13 +54,13 @@ public class CoapCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() {
-		System.out.format("describe, desc:  " + colorItalic(bundle.getString("coap.desc.description"), "blue") + "%n");
-		System.out.format("media-type, mt:  " + colorItalic(bundle.getString("coap.media.types.description"), "blue") + "%n");
-		System.out.format("discover, disc:  " + colorItalic(bundle.getString("coap.disc.description"), "blue") + "%n");
-		System.out.format("get:             " + colorItalic(bundle.getString("coap.get.description"), "blue") + "%n");
-		System.out.format("post:            " + colorItalic(bundle.getString("coap.post.description"), "blue") + "%n");
-		System.out.format("put:             " + colorItalic(bundle.getString("coap.put.description"), "blue") + "%n");
-		System.out.format("delete, del:     " + colorItalic(bundle.getString("coap.del.description"), "blue") + "%n");
+		System.out.format("describe, desc:  " + colorItalic(bundle.getString("coap.desc.description"), "cyan") + "%n");
+		System.out.format("media-type, mt:  " + colorItalic(bundle.getString("coap.media.types.description"), "cyan") + "%n");
+		System.out.format("discover, disc:  " + colorItalic(bundle.getString("coap.disc.description"), "cyan") + "%n");
+		System.out.format("get:             " + colorItalic(bundle.getString("coap.get.description"), "cyan") + "%n");
+		System.out.format("post:            " + colorItalic(bundle.getString("coap.post.description"), "cyan") + "%n");
+		System.out.format("put:             " + colorItalic(bundle.getString("coap.put.description"), "cyan") + "%n");
+		System.out.format("delete, del:     " + colorItalic(bundle.getString("coap.del.description"), "cyan") + "%n");
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 
