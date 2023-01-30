@@ -20,6 +20,7 @@ import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.service.processor.*;
 import org.jline.reader.*;
 import org.jline.reader.impl.DefaultParser;
@@ -90,12 +91,16 @@ public class MqttSettingsCommand implements Callable<Integer> {
 				.build();
 
 		String prompt = bundle.getString("mqtt.settings.command.prompt") + GlobalConstants.promptSeparator;
+		StringUtils.toolkitPromptText();
 		while (true) {
 			String data;
 			try {
 				data = reader.readLine(prompt);
 				ProcessContext context = new ProcessContext();
 				context.setData(data);
+				if (data.equals("exit")) {
+					break;
+				}
 				for (TkProcessor processor : getTkProcessorList()) {
 					if (processor.supports(context)) {
 						processor.handle(context);
@@ -105,5 +110,6 @@ public class MqttSettingsCommand implements Callable<Integer> {
 				return ExitCodeEnum.ERROR.getValue();
 			}
 		}
+		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

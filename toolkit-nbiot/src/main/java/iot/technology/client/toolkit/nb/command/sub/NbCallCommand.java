@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.NbBizService;
 import iot.technology.client.toolkit.nb.service.NbConfigSettingsDomain;
 import iot.technology.client.toolkit.nb.service.NbRuleChainProcessor;
@@ -64,7 +65,7 @@ public class NbCallCommand implements Callable<Integer> {
 		NodeContext context = new NodeContext();
 		NbConfigSettingsDomain domain = new NbConfigSettingsDomain();
 		String code = ruleChain.getNbTypeNode();
-
+		StringUtils.toolkitPromptText();
 		while (true) {
 			try {
 				String node = processor.get(code);
@@ -75,6 +76,9 @@ public class NbCallCommand implements Callable<Integer> {
 				tkNode.prePrompt(context);
 				String data = reader.readLine(tkNode.nodePrompt());
 				context.setData(data);
+				if (data.equals("exit")) {
+					break;
+				}
 				tkNode.check(context);
 				bizService.printValueToConsole(code, context);
 				ObjectUtils.setValue(domain, code, tkNode.getValue(context));

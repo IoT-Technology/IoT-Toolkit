@@ -21,10 +21,7 @@ public class NbTypeNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Welcome to Toolkit ").append(StorageConstants.TOOLKIT_VERSION).append(StringUtils.lineSeparator);
-		sb.append(StringUtils.lineSeparator());
-		
+		StringUtils.toolkitPromptText();
 		if (bundle.getLocale().equals(Locale.CHINESE)) {
 			System.out.format(ColorUtils.greenItalic("(1) 电信AEP * ") + "%n");
 			System.out.format(ColorUtils.greenItalic("(2) 移动OneNET") + "%n");

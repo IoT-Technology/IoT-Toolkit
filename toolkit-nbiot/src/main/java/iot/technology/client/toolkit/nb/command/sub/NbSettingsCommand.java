@@ -21,6 +21,7 @@ import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.NbBizService;
 import iot.technology.client.toolkit.nb.service.NbConfigSettingsDomain;
 import iot.technology.client.toolkit.nb.service.NbRuleChainProcessor;
@@ -93,7 +94,7 @@ public class NbSettingsCommand implements Callable<Integer> {
 		context.setType("settings");
 		NbConfigSettingsDomain domain = new NbConfigSettingsDomain();
 		String code = ruleChain.getNbTypeNode();
-
+		StringUtils.toolkitPromptText();
 		while (true) {
 			boolean isNbSettings = code.equals(NbSettingsCodeEnum.NB_SETTINGS.getCode());
 			LineReader reader = isNbSettings ?
@@ -116,6 +117,9 @@ public class NbSettingsCommand implements Callable<Integer> {
 				tkNode.prePrompt(context);
 				String data = reader.readLine(tkNode.nodePrompt());
 				context.setData(data);
+				if (data.equals("exit")) {
+					break;
+				}
 				if (isNbSettings) {
 					NbSettingsContext nbSettingsContext = new NbSettingsContext();
 					nbSettingsContext.setNbType(domain.getNbType());

@@ -22,6 +22,7 @@ import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.service.MqttBizService;
 import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
@@ -79,7 +80,7 @@ public class MqttPublishCommand implements Callable<Integer> {
 		context.setPromptData(isNew ? null : bizService.getMqttConfigList());
 
 		String code = isNew ? ruleChain.getRootPublishNewConfigNode() : ruleChain.getRootPublishSelectConfigNode();
-
+		StringUtils.toolkitPromptText();
 		while (true) {
 			String data;
 			try {
@@ -91,6 +92,9 @@ public class MqttPublishCommand implements Callable<Integer> {
 				tkNode.prePrompt(context);
 				data = reader.readLine(tkNode.nodePrompt());
 				context.setData(data);
+				if (data.equals("exit")) {
+					break;
+				}
 				tkNode.check(context);
 				String codeData = tkNode.getValue(context);
 				bizService.printValueToConsole(code, codeData, context);

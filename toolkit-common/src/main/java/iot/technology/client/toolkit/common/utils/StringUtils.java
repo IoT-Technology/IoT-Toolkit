@@ -15,6 +15,8 @@
  */
 package iot.technology.client.toolkit.common.utils;
 
+import iot.technology.client.toolkit.common.constants.StorageConstants;
+
 /**
  * @author mushuwei
  */
@@ -24,6 +26,13 @@ public abstract class StringUtils {
 
 	public static String lineSeparator() {
 		return lineSeparator;
+	}
+
+	public static void toolkitPromptText() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Welcome to Toolkit ").append(StorageConstants.TOOLKIT_VERSION).append(StringUtils.lineSeparator);
+		sb.append("Press Ctrl+C or `exit` to exit the REPL");
+		System.out.println(sb);
 	}
 
 	public static boolean hasText(String str) {
