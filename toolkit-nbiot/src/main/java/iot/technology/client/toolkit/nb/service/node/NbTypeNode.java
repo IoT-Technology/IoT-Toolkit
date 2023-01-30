@@ -21,7 +21,6 @@ public class NbTypeNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
-		StringUtils.toolkitPromptText();
 		if (bundle.getLocale().equals(Locale.CHINESE)) {
 			System.out.format(ColorUtils.greenItalic("(1) 电信AEP * ") + "%n");
 			System.out.format(ColorUtils.greenItalic("(2) 移动OneNET") + "%n");

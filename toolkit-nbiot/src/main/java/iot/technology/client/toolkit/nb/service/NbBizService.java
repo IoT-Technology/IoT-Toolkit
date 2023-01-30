@@ -113,7 +113,7 @@ public class NbBizService {
 			FileUtils.writeDataToFile(SYS_NB_MOBILE_PRODUCT_FILE_NAME, settingsJson);
 			return mobileBizService.call(mobileConfigDomain);
 		}
-		return false;
+		return true;
 
 	}
 

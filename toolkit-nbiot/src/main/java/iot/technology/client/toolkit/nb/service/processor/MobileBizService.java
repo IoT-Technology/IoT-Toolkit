@@ -61,10 +61,10 @@ public class MobileBizService {
 			while (isEnd) {
 				String data;
 				data = reader.readLine(prompt);
-				if (data.equals("quit")) {
+				context.setData(data);
+				if (data.equals("exit")) {
 					return false;
 				}
-				context.setData(data);
 				for (TkProcessor processor : getTkProcessorList()) {
 					if (processor.supports(context)) {
 						processor.handle(context);
