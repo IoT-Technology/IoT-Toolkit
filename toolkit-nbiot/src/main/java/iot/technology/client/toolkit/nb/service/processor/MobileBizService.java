@@ -19,9 +19,12 @@ import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.processor.mobile.*;
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.*;
 import org.jline.reader.impl.DefaultParser;
+import org.jline.reader.impl.completer.AggregateCompleter;
+import org.jline.reader.impl.completer.ArgumentCompleter;
+import org.jline.reader.impl.completer.NullCompleter;
+import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.Terminal;
 
 import java.util.ArrayList;
@@ -43,10 +46,26 @@ public class MobileBizService {
 		return tkProcessorList;
 	}
 
+	Completer listCompleter = new ArgumentCompleter(new StringsCompleter("list"), NullCompleter.INSTANCE);
+
+	Completer showCompleter = new ArgumentCompleter(new StringsCompleter("show"), NullCompleter.INSTANCE);
+
+	Completer delCompleter = new ArgumentCompleter(new StringsCompleter("del"), NullCompleter.INSTANCE);
+
+	Completer addCompleter = new ArgumentCompleter(new StringsCompleter("add"), NullCompleter.INSTANCE);
+
+	Completer updateCompleter = new ArgumentCompleter(new StringsCompleter("update"), NullCompleter.INSTANCE);
+
+	Completer helpCompleter = new ArgumentCompleter(new StringsCompleter("help"), NullCompleter.INSTANCE);
+
+	Completer nbMobileCompleter =
+			new AggregateCompleter(listCompleter, showCompleter, delCompleter, addCompleter, helpCompleter, updateCompleter);
+
 	public boolean call(MobileConfigDomain mobileConfigDomain, Terminal terminal) {
 		try {
 			LineReader reader = LineReaderBuilder.builder()
 					.terminal(terminal)
+					.completer(nbMobileCompleter)
 					.parser(new DefaultParser())
 					.build();
 
@@ -67,8 +86,8 @@ public class MobileBizService {
 					}
 				}
 			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		} catch (UserInterruptException | EndOfFileException e) {
+			return false;
 		}
 		return true;
 	}
