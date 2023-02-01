@@ -82,7 +82,7 @@ public class NbCallCommand implements Callable<Integer> {
 				tkNode.check(context);
 				bizService.printValueToConsole(code, context);
 				ObjectUtils.setValue(domain, code, tkNode.getValue(context));
-				boolean processLogicResult = bizService.nbProcessorAfterLogic(code, domain, context);
+				boolean processLogicResult = bizService.nbProcessorAfterLogic(code, domain, context, terminal);
 				if (!processLogicResult) {
 					break;
 				}

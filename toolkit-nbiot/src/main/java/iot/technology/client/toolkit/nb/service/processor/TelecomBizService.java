@@ -24,7 +24,6 @@ import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.impl.DefaultParser;
 import org.jline.terminal.Terminal;
-import org.jline.terminal.TerminalBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +44,8 @@ public class TelecomBizService {
 		return tkProcessorList;
 	}
 
-	public boolean call(TelecomConfigDomain telecomConfigDomain) {
+	public boolean call(TelecomConfigDomain telecomConfigDomain, Terminal terminal) {
 		try {
-			Terminal terminal = TerminalBuilder.builder()
-					.system(true)
-					.build();
 			LineReader reader = LineReaderBuilder.builder()
 					.terminal(terminal)
 					.parser(new DefaultParser())

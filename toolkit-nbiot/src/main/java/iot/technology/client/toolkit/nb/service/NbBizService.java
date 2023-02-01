@@ -30,6 +30,7 @@ import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDoma
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelQueryProductResponse;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelQueryProductResponseBody;
 import iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings;
+import org.jline.terminal.Terminal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class NbBizService {
 		return fileDatas;
 	}
 
-	public boolean nbProcessorAfterLogic(String code, NbConfigSettingsDomain domain, NodeContext context) {
+	public boolean nbProcessorAfterLogic(String code, NbConfigSettingsDomain domain, NodeContext context, Terminal terminal) {
 		/**
 		 * user fill in telecom type
 		 * and select one old telecom settings
@@ -68,7 +69,7 @@ public class NbBizService {
 				&& context.isCheck()
 				&& !domain.getNbTelecomAppConfig().equals("new")) {
 			TelecomConfigDomain telecomConfigDomain = domain.convertTelecomConfig();
-			return telecomBizService.call(telecomConfigDomain);
+			return telecomBizService.call(telecomConfigDomain, terminal);
 		}
 		/**
 		 * user fill in  telecom type
@@ -82,7 +83,7 @@ public class NbBizService {
 			if (Objects.nonNull(queryProductResponse) && queryProductResponse.isSuccess()) {
 				TelProjectSettings projectSettings = saveTelSettings(telecomConfigDomain, queryProductResponse);
 				telecomConfigDomain.setProductName(projectSettings.getProductName());
-				return telecomBizService.call(telecomConfigDomain);
+				return telecomBizService.call(telecomConfigDomain, terminal);
 			}
 		}
 		/**
@@ -94,7 +95,7 @@ public class NbBizService {
 				&& context.isCheck()
 				&& !domain.getMobAppConfig().equals("new")) {
 			MobileConfigDomain mobileConfigDomain = domain.convertMobileConfig();
-			return mobileBizService.call(mobileConfigDomain);
+			return mobileBizService.call(mobileConfigDomain, terminal);
 
 		}
 		/**
@@ -111,7 +112,7 @@ public class NbBizService {
 			mobProjectSettings.setAccessKey(mobileConfigDomain.getAccessKey());
 			String settingsJson = JsonUtils.object2Json(mobProjectSettings);
 			FileUtils.writeDataToFile(SYS_NB_MOBILE_PRODUCT_FILE_NAME, settingsJson);
-			return mobileBizService.call(mobileConfigDomain);
+			return mobileBizService.call(mobileConfigDomain, terminal);
 		}
 		return true;
 

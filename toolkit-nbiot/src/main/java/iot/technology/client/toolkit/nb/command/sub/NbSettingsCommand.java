@@ -90,6 +90,16 @@ public class NbSettingsCommand implements Callable<Integer> {
 		Terminal terminal = TerminalBuilder.builder()
 				.system(true)
 				.build();
+		LineReader originReader = LineReaderBuilder.builder()
+				.terminal(terminal)
+				.parser(new DefaultParser()).build();
+		LineReader readerWithCompleter = LineReaderBuilder.builder()
+				.terminal(terminal)
+				.completer(nbSettingsCompleter)
+				.history(new DefaultHistory())
+				.parser(new DefaultParser())
+				.build();
+
 		NodeContext context = new NodeContext();
 		context.setType("settings");
 		NbConfigSettingsDomain domain = new NbConfigSettingsDomain();
@@ -97,17 +107,7 @@ public class NbSettingsCommand implements Callable<Integer> {
 		StringUtils.toolkitPromptText();
 		while (true) {
 			boolean isNbSettings = code.equals(NbSettingsCodeEnum.NB_SETTINGS.getCode());
-			LineReader reader = isNbSettings ?
-					LineReaderBuilder.builder()
-							.terminal(terminal)
-							.completer(nbSettingsCompleter)
-							.history(new DefaultHistory())
-							.parser(new DefaultParser())
-							.build() :
-					LineReaderBuilder.builder()
-							.terminal(terminal)
-							.parser(new DefaultParser())
-							.build();
+			LineReader reader = isNbSettings ? readerWithCompleter : originReader;
 			try {
 				String node = processor.get(code);
 				TkNode tkNode = ObjectUtils.initComponent(node);

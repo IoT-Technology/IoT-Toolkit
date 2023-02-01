@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 public class HttpRequestExecutor {
 
-
+    public static final MediaType mediaType = MediaType.get("application/json;charset=utf-8");
 
     private static OkHttpClient initOkHttp3(String type) {
         HttpConfig config = NbIoTHttpConfigEnum.type(type);
@@ -41,7 +41,7 @@ public class HttpRequestExecutor {
     }
 
     public static HttpResponseEntity executePost(HttpRequestEntity request) {
-        RequestBody body = RequestBody.create(request.getJson(), MediaType.get("application/json;charset=utf-8"));
+        RequestBody body = RequestBody.create(request.getJson(), mediaType);
         final OkHttpClient client = initOkHttp3(request.getType());
 
         HttpUrl.Builder httpBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
@@ -64,7 +64,7 @@ public class HttpRequestExecutor {
     }
 
     public static HttpResponseEntity executePut(HttpRequestEntity request) {
-        RequestBody body = RequestBody.create(request.getJson(), MediaType.get("application/json;charset=utf-8"));
+        RequestBody body = RequestBody.create(request.getJson(), mediaType);
         final OkHttpClient client = initOkHttp3(request.getType());
 
         HttpUrl.Builder httpBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
@@ -117,7 +117,7 @@ public class HttpRequestExecutor {
     }
 
     public static HttpResponseEntity executeDelete(HttpRequestEntity request) {
-        RequestBody body = RequestBody.create(request.getJson(), MediaType.get("application/json;charset=utf-8"));
+        RequestBody body = RequestBody.create(request.getJson(), mediaType);
         final OkHttpClient client = initOkHttp3(request.getType());
 
         HttpUrl.Builder httpBuilder = HttpUrl.parse(request.getUrl()).newBuilder();
