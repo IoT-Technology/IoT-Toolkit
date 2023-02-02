@@ -106,8 +106,11 @@ public class FileUtils {
 	public static List<String> getDataFromFile(String fileName) {
 		List<String> datas = new ArrayList<>();
 		try {
+			File file = new File(fileName);
 			Path path = Paths.get(fileName);
-			datas = Files.readAllLines(path, StandardCharsets.UTF_8);
+			if (file.exists()) {
+				datas = Files.readAllLines(path, StandardCharsets.UTF_8);
+			}
 		} catch (IOException e) {
 			System.out.format("get data from %s failed!", fileName);
 		}
