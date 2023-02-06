@@ -18,6 +18,7 @@ package iot.technology.client.toolkit.coap.command;
 import iot.technology.client.toolkit.coap.command.sub.*;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import picocli.CommandLine;
 
 import java.util.ResourceBundle;
@@ -54,13 +55,22 @@ public class CoapCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() {
-		System.out.format("describe, desc:  " + colorItalic(bundle.getString("coap.desc.description"), "cyan") + "%n");
-		System.out.format("media-type, mt:  " + colorItalic(bundle.getString("coap.media.types.description"), "cyan") + "%n");
-		System.out.format("discover, disc:  " + colorItalic(bundle.getString("coap.disc.description"), "cyan") + "%n");
-		System.out.format("get:             " + colorItalic(bundle.getString("coap.get.description"), "cyan") + "%n");
-		System.out.format("post:            " + colorItalic(bundle.getString("coap.post.description"), "cyan") + "%n");
-		System.out.format("put:             " + colorItalic(bundle.getString("coap.put.description"), "cyan") + "%n");
-		System.out.format("delete, del:     " + colorItalic(bundle.getString("coap.del.description"), "cyan") + "%n");
+		StringBuilder sb = new StringBuilder();
+		sb.append("describe, desc:  ").append(colorItalic(bundle.getString("coap.desc.description"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		sb.append("media-type, mt:  ").append(colorItalic(bundle.getString("coap.media.types.description"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		sb.append("discover, disc:  ").append(colorItalic(bundle.getString("coap.disc.description"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		sb.append("get:             ").append(colorItalic(bundle.getString("coap.get.description"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		sb.append("post:            ").append(colorItalic(bundle.getString("coap.post.description"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		sb.append("put:             ").append(colorItalic(bundle.getString("coap.put.description"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		sb.append("delete, del:     ").append(colorItalic(bundle.getString("coap.del.description"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		System.out.println(sb);
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 

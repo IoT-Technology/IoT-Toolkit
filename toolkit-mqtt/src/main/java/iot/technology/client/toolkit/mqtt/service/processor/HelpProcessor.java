@@ -47,7 +47,7 @@ public class HelpProcessor implements TkProcessor {
 		// show mqtt setting detail
 		sb.append(ColorUtils.cyanAnnotation("show: " + bundle.getString("mqtt.settings.show.desc")))
 				.append(StringUtils.lineSeparator());
-		sb.append("    usage: list").append(StringUtils.lineSeparator());
+		sb.append("    usage: show serial").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// delete mqtt settings

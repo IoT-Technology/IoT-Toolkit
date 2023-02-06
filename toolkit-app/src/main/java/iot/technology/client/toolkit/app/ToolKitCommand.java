@@ -107,7 +107,7 @@ public class ToolKitCommand implements Callable<Integer> {
 
 		// toolkit config simple description
 		sb.append(String.format("%s %s", bundle.getString("config.description"),
-						"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit config -h", "red") + ")"))
+						"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit config -h", "red") + ")"))
 				.append(StringUtils.lineSeparator());
 		sb.append(String.format("%s %s", "locale        ",
 						bundle.getString("config.lang.header") + " " + bundle.getString("config.locale")))
@@ -116,7 +116,7 @@ public class ToolKitCommand implements Callable<Integer> {
 
 		// toolkit coap simple description
 		sb.append(String.format("%s %s", bundle.getString("coap.description"),
-						"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit coap -h", "red") + ")"))
+						"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit coap -h", "red") + ")"))
 				.append(StringUtils.lineSeparator());
 		sb.append(String.format("%s %s", "disc:          ", bundle.getString("coap.disc.description")))
 				.append(StringUtils.lineSeparator());
@@ -132,7 +132,7 @@ public class ToolKitCommand implements Callable<Integer> {
 
 		// toolkit mqtt simple description
 		sb.append(String.format("%s %s", bundle.getString("mqtt.description"),
-						"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit mqtt -h", "red") + ")"))
+						"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit mqtt -h", "red") + ")"))
 				.append(StringUtils.lineSeparator());
 		sb.append(String.format("%s %s", "publish:       ", bundle.getString("mqtt.pub.description")))
 				.append(StringUtils.lineSeparator());
@@ -142,7 +142,7 @@ public class ToolKitCommand implements Callable<Integer> {
 
 		// toolkit nb simple description
 		sb.append(String.format("%s %s", bundle.getString("nb.description"),
-						"(" + bundle.getString("general.reference") + ColorUtils.redBold("toolkit nb -h", "red") + ")"))
+						"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit nb -h", "red") + ")"))
 				.append(StringUtils.lineSeparator());
 		sb.append(String.format("%s %s", "call:          ", bundle.getString("nb.call.desc")))
 				.append(StringUtils.lineSeparator());

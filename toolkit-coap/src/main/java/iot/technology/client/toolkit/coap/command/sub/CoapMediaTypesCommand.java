@@ -18,13 +18,12 @@ package iot.technology.client.toolkit.coap.command.sub;
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
-import org.eclipse.californium.core.coap.MediaTypeRegistry;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import picocli.CommandLine;
 
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
-
-import static iot.technology.client.toolkit.coap.service.CoapClientService.green;
 
 /**
  * @author mushuwei
@@ -49,11 +48,13 @@ public class CoapMediaTypesCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() throws Exception {
-		MediaTypeRegistry mediaTypeRegistry = new MediaTypeRegistry();
+
 		String supportedMediaTypes = coapClientService.getSupportedMediaTypes();
+		StringBuilder sb = new StringBuilder();
 		String header = String.format("==================== %s ====================", bundle.getString("coap.media.types"));
-		System.out.format(green(header) + "%n");
-		System.out.println(supportedMediaTypes);
+		sb.append(ColorUtils.colorBold(header, "green")).append(StringUtils.lineSeparator());
+		sb.append(supportedMediaTypes).append(StringUtils.lineSeparator());
+		System.out.println(sb);
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 

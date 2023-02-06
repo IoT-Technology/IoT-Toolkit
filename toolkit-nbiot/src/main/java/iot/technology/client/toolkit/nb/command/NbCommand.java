@@ -17,6 +17,7 @@ package iot.technology.client.toolkit.nb.command;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.command.sub.NbCallCommand;
 import iot.technology.client.toolkit.nb.command.sub.NbDescribeCommand;
 import iot.technology.client.toolkit.nb.command.sub.NbSettingsCommand;
@@ -51,9 +52,14 @@ public class NbCommand implements Callable<Integer> {
 
 	@Override
 	public Integer call() throws Exception {
-		System.out.format("call:           " + colorItalic(bundle.getString("nb.call.desc"), "cyan") + "%n");
-		System.out.format("settings, set:  " + colorItalic(bundle.getString("nb.settings.desc"), "cyan") + "%n");
-		System.out.format("describe, desc: " + colorItalic(bundle.getString("nb.desc.desc"), "cyan") + "%n");
+		StringBuilder sb = new StringBuilder();
+		sb.append("call:           ").append(colorItalic(bundle.getString("nb.call.desc"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		sb.append("settings, set:  ").append(colorItalic(bundle.getString("nb.call.desc"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		sb.append("describe, desc: ").append(colorItalic(bundle.getString("nb.desc.desc"), "cyan"))
+				.append(StringUtils.lineSeparator());
+		System.out.println(sb);
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 

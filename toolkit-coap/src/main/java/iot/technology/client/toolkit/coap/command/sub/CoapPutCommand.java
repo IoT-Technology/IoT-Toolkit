@@ -18,7 +18,6 @@ package iot.technology.client.toolkit.coap.command.sub;
 import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import picocli.CommandLine;
@@ -43,8 +42,8 @@ public class CoapPutCommand implements Callable<Integer> {
 
 	private final CoapClientService coapClientService = new CoapClientService();
 
-	@CommandLine.ArgGroup
-	HelpVersionGroup helpVersionGroup;
+	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
+	boolean usageHelpRequested;
 
 	@CommandLine.Parameters(
 			index = "0",

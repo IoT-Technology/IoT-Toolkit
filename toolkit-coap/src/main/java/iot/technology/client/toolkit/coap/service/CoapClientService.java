@@ -24,6 +24,7 @@ import iot.technology.client.toolkit.coap.domain.CoapSupportType;
 import iot.technology.client.toolkit.common.constants.HttpStatus;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.utils.CollectionUtils;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.MimeTypeUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import org.eclipse.californium.core.CoapClient;
@@ -73,7 +74,7 @@ public class CoapClientService {
 
 
 	public String requestInfo(String method, String path) {
-		return "  " + cyan(method.toUpperCase(Locale.ROOT) + ":" + cyan(path));
+		return "  " + ColorUtils.colorBold((method.toUpperCase(Locale.ROOT) + ":" + path), "cyan");
 	}
 
 
@@ -84,7 +85,7 @@ public class CoapClientService {
 		Response r = coapResponse.advanced();
 		int httpStatusCode = r.getCode().codeClass * 100 + r.getCode().codeDetail;
 		HttpStatus httpStatus = HttpStatus.resolve(httpStatusCode);
-		String status = colorText(String.format("%s-%s", httpStatusCode, Objects.requireNonNull(httpStatus).getReasonPhrase()),
+		String status = ColorUtils.colorBold(String.format("%s-%s", httpStatusCode, Objects.requireNonNull(httpStatus).getReasonPhrase()),
 				httpStatus.isError() ? "red" : "cyan");
 		String rtt = Objects.nonNull(r.getApplicationRttNanos()) ? "" + r.getApplicationRttNanos() / 1000000 : "";
 
@@ -97,22 +98,23 @@ public class CoapClientService {
 		}
 		String responseHeader = String.format(separator, bundle.getString("coap.response"));
 		//coap response
-		sb.append(green(responseHeader)).append(StringUtil.lineSeparator());
+		sb.append(ColorUtils.colorBold(responseHeader, "green")).append(StringUtil.lineSeparator());
 		// application RTT (round trip time)
-		sb.append(String.format("RTT:        %sms", cyan(rtt))).append(StringUtil.lineSeparator());
+		sb.append(String.format("RTT:        %sms", ColorUtils.colorBold(rtt, "cyan"))).append(StringUtil.lineSeparator());
 		// coap type
-		sb.append(String.format("Type:       %s", cyan(r.getType().toString()))).append(StringUtil.lineSeparator());
+		sb.append(String.format("Type:       %s", ColorUtils.colorBold(r.getType().toString(), "cyan"))).append(StringUtil.lineSeparator());
 		// coap token
-		sb.append(String.format("Token:      %s", cyan(r.getTokenString()))).append(StringUtil.lineSeparator());
+		sb.append(String.format("Token:      %s", ColorUtils.colorBold(r.getTokenString(), "cyan"))).append(StringUtil.lineSeparator());
 		// coap code
 		sb.append(String.format("Code:       %s", status)).append(StringUtil.lineSeparator());
 		// coap MID
-		sb.append(String.format("MID:        %s", cyan(r.getMID() + ""))).append(StringUtil.lineSeparator());
+		sb.append(String.format("MID:        %s", ColorUtils.colorBold(r.getMID() + "", "cyan"))).append(StringUtil.lineSeparator());
 		// coap options
-		sb.append(String.format("Options:    %s", cyan(r.getOptions().toString()))).append(StringUtil.lineSeparator());
+		sb.append(String.format("Options:    %s", ColorUtils.colorBold(r.getOptions().toString(), "cyan")))
+				.append(StringUtil.lineSeparator());
 
 		String payloadHeader = String.format(separator, bundle.getString("coap.payload"));
-		sb.append(green(payloadHeader)).append(StringUtil.lineSeparator());
+		sb.append(ColorUtils.colorBold(payloadHeader, "green")).append(StringUtil.lineSeparator());
 
 		// coap payload
 		if (r.getPayloadSize() > 0 && MediaTypeRegistry.isPrintable(r.getOptions().getContentFormat())) {
@@ -168,65 +170,60 @@ public class CoapClientService {
 	}
 
 	public void getCoapDescription() {
+		StringBuilder sb = new StringBuilder();
 		if (bundle.getLocale().equals(Locale.CHINESE)) {
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
-					"       RFC7252 CoAP (受限制的应用协议)" + "|@") + "%n");
-			System.out.format("" + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-					"受限应用协议(CoAP)是一种专门的web传输协议" + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-					"用于物联网中的约束节点和约束网络." + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-					"该协议专为设备对设备的应用而设计，例如智慧能源或楼宇自动化等场景." + "|@") + "%n");
-			System.out.format("" + "%n");
-			System.out.format(green("-------------------------- 协议 ---------------------------------") + "%n");
-			System.out.format("|      0        |      1        |      2        |      3        |%n");
-			System.out.format("|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|版本|类型|  TKL |    响应码      |            消息编号         |%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|   消息会话-如果有,消息会话长度字节(TKL) ...                   |%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|   可选项 (如果有   ) ...                                      |%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|1 1 1 1 1 1 1 1|    负载内容 (if any) ...                      |%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("" + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "官方地址: "
-					+ "https://coap.technology/" + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "中文协议文档: "
-					+ "https://iot.mushuwei.cn/#/coap/" + "|@") + "%n");
+			sb.append(ColorUtils.colorBold("       RFC7252 CoAP (受限制的应用协议)", "cyan")).append(StringUtils.lineSeparator());
+			sb.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.italicText("受限应用协议(CoAP)是一种专门的web传输协议")).append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.italicText("用于物联网中的约束节点和约束网络.")).append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.italicText("该协议专为设备对设备的应用而设计，例如智慧能源或楼宇自动化等场景."))
+					.append(StringUtils.lineSeparator());
+			sb.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.colorBold("-------------------------- 协议 ---------------------------------", "green"))
+					.append(StringUtils.lineSeparator());
+			sb.append("|      0        |      1        |      2        |      3        |").append(StringUtils.lineSeparator());
+			sb.append("|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append("|版本|类型|  TKL |    响应码      |            消息编号         |").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append("|   消息会话-如果有,消息会话长度字节(TKL) ...                   |").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append("|   可选项 (如果有   ) ...                                      |").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append("|1 1 1 1 1 1 1 1|    负载内容 (if any) ...                      |").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.colorItalic("官方地址: https://coap.technology/", "cyan")).append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.colorItalic("中文协议文档: https://iot.mushuwei.cn/#/coap/", "cyan")).append(StringUtils.lineSeparator());
 		} else {
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),bold " +
-					"RFC7252 CoAP (Constrained Application Protocol)" + "|@") + "%n");
-			System.out.format("" + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-					"The Constrained Application Protocol (CoAP) is a specialized web transfer protocol" + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-					"for use with constrained nodes and constrained networks in the Internet of Things." + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|italic " +
-					"The protocol is designed for machine-to-machine (M2M) applications such as smart energy and building automation." +
-					"|@")
-					+ "%n");
-			System.out.format("" + "%n");
-			System.out.format(green("------------------------ protocol -------------------------------") + "%n");
-			System.out.format("|      0        |      1        |      2        |      3        |%n");
-			System.out.format("|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|Ver| T |  TKL  |     Code      |            Message ID         |%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|   Token (if any, TKL bytes) ...                               |%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|   Options (if any) ...                                        |%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("|1 1 1 1 1 1 1 1|   Payload (if any) ...                        |%n");
-			System.out.format("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+%n");
-			System.out.format("" + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The Official address: "
-					+ "https://coap.technology/" + "|@") + "%n");
-			System.out.format(CommandLine.Help.Ansi.AUTO.string("@|fg(Cyan),italic " + "The English reference: "
-					+ "https://www.rfc-editor.org/rfc/rfc7252.html" + "|@") + "%n");
+			sb.append(ColorUtils.colorBold("RFC7252 CoAP (Constrained Application Protocol)", "cyan")).append(StringUtils.lineSeparator());
+			sb.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.italicText("The Constrained Application Protocol (CoAP) is a specialized web transfer protocol"))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.italicText("for use with constrained nodes and constrained networks in the Internet of Things."))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.italicText(
+							"The protocol is designed for machine-to-machine (M2M) applications such as smart energy and building automation."))
+					.append(StringUtils.lineSeparator());
+			sb.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.colorBold("------------------------ protocol -------------------------------", "green"))
+					.append(StringUtils.lineSeparator());
+			sb.append("|      0        |      1        |      2        |      3        |").append(StringUtils.lineSeparator());
+			sb.append("|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append("|Ver| T |  TKL  |     Code      |            Message ID         |").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append("|   Token (if any, TKL bytes) ...                               |").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append("|   Options (if any) ...                                        |").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append("|1 1 1 1 1 1 1 1|   Payload (if any) ...                        |").append(StringUtils.lineSeparator());
+			sb.append("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+").append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.colorItalic("The Official address: https://coap.technology/", "cyan")).append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.colorItalic("The English reference: https://www.rfc-editor.org/rfc/rfc7252.html", "cyan"))
+					.append(StringUtils.lineSeparator());
 		}
+		System.out.println(sb);
 	}
 
 	private String typeNames(List<String> contentTypes) {
@@ -238,11 +235,11 @@ public class CoapClientService {
 
 	public static String prettyPayload(Response r) {
 		if (r.getOptions().toString().contains(MimeTypeUtils.APPLICATION_JSON_VALUE)) {
-			return cyan(prettyJson(r.getPayloadString()));
+			return ColorUtils.colorBold(prettyJson(r.getPayloadString()), "cyan");
 		} else if (r.getOptions().toString().contains(MimeTypeUtils.APPLICATION_XML_VALUE)) {
-			return cyan(prettyXml(r.getPayloadString()));
+			return ColorUtils.colorBold(prettyXml(r.getPayloadString()), "cyan");
 		} else if (r.getOptions().toString().contains("application/link-format")) {
-			return cyan(prettyLink(r.getPayloadString()));
+			return ColorUtils.colorBold(prettyLink(r.getPayloadString()), "cyan");
 		}
 		return r.getPayloadString();
 	}
@@ -284,21 +281,5 @@ public class CoapClientService {
 		} catch (Exception io) {
 			return text;
 		}
-	}
-
-	public static String cyan(String text) {
-		return colorText(text, "cyan");
-	}
-
-	public static String red(String text) {
-		return colorText(text, "red");
-	}
-
-	public static String green(String text) {
-		return colorText(text, "green");
-	}
-
-	public static String colorText(String text, String color) {
-		return CommandLine.Help.Ansi.AUTO.string("@|bold," + color + " " + text + "|@");
 	}
 }

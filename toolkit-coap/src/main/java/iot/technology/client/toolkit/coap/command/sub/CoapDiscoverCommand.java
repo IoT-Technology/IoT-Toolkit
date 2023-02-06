@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.coap.service.CoapClientService;
 import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.WebLink;
 import picocli.CommandLine;
@@ -27,8 +28,6 @@ import java.net.URI;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.Callable;
-
-import static iot.technology.client.toolkit.coap.service.CoapClientService.green;
 
 /**
  * @author mushuwei
@@ -64,9 +63,11 @@ public class CoapDiscoverCommand implements Callable<Integer> {
 
 		Set<WebLink> webLinks = coapClient.discover();
 		String availableResources = coapClientService.getAvailableResources(webLinks);
-		String header = String.format("==================== %s ====================", bundle.getString("coap.available.resources"));
-		System.out.format(green(header) + "%n");
-		System.out.println(availableResources);
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("==================== %s ====================", bundle.getString("coap.available.resources")))
+				.append(StringUtils.lineSeparator());
+		sb.append(availableResources).append(StringUtils.lineSeparator());
+		System.out.println(sb);
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }
