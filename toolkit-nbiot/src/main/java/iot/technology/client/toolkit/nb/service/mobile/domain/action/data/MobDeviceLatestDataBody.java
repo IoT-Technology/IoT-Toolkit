@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.client.toolkit.common.constants;
+package iot.technology.client.toolkit.nb.service.mobile.domain.action.data;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author mushuwei
  */
-public interface MobileSettings {
+public class MobDeviceLatestDataBody implements Serializable {
 
-	String MOBILE_AUTH_VERSION = "2018-10-31";
-	String MOBILE_AUTH_RES_PREFIX = "products/";
-	String MOBILE_AUTH_METHOD = "sha256";
-	String MOBILE_AUTH_HEADER = "Authorization";
-	String MOBILE_IMEI = "imei";
+	private List<MobDeviceLatestDataDevicesBody> devices;
 
+	public List<MobDeviceLatestDataDevicesBody> getDevices() {
+		return devices;
+	}
 
-	String MOBILE_ROOT_URL = "https://api.heclouds.com";
-	String MOBILE_DEVICE_URL = MOBILE_ROOT_URL + "/devices";
-
-	String MOBILE_DELETE_DEVICE_BY_IMEI = MOBILE_DEVICE_URL + "/getbyimei";
-	String MOBILE_DATA_POINTS = MOBILE_DEVICE_URL + "/datapoints";
+	public void setDevices(List<MobDeviceLatestDataDevicesBody> devices) {
+		this.devices = devices;
+	}
 }
