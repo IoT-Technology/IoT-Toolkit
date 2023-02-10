@@ -1,15 +1,46 @@
 
 
-name: release
+name: release_pre
 
 on:
-  create:
-    tags:
-      - '*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version"
+        required: true
+      next:
+        description: "Next version"
+        required: false
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Set up Java'
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: zulu
+
+      - name: 'Cache Maven packages'
+        uses: actions/cache@v2.1.7
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: 'Upload version files'
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: |
+            HEAD
+            *_VERSION
+
+
   create_binaries:
-    if: (github.event_name == 'create' && github.event.ref_type == 'tag')
     runs-on: ubuntu-latest
     steps:
       - name: 'Set up JDK'
