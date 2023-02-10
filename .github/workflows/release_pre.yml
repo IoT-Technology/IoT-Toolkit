@@ -40,41 +40,7 @@ jobs:
             *_VERSION
 
 
-  create_binaries:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Set up JDK'
-        uses: actions/setup-java@v3
-        with:
-          distribution: zulu
-          java-version: 11
-
-      - name: 'Prepare branch name'
-        run: >
-          echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
-      - name: 'Checkout relevant branch'
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ env.refName }}
-
-      - name: 'Cache Maven packages'
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}-${{ github.sha }}
-
-      - name: 'Create distribution'
-        run: >
-          mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
-
-      - name: 'Upload build artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: artifacts
-          path: toolkit-app/target/*.zip
-
   create_native_binaries:
-    if: (github.event_name == 'create' && github.event.ref_type == 'tag')
     name: 'Build with Graal on ${{ matrix.os }}'
     strategy:
       fail-fast: true
