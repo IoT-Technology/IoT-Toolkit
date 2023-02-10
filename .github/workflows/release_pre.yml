@@ -1,3 +1,136 @@
 
 
 name: release
+
+on:
+  create:
+    tags:
+      - '*'
+
+jobs:
+  create_binaries:
+    if: (github.event_name == 'create' && github.event.ref_type == 'tag')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Set up JDK'
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+
+      - name: 'Prepare branch name'
+        run: >
+          echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: 'Checkout relevant branch'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.refName }}
+
+      - name: 'Cache Maven packages'
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}-${{ github.sha }}
+
+      - name: 'Create distribution'
+        run: >
+          mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
+
+      - name: 'Upload build artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: toolkit-app/target/*.zip
+
+  create_native_binaries:
+    if: (github.event_name == 'create' && github.event.ref_type == 'tag')
+    name: 'Build with Graal on ${{ matrix.os }}'
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: 'Prepare git'
+        run: git config --global core.autocrlf false
+
+      - name: 'Prepare branch name'
+        run: >
+          echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: 'Checkout relevant branch'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.refName }}
+
+      - name: Install upx
+        run: sudo apt-get install upx
+        if: ${{ runner.os == 'Linux' }}
+
+      - name: Install upx
+        run: brew install upx
+        if: ${{ runner.os == 'macOS' }}
+
+      - name: Install upx
+        run: choco install upx
+        if: ${{ runner.os == 'Windows' }}
+
+      - name: 'Set up Graal'
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: '22.2.0'
+          java-version: '11'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Create distribution'
+        run: >
+          mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
+
+      - name: 'Upload build artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: toolkit-app/target/*.zip
+
+  create_native_arm_binaries:
+    if: (github.event_name == 'create' && github.event.ref_type == 'tag')
+    name: 'Build with Graal on ${{ matrix.os }} ARM64'
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ linux ]
+    runs-on:
+      - self-hosted
+      - ${{ matrix.os }}
+      - ARM64
+
+    steps:
+      - name: 'Prepare git'
+        run: git config --global core.autocrlf false
+
+      - name: 'Prepare branch name'
+        run: >
+          echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: 'Checkout relevant branch'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.refName }}
+
+      - name: 'Set up Graal'
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: '22.2.0'
+          java-version: '11'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Create distribution'
+        run: >
+          mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
+
+      - name: 'Upload build artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: toolkit-app/target/*.zip
