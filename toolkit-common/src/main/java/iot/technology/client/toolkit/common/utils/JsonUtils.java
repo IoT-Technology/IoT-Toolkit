@@ -18,6 +18,7 @@ package iot.technology.client.toolkit.common.utils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -69,6 +70,16 @@ public class JsonUtils {
             System.out.format("Parse Object to Json String error %s", e);
             e.printStackTrace();
             return "";
+        }
+    }
+
+    public static JsonNode stringToJsonNode(String jsonString) {
+        try {
+            return objectMapper.readTree(jsonString);
+        } catch (JsonProcessingException e) {
+            System.out.format("Parse json to JsonNode error %s", e);
+            e.printStackTrace();
+            return null;
         }
     }
 

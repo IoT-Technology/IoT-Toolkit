@@ -15,10 +15,7 @@
  */
 package iot.technology.client.toolkit.common.utils;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,11 +25,11 @@ import java.util.regex.Pattern;
  */
 public class DateUtils {
 
-	private static ZoneId zoneId = ZoneId.of("Asia/Shanghai");
+	private static final ZoneId zoneId = ZoneId.of("Asia/Shanghai");
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	public static String timestampToFormatterTime(long timestamp) {
 		LocalDateTime resultDateTime = Instant.ofEpochMilli(timestamp).atZone(zoneId).toLocalDateTime();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		return formatter.format(resultDateTime);
 	}
 
@@ -44,6 +41,32 @@ public class DateUtils {
 	public static String getCurrentDayEndTimeForMob() {
 		LocalDate today = LocalDate.now(zoneId);
 		return today + "T" + "23:59:59";
+	}
+
+	public static String getCurrentDayStartTimeForTel() {
+		LocalDate today = LocalDate.now();
+		LocalDateTime todayStart = today.atStartOfDay();
+		return todayStart.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() + "";
+
+	}
+
+	public static String getCurrentDayEndTimeForTel() {
+		LocalDateTime endOfDay = LocalDateTime.of(LocalDateTime.now().getYear(),
+				LocalDateTime.now().getMonthValue(),
+				LocalDateTime.now().getDayOfMonth(),
+				23, 59, 59);
+		return endOfDay.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() + "";
+	}
+
+	/**
+	 * @param nbTime 2019-02-01T00:01:01
+	 * @return unixTime
+	 */
+	public static String covertNbTimeFormatToUnixTime(String nbTime) {
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+		Instant instant = Instant.from(formatter.parse(nbTime));
+		return instant.toEpochMilli() + "";
+
 	}
 
 	public static boolean mobileTimePattern(String dateTime) {

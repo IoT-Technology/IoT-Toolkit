@@ -124,7 +124,8 @@ public class MobLogDeviceDataProcessor implements TkProcessor {
 						mobileDeviceDataService.getHisDataPoints(mobileConfigDomain, deviceId, dataStreamIdStr, startTime, endTime, limit);
 				if (deviceHisDataResponse.isSuccess()) {
 					int count = deviceHisDataResponse.getData().getCount();
-					System.out.println(ColorUtils.colorBold(String.format("--- %s 至 %s 历史设备数据点 ---", startTime, endTime), "green"));
+					System.out.println(
+							ColorUtils.colorBold(String.format("--- %s %s至%s 历史设备数据点 ---", imei, startTime, endTime), "green"));
 					System.out.println(String.format("日志数量:    %s", count));
 					List<MobDeviceHisDataStreamsBody> deviceHisDataStreamsBodies = deviceHisDataResponse.getData().getDatastreams();
 					deviceHisDataStreamsBodies.forEach(hds -> {
@@ -134,6 +135,7 @@ public class MobLogDeviceDataProcessor implements TkProcessor {
 						deviceHisDataPointsBodies.forEach(dpBody -> {
 							sb.append(String.format("数据值: %s", dpBody.getValue())).append(StringUtils.lineSeparator());
 							sb.append(String.format("数据上报时间:    %s", dpBody.getAt())).append(StringUtils.lineSeparator());
+							sb.append(StringUtils.lineSeparator());
 						});
 						System.out.println(sb);
 					});
