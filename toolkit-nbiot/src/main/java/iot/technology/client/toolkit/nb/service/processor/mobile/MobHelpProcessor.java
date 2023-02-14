@@ -67,5 +67,11 @@ public class MobHelpProcessor implements TkProcessor {
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: update imei name").append(StringUtils.lineSeparator());
 		System.out.format(sb.toString());
+
+		// print mobile nb-iot device reported data
+		sb.append(ColorUtils.cyanAnnotation("log:      " + bundle.getString("nb.operation.log.desc")))
+				.append(StringUtils.lineSeparator());
+		sb.append("    usage: log imei startTime endTime pageSize").append(StringUtils.lineSeparator());
+		System.out.format(sb.toString());
 	}
 }

@@ -63,8 +63,9 @@ public class DateUtils {
 	 * @return unixTime
 	 */
 	public static String covertNbTimeFormatToUnixTime(String nbTime) {
-		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-		Instant instant = Instant.from(formatter.parse(nbTime));
+		DateTimeFormatter nbFormatter = DateTimeFormatter.ISO_DATE_TIME;
+		LocalDateTime dateTime = LocalDateTime.parse(nbTime, nbFormatter);
+		Instant instant = dateTime.atZone(ZoneId.systemDefault()).toInstant();
 		return instant.toEpochMilli() + "";
 
 	}
