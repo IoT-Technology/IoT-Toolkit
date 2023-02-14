@@ -66,7 +66,7 @@ public class TelHelpProcessor implements TkProcessor {
 		sb.append(ColorUtils.cyanAnnotation("update:  " + bundle.getString("nb.operation.update.desc")))
 				.append(StringUtils.lineSeparator());
 		sb.append("    usage: update imei name").append(StringUtils.lineSeparator());
-		System.out.format(sb.toString());
+		sb.append(StringUtils.lineSeparator());
 
 		// print telecom nb-iot device reported data
 		sb.append(ColorUtils.cyanAnnotation("log:      " + bundle.getString("nb.operation.log.desc")))
