@@ -39,11 +39,11 @@
     </td>
     <td width='33%'>
      <h4>&#128064; 多操作系统支持</h4>
-      可在linux、unix和windows等操作系统中运行；
+      可在linux、unix、windows和树莓派上运行；
     </td>
     <td width='33%'>
       <h4>&#127759; 国际化服务</h4>
-      多语言配置，中文、英文和德语支持；
+      多语言配置，中文、英文、德语和法语支持；
     </td>
   </tr>
   <tr>
@@ -95,11 +95,12 @@ choco install toolkit
 
 ## 直接安装
 
-| Platform | Toolkit                                                                                                                                    |
-| -------- |--------------------------------------------------------------------------------------------------------------------------------------------|
-| Linux    | [toolkit-0.6.1-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-linux-x86_64.zip)     |
-| Unix     | [toolkit-0.6.1-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-osx-x86_64.zip)         |
-| Windows  | [toolkit-0.6.1-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/download/0.6.0/toolkit-0.6.0-windows-x86_64.zip) |
+| Platform     | Toolkit                                                                                    |
+|--------------|--------------------------------------------------------------------------------------------|
+| Linux-x86_64 | [toolkit-latest-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/release)   |
+| Linux-arm64  | [toolkit-latest-linux-aarch_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/release) |
+| Unix         | [toolkit-latest-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/release)     |
+| Windows      | [toolkit-latest-windows-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/release) |
 
 
 
