@@ -36,6 +36,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 1、list
+ * <p>
+ * 2、list 1
+ * <p>
+ * 3、list searchValue 1
+ *
  * @author mushuwei
  */
 public class TelListDeviceProcessor implements TkProcessor {
@@ -50,15 +56,22 @@ public class TelListDeviceProcessor implements TkProcessor {
 	@Override
 	public void handle(ProcessContext context) {
 		List<String> arguArgs = List.of(context.getData().split(" "));
-		if (arguArgs.size() > 3 || arguArgs.size() < 2) {
+		if (arguArgs.size() > 3) {
 			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
 			System.out.format(" " + "%n");
 			return;
 		}
+		Integer pageNo = 1;
 		String searchValue = null;
-		Integer pageNo = Integer.valueOf(arguArgs.get(1));
-		if (arguArgs.size() > 2) {
-			searchValue = arguArgs.get(2);
+		if (arguArgs.size() == 1) {
+		}
+		if (arguArgs.size() == 2) {
+			pageNo = Integer.valueOf(arguArgs.get(1));
+		}
+
+		if (arguArgs.size() == 3) {
+			searchValue = arguArgs.get(1);
+			pageNo = Integer.valueOf(arguArgs.get(2));
 		}
 		TelProcessContext telProcessContext = (TelProcessContext) context;
 		TelecomConfigDomain telecomConfigDomain = telProcessContext.getTelecomConfigDomain();

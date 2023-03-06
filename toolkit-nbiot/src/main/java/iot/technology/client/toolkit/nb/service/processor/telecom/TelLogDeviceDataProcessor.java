@@ -17,6 +17,7 @@ package iot.technology.client.toolkit.nb.service.processor.telecom;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
+import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.DateUtils;
@@ -46,7 +47,7 @@ import java.util.Objects;
  *
  * @author mushuwei
  */
-public class TelLogDeviceDataProcessor implements TkProcessor {
+public class TelLogDeviceDataProcessor extends TkAbstractProcessor implements TkProcessor {
 
 	private static TelecomDeviceDataService deviceDataService = new TelecomDeviceDataService();
 	private static TelecomDeviceService deviceService = new TelecomDeviceService();
@@ -142,21 +143,5 @@ public class TelLogDeviceDataProcessor implements TkProcessor {
 			}
 		}
 
-	}
-
-
-	private boolean validateLimit(String limitStr) {
-		if (!StringUtils.isNumeric(limitStr)) {
-			System.out.format(ColorUtils.blackBold("limit:%s is illegal"), limitStr);
-			System.out.format(" " + "%n");
-			return false;
-		}
-		int limit = Integer.parseInt(limitStr);
-		if (limit > 500) {
-			System.out.format(ColorUtils.blackBold("limit:%s > 500 illegal"), limitStr);
-			System.out.format(" " + "%n");
-			return false;
-		}
-		return true;
 	}
 }

@@ -44,6 +44,7 @@ public class TelecomBizService {
 		tkProcessorList.add(new TelListDeviceProcessor());
 		tkProcessorList.add(new TelHelpProcessor());
 		tkProcessorList.add(new TelLogDeviceDataProcessor());
+		tkProcessorList.add(new TelCommandDataDeviceProcessor());
 		return tkProcessorList;
 	}
 
@@ -61,8 +62,11 @@ public class TelecomBizService {
 
 	Completer logCompleter = new ArgumentCompleter(new StringsCompleter("log"), NullCompleter.INSTANCE);
 
+	Completer commandCompleter = new ArgumentCompleter(new StringsCompleter("command"), NullCompleter.INSTANCE);
+
 	Completer nbTelecomCompleter =
-			new AggregateCompleter(listCompleter, showCompleter, delCompleter, addCompleter, helpCompleter, updateCompleter, logCompleter);
+			new AggregateCompleter(listCompleter, showCompleter, delCompleter, addCompleter,
+					helpCompleter, updateCompleter, logCompleter, commandCompleter);
 
 	public boolean call(TelecomConfigDomain telecomConfigDomain, Terminal terminal) {
 		try {

@@ -79,4 +79,12 @@ public interface TelecomSettings {
     String TEL_QUERY_DEVICE_DATA_TOTAL_URL = TEL_QUERY_DEVICE_DATA_URL + "/api/v1/getDeviceStatusHisInTotal";
     String TEL_QUERY_DEVICE_DATA_TOTAL_VERSION = "20190928013529";
     String TEL_QUERY_DEVICE_DATA_LIST_VERSION = "20190928013337";
+
+    /**
+     * device command url and version
+     */
+    String TEL_DEVICE_COMMAND_ROOT_URL = TEL_ROOT_URL + "/aep_device_command";
+    String TEL_QUERY_DEVICE_COMMAND_URL = TEL_DEVICE_COMMAND_ROOT_URL + "/commands";
+    String TEL_QUERY_DEVICE_COMMAND_URL_VERSION = "20200814163736";
+
 }
