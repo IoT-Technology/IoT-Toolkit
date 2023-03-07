@@ -679,5 +679,32 @@
     "allPublicClasses" : true,
     "allDeclaredConstructors" : true,
     "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceCommandListResponse",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceCommandListBody",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceCommandBody",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "allDeclaredClasses" : true,
+    "allPublicClasses" : true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
   }
 ]

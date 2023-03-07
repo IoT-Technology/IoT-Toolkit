@@ -77,22 +77,23 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 				String asciiTable = AsciiTable.getTable(AsciiTable.NO_BORDERS, response.getList(), Arrays.asList(
 						new Column().header("commandId").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
 								TelQueryDeviceCommandBody::getCommandId),
-						new Column().header("command").maxWidth(20, OverflowBehaviour.NEWLINE)
-								.minWidth(20).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
+						new Column().header("command").maxWidth(40, OverflowBehaviour.NEWLINE)
+								.minWidth(40).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
 								.with(TelQueryDeviceCommandBody::getCommand),
 						new Column().header("createBy").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
 								TelQueryDeviceCommandBody::getCreateBy),
-						new Column().header("commandStatus").minWidth(20).headerAlign(HorizontalAlign.CENTER)
+						new Column().header("commandStatus").minWidth(15).headerAlign(HorizontalAlign.CENTER)
 								.dataAlign(HorizontalAlign.LEFT).with(
 										TelQueryDeviceCommandBody::getCommandStatus),
-						new Column().header("createTime").minWidth(20).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
+						new Column().header("createTime").minWidth(25).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.CENTER)
 								.with(s -> DateUtils.timestampToFormatterTime(s.getCreateTime())),
-						new Column().header("finishTime").minWidth(20).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
+						new Column().header("finishTime").minWidth(25).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.CENTER)
 								.with(
 										s -> DateUtils.timestampToFormatterTime(s.getFinishTime())),
-						new Column().header("resultCode").minWidth(20).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
+						new Column().header("resultCode").minWidth(20).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.CENTER)
 								.with(s -> s.getResultCode()),
-						new Column().header("resultMessage").minWidth(20).minWidth(10).headerAlign(HorizontalAlign.CENTER)
+						new Column().header("resultMessage").maxWidth(20, OverflowBehaviour.NEWLINE).minWidth(20)
+								.headerAlign(HorizontalAlign.CENTER)
 								.dataAlign(HorizontalAlign.LEFT)
 								.with(
 										s -> s.getResultMessage())
