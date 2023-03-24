@@ -25,6 +25,7 @@ import java.util.Objects;
  *
  * <p>
  * 1、command imei
+ * <p>
  * 2、command imei pageNo
  *
  * @author mushuwei
@@ -44,7 +45,7 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 		TelecomConfigDomain configDomain = processContext.getTelecomConfigDomain();
 
 		List<String> arguArgs = List.of(context.getData().split(" "));
-		if (arguArgs.size() < 2 || arguArgs.size() > 5) {
+		if (arguArgs.size() < 2 || arguArgs.size() > 3) {
 			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
 			System.out.format(" " + "%n");
 			return;

@@ -44,6 +44,7 @@ public class MobileBizService {
 		tkProcessorList.add(new MobUpdateDeviceProcessor());
 		tkProcessorList.add(new MobHelpProcessor());
 		tkProcessorList.add(new MobLogDeviceDataProcessor());
+		tkProcessorList.add(new MobCommandDataDeviceProcessor());
 		return tkProcessorList;
 	}
 
@@ -61,8 +62,11 @@ public class MobileBizService {
 
 	Completer logCompleter = new ArgumentCompleter(new StringsCompleter("log"), NullCompleter.INSTANCE);
 
+	Completer commandCompleter = new ArgumentCompleter(new StringsCompleter("command"), NullCompleter.INSTANCE);
+
 	Completer nbMobileCompleter =
-			new AggregateCompleter(listCompleter, showCompleter, delCompleter, addCompleter, helpCompleter, updateCompleter, logCompleter);
+			new AggregateCompleter(listCompleter, showCompleter, delCompleter, addCompleter, helpCompleter, updateCompleter, logCompleter,
+					commandCompleter);
 
 	public boolean call(MobileConfigDomain mobileConfigDomain, Terminal terminal) {
 		try {

@@ -29,6 +29,7 @@ public interface MobileSettings {
 
 	String MOBILE_ROOT_URL = "https://api.heclouds.com";
 	String MOBILE_DEVICE_URL = MOBILE_ROOT_URL + "/devices";
+	String MOBILE_CACHED_COMMAND_LIST = MOBILE_ROOT_URL + "/nbiot/offline/history";
 
 	String MOBILE_DELETE_DEVICE_BY_IMEI = MOBILE_DEVICE_URL + "/getbyimei";
 	String MOBILE_DATA_POINTS = MOBILE_DEVICE_URL + "/datapoints";
