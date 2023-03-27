@@ -285,7 +285,6 @@
                                     <chocolatey>
                                         <active>RELEASE</active>
                                         <continueOnError>true</continueOnError>
-                                        <downloadUrl>https://github.com/IoT-Technology/IoT-Toolkit</downloadUrl>
                                         <commitAuthor>
                                             <name>sanshengshui</name>
                                             <email>lovewsic@gmail.com</email>
