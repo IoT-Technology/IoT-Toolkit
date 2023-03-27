@@ -1,5 +1,8 @@
 package iot.technology.client.toolkit.nb.service.processor.mobile;
 
+import com.github.freva.asciitable.AsciiTable;
+import com.github.freva.asciitable.Column;
+import com.github.freva.asciitable.HorizontalAlign;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
@@ -7,9 +10,11 @@ import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.DateUtils;
 import iot.technology.client.toolkit.nb.service.mobile.MobileDeviceDataService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobCachedCommandItem;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobCachedCommandResponse;
 import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -74,8 +79,34 @@ public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implement
 		}
 		MobCachedCommandResponse
 				mobCachedCommandResponse = mobileDeviceDataService.getCachedCommandList(mobileConfigDomain, imei, startTime, pageNo);
-		if (mobCachedCommandResponse.isSuccess() && mobCachedCommandResponse.getData() != null) {
-			
+		if (mobCachedCommandResponse.isSuccess()
+				&& mobCachedCommandResponse.getData() != null
+				&& !mobCachedCommandResponse.getData().getItems().isEmpty()) {
+			List<MobCachedCommandItem> items = mobCachedCommandResponse.getData().getItems();
+			String asciiTable = AsciiTable.getTable(AsciiTable.NO_BORDERS, items, Arrays.asList(
+					new Column().header("cmdUuid").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							MobCachedCommandItem::getCmdUuid),
+					new Column().header("type").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							MobCachedCommandItem::getType),
+					new Column().header("createTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							MobCachedCommandItem::getCreateTime),
+					new Column().header("validTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							MobCachedCommandItem::getValidTime),
+					new Column().header("expiredTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							MobCachedCommandItem::getExpiredTime),
+					new Column().header("sendTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							MobCachedCommandItem::getSendTime),
+					new Column().header("sendStatus").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							s -> String.valueOf(s.getSendStatus())),
+					new Column().header("confirmTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							MobCachedCommandItem::getConfirmTime),
+					new Column().header("confirmStatus").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							MobCachedCommandItem::getConfirmStatus),
+					new Column().header("remain").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+							s -> String.valueOf(s.getRemain()))
+			));
+			System.out.format(asciiTable);
+			System.out.format(" " + "%n");
 		}
 	}
 }
