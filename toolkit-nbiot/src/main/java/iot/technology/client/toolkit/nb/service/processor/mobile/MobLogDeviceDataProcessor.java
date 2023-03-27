@@ -111,7 +111,7 @@ public class MobLogDeviceDataProcessor implements TkProcessor {
 
 				System.out.println(ColorUtils.colorBold("--- 最新上报设备数据点 ---", "green"));
 
-				if (!datastreams.isEmpty()) {
+				if (Objects.nonNull(datastreams) && !datastreams.isEmpty()) {
 					datastreams.forEach(lst -> {
 						StringBuilder sb = new StringBuilder();
 						sb.append(String.format("数据点:         %s", lst.getId())).append(StringUtils.lineSeparator());
