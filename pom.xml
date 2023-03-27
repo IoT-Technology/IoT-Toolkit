@@ -83,7 +83,7 @@
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
         <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
-        <jreleaser.version>1.1.0</jreleaser.version>
+        <jreleaser.version>1.5.1</jreleaser.version>
         <opencsv.version>5.7.1</opencsv.version>
     </properties>
 
@@ -285,6 +285,7 @@
                                     <chocolatey>
                                         <active>RELEASE</active>
                                         <continueOnError>true</continueOnError>
+                                        <downloadUrl>https://github.com/IoT-Technology/IoT-Toolkit</downloadUrl>
                                         <commitAuthor>
                                             <name>sanshengshui</name>
                                             <email>lovewsic@gmail.com</email>
