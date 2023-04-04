@@ -36,11 +36,14 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 1、list
+ * usage:
  * <p>
- * 2、list 1
+ * 1、list: print first page device list
  * <p>
- * 3、list searchValue 1
+ * 2、list pageNo: print pageNo device list
+ * <p>
+ * 3、list searchValue pageNo: print searchValue pageNo device list
+ * <p>
  *
  * @author mushuwei
  */

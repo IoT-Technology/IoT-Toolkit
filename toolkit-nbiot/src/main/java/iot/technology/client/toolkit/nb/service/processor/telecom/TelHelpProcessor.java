@@ -41,7 +41,7 @@ public class TelHelpProcessor implements TkProcessor {
 		// list telecom nb-iot devices
 		sb.append(ColorUtils.cyanAnnotation("list:    " + bundle.getString("nb.operation.list.desc")))
 				.append(StringUtils.lineSeparator());
-		sb.append("    usage: list pageNo searchValue").append(StringUtils.lineSeparator());
+		sb.append("    usage: list searchValue pageNo").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// get telecom nb-iot device detail info
