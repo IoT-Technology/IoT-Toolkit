@@ -23,8 +23,10 @@ import iot.technology.client.toolkit.common.constants.TelAutoObserverEnum;
 import iot.technology.client.toolkit.common.constants.TelDeviceStatusEnum;
 import iot.technology.client.toolkit.common.constants.TelNetStatusEnum;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
+import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.processor.TelProcessContext;
 import iot.technology.client.toolkit.nb.service.telecom.TelecomDeviceService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
@@ -47,7 +49,7 @@ import java.util.List;
  *
  * @author mushuwei
  */
-public class TelListDeviceProcessor implements TkProcessor {
+public class TelListDeviceProcessor extends TkAbstractProcessor implements TkProcessor {
 
 	private final TelecomDeviceService telecomDeviceService = new TelecomDeviceService();
 
@@ -60,8 +62,14 @@ public class TelListDeviceProcessor implements TkProcessor {
 	public void handle(ProcessContext context) {
 		List<String> arguArgs = List.of(context.getData().split(" "));
 		if (arguArgs.size() > 3) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("usage:")).append(StringUtils.lineSeparator);
+			sb.append(ColorUtils.blackBold("  list")).append(StringUtils.lineSeparator);
+			sb.append(ColorUtils.blackBold("  list pageNo.")).append(StringUtils.lineSeparator);
+			sb.append(ColorUtils.blackBold("  list searchValue(id、name or imei) pageNo."));
+			System.out.println(sb);
 			return;
 		}
 		Integer pageNo = 1;
@@ -69,12 +77,28 @@ public class TelListDeviceProcessor implements TkProcessor {
 		if (arguArgs.size() == 1) {
 		}
 		if (arguArgs.size() == 2) {
-			pageNo = Integer.valueOf(arguArgs.get(1));
+			String pageNoStr = arguArgs.get(1);
+			if (!validateLimit(pageNoStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("usage: list pageNo"));
+				System.out.println(sb);
+				return;
+			}
+			pageNo = Integer.parseInt(pageNoStr);
 		}
 
 		if (arguArgs.size() == 3) {
 			searchValue = arguArgs.get(1);
-			pageNo = Integer.valueOf(arguArgs.get(2));
+			String pageNoStr = arguArgs.get(2);
+			if (!validateLimit(pageNoStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("usage: list searchValue pageNo"));
+				System.out.println(sb);
+				return;
+			}
+			pageNo = Integer.parseInt(pageNoStr);
 		}
 		TelProcessContext telProcessContext = (TelProcessContext) context;
 		TelecomConfigDomain telecomConfigDomain = telProcessContext.getTelecomConfigDomain();
