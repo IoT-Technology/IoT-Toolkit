@@ -27,6 +27,8 @@ import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
 import java.util.List;
 
 /**
+ * format: add imei name
+ *
  * @author mushuwei
  */
 public class MobAddDeviceProcessor implements TkProcessor {
@@ -44,6 +46,7 @@ public class MobAddDeviceProcessor implements TkProcessor {
 		List<String> arguArgs = List.of(context.getData().split(" "));
 		if (arguArgs.size() != 3) {
 			sb.append(String.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData()));
+			sb.append(ColorUtils.blackBold("usage: add imei name"));
 			sb.append(StringUtils.lineSeparator());
 			System.out.println(sb);
 			return;

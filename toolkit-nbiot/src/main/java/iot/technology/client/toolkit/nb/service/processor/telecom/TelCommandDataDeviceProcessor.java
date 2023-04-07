@@ -24,6 +24,7 @@ import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.DateUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.processor.TelProcessContext;
 import iot.technology.client.toolkit.nb.service.telecom.TelecomDeviceDataService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
@@ -36,12 +37,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * format:command pageNow imei startTime endTime
+ * format:command imei [pageNo]
  *
  * <p>
- * 1、command imei
+ * 1、command imei: print the latest 20 of command data;
  * <p>
- * 2、command imei pageNo
+ * 2、command imei pageNo: print the pageNo of command data;
  *
  * @author mushuwei
  */
@@ -61,8 +62,11 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 
 		List<String> arguArgs = List.of(context.getData().split(" "));
 		if (arguArgs.size() < 2 || arguArgs.size() > 3) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("usage: command imei [pageNo]"));
+			System.out.println(sb);
 			return;
 		}
 		String imei = "";
@@ -74,7 +78,11 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 		// command imei pageNo
 		if (arguArgs.size() == 3) {
 			String pageNoStr = arguArgs.get(2);
-			if (!validateLimit(pageNoStr)) {
+			if (!validateParam(pageNoStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("usage: command imei [pageNo]"));
+				System.out.println(sb);
 				return;
 			}
 			pageNo = Integer.parseInt(pageNoStr);
@@ -111,8 +119,7 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 						new Column().header("resultMessage").maxWidth(20, OverflowBehaviour.NEWLINE).minWidth(20)
 								.headerAlign(HorizontalAlign.CENTER)
 								.dataAlign(HorizontalAlign.LEFT)
-								.with(
-										s -> s.getResultMessage())
+								.with(s -> s.getResultMessage())
 				));
 				System.out.format(asciiTable);
 				System.out.format(" " + "%n");

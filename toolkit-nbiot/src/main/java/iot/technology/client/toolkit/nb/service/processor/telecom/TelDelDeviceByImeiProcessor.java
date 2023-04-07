@@ -26,6 +26,8 @@ import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.Tel
 import java.util.List;
 
 /**
+ * format: del imei
+ *
  * @author mushuwei
  */
 public class TelDelDeviceByImeiProcessor implements TkProcessor {

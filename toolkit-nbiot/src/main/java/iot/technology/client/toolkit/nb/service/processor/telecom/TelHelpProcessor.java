@@ -41,7 +41,7 @@ public class TelHelpProcessor implements TkProcessor {
 		// list telecom nb-iot devices
 		sb.append(ColorUtils.cyanAnnotation("list:    " + bundle.getString("nb.operation.list.desc")))
 				.append(StringUtils.lineSeparator());
-		sb.append("    usage: list searchValue pageNo").append(StringUtils.lineSeparator());
+		sb.append("    usage: list [searchValue] [pageNo]").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// get telecom nb-iot device detail info
@@ -71,13 +71,13 @@ public class TelHelpProcessor implements TkProcessor {
 		// print telecom nb-iot device reported data
 		sb.append(ColorUtils.cyanAnnotation("log:      " + bundle.getString("nb.operation.log.desc")))
 				.append(StringUtils.lineSeparator());
-		sb.append("    usage: log imei startTime endTime pageSize").append(StringUtils.lineSeparator());
+		sb.append("    usage: log imei [startTime] [endTime] [pageNo]").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// print telecom nb-iot device command data
 		sb.append(ColorUtils.cyanAnnotation("command:  " + bundle.getString("nb.operation.command.desc")))
 				.append(StringUtils.lineSeparator());
-		sb.append("    usage: command imei start pageNo").append(StringUtils.lineSeparator());
+		sb.append("    usage: command imei [pageNo]").append(StringUtils.lineSeparator());
 		System.out.format(sb.toString());
 	}
 }

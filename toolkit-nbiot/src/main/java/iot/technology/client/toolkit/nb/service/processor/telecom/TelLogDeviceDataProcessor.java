@@ -35,15 +35,15 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * format:log imei startTime endTime limit
+ * format:log imei [startTime] [endTime] [pageNo]
  * <p>
  * 1、log imei: 50 logs reported today
  * <p>
- * 2、log imei limit: limit count logs reported today
+ * 2、log imei pageNo: limit count logs reported today
  * <p>
  * 3、log imei startTime endTime
  * <p>
- * 4、log imei startTime endTime limit
+ * 4、log imei startTime endTime pageNo
  *
  * @author mushuwei
  */
@@ -64,9 +64,11 @@ public class TelLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 
 		List<String> arguArgs = List.of(context.getData().split(" "));
 		if (arguArgs.size() > 5 || arguArgs.size() < 2) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
-			return;
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("usage: log imei [startTime] [endTime] [pageNo]; Time format:2019-02-01T00:01:01"));
+			System.out.println(sb);
 		}
 		int limit = 50;
 		String imei = "";
@@ -80,7 +82,12 @@ public class TelLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 		if (arguArgs.size() == 3) {
 			imei = arguArgs.get(1);
 			String limitStr = arguArgs.get(2);
-			if (!validateLimit(limitStr)) {
+			if (!validateParam(limitStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("pageNo is not a number"))
+						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("usage: log imei [startTime] [endTime] [pageNo]"));
+				System.out.println(sb);
 				return;
 			}
 			limit = Integer.parseInt(limitStr);
@@ -90,15 +97,23 @@ public class TelLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 			startTime = arguArgs.get(2);
 			endTime = arguArgs.get(3);
 			if (!DateUtils.mobileTimePattern(startTime) || !DateUtils.mobileTimePattern(endTime)) {
-				System.out.format(ColorUtils.blackBold("time format is illegal"));
-				System.out.format(" " + "%n");
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
+						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("usage: log imei [startTime] [endTime] [pageNo]"));
+				System.out.println(sb);
 				return;
 			}
 		}
 		if (arguArgs.size() == 5) {
 			imei = arguArgs.get(1);
 			String limitStr = arguArgs.get(4);
-			if (!validateLimit(limitStr)) {
+			if (!validateParam(limitStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("pageNo is not a number"))
+						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("usage: log imei [startTime] [endTime] [pageNo]"));
+				System.out.println(sb);
 				return;
 			}
 			limit = Integer.parseInt(limitStr);

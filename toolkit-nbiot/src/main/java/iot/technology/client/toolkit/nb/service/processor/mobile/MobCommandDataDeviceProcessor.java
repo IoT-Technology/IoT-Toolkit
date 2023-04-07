@@ -23,6 +23,7 @@ import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.DateUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.mobile.MobileDeviceDataService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobCachedCommandItem;
@@ -59,8 +60,11 @@ public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implement
 
 		List<String> arguArgs = List.of(context.getData().split(" "));
 		if (arguArgs.size() < 2 || arguArgs.size() > 4) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("usage: command imei [start] [pageNo]"));
+			System.out.println(sb);
 			return;
 		}
 		String imei = arguArgs.get(1);
@@ -71,23 +75,34 @@ public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implement
 		}
 		if (arguArgs.size() == 3) {
 			String pageNoStr = arguArgs.get(2);
-			if (!validateLimit(pageNoStr)) {
+			if (!validateParam(pageNoStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("pageNo is not a number"))
+						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("usage: command imei [start] [pageNo]"));
+				System.out.println(sb);
 				return;
 			}
 			pageNo = pageNoStr;
 		}
 		if (arguArgs.size() == 4) {
 			String startTimeStr = arguArgs.get(2);
-			if (!validateLimit(startTimeStr)) {
-				System.out.format(ColorUtils.blackBold("time format is illegal"));
-				System.out.format(" " + "%n");
+			if (!validateParam(startTimeStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
+						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("usage: command imei [start] [pageNo]"));
+				System.out.println(sb);
 				return;
 			}
 			startTime = startTimeStr;
 			String pageNoStr = arguArgs.get(3);
-			if (!validateLimit(pageNoStr)) {
-				System.out.format(ColorUtils.blackBold("pageNo format is illegal"));
-				System.out.format(" " + "%n");
+			if (!validateParam(pageNoStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("pageNo is not a number"))
+						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("usage: command imei [start] [pageNo]"));
+				System.out.println(sb);
 				return;
 			}
 			pageNo = pageNoStr;

@@ -38,13 +38,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * usage:
+ * format : list [search] [limit]
  * <p>
- * 1、list: print first page device list
+ * 1、list : print first page device list
  * <p>
- * 2、list pageNo: print pageNo device list
+ * 2、list limit : print pageNo device list
  * <p>
- * 3、list searchValue pageNo: print searchValue pageNo device list
+ * 3、list searchValue limit : print searchValue pageNo device list
  * <p>
  *
  * @author mushuwei
@@ -65,10 +65,7 @@ public class TelListDeviceProcessor extends TkAbstractProcessor implements TkPro
 			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
 					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("usage:")).append(StringUtils.lineSeparator);
-			sb.append(ColorUtils.blackBold("  list")).append(StringUtils.lineSeparator);
-			sb.append(ColorUtils.blackBold("  list pageNo.")).append(StringUtils.lineSeparator);
-			sb.append(ColorUtils.blackBold("  list searchValue(id、name or imei) pageNo."));
+			sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
 			System.out.println(sb);
 			return;
 		}
@@ -78,10 +75,10 @@ public class TelListDeviceProcessor extends TkAbstractProcessor implements TkPro
 		}
 		if (arguArgs.size() == 2) {
 			String pageNoStr = arguArgs.get(1);
-			if (!validateLimit(pageNoStr)) {
+			if (!validateParam(pageNoStr)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: list pageNo"));
+				sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
 				System.out.println(sb);
 				return;
 			}
@@ -91,10 +88,10 @@ public class TelListDeviceProcessor extends TkAbstractProcessor implements TkPro
 		if (arguArgs.size() == 3) {
 			searchValue = arguArgs.get(1);
 			String pageNoStr = arguArgs.get(2);
-			if (!validateLimit(pageNoStr)) {
+			if (!validateParam(pageNoStr)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: list searchValue pageNo"));
+				sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
 				System.out.println(sb);
 				return;
 			}

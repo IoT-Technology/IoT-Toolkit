@@ -18,6 +18,7 @@ package iot.technology.client.toolkit.nb.service.processor.telecom;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.processor.TelProcessContext;
 import iot.technology.client.toolkit.nb.service.telecom.TelecomDeviceService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * add imei name
+ * format: add imei name
  *
  * @author mushuwei
  */
@@ -46,8 +47,11 @@ public class TelAddDeviceProcessor implements TkProcessor {
 	public void handle(ProcessContext context) {
 		List<String> arguArgs = List.of(context.getData().split(" "));
 		if (arguArgs.size() != 3) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("usage: add imei name"));
+			System.out.println(sb);
 			return;
 		}
 		TelProcessContext telProcessContext = (TelProcessContext) context;

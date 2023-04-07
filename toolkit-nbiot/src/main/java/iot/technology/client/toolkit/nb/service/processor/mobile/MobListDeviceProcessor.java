@@ -62,10 +62,7 @@ public class MobListDeviceProcessor extends TkAbstractProcessor implements TkPro
 			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
 					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("usage:")).append(StringUtils.lineSeparator);
-			sb.append(ColorUtils.blackBold("- list")).append(StringUtils.lineSeparator);
-			sb.append(ColorUtils.blackBold("- list pageNo.")).append(StringUtils.lineSeparator);
-			sb.append(ColorUtils.blackBold("- list searchValue(id or name) pageNo."));
+			sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
 			System.out.println(sb);
 			return;
 		}
@@ -75,9 +72,10 @@ public class MobListDeviceProcessor extends TkAbstractProcessor implements TkPro
 		}
 		if (arguArgs.size() == 2) {
 			String pageNoStr = arguArgs.get(1);
-			if (!validateLimit(pageNoStr)) {
+			if (!validateParam(pageNoStr)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number"));
+				sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
 				System.out.println(sb);
 				return;
 			}
@@ -86,9 +84,10 @@ public class MobListDeviceProcessor extends TkAbstractProcessor implements TkPro
 		if (arguArgs.size() == 3) {
 			searchValue = arguArgs.get(1);
 			String pageNoStr = arguArgs.get(2);
-			if (!validateLimit(pageNoStr)) {
+			if (!validateParam(pageNoStr)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number"));
+				sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
 				System.out.println(sb);
 				return;
 			}
