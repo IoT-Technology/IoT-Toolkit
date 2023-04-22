@@ -39,9 +39,9 @@ import java.util.stream.Collectors;
  * <p>
  * 2、log imei limit: limit count logs reported today
  * <p>
- * 3、log imei startTime endTime
+ * 3、log imei startTime endTime: startTime - endTime 50 reported logs;
  * <p>
- * 4、log imei startTime endTime limit
+ * 4、log imei startTime endTime limit: startTime - endTime limit reported logs;
  *
  * @author mushuwei
  */

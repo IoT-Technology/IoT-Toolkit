@@ -37,13 +37,13 @@ import java.util.Objects;
 /**
  * format:log imei [startTime] [endTime] [pageNo]
  * <p>
- * 1、log imei: 50 logs reported today
+ * 1、log imei: 50 logs reported today;
  * <p>
- * 2、log imei pageNo: limit count logs reported today
+ * 2、log imei limit: limit count logs reported today;
  * <p>
- * 3、log imei startTime endTime
+ * 3、log imei startTime endTime: startTime - endTime 50 reported logs;
  * <p>
- * 4、log imei startTime endTime pageNo
+ * 4、log imei startTime endTime limit: startTime - endTime limit reported logs;
  *
  * @author mushuwei
  */
