@@ -29,7 +29,16 @@ public abstract class TkAbstractProcessor implements TkProcessor {
 			System.out.format(" " + "%n");
 			return false;
 		}
-		int limit = Integer.parseInt(limitStr);
+
+		int limit = 0;
+		try {
+			limit = Integer.parseInt(limitStr);
+		} catch (NumberFormatException e) {
+			System.out.format(ColorUtils.blackBold("%s is illegal"), limitStr);
+			System.out.format(" " + "%n");
+			return false;
+		}
+
 		if (limit > 500) {
 			System.out.format(ColorUtils.blackBold("%s > 500 illegal"), limitStr);
 			System.out.format(" " + "%n");

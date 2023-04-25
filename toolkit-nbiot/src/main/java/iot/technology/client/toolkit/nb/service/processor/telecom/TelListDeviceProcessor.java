@@ -38,13 +38,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * format : list [search] [limit]
+ * format : list [search] [pageNo]
  * <p>
  * 1、list : print first page device list
  * <p>
- * 2、list limit : print pageNo device list
+ * 2、list pageNo : print pageNo device list
  * <p>
- * 3、list searchValue limit : print searchValue pageNo device list
+ * 3、list searchValue pageNo : print searchValue pageNo device list, searchValue support name/deviceId/imei
  * <p>
  *
  * @author mushuwei
@@ -65,7 +65,7 @@ public class TelListDeviceProcessor extends TkAbstractProcessor implements TkPro
 			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
 					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
+			sb.append(ColorUtils.blackBold("detail usage please type: help list"));
 			System.out.println(sb);
 			return;
 		}
@@ -78,7 +78,7 @@ public class TelListDeviceProcessor extends TkAbstractProcessor implements TkPro
 			if (!validateParam(pageNoStr)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please type: help list"));
 				System.out.println(sb);
 				return;
 			}
@@ -91,7 +91,7 @@ public class TelListDeviceProcessor extends TkAbstractProcessor implements TkPro
 			if (!validateParam(pageNoStr)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please type: help list"));
 				System.out.println(sb);
 				return;
 			}

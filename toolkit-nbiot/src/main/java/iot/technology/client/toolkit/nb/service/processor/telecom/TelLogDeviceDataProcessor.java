@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * format:log imei [startTime] [endTime] [pageNo]
+ * format:log imei [startTime] [endTime] [limit]
  * <p>
  * 1、log imei: 50 logs reported today;
  * <p>
@@ -67,7 +67,7 @@ public class TelLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
 					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("usage: log imei [startTime] [endTime] [pageNo]; Time format:2019-02-01T00:01:01"));
+			sb.append(ColorUtils.blackBold("detail usage please type: help log"));
 			System.out.println(sb);
 		}
 		int limit = 50;
@@ -84,9 +84,9 @@ public class TelLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 			String limitStr = arguArgs.get(2);
 			if (!validateParam(limitStr)) {
 				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("pageNo is not a number"))
+				sb.append(ColorUtils.redError("limit is not a number"))
 						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: log imei [startTime] [endTime] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please type: help log"));
 				System.out.println(sb);
 				return;
 			}
@@ -100,7 +100,7 @@ public class TelLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
 						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: log imei [startTime] [endTime] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please type: help log"));
 				System.out.println(sb);
 				return;
 			}
@@ -110,9 +110,9 @@ public class TelLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 			String limitStr = arguArgs.get(4);
 			if (!validateParam(limitStr)) {
 				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("pageNo is not a number"))
+				sb.append(ColorUtils.redError("limit is not a number"))
 						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: log imei [startTime] [endTime] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please type: help log"));
 				System.out.println(sb);
 				return;
 			}
