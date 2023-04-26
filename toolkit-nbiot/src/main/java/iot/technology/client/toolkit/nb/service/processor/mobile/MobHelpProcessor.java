@@ -104,7 +104,7 @@ public class MobHelpProcessor implements TkProcessor {
 				sb.append("         - list pageNo : print pageNo device list").append(StringUtils.lineSeparator());
 				sb.append("         - list searchValue pageNo : print keywords:searchValue, page number:pageNo device list" )
 						.append(StringUtils.lineSeparator());
-				sb.append("            searchValue support name、deviceId、imei" ).append(StringUtils.lineSeparator());
+				sb.append("            searchValue support name、deviceId" ).append(StringUtils.lineSeparator());
 				System.out.format(sb.toString());
 				break;
 			case "add":
