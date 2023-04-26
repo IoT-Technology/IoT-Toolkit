@@ -63,7 +63,7 @@ public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implement
 			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
 					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("usage: command imei [start] [pageNo]"));
+			sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 			System.out.println(sb);
 			return;
 		}
@@ -79,7 +79,7 @@ public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implement
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number"))
 						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: command imei [start] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 				System.out.println(sb);
 				return;
 			}
@@ -91,7 +91,7 @@ public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implement
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
 						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: command imei [start] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 				System.out.println(sb);
 				return;
 			}
@@ -101,7 +101,7 @@ public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implement
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number"))
 						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("usage: command imei [start] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 				System.out.println(sb);
 				return;
 			}

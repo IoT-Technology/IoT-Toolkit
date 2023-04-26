@@ -65,7 +65,7 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
 					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("detail usage please type: help command"));
+			sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 			System.out.println(sb);
 			return;
 		}
@@ -81,7 +81,7 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 			if (!validateParam(pageNoStr)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("detail usage please type: help command"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 				System.out.println(sb);
 				return;
 			}

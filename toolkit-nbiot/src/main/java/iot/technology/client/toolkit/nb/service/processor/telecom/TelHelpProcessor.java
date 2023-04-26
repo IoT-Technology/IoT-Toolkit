@@ -97,7 +97,7 @@ public class TelHelpProcessor implements TkProcessor {
 		StringBuilder sb = new StringBuilder();
 		switch (subCommand) {
 			case "list":
-				sb.append(ColorUtils.cyanAnnotation("list:     " + bundle.getString("nb.operation.add.desc")))
+				sb.append(ColorUtils.cyanAnnotation("list:     " + bundle.getString("nb.operation.list.desc")))
 						.append(StringUtils.lineSeparator());
 				sb.append("    usage:").append(StringUtils.lineSeparator());
 				sb.append("         - list : print first page device list").append(StringUtils.lineSeparator());
@@ -141,18 +141,18 @@ public class TelHelpProcessor implements TkProcessor {
 				sb.append("    usage: time format:2019-02-01T00:01:01").append(StringUtils.lineSeparator());
 				sb.append("         - log imei : 50 of data reported by the device today").append(StringUtils.lineSeparator());
 				sb.append("         - log imei limit : limit of data reported by the device today").append(StringUtils.lineSeparator());
-				sb.append("         - log imei startTime endTime : 50 of data reported by the device form startTime to endTime" )
+				sb.append("         - log imei startTime endTime : 50 of data reported by the device from startTime to endTime" )
 						.append(StringUtils.lineSeparator());
-				sb.append("         - log imei startTime endTime limit : limit of data reported by the device form startTime to endTime" )
+				sb.append("         - log imei startTime endTime limit : limit of data reported by the device from startTime to endTime" )
 						.append(StringUtils.lineSeparator());
 				System.out.format(sb.toString());
 				break;
 			case "command":
 				sb.append(ColorUtils.cyanAnnotation("command:  " + bundle.getString("nb.operation.command.desc")))
 						.append(StringUtils.lineSeparator());
-				sb.append("    usage:").append(StringUtils.lineSeparator());
-				sb.append("         - command imei : print first page device list").append(StringUtils.lineSeparator());
-				sb.append("         - command imei pageNo : print pageNo device list").append(StringUtils.lineSeparator());
+				sb.append("    usage: time format:2019-02-01T00:01:01").append(StringUtils.lineSeparator());
+				sb.append("         - command imei : print first page delivery command of the device").append(StringUtils.lineSeparator());
+				sb.append("         - command imei pageNo : print pageNo delivery command of the device").append(StringUtils.lineSeparator());
 				System.out.format(sb.toString());
 				break;
 			default:

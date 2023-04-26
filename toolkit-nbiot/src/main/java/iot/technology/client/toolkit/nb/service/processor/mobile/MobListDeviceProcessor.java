@@ -62,7 +62,7 @@ public class MobListDeviceProcessor extends TkAbstractProcessor implements TkPro
 			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
 					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
+			sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
 			System.out.println(sb);
 			return;
 		}
@@ -75,7 +75,7 @@ public class MobListDeviceProcessor extends TkAbstractProcessor implements TkPro
 			if (!validateParam(pageNoStr)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number"));
-				sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
 				System.out.println(sb);
 				return;
 			}
@@ -87,7 +87,7 @@ public class MobListDeviceProcessor extends TkAbstractProcessor implements TkPro
 			if (!validateParam(pageNoStr)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("pageNo is not a number"));
-				sb.append(ColorUtils.blackBold("usage: list [searchValue] [pageNo]"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
 				System.out.println(sb);
 				return;
 			}
