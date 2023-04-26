@@ -16,15 +16,13 @@
 package iot.technology.client.toolkit.nb.service.processor;
 
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
+import iot.technology.client.toolkit.common.constants.NbActionEnum;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.processor.mobile.*;
 import org.jline.reader.*;
 import org.jline.reader.impl.DefaultParser;
-import org.jline.reader.impl.completer.AggregateCompleter;
-import org.jline.reader.impl.completer.ArgumentCompleter;
-import org.jline.reader.impl.completer.NullCompleter;
-import org.jline.reader.impl.completer.StringsCompleter;
+import org.jline.reader.impl.completer.*;
 import org.jline.terminal.Terminal;
 
 import java.util.ArrayList;
@@ -58,7 +56,7 @@ public class MobileBizService {
 
 	Completer updateCompleter = new ArgumentCompleter(new StringsCompleter("update"), NullCompleter.INSTANCE);
 
-	Completer helpCompleter = new ArgumentCompleter(new StringsCompleter("help"), NullCompleter.INSTANCE);
+	Completer helpCompleter = new ArgumentCompleter(new StringsCompleter("help"), new EnumCompleter(NbActionEnum.class), NullCompleter.INSTANCE);
 
 	Completer logCompleter = new ArgumentCompleter(new StringsCompleter("log"), NullCompleter.INSTANCE);
 

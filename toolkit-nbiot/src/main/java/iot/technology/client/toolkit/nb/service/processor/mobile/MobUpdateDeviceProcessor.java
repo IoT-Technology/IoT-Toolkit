@@ -27,6 +27,8 @@ import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
 import java.util.List;
 
 /**
+ * format: update imei name
+ *
  * @author mushuwei
  */
 public class MobUpdateDeviceProcessor implements TkProcessor {
@@ -41,10 +43,11 @@ public class MobUpdateDeviceProcessor implements TkProcessor {
 	@Override
 	public void handle(ProcessContext context) {
 		List<String> arguArgs = List.of(context.getData().split(" "));
-		StringBuilder sb = new StringBuilder();
 		if (arguArgs.size() != 3) {
-			sb.append(String.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData()));
-			sb.append(StringUtils.lineSeparator());
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("usage: update imei name"));
 			System.out.println(sb);
 			return;
 		}
@@ -54,8 +57,8 @@ public class MobUpdateDeviceProcessor implements TkProcessor {
 		String name = arguArgs.get(2);
 		BaseMobileResponse response = mobileDeviceService.updateByImei(mobileConfigDomain, imei, name);
 		if (response.isSuccess()) {
+			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.blackBold("imei:%s update success"), imei));
-			sb.append(StringUtils.lineSeparator());
 			System.out.println(sb);
 		}
 	}

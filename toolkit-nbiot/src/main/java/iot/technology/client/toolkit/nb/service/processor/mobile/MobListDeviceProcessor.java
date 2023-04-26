@@ -20,8 +20,10 @@ import com.github.freva.asciitable.Column;
 import com.github.freva.asciitable.HorizontalAlign;
 import com.github.freva.asciitable.OverflowBehaviour;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
+import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.mobile.MobileDeviceService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceBody;
@@ -33,9 +35,18 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * usage:
+ * <p>
+ * 1、list: print first page device list
+ * <p>
+ * 2、list pageNo: print pageNo device list
+ * <p>
+ * 3、list searchValue pageNo: print searchValue pageNo device list
+ * <p>
+ *
  * @author mushuwei
  */
-public class MobListDeviceProcessor implements TkProcessor {
+public class MobListDeviceProcessor extends TkAbstractProcessor implements TkProcessor {
 
 	private final MobileDeviceService mobileDeviceService = new MobileDeviceService();
 
@@ -47,15 +58,40 @@ public class MobListDeviceProcessor implements TkProcessor {
 	@Override
 	public void handle(ProcessContext context) {
 		List<String> arguArgs = List.of(context.getData().split(" "));
-		if (arguArgs.size() > 3 || arguArgs.size() < 2) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
+		if (arguArgs.size() > 3) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+			System.out.println(sb);
 			return;
 		}
+		Integer pageNo = 1;
 		String searchValue = null;
-		Integer pageNo = Integer.valueOf(arguArgs.get(1));
-		if (arguArgs.size() > 2) {
-			searchValue = arguArgs.get(2);
+		if (arguArgs.size() == 1) {
+		}
+		if (arguArgs.size() == 2) {
+			String pageNoStr = arguArgs.get(1);
+			if (!validateParam(pageNoStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("pageNo is not a number"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+				System.out.println(sb);
+				return;
+			}
+			pageNo = Integer.parseInt(pageNoStr);
+		}
+		if (arguArgs.size() == 3) {
+			searchValue = arguArgs.get(1);
+			String pageNoStr = arguArgs.get(2);
+			if (!validateParam(pageNoStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("pageNo is not a number"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+				System.out.println(sb);
+				return;
+			}
+			pageNo = Integer.parseInt(pageNoStr);
 		}
 		MobProcessContext mobProcessContext = (MobProcessContext) context;
 		MobileConfigDomain mobileConfigDomain = mobProcessContext.getMobileConfigDomain();

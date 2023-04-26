@@ -27,6 +27,8 @@ import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
 import java.util.List;
 
 /**
+ * format: del imei
+ *
  * @author mushuwei
  */
 public class MobDelDeviceByImeiProcessor implements TkProcessor {
@@ -41,10 +43,11 @@ public class MobDelDeviceByImeiProcessor implements TkProcessor {
 	@Override
 	public void handle(ProcessContext context) {
 		List<String> arguArgs = List.of(context.getData().split(" "));
-		StringBuilder sb = new StringBuilder();
 		if (arguArgs.size() != 2) {
-			sb.append(String.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData()));
-			sb.append(StringUtils.lineSeparator());
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("usage: del imei"));
 			System.out.println(sb);
 			return;
 		}
@@ -53,6 +56,7 @@ public class MobDelDeviceByImeiProcessor implements TkProcessor {
 		MobileConfigDomain mobileConfigDomain = mobProcessContext.getMobileConfigDomain();
 		BaseMobileResponse baseMobileResponse = mobileDeviceService.delDeviceByImei(mobileConfigDomain, imei);
 		if (baseMobileResponse.isSuccess()) {
+			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.blackBold("imei:%s delete success"), imei));
 			sb.append(StringUtils.lineSeparator());
 			System.out.println(sb);

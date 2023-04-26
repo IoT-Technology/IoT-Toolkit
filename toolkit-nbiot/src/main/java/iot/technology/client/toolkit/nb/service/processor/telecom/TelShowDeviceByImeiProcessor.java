@@ -23,6 +23,8 @@ import iot.technology.client.toolkit.nb.service.telecom.TelecomDeviceService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelQueryDeviceByImeiResponse;
 
 /**
+ * format: show imei
+ *
  * @author mushuwei
  */
 public class TelShowDeviceByImeiProcessor implements TkProcessor {

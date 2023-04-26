@@ -27,6 +27,8 @@ import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
 import java.util.List;
 
 /**
+ * format: show imei
+ *
  * @author mushuwei
  */
 public class MobShowDeviceByImeiProcessor implements TkProcessor {
@@ -41,10 +43,11 @@ public class MobShowDeviceByImeiProcessor implements TkProcessor {
 	@Override
 	public void handle(ProcessContext context) {
 		List<String> arguArgs = List.of(context.getData().split(" "));
-		StringBuilder sb = new StringBuilder();
 		if (arguArgs.size() != 2) {
-			sb.append(String.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData()));
-			sb.append(StringUtils.lineSeparator());
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("usage: show imei"));
 			System.out.println(sb);
 			return;
 		}

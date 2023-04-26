@@ -16,6 +16,7 @@
 package iot.technology.client.toolkit.nb.service.processor.mobile;
 
 import iot.technology.client.toolkit.common.rule.ProcessContext;
+import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.DateUtils;
@@ -38,13 +39,13 @@ import java.util.stream.Collectors;
  * <p>
  * 2、log imei limit: limit count logs reported today
  * <p>
- * 3、log imei startTime endTime
+ * 3、log imei startTime endTime: startTime - endTime 50 reported logs;
  * <p>
- * 4、log imei startTime endTime limit
+ * 4、log imei startTime endTime limit: startTime - endTime limit reported logs;
  *
  * @author mushuwei
  */
-public class MobLogDeviceDataProcessor implements TkProcessor {
+public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements TkProcessor {
 
 	private final MobileDeviceDataService mobileDeviceDataService = new MobileDeviceDataService();
 	private final static MobileDeviceService mobileDeviceService = new MobileDeviceService();
@@ -61,8 +62,11 @@ public class MobLogDeviceDataProcessor implements TkProcessor {
 
 		List<String> arguArgs = List.of(context.getData().split(" "));
 		if (arguArgs.size() > 5 || arguArgs.size() < 2) {
-			System.out.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData());
-			System.out.format(" " + "%n");
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+					.append(StringUtils.lineSeparator());
+			sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+			System.out.println(sb);
 			return;
 		}
 		int limit = 50;
@@ -75,7 +79,12 @@ public class MobLogDeviceDataProcessor implements TkProcessor {
 		if (arguArgs.size() == 3) {
 			imei = arguArgs.get(1);
 			String limitStr = arguArgs.get(2);
-			if (!validateLimit(limitStr)) {
+			if (!validateParam(limitStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("limit is not a number"))
+						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+				System.out.println(sb);
 				return;
 			}
 			limit = Integer.parseInt(limitStr);
@@ -85,15 +94,23 @@ public class MobLogDeviceDataProcessor implements TkProcessor {
 			startTime = arguArgs.get(2);
 			endTime = arguArgs.get(3);
 			if (!DateUtils.mobileTimePattern(startTime) || !DateUtils.mobileTimePattern(endTime)) {
-				System.out.format(ColorUtils.blackBold("time format is illegal"));
-				System.out.format(" " + "%n");
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
+						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+				System.out.println(sb);
 				return;
 			}
 		}
 		if (arguArgs.size() == 5) {
 			imei = arguArgs.get(1);
 			String limitStr = arguArgs.get(4);
-			if (!validateLimit(limitStr)) {
+			if (!validateParam(limitStr)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("limit is not a number"))
+						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+				System.out.println(sb);
 				return;
 			}
 			limit = Integer.parseInt(limitStr);
@@ -149,20 +166,5 @@ public class MobLogDeviceDataProcessor implements TkProcessor {
 		}
 
 
-	}
-
-	private boolean validateLimit(String limitStr) {
-		if (!StringUtils.isNumeric(limitStr)) {
-			System.out.format(ColorUtils.blackBold("limit:%s is illegal"), limitStr);
-			System.out.format(" " + "%n");
-			return false;
-		}
-		int limit = Integer.parseInt(limitStr);
-		if (limit > 500) {
-			System.out.format(ColorUtils.blackBold("limit:%s > 500 illegal"), limitStr);
-			System.out.format(" " + "%n");
-			return false;
-		}
-		return true;
 	}
 }

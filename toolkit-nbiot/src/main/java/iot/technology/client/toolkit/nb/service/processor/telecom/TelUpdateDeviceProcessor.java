@@ -27,6 +27,8 @@ import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.Tel
 import java.util.List;
 
 /**
+ * format: update imei name
+ *
  * @author mushuwei
  */
 public class TelUpdateDeviceProcessor implements TkProcessor {

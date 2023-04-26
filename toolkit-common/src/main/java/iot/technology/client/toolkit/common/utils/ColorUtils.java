@@ -27,7 +27,7 @@ public class ColorUtils {
 	}
 
 	public static String redError(String text) {
-		return colorBold(text, "red") + "%n";
+		return colorBold(text, "red");
 	}
 
 	public static String cyanAnnotation(String text) {
