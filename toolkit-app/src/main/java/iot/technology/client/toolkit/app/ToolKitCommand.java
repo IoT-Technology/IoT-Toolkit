@@ -15,6 +15,7 @@
  */
 package iot.technology.client.toolkit.app;
 
+import iot.technology.client.toolkit.app.config.CommandLineConfig;
 import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.app.settings.ConfigCommand;
 import iot.technology.client.toolkit.app.settings.lang.LangService;
@@ -22,6 +23,7 @@ import iot.technology.client.toolkit.coap.command.CoapCommand;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
+import iot.technology.client.toolkit.common.constants.VersionInfo;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
@@ -40,11 +42,14 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
 		name = "toolkit",
-		aliases = "iotkit",
-		header = "${bundle:general.header}",
-		optionListHeading = "%n${bundle:general.option}:%n",
+		header = "@|bold ${bundle:general.header}|@",
+		description = "@|fg(red),bold ${bundle:general.description}|@%n",
+		synopsisHeading = "%n@|bold ${bundle:general.usage}|@%n",
+		optionListHeading = "%n@|bold ${bundle:general.option}|@%n",
+		commandListHeading = "%n@|bold ${bundle:general.commands}|@%n",
+		synopsisSubcommandLabel = "{ config | mqtt | coap | nb }",
+		descriptionHeading = "%n",
 		requiredOptionMarker = '*',
-		description = "@|fg(red),bold ${bundle:general.description}|@",
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		subcommands = {
@@ -57,7 +62,7 @@ import java.util.concurrent.Callable;
 		exitCodeOnExecutionException = 400,
 		exitCodeOnSuccess = 200,
 		resourceBundle = "i18n.messages",
-		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class)
+		versionProvider = VersionInfo.class)
 public class ToolKitCommand implements Callable<Integer> {
 
 	@CommandLine.ArgGroup
@@ -75,6 +80,8 @@ public class ToolKitCommand implements Callable<Integer> {
 			ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 			CommandLine commandLine = new CommandLine(new ToolKitCommand())
 					.setResourceBundle(bundle)
+					.setColorScheme(CommandLineConfig.getColorScheme())
+					.setUsageHelpWidth(CommandLineConfig.getCliWidth())
 					.setExecutionExceptionHandler(new ExceptionMessageHandler())
 					.setAdjustLineBreaksForWideCJKCharacters(true)
 					.setCaseInsensitiveEnumValuesAllowed(true);
@@ -124,10 +131,10 @@ public class ToolKitCommand implements Callable<Integer> {
 				.append(StringUtils.lineSeparator());
 		sb.append(String.format("%s %s", "post:          ", bundle.getString("coap.post.description")))
 				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "put            ", bundle.getString("coap.put.description")))
+		sb.append(String.format("%s %s", "put:           ", bundle.getString("coap.put.description")))
 				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "delete:        ", bundle.getString("coap.del.description"))
-				.equals(StringUtils.lineSeparator()));
+		sb.append(String.format("%s %s", "delete:        ", bundle.getString("coap.del.description")))
+				.append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
 		// toolkit mqtt simple description

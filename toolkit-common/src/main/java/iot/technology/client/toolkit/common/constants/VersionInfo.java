@@ -23,7 +23,12 @@ import picocli.CommandLine;
 public class VersionInfo implements CommandLine.IVersionProvider {
 
 	@Override
-	public String[] getVersion() throws Exception {
-		return new String[] {StorageConstants.TOOLKIT_VERSION};
+	public String [] getVersion() {
+		String version = StorageConstants.TOOLKIT_VERSION;
+		return new String[]{
+				version,
+				"Picocli " + CommandLine.VERSION,
+				"JVM: ${java.version} (${java.vendor} ${java.vm.name} ${java.vm.version})",
+				"OS: ${os.name} ${os.version} ${os.arch}"};
 	}
 }
