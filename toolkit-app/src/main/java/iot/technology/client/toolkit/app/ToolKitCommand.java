@@ -140,15 +140,18 @@ public class ToolKitCommand implements Callable<Integer> {
 				.append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 
-		// toolkit nb simple description
-		sb.append(String.format("%s %s", bundle.getString("nb.description"),
-						"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit nb -h", "red") + ")"))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "call:          ", bundle.getString("nb.call.desc")))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "set:           ", bundle.getString("nb.desc.desc")))
-				.append(StringUtils.lineSeparator());
-		sb.append(StringUtils.lineSeparator());
+		boolean isChinese = bundle.getLocale().equals(Locale.CHINESE);
+		if (isChinese) {
+			// toolkit nb simple description
+			sb.append(String.format("%s %s", bundle.getString("nb.description"),
+							"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit nb -h", "red") + ")"))
+					.append(StringUtils.lineSeparator());
+			sb.append(String.format("%s %s", "call:          ", bundle.getString("nb.call.desc")))
+					.append(StringUtils.lineSeparator());
+			sb.append(String.format("%s %s", "set:           ", bundle.getString("nb.desc.desc")))
+					.append(StringUtils.lineSeparator());
+			sb.append(StringUtils.lineSeparator());
+		}
 
 		sb.append(bundle.getString("general.main.page.help"));
 		System.out.println(sb);
