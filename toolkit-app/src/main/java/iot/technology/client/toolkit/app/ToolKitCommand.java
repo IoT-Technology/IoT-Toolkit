@@ -18,6 +18,7 @@ package iot.technology.client.toolkit.app;
 import iot.technology.client.toolkit.app.config.CommandLineConfig;
 import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.app.settings.ConfigCommand;
+import iot.technology.client.toolkit.app.settings.info.MainInfo;
 import iot.technology.client.toolkit.app.settings.lang.LangService;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
@@ -25,8 +26,6 @@ import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.constants.VersionInfo;
 import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
-import iot.technology.client.toolkit.common.utils.ColorUtils;
-import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import iot.technology.client.toolkit.nb.command.NbCommand;
 import org.fusesource.jansi.AnsiConsole;
@@ -68,8 +67,6 @@ public class ToolKitCommand implements Callable<Integer> {
 	@CommandLine.ArgGroup
 	HelpVersionGroup helpVersionGroup;
 
-	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
-
 
 	public static void main(String[] args) {
 		LogLevelConfig.setLogLevel();
@@ -92,6 +89,9 @@ public class ToolKitCommand implements Callable<Integer> {
 			boolean isChinese = bundle.getLocale().equals(Locale.CHINESE);
 			nbCmd.getCommandSpec().usageMessage().hidden(!isChinese);
 
+			if (args.length == 0) {
+				MainInfo.printMainInfo();
+			}
 			int exitStatus = commandLine.execute(args);
 			if (exitStatus == ExitCodeEnum.NOTEND.getValue()) {
 				return;
@@ -103,65 +103,6 @@ public class ToolKitCommand implements Callable<Integer> {
 	}
 
 	public Integer call() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(bundle.getString("general.description")).append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", bundle.getString("general.usage"), "toolkit [--version] [--help] <command> [<args>]"))
-				.append(StringUtils.lineSeparator());
-		sb.append(StringUtils.lineSeparator());
-
-		sb.append(bundle.getString("general.common.commands.desc")).append(StringUtils.lineSeparator());
-		sb.append(StringUtils.lineSeparator());
-
-		// toolkit config simple description
-		sb.append(String.format("%s %s", bundle.getString("config.description"),
-						"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit config -h", "red") + ")"))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "locale        ",
-						bundle.getString("config.lang.header") + " " + bundle.getString("config.locale")))
-				.append(StringUtils.lineSeparator());
-		sb.append(StringUtils.lineSeparator());
-
-		// toolkit coap simple description
-		sb.append(String.format("%s %s", bundle.getString("coap.description"),
-						"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit coap -h", "red") + ")"))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "disc:          ", bundle.getString("coap.disc.description")))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "get:           ", bundle.getString("coap.get.description")))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "post:          ", bundle.getString("coap.post.description")))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "put:           ", bundle.getString("coap.put.description")))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "delete:        ", bundle.getString("coap.del.description")))
-				.append(StringUtils.lineSeparator());
-		sb.append(StringUtils.lineSeparator());
-
-		// toolkit mqtt simple description
-		sb.append(String.format("%s %s", bundle.getString("mqtt.description"),
-						"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit mqtt -h", "red") + ")"))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "publish:       ", bundle.getString("mqtt.pub.description")))
-				.append(StringUtils.lineSeparator());
-		sb.append(String.format("%s %s", "subscribe:     ", bundle.getString("mqtt.sub.description")))
-				.append(StringUtils.lineSeparator());
-		sb.append(StringUtils.lineSeparator());
-
-		boolean isChinese = bundle.getLocale().equals(Locale.CHINESE);
-		if (isChinese) {
-			// toolkit nb simple description
-			sb.append(String.format("%s %s", bundle.getString("nb.description"),
-							"(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit nb -h", "red") + ")"))
-					.append(StringUtils.lineSeparator());
-			sb.append(String.format("%s %s", "call:          ", bundle.getString("nb.call.desc")))
-					.append(StringUtils.lineSeparator());
-			sb.append(String.format("%s %s", "set:           ", bundle.getString("nb.desc.desc")))
-					.append(StringUtils.lineSeparator());
-			sb.append(StringUtils.lineSeparator());
-		}
-
-		sb.append(bundle.getString("general.main.page.help"));
-		System.out.println(sb);
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }
