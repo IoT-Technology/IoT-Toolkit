@@ -32,9 +32,12 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
 		name = "config",
 		requiredOptionMarker = '*',
+		header = "@|bold ${bundle:config.header}|@",
+		description = "@|fg(red),bold ${bundle:config.description}|@",
 		optionListHeading = "%n${bundle:general.option}:%n",
-		header = "@|fg(Cyan),bold ${bundle:config.header}|@",
-		description = "@|fg(Cyan),italic ${bundle:config.description}|@",
+		synopsisHeading = "%n@|bold ${bundle:general.usage}|@%n",
+		commandListHeading = "%n@|bold ${bundle:general.commands}|@%n",
+		descriptionHeading = "%n",
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		versionProvider = iot.technology.client.toolkit.common.constants.VersionInfo.class

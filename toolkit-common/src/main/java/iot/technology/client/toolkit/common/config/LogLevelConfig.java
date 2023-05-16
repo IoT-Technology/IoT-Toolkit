@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.client.toolkit.app.config;
+package iot.technology.client.toolkit.common.config;
 
 /**
  * @author mushuwei

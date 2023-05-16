@@ -32,9 +32,12 @@ import static iot.technology.client.toolkit.common.utils.ColorUtils.colorItalic;
 @CommandLine.Command(
 		name = "coap",
 		requiredOptionMarker = '*',
-		header = "@|fg(Cyan),bold ${bundle:coap.header}|@",
-		description = "@|fg(Cyan),italic ${bundle:coap.description}|@",
-		optionListHeading = "%n${bundle:general.option}:%n",
+		header = "@|bold ${bundle:coap.header}|@",
+		description = "@|fg(red),bold ${bundle:coap.description}|@",
+		synopsisHeading = "%n@|bold ${bundle:general.usage}|@%n",
+		commandListHeading = "%n@|bold ${bundle:general.commands}|@%n",
+		optionListHeading = "%n@|bold ${bundle:general.option}|@%n",
+		descriptionHeading = "%n",
 		subcommands = {
 				CoapDescribeCommand.class,
 				CoapMediaTypesCommand.class,
@@ -53,24 +56,12 @@ public class CoapCommand implements Callable<Integer> {
 	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
 	boolean usageHelpRequested;
 
+	@CommandLine.Spec
+	private CommandLine.Model.CommandSpec spec;
+
 	@Override
 	public Integer call() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("describe, desc:  ").append(colorItalic(bundle.getString("coap.desc.description"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		sb.append("media-type, mt:  ").append(colorItalic(bundle.getString("coap.media.types.description"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		sb.append("discover, disc:  ").append(colorItalic(bundle.getString("coap.disc.description"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		sb.append("get:             ").append(colorItalic(bundle.getString("coap.get.description"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		sb.append("post:            ").append(colorItalic(bundle.getString("coap.post.description"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		sb.append("put:             ").append(colorItalic(bundle.getString("coap.put.description"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		sb.append("delete, del:     ").append(colorItalic(bundle.getString("coap.del.description"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		System.out.println(sb);
+		System.out.println(spec.commandLine().getUsageMessage());
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 

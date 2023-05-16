@@ -1,4 +1,4 @@
-package iot.technology.client.toolkit.app.config;
+package iot.technology.client.toolkit.common.commandline;
 
 import picocli.CommandLine;
 
@@ -13,6 +13,7 @@ public class CommandLineConfig {
                     .options(CommandLine.Help.Ansi.Style.italic, CommandLine.Help.Ansi.Style.fg_yellow)
                     .parameters(CommandLine.Help.Ansi.Style.fg_yellow)
                     .optionParams(CommandLine.Help.Ansi.Style.italic)
+                    .errors(CommandLine.Help.Ansi.Style.bold, CommandLine.Help.Ansi.Style.fg_red)
                     .build();
     private static final int CLI_WIDTH = 160;
 

@@ -15,23 +15,25 @@
  */
 package iot.technology.client.toolkit.app;
 
-import iot.technology.client.toolkit.app.config.CommandLineConfig;
-import iot.technology.client.toolkit.app.config.LogLevelConfig;
 import iot.technology.client.toolkit.app.settings.ConfigCommand;
 import iot.technology.client.toolkit.app.settings.info.MainInfo;
 import iot.technology.client.toolkit.app.settings.lang.LangService;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
+import iot.technology.client.toolkit.common.commandline.CommandErrorMessageHandler;
+import iot.technology.client.toolkit.common.commandline.CommandLineConfig;
+import iot.technology.client.toolkit.common.commandline.ExceptionMessageHandler;
+import iot.technology.client.toolkit.common.config.LogLevelConfig;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.HelpVersionGroup;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.constants.VersionInfo;
-import iot.technology.client.toolkit.common.exception.ExceptionMessageHandler;
 import iot.technology.client.toolkit.mqtt.command.MqttCommand;
 import iot.technology.client.toolkit.nb.command.NbCommand;
 import org.fusesource.jansi.AnsiConsole;
 import picocli.AutoComplete;
 import picocli.CommandLine;
 
+import java.security.Security;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -69,6 +71,8 @@ public class ToolKitCommand implements Callable<Integer> {
 
 
 	public static void main(String[] args) {
+		Security.setProperty("crypto.policy", "unlimited");
+
 		LogLevelConfig.setLogLevel();
 		AnsiConsole.systemInstall();
 		try {
@@ -79,6 +83,7 @@ public class ToolKitCommand implements Callable<Integer> {
 					.setResourceBundle(bundle)
 					.setColorScheme(CommandLineConfig.getColorScheme())
 					.setUsageHelpWidth(CommandLineConfig.getCliWidth())
+					.setParameterExceptionHandler(new CommandErrorMessageHandler())
 					.setExecutionExceptionHandler(new ExceptionMessageHandler())
 					.setAdjustLineBreaksForWideCJKCharacters(true)
 					.setCaseInsensitiveEnumValuesAllowed(true);

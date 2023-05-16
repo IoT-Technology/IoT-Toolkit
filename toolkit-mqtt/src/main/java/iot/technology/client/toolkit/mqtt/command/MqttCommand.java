@@ -21,6 +21,7 @@ import iot.technology.client.toolkit.mqtt.command.sub.MqttDescribeCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttPublishCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttSettingsCommand;
 import iot.technology.client.toolkit.mqtt.command.sub.MqttSubscribeCommand;
+import org.jetbrains.annotations.NotNull;
 import picocli.CommandLine;
 
 import java.util.ResourceBundle;
@@ -34,9 +35,12 @@ import static iot.technology.client.toolkit.common.utils.ColorUtils.colorItalic;
 @CommandLine.Command(
 		name = "mqtt",
 		requiredOptionMarker = '*',
-		header = "@|fg(Cyan),bold ${bundle:mqtt.header}|@",
-		description = "@|fg(Cyan),italic ${bundle:mqtt.description}|@",
-		optionListHeading = "%n${bundle:general.option}:%n",
+		header = "@|bold ${bundle:mqtt.header}|@",
+		description = "@|fg(red),bold ${bundle:mqtt.description}|@",
+		synopsisHeading = "%n@|bold ${bundle:general.usage}|@%n",
+		commandListHeading = "%n@|bold ${bundle:general.commands}|@%n",
+		optionListHeading = "%n@|bold ${bundle:general.option}|@%n",
+		descriptionHeading = "%n",
 		subcommands = {
 				MqttDescribeCommand.class,
 				MqttSettingsCommand.class,
@@ -52,12 +56,12 @@ public class MqttCommand implements Callable<Integer> {
 	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
 	boolean usageHelpRequested;
 
+	@CommandLine.Spec
+	private CommandLine.Model.CommandSpec spec;
+
 	@Override
 	public Integer call() {
-		System.out.format("describe, desc: " + colorItalic(bundle.getString("mqtt.desc.description"), "cyan") + "%n");
-		System.out.format("settings, set:  " + colorItalic(bundle.getString("mqtt.settings.desc"), "cyan") + "%n");
-		System.out.format("publish, pub:   " + colorItalic(bundle.getString("mqtt.pub.description"), "cyan") + "%n");
-		System.out.format("subscribe, sub: " + colorItalic(bundle.getString("mqtt.sub.description"), "cyan") + "%n");
+		System.out.println(spec.commandLine().getUsageMessage());
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 }

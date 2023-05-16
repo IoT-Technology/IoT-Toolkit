@@ -34,9 +34,12 @@ import static iot.technology.client.toolkit.common.utils.ColorUtils.colorItalic;
 @CommandLine.Command(
 		name = "nb",
 		requiredOptionMarker = '*',
-		header = "@|fg(Cyan),bold ${bundle:nb.header}|@",
-		description = "@|fg(Cyan),italic ${bundle:nb.description}|@",
-		optionListHeading = "%n${bundle:general.option}:%n",
+		header = "@|bold ${bundle:nb.header}|@",
+		description = "@|fg(red),bold ${bundle:nb.description}|@",
+		synopsisHeading = "%n@|bold ${bundle:general.usage}|@%n",
+		commandListHeading = "%n@|bold ${bundle:general.commands}|@%n",
+		optionListHeading = "%n@|bold ${bundle:general.option}|@%n",
+		descriptionHeading = "%n",
 		subcommands = {
 				NbCallCommand.class,
 				NbSettingsCommand.class,
@@ -50,16 +53,12 @@ public class NbCommand implements Callable<Integer> {
 	@CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "${bundle:general.help.description}")
 	boolean usageHelpRequested;
 
+	@CommandLine.Spec
+	private CommandLine.Model.CommandSpec spec;
+
 	@Override
 	public Integer call() throws Exception {
-		StringBuilder sb = new StringBuilder();
-		sb.append("call:           ").append(colorItalic(bundle.getString("nb.call.desc"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		sb.append("settings, set:  ").append(colorItalic(bundle.getString("nb.call.desc"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		sb.append("describe, desc: ").append(colorItalic(bundle.getString("nb.desc.desc"), "cyan"))
-				.append(StringUtils.lineSeparator());
-		System.out.println(sb);
+		System.out.println(spec.commandLine().getUsageMessage());
 		return ExitCodeEnum.SUCCESS.getValue();
 	}
 
