@@ -72,6 +72,7 @@
         <picocli.version>4.6.3</picocli.version>
         <netty.version>4.1.92.Final</netty.version>
         <eclipse.californium.version>3.7.0</eclipse.californium.version>
+        <slf4j.version>1.7.36</slf4j.version>
         <jackson.version>2.14.0-rc1</jackson.version>
         <guava.version>30.0-jre</guava.version>
         <jansi.version>2.4.0</jansi.version>
@@ -142,6 +143,11 @@
                 <groupId>org.fusesource.jansi</groupId>
                 <artifactId>jansi</artifactId>
                 <version>${jansi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
