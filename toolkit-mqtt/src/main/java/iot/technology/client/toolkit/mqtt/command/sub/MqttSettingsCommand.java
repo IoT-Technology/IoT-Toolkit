@@ -91,7 +91,7 @@ public class MqttSettingsCommand implements Callable<Integer> {
 				.build();
 
 		String prompt = bundle.getString("mqtt.settings.command.prompt") + GlobalConstants.promptSeparator;
-		StringUtils.toolkitPromptText();
+		HelpProcessor.printMqttSettingsHelpInfo();
 		while (true) {
 			String data;
 			try {

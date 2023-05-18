@@ -30,8 +30,11 @@ public abstract class StringUtils {
 
 	public static void toolkitPromptText() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Welcome to Toolkit ").append(StorageConstants.TOOLKIT_VERSION).append(StringUtils.lineSeparator);
-		sb.append("Press Ctrl+C or `exit` to exit the REPL");
+		sb.append(ColorUtils.colorBold("Welcome to Toolkit ", "red"))
+				.append(StorageConstants.TOOLKIT_VERSION)
+				.append(StringUtils.lineSeparator);
+		sb.append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("Press Ctrl+C or `exit` to exit the REPL", ""));
 		System.out.println(sb);
 	}
 

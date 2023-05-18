@@ -5,6 +5,7 @@ import iot.technology.client.toolkit.common.constants.NbSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
+import iot.technology.client.toolkit.nb.service.processor.settings.NbSettingsHelpProcessor;
 
 import java.util.ResourceBundle;
 
@@ -13,11 +14,10 @@ import java.util.ResourceBundle;
  */
 public class NbSettingsNode implements TkNode {
 
-	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
+	public static ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
 	public void prePrompt(NodeContext context) {
-
 	}
 
 	@Override

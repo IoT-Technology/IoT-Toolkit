@@ -104,7 +104,7 @@ public class NbSettingsCommand implements Callable<Integer> {
 		context.setType("settings");
 		NbConfigSettingsDomain domain = new NbConfigSettingsDomain();
 		String code = ruleChain.getNbTypeNode();
-		StringUtils.toolkitPromptText();
+		NbSettingsHelpProcessor.printNbSettingsHelpInfo();
 		while (true) {
 			boolean isNbSettings = code.equals(NbSettingsCodeEnum.NB_SETTINGS.getCode());
 			LineReader reader = isNbSettings ? readerWithCompleter : originReader;

@@ -41,7 +41,7 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
 		name = "call",
 		requiredOptionMarker = '*',
-		description = "@|fg(Cyan),italic ${bundle:nb.call.desc}|@",
+		description = "${bundle:nb.call.desc}",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		sortOptions = false,
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",

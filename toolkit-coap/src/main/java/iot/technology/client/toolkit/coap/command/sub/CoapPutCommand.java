@@ -33,8 +33,11 @@ import static iot.technology.client.toolkit.coap.command.sub.CoapGetCommand.COAP
 @CommandLine.Command(
 		name = "put",
 		requiredOptionMarker = '*',
-		description = "${bundle:coap.put.description}",
-		optionListHeading = "%n${bundle:general.option}:%n",
+		description = "@|fg(red),bold ${bundle:coap.put.description}|@",
+		synopsisHeading = "%n@|bold ${bundle:general.usage}|@%n",
+		commandListHeading = "%n@|bold ${bundle:general.commands}|@%n",
+		optionListHeading = "%n@|bold ${bundle:general.option}|@%n",
+		descriptionHeading = "%n",
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei"
 )

@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
  */
 public class HelpProcessor implements TkProcessor {
 
-	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
+	private static final ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
 	public boolean supports(ProcessContext context) {
@@ -37,29 +37,42 @@ public class HelpProcessor implements TkProcessor {
 
 	@Override
 	public void handle(ProcessContext context) {
+		printMqttSettingsHelpInfo();
+	}
+
+
+	public static void printMqttSettingsHelpInfo() {
 		StringBuilder sb = new StringBuilder();
-		// list all mqtt settings
-		sb.append(ColorUtils.cyanAnnotation("list: " + bundle.getString("mqtt.settings.list.desc")))
-				.append(StringUtils.lineSeparator());
-		sb.append("    usage: list").append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("Welcome to Toolkit ", "red"))
+				.append(StorageConstants.TOOLKIT_VERSION)
+				.append(StringUtils.lineSeparator);
 		sb.append(StringUtils.lineSeparator());
-
-		// show mqtt setting detail
-		sb.append(ColorUtils.cyanAnnotation("show: " + bundle.getString("mqtt.settings.show.desc")))
+		sb.append(ColorUtils.colorBold(bundle.getString("general.usage"), ""))
 				.append(StringUtils.lineSeparator());
-		sb.append("    usage: show serial").append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
-
-		// delete mqtt settings
-		sb.append(ColorUtils.cyanAnnotation("del:  " + bundle.getString("mqtt.settings.del.desc")))
+		sb.append(String.format("%s %s %s",
+						ColorUtils.colorBold("list: ", "yellow"),
+						ColorUtils.colorItalic(bundle.getString("mqtt.settings.list.desc"), "cyan"),
+						"(usage: list)"))
 				.append(StringUtils.lineSeparator());
-		sb.append("    usage: del serial").append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s %s",
+						ColorUtils.colorBold("show: ", "yellow"),
+						ColorUtils.colorItalic(bundle.getString("mqtt.settings.show.desc"), "cyan"),
+						"(usage: show serial)"))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s %s",
+						ColorUtils.colorBold("del:  ", "yellow"),
+						ColorUtils.colorItalic(bundle.getString("mqtt.settings.del.desc"), "cyan"),
+						"(usage: del serial)"))
+				.append(StringUtils.lineSeparator());
+		sb.append(String.format("%s %s %s",
+						ColorUtils.colorBold("add:  ", "yellow"),
+						ColorUtils.colorItalic(bundle.getString("mqtt.settings.add.desc"), "cyan"),
+						"(usage: add)"))
+				.append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
-
-		// add mqtt setting
-		sb.append(ColorUtils.cyanAnnotation("add:  " + bundle.getString("mqtt.settings.add.desc")))
+		sb.append(ColorUtils.colorBold("Press Ctrl+C or `exit` to exit the REPL", ""))
 				.append(StringUtils.lineSeparator());
-		sb.append("    usage: add").append(StringUtils.lineSeparator());
-		System.out.format(sb.toString());
+		System.out.println(sb);
 	}
 }
