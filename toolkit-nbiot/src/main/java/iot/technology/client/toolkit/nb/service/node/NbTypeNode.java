@@ -24,6 +24,8 @@ public class NbTypeNode implements TkNode {
 		if (bundle.getLocale().equals(Locale.CHINESE)) {
 			System.out.format(ColorUtils.greenItalic("(1) 电信AEP * ") + "%n");
 			System.out.format(ColorUtils.greenItalic("(2) 移动OneNET") + "%n");
+		} else {
+			System.out.format(ColorUtils.greenItalic("LwM2M") + "%n");
 		}
 	}
 
