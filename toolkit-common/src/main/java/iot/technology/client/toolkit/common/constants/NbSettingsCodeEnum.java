@@ -41,6 +41,8 @@ public enum NbSettingsCodeEnum {
 	NB_MOB_PRODUCT_ID("mobProductId", "iot.technology.client.toolkit.nb.service.node.MobProductIdNode"),
 
 	NB_MOB_ACCESS_KEY("mobAccessKey", "iot.technology.client.toolkit.nb.service.node.MobAccessKeyNode"),
+
+	NB_LWM2M_CONFIG("nbLwm2mConfig", "iot.technology.client.toolkit.nb.service.node.NbLwM2MConfigNode"),
 	
 	END("end", "");
 

@@ -24,8 +24,9 @@ public class NbTypeNode implements TkNode {
 		if (bundle.getLocale().equals(Locale.CHINESE)) {
 			System.out.format(ColorUtils.greenItalic("(1) 电信AEP * ") + "%n");
 			System.out.format(ColorUtils.greenItalic("(2) 移动OneNET") + "%n");
+			System.out.format(ColorUtils.greenItalic("(3) LwM2M") + "%n");
 		} else {
-			System.out.format(ColorUtils.greenItalic("LwM2M") + "%n");
+			System.out.format(ColorUtils.greenItalic("(1) LwM2M * ") + "%n");
 		}
 	}
 
@@ -34,7 +35,8 @@ public class NbTypeNode implements TkNode {
 		String data = context.getData();
 		if (StringUtils.isBlank(data)
 				|| data.equals(NBTypeEnum.TELECOM.getCode())
-				|| data.equals(NBTypeEnum.MOBILE.getCode())) {
+				|| data.equals(NBTypeEnum.MOBILE.getCode())
+				|| data.equals(NBTypeEnum.LWM2M.getCode())) {
 			context.setCheck(true);
 			return true;
 		}
@@ -57,27 +59,46 @@ public class NbTypeNode implements TkNode {
 		if (context.getType() != null && context.getType().equals("settings")) {
 			return NbSettingsCodeEnum.NB_SETTINGS.getCode();
 		}
-		if (context.getData().equals(NBTypeEnum.TELECOM.getCode())) {
+		if (bundle.getLocale().equals(Locale.CHINESE)) {
+			if (context.getData().equals(NBTypeEnum.TELECOM.getCode())) {
+				List<String> nbSettings = bizService.getNbSettingsFromFile(SystemConfigConst.SYS_NB_TELECOM_PRODUCT_FILE_NAME);
+				context.setPromptData(nbSettings);
+				return NbSettingsCodeEnum.NB_TELECOM_APP_CONFIG.getCode();
+			}
+			if (context.getData().equals(NBTypeEnum.MOBILE.getCode())) {
+				List<String> nbSettings = bizService.getNbSettingsFromFile(SystemConfigConst.SYS_NB_MOBILE_PRODUCT_FILE_NAME);
+				context.setPromptData(nbSettings);
+				return NbSettingsCodeEnum.NB_MOB_APP_CONFIG.getCode();
+			}
+			if (context.getData().equals(NBTypeEnum.LWM2M.getCode())) {
+				List<String> nbSettings = bizService.getNbSettingsFromFile(SystemConfigConst.SYS_NB_LWM2M_SETTINGS_FILE_NAME);
+				context.setPromptData(nbSettings);
+				return NbSettingsCodeEnum.NB_LWM2M_CONFIG.getCode();
+			}
 			List<String> nbSettings = bizService.getNbSettingsFromFile(SystemConfigConst.SYS_NB_TELECOM_PRODUCT_FILE_NAME);
 			context.setPromptData(nbSettings);
 			return NbSettingsCodeEnum.NB_TELECOM_APP_CONFIG.getCode();
 		}
-		if (context.getData().equals(NBTypeEnum.MOBILE.getCode())) {
-			List<String> nbSettings = bizService.getNbSettingsFromFile(SystemConfigConst.SYS_NB_MOBILE_PRODUCT_FILE_NAME);
-			context.setPromptData(nbSettings);
-			return NbSettingsCodeEnum.NB_MOB_APP_CONFIG.getCode();
-		}
-		List<String> nbSettings = bizService.getNbSettingsFromFile(SystemConfigConst.SYS_NB_TELECOM_PRODUCT_FILE_NAME);
+		List<String> nbSettings = bizService.getNbSettingsFromFile(SystemConfigConst.SYS_NB_LWM2M_SETTINGS_FILE_NAME);
 		context.setPromptData(nbSettings);
-		return NbSettingsCodeEnum.NB_TELECOM_APP_CONFIG.getCode();
+		return NbSettingsCodeEnum.NB_LWM2M_CONFIG.getCode();
 	}
 
 	@Override
 	public String getValue(NodeContext context) {
 		String data = context.getData();
-		if (data.equals(NBTypeEnum.MOBILE.getCode())) {
-			return NBTypeEnum.MOBILE.getValue();
+		if (bundle.getLocale().equals(Locale.CHINESE)) {
+			if (data.equals(NBTypeEnum.MOBILE.getCode())) {
+				return NBTypeEnum.MOBILE.getValue();
+			}
+			if (data.equals(NBTypeEnum.TELECOM.getCode())) {
+				return NBTypeEnum.TELECOM.getValue();
+			}
+			if (data.equals(NBTypeEnum.LWM2M.getCode())) {
+				return NBTypeEnum.LWM2M.getValue();
+			}
+			return NBTypeEnum.TELECOM.getValue();
 		}
-		return NBTypeEnum.TELECOM.getValue();
+		return NBTypeEnum.LWM2M.getValue();
 	}
 }
