@@ -324,6 +324,12 @@
     ]
   },
   {
+    "name" : "iot.technology.client.toolkit.nb.service.node.NbLwM2MConfigNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings",
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,

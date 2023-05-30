@@ -42,6 +42,7 @@ public class NbRuleChainProcessor {
 		map.put(NbSettingsCodeEnum.NB_MOB_PRODUCT_NAME.getCode(), NbSettingsCodeEnum.NB_MOB_PRODUCT_NAME.getClazzName());
 		map.put(NbSettingsCodeEnum.NB_MOB_PRODUCT_ID.getCode(), NbSettingsCodeEnum.NB_MOB_PRODUCT_ID.getClazzName());
 		map.put(NbSettingsCodeEnum.NB_MOB_ACCESS_KEY.getCode(), NbSettingsCodeEnum.NB_MOB_ACCESS_KEY.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_CONFIG.getCode(), NbSettingsCodeEnum.NB_LWM2M_CONFIG.getClazzName());
 		return map;
 	}
 }
