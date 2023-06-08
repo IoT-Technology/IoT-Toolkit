@@ -123,7 +123,7 @@ public class SignUtils {
         StringBuilder sb = new StringBuilder();
         try {
             String res = URLEncoder.encode(resourceName, UTF_8);
-            String sig = URLEncoder.encode(generatorSignature(version, resourceName, expirationTime, accessKey, signatureMethod), "UTF-8");
+            String sig = URLEncoder.encode(generatorSignature(version, resourceName, expirationTime, accessKey, signatureMethod), UTF_8);
             sb.append("version=")
                     .append(version)
                     .append("&res=")
@@ -134,7 +134,7 @@ public class SignUtils {
                     .append(signatureMethod)
                     .append("&sign=")
                     .append(sig);
-        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             System.out.format(ColorUtils.redError("getMobileAssembleToken failed!"));
         }
         return sb.toString();
@@ -151,7 +151,7 @@ public class SignUtils {
     }
 
     public static byte[] hmacEncrypt(String data, String key, String signatureMethod) throws NoSuchAlgorithmException, InvalidKeyException {
-        SecretKeySpec signinKey = new SecretKeySpec(Base64.getDecoder().decode(key.getBytes(UTF_8)),
+        SecretKeySpec signinKey = new SecretKeySpec(Base64.getDecoder().decode(key),
                 "Hmac" + signatureMethod.toUpperCase());
 
         Mac mac = Mac.getInstance("Hmac" + signatureMethod.toUpperCase());
