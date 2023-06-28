@@ -19,6 +19,7 @@ import iot.technology.client.toolkit.app.settings.ConfigCommand;
 import iot.technology.client.toolkit.app.settings.info.MainInfo;
 import iot.technology.client.toolkit.app.settings.lang.LangService;
 import iot.technology.client.toolkit.coap.command.CoapCommand;
+import iot.technology.client.toolkit.coap.command.LwM2MCommand;
 import iot.technology.client.toolkit.common.commandline.CommandErrorMessageHandler;
 import iot.technology.client.toolkit.common.commandline.CommandLineConfig;
 import iot.technology.client.toolkit.common.commandline.ExceptionMessageHandler;
@@ -48,7 +49,7 @@ import java.util.concurrent.Callable;
 		synopsisHeading = "%n@|bold ${bundle:general.usage}|@%n",
 		optionListHeading = "%n@|bold ${bundle:general.option}|@%n",
 		commandListHeading = "%n@|bold ${bundle:general.commands}|@%n",
-		synopsisSubcommandLabel = "{ config | mqtt | coap | nb }",
+		synopsisSubcommandLabel = "{ config | mqtt | coap | nb | lwm2m }",
 		descriptionHeading = "%n",
 		requiredOptionMarker = '*',
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
@@ -58,7 +59,8 @@ import java.util.concurrent.Callable;
 				ConfigCommand.class,
 				CoapCommand.class,
 				MqttCommand.class,
-				NbCommand.class
+				NbCommand.class,
+				LwM2MCommand.class
 		},
 		exitCodeOnExecutionException = 400,
 		exitCodeOnSuccess = 200,
