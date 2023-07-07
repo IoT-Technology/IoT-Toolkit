@@ -6,7 +6,7 @@ import iot.technology.client.toolkit.common.rule.TkNode;
 /**
  * @author mushuwei
  */
-public class NbLwM2MPortNode implements TkNode {
+public class LwM2MServerUrlNode implements TkNode {
 
     @Override
     public void prePrompt(NodeContext context) {

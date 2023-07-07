@@ -1,6 +1,6 @@
 package iot.technology.client.toolkit.coap.command;
 
-import iot.technology.client.toolkit.coap.command.sub.*;
+
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import picocli.CommandLine;
 
