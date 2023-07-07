@@ -42,12 +42,48 @@ public enum NbSettingsCodeEnum {
 
 	NB_MOB_ACCESS_KEY("mobAccessKey", "iot.technology.client.toolkit.nb.service.node.MobAccessKeyNode"),
 
-	NB_LWM2M_CONFIG("nbLwm2mConfig", "iot.technology.client.toolkit.nb.service.node.NbLwM2MConfigNode"),
+	/**
+	 * lwm2m config
+	 */
 
-	NB_LWM2M_SERVER("nbLwm2mServer", "iot.technology.client.toolkit.nb.service.node.NbLwM2MServerNode"),
+	NB_LWM2M_CONFIG("lwm2mConfig", "iot.technology.client.toolkit.nb.service.node.NbLwM2MConfigNode"),
 
-	NB_LWM2M_PORT("nbLwm2mPort", "iot.technology.client.toolkit.nb.service.node.NbLwM2MPortNode"),
-	
+	NB_LWM2M_URL("lwm2mServer", "iot.technology.client.toolkit.nb.service.node.LwM2MServerUrlNode"),
+
+	NB_LWM2M_PORT("lwm2mPort", "iot.technology.client.toolkit.nb.service.node.LwM2MPortNode"),
+
+	NB_LWM2M_BOOTSTRAP("lwm2mBootstrapServer", "iot.technology.client.toolkit.nb.service.node.LwM2MBootstrapServerNode"),
+
+	NB_LWM2M_ENDPOINT("lwm2mEndpoint", "iot.technology.client.toolkit.nb.service.node.LwM2MEndpointNode"),
+
+	NB_LWM2M_LOCAL_ADDRESS("lwm2mLocalAddress", "iot.technology.client.toolkit.nb.service.node.LwM2MLocalAddressNode"),
+
+	NB_LWM2M_LIFETIME("lwm2mLifeTime", "iot.technology.client.toolkit.nb.service.node.LwM2MLifeTimeNode"),
+
+	NB_LWM2M_COMMUNICATION_PERIOD("lwm2mCommunicationPeriod", "iot.technology.client.toolkit.nb.service.node.LwM2MComPeriodNode"),
+
+	NB_LWM2M_MODELS_FOLDER("lwm2mModelsFolder", "iot.technology.client.toolkit.nb.service.node.LwM2MModelsFolder"),
+
+	NB_LWM2M_DTLS("lwm2mDtls", "iot.technology.client.toolkit.nb.service.node.LwM2MDtlsNode"),
+
+	NB_LWM2M_SELECT_ALGORITHM("lwm2mChooseAlgorithm", "iot.technology.client.toolkit.nb.service.node.LwM2MChooseAlgorithmNode"),
+
+	NB_LWM2M_PSK_IDENTITY("lwm2mPskIdentity", "iot.technology.client.toolkit.nb.service.node.LwM2MPskIdentityNode"),
+
+	NB_LWM2M_PSK_SHARE_KEY("lwm2mPskShareKey", "iot.technology.client.toolkit.nb.service.node.LwM2MShareKeyNode"),
+
+	NB_LWM2M_CLIENT_PRIVATE_KEY("lwm2mClientPrivateKey", "iot.technology.client.toolkit.nb.service.node.LwM2MClientPrivateKeyNode"),
+
+	NB_LWM2M_CLIENT_PUBLIC_KEY("lwm2mClientPublicKey", "iot.technology.client.toolkit.nb.service.node.LwM2MClientPublicKeyNode"),
+
+	NB_LWM2M_SERVER_PUBLIC_KEY("lwm2mServerPublicKey", "iot.technology.client.toolkit.nb.service.node.LwM2MServerPublicKeyNode"),
+
+	NB_LWM2M_CLIENT_CERT("lwm2mClientCert", "iot.technology.client.toolkit.nb.service.node.LwM2MClientCertNode"),
+
+	NB_LWM2M_SERVER_CERT("lwm2mServerCert", "iot.technology.client.toolkit.nb.service.node.LwM2MServerCertNode"),
+
+	NB_LWM2M_CERT_USAGE("lwm2mCertUsage", "iot.technology.client.toolkit.nb.service.node.LwM2MCertUsageNode"),
+
 	END("end", "");
 
 

@@ -1,17 +1,12 @@
 package iot.technology.client.toolkit.nb.service.node;
 
-import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
-
-import java.util.ResourceBundle;
 
 /**
  * @author mushuwei
  */
-public class LwM2MBootstrapServerNode implements TkNode {
-
-    ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
+public class LwM2MChooseAlgorithmNode implements TkNode {
 
     @Override
     public void prePrompt(NodeContext context) {
