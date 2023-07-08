@@ -739,5 +739,35 @@
     "allPublicClasses" : true,
     "allDeclaredConstructors" : true,
     "allPublicConstructors" : true
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.LwM2MServerUrlNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.LwM2MPortNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.LwM2MBootstrapServerNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.LwM2MEndpointNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.node.LwM2MLocalAddressNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
   }
 ]

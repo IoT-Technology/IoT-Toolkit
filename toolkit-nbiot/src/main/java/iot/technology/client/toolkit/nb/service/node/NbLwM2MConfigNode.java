@@ -55,7 +55,10 @@ public class NbLwM2MConfigNode implements TkNode {
         if (!context.isCheck()) {
             return NbSettingsCodeEnum.NB_LWM2M_CONFIG.getCode();
         }
-        return NbSettingsCodeEnum.NB_LWM2M_URL.getCode();
+        if (context.getData().equals("new")) {
+            return NbSettingsCodeEnum.NB_LWM2M_URL.getCode();
+        }
+        return NbSettingsCodeEnum.NB_TYPE.getCode();
     }
 
     @Override

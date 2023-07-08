@@ -49,6 +49,45 @@ public class NbConfigSettingsDomain implements Serializable {
 
 	private String mobAccessKey;
 
+	private String lwm2mConfig;
+
+	private String lwm2mServer;
+
+	private String lwm2mPort;
+
+	private String lwm2mBootstrapServer;
+
+	private String lwm2mEndpoint;
+
+	private String lwm2mLocalAddress;
+
+	private String lwm2mModelsFolder;
+
+	private String lwm2mLifeTime;
+
+	private String lwm2mCommunicationPeriod;
+
+	private String lwm2mDtls;
+
+	private String lwm2mChooseAlgorithm;
+
+	private String lwm2mPskIdentity;
+
+	private String lwm2mPskShareKey;
+
+	private String lwm2mClientPrivateKey;
+
+	private String lwm2mClientPublicKey;
+
+	private String lwm2mServerPublicKey;
+
+	private String lwm2mClientCert;
+
+	private String lwm2mServerCert;
+
+	private String lwm2mCertUsage;
+
+
 	public TelecomConfigDomain convertTelecomConfig() {
 		TelecomConfigDomain domain = new TelecomConfigDomain();
 		if (nbType.equals(NBTypeEnum.TELECOM.getValue())) {

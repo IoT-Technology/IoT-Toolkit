@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 /**
  * @author mushuwei
  */
-public class LwM2MModelsFolder implements TkNode {
+public class LwM2MModelsFolderNode implements TkNode {
 
     ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
