@@ -47,6 +47,20 @@ public class NbRuleChainProcessor {
 		map.put(NbSettingsCodeEnum.NB_LWM2M_PORT.getCode(), NbSettingsCodeEnum.NB_LWM2M_PORT.getClazzName());
 		map.put(NbSettingsCodeEnum.NB_LWM2M_BOOTSTRAP.getCode(), NbSettingsCodeEnum.NB_LWM2M_BOOTSTRAP.getClazzName());
 		map.put(NbSettingsCodeEnum.NB_LWM2M_ENDPOINT.getCode(), NbSettingsCodeEnum.NB_LWM2M_ENDPOINT.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_LOCAL_ADDRESS.getCode(), NbSettingsCodeEnum.NB_LWM2M_LOCAL_ADDRESS.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_MODELS_FOLDER.getCode(), NbSettingsCodeEnum.NB_LWM2M_MODELS_FOLDER.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_LIFETIME.getCode(), NbSettingsCodeEnum.NB_LWM2M_LIFETIME.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_COMMUNICATION_PERIOD.getCode(), NbSettingsCodeEnum.NB_LWM2M_COMMUNICATION_PERIOD.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_DTLS.getCode(), NbSettingsCodeEnum.NB_LWM2M_DTLS.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_SELECT_ALGORITHM.getCode(), NbSettingsCodeEnum.NB_LWM2M_SELECT_ALGORITHM.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_PSK_IDENTITY.getCode(), NbSettingsCodeEnum.NB_LWM2M_PSK_IDENTITY.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_PSK_SHARE_KEY.getCode(), NbSettingsCodeEnum.NB_LWM2M_PSK_SHARE_KEY.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_CLIENT_PRIVATE_KEY.getCode(), NbSettingsCodeEnum.NB_LWM2M_CLIENT_PRIVATE_KEY.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_CLIENT_PUBLIC_KEY.getCode(), NbSettingsCodeEnum.NB_LWM2M_CLIENT_PUBLIC_KEY.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_SERVER_PUBLIC_KEY.getCode(), NbSettingsCodeEnum.NB_LWM2M_SERVER_PUBLIC_KEY.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_CLIENT_CERT.getCode(), NbSettingsCodeEnum.NB_LWM2M_CLIENT_CERT.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_SERVER_CERT.getCode(), NbSettingsCodeEnum.NB_LWM2M_SERVER_CERT.getClazzName());
+		map.put(NbSettingsCodeEnum.NB_LWM2M_CERT_USAGE.getCode(), NbSettingsCodeEnum.NB_LWM2M_CERT_USAGE.getClazzName());
 		return map;
 	}
 }

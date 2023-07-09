@@ -29,6 +29,7 @@ public class LwM2MBootstrapServerNode implements TkNode {
     public boolean check(NodeContext context) {
         if (StringUtils.isBlank(context.getData())) {
             context.setCheck(true);
+            context.setData(ConfirmCodeEnum.NO.getValue());
             return true;
         }
         if (!context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())

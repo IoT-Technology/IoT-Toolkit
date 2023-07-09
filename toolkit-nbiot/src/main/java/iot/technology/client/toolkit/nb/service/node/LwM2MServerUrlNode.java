@@ -27,6 +27,9 @@ public class LwM2MServerUrlNode implements TkNode {
 
     @Override
     public boolean check(NodeContext context) {
+        if (StringUtils.isBlank(context.getData())) {
+            context.setData(DEFAULT_COAP_URL);
+        }
         context.setCheck(true);
         return true;
     }

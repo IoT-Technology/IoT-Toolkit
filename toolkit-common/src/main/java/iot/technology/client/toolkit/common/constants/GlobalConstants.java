@@ -20,7 +20,9 @@ package iot.technology.client.toolkit.common.constants;
  */
 public interface GlobalConstants {
 
-	public static final String promptSeparator = " > ";
+	String promptSeparator = " > ";
 
-	public static final String promptSuffix = ".prompt";
+	String promptSuffix = ".prompt";
+
+	String prePrompt = ".prePrompt";
 }
