@@ -99,7 +99,7 @@ public class ToolKitCommand implements Callable<Integer> {
 			if (args.length == 0) {
 				MainInfo.printMainInfo();
 			}
-			int exitStatus = commandLine.execute(args);
+			int exitStatus = commandLine.execute("nb", "call");
 			if (exitStatus == ExitCodeEnum.NOTEND.getValue()) {
 				return;
 			}

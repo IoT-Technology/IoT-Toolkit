@@ -38,12 +38,12 @@ public class LwM2MPortNode implements TkNode {
         try {
             port = Integer.parseInt(context.getData());
         } catch (NumberFormatException e) {
-            System.out.format(ColorUtils.redError(bundle.getString("param.error")));
+            System.out.format(ColorUtils.redError(bundle.getString("param.error")) + "%n");
             context.setCheck(false);
             return false;
         }
         if (port < 0 || port > 65535) {
-            System.out.format(ColorUtils.redError(bundle.getString("mqtt.port.error")));
+            System.out.format(ColorUtils.redError(bundle.getString("mqtt.port.error")) + "%n");
             context.setCheck(false);
             return false;
         }

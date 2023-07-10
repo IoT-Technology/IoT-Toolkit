@@ -17,6 +17,7 @@ package iot.technology.client.toolkit.common.rule;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author mushuwei
@@ -62,5 +63,4 @@ public class NodeContext implements Serializable {
 	public void setCheck(boolean check) {
 		isCheck = check;
 	}
-	
 }

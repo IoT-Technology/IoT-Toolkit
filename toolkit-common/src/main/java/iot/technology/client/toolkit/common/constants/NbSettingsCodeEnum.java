@@ -62,7 +62,7 @@ public enum NbSettingsCodeEnum {
 
 	NB_LWM2M_COMMUNICATION_PERIOD("lwm2mCommunicationPeriod", "iot.technology.client.toolkit.nb.service.node.LwM2MComPeriodNode"),
 
-	NB_LWM2M_MODELS_FOLDER("lwm2mModelsFolder", "iot.technology.client.toolkit.nb.service.node.LwM2MModelsFolder"),
+	NB_LWM2M_MODELS_FOLDER("lwm2mModelsFolder", "iot.technology.client.toolkit.nb.service.node.LwM2MModelsFolderNode"),
 
 	NB_LWM2M_DTLS("lwm2mDtls", "iot.technology.client.toolkit.nb.service.node.LwM2MDtlsNode"),
 

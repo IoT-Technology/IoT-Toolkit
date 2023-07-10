@@ -16,13 +16,13 @@ import java.util.ResourceBundle;
 /**
  * @author mushuwei
  */
-public class LwM2MClientPrivateKeyNode implements TkNode {
+public class LwM2MServerPublicKeyNode implements TkNode {
 
     ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
     @Override
     public void prePrompt(NodeContext context) {
-        System.out.format(ColorUtils.greenItalic(bundle.getString(NbSettingsCodeEnum.NB_LWM2M_CLIENT_PRIVATE_KEY.getCode() + GlobalConstants.prePrompt)) + "%n");
+        System.out.format(ColorUtils.greenItalic(bundle.getString(NbSettingsCodeEnum.NB_LWM2M_SERVER_PUBLIC_KEY.getCode() + GlobalConstants.prePrompt)) + "%n");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class LwM2MClientPrivateKeyNode implements TkNode {
             return false;
         }
         try {
-            SecurityUtil.privateKey.readFromFile(context.getData());
+            SecurityUtil.publicKey.readFromFile(context.getData());
         } catch (IOException | GeneralSecurityException e) {
             System.out.format(ColorUtils.redError(bundle.getString("param.error")));
             context.setCheck(false);
@@ -45,16 +45,16 @@ public class LwM2MClientPrivateKeyNode implements TkNode {
 
     @Override
     public String nodePrompt() {
-        return bundle.getString(NbSettingsCodeEnum.NB_LWM2M_CLIENT_PRIVATE_KEY.getCode() + GlobalConstants.promptSuffix) +
+        return bundle.getString(NbSettingsCodeEnum.NB_LWM2M_SERVER_PUBLIC_KEY.getCode() + GlobalConstants.promptSuffix) +
                 GlobalConstants.promptSeparator;
     }
 
     @Override
     public String nextNode(NodeContext context) {
         if (!context.isCheck()) {
-            return NbSettingsCodeEnum.NB_LWM2M_CLIENT_PRIVATE_KEY.getCode();
+            return NbSettingsCodeEnum.NB_LWM2M_SERVER_PUBLIC_KEY.getCode();
         }
-        return NbSettingsCodeEnum.END.getCode();
+        return NbSettingsCodeEnum.NB_LWM2M_CLIENT_PRIVATE_KEY.getCode();
     }
 
     @Override
