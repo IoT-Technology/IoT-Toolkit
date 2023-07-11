@@ -2,10 +2,7 @@ package iot.technology.client.toolkit.nb.service.lwm2m;
 
 import iot.technology.client.toolkit.common.constants.SecurityAlgorithm;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
-import iot.technology.client.toolkit.nb.service.lwm2m.domain.DtlsSessionLogger;
-import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSettingsDomain;
-import iot.technology.client.toolkit.nb.service.lwm2m.domain.MyDevice;
-import iot.technology.client.toolkit.nb.service.lwm2m.domain.RandomTemperatureSensor;
+import iot.technology.client.toolkit.nb.service.lwm2m.domain.*;
 import org.eclipse.californium.elements.config.Configuration;
 import org.eclipse.californium.scandium.config.DtlsConfig;
 import org.eclipse.californium.scandium.config.DtlsConnectorConfig;
@@ -25,6 +22,8 @@ import org.eclipse.leshan.client.resource.ObjectsInitializer;
 import org.eclipse.leshan.client.resource.listener.ObjectsListenerAdapter;
 import org.eclipse.leshan.client.send.ManualDataSender;
 import org.eclipse.leshan.core.model.LwM2mModelRepository;
+import org.eclipse.leshan.core.model.ObjectLoader;
+import org.eclipse.leshan.core.model.ObjectModel;
 
 import java.io.File;
 import java.security.cert.CertificateEncodingException;
@@ -43,6 +42,16 @@ public class Lwm2mDeviceService {
     private static final String CF_CONFIGURATION_FILENAME = "Californium3.client.properties";
     private static final String CF_CONFIGURATION_HEADER = "lwm2m Client Demo - " + Configuration.DEFAULT_HEADER;
 
+    private static LwM2mModelRepository createModel(Lwm2mConfigSettingsDomain domain) throws Exception {
+
+        List<ObjectModel> models = ObjectLoader.loadAllDefault();
+        models.addAll(ObjectLoader.loadDdfResources("/models", LwM2mClientConstant.modelPaths));
+        if (domain.modelsFolder != null) {
+            models.addAll(ObjectLoader.loadObjectsFromDir(domain.getModelsFolder(), true));
+        }
+
+        return new LwM2mModelRepository(models);
+    }
 
     private LeshanClient createClient(Lwm2mConfigSettingsDomain domain, LwM2mModelRepository repository) {
         try {
@@ -73,7 +82,6 @@ public class Lwm2mDeviceService {
                     initializer.setInstancesForObject(SECURITY, noSecBootstrap(domain.getServerUrl()));
                     initializer.setClassForObject(SERVER, Server.class);
                 }
-
             } else {
                 if (domain.getLwm2mChooseAlgorithm().equals(SecurityAlgorithm.PSK.getCode())) {
                     initializer.setInstancesForObject(SECURITY, psk(domain.getServerUrl(), 123,
@@ -103,8 +111,10 @@ public class Lwm2mDeviceService {
 
             // Configure Registration Engine
             DefaultRegistrationEngineFactory engineFactory = new DefaultRegistrationEngineFactory();
-            if (domain.getComPeriodInSec() != null)
+            if (domain.getComPeriodInSec() != null) {
                 engineFactory.setCommunicationPeriod(domain.getComPeriodInSec() * 1000);
+            }
+
 
             // Create Californium Endpoints Provider:
             // --------------------------------------

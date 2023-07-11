@@ -3,7 +3,9 @@ package iot.technology.client.toolkit.nb.service.lwm2m.domain;
 import org.eclipse.californium.elements.util.Bytes;
 import org.eclipse.leshan.client.LeshanClient;
 import org.eclipse.leshan.core.CertificateUsage;
+import org.eclipse.leshan.core.model.LwM2mModelRepository;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -16,15 +18,13 @@ import java.util.List;
  */
 public class Lwm2mConfigSettingsDomain {
 
-    private String url;
-
-    private Integer port;
-
     private String serverUrl;
 
     private boolean bootstrap;
 
     private String endpoint;
+
+    public File modelsFolder;
 
     private Integer lifetimeInSec;
 
@@ -56,28 +56,14 @@ public class Lwm2mConfigSettingsDomain {
 
     private LeshanClient leshanClient;
 
+    private LwM2mModelRepository repository;
+
     public String getEndpoint() {
         return endpoint;
     }
 
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
     }
 
     public String getServerUrl() {
@@ -90,6 +76,14 @@ public class Lwm2mConfigSettingsDomain {
 
     public boolean isBootstrap() {
         return bootstrap;
+    }
+
+    public File getModelsFolder() {
+        return modelsFolder;
+    }
+
+    public void setModelsFolder(File modelsFolder) {
+        this.modelsFolder = modelsFolder;
     }
 
     public void setBootstrap(boolean bootstrap) {
@@ -214,5 +208,13 @@ public class Lwm2mConfigSettingsDomain {
 
     public void setLifetimeInSec(Integer lifetimeInSec) {
         this.lifetimeInSec = lifetimeInSec;
+    }
+
+    public LwM2mModelRepository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(LwM2mModelRepository repository) {
+        this.repository = repository;
     }
 }

@@ -15,14 +15,17 @@
  */
 package iot.technology.client.toolkit.nb.service;
 
+import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.NbSettingsCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
+import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSettingsDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings;
+import iot.technology.client.toolkit.nb.service.processor.Lwm2mBizService;
 import iot.technology.client.toolkit.nb.service.processor.MobileBizService;
 import iot.technology.client.toolkit.nb.service.processor.TelecomBizService;
 import iot.technology.client.toolkit.nb.service.telecom.TelecomProductService;
@@ -48,6 +51,7 @@ public class NbBizService {
 	private final TelecomBizService telecomBizService = new TelecomBizService();
 	private final MobileBizService mobileBizService = new MobileBizService();
 	private final TelecomProductService productService = new TelecomProductService();
+	private final Lwm2mBizService lwm2mBizService = new Lwm2mBizService();
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	public List<String> getNbSettingsFromFile(String fileName) {
@@ -113,6 +117,20 @@ public class NbBizService {
 			String settingsJson = JsonUtils.object2Json(mobProjectSettings);
 			FileUtils.writeDataToFile(SYS_NB_MOBILE_PRODUCT_FILE_NAME, settingsJson);
 			return mobileBizService.call(mobileConfigDomain, terminal);
+		}
+
+		if (code.equals(NbSettingsCodeEnum.NB_LWM2M_CONFIG.getCode())
+				&& context.isCheck()
+				&& !domain.getLwm2mConfig().equals("new")) {
+			Lwm2mConfigSettingsDomain lwm2mConfigSettingsDomain = domain.convertLwm2mConfig();
+			return lwm2mBizService.call(lwm2mConfigSettingsDomain, terminal);
+		}
+
+		if ((code.equals(NbSettingsCodeEnum.NB_LWM2M_DTLS.getCode())
+				&& domain.getLwm2mDtls().equals(ConfirmCodeEnum.NO.getValue()))
+				|| code.equals(NbSettingsCodeEnum.NB_LWM2M_CLIENT_PRIVATE_KEY.getCode())) {
+			Lwm2mConfigSettingsDomain lwm2mConfigSettingsDomain = domain.convertLwm2mConfig();
+			return lwm2mBizService.call(lwm2mConfigSettingsDomain, terminal);
 		}
 		return true;
 
