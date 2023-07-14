@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright © 2019-2023 The Toolkit Authors
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<LWM2M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.openmobilealliance.org/tech/profiles/LWM2M.xsd">
+	<Object ObjectType="MODefinition">
+		<Name>Device Extension</Name>
+		<Description1>The uCIFI device extension is an extension to the standard Lightweight M2M device (object ID 3) using the resource called "ExtDevInfo" (resource ID 22).</Description1>
+		<ObjectID>3410</ObjectID>
+		<ObjectURN>urn:oma:lwm2m:ext:3410</ObjectURN>
+		<LWM2MVersion>1.0</LWM2MVersion>
+		<ObjectVersion>1.0</ObjectVersion>
+		<MultipleInstances>Single</MultipleInstances>
+		<Mandatory>Optional</Mandatory>
+		<Resources>
+			<Item ID="1">
+				<Name>GTIN model number</Name>
+				<Operations>R</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Optional</Mandatory>
+				<Type>String</Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units></Units>
+				<Description>Standard global trade-in international number for the control device.</Description>
+			</Item>
+			<Item ID="2">
+				<Name>Manufacturer identifier</Name>
+				<Operations>R</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Mandatory</Mandatory>
+				<Type>String</Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units></Units>
+				<Description>Unique identifier of the manufacturer of the control device, equivalent to IEEE's OUI (Organizational Unique Identifier). This value should be a Hexadecimal value. This value may be used by an online uCIFI product catalog server, for software modules to retrieve the data model of a device using this attribute associated with the model number on the "Device" (Id=3) object.</Description>
+			</Item>
+			<Item ID="3">
+				<Name>User-given name</Name>
+				<Operations>RW</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Optional</Mandatory>
+				<Type>String</Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units></Units>
+				<Description>User-readable name of the device set by the user.</Description>
+			</Item>
+			<Item ID="4">
+				<Name>Asset identifier</Name>
+				<Operations>RW</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Optional</Mandatory>
+				<Type>String</Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units></Units>
+				<Description>Identifier of the asset (e.g. meter, luminaire, container) that is controlled by the device.</Description>
+			</Item>
+			<Item ID="5">
+				<Name>Installation date</Name>
+				<Operations>RW</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Optional</Mandatory>
+				<Type>Time</Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units></Units>
+				<Description>Installation date of the device.</Description>
+			</Item>
+			<Item ID="6">
+				<Name>Software update</Name>
+				<Operations>R</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Optional</Mandatory>
+				<Type>Boolean</Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units></Units>
+				<Description>Set to True while software within the device is being updated.</Description>
+			</Item>
+			<Item ID="7">
+				<Name>Maintenance</Name>
+				<Operations>RW</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Optional</Mandatory>
+				<Type>Boolean</Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units></Units>
+				<Description>Set to True when the device is in maintenance mode.</Description>
+			</Item>
+			<Item ID="8">
+				<Name>Configuration reset</Name>
+				<Operations>E</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Optional</Mandatory>
+				<Type></Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units></Units>
+				<Description>Reset the configuration parameters (and only the configuration parameters) of the device. It does not clear any counter (e.g. kWh counter or operating hour counter).</Description>
+			</Item>
+			<Item ID="9">
+				<Name>Device operating hours</Name>
+				<Operations>R</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Optional</Mandatory>
+				<Type>Integer</Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units>h</Units>
+				<Description>Cumulated number of hours during which the device has been powered on.</Description>
+			</Item>
+			<Item ID="10">
+				<Name>Additional firmware information</Name>
+				<Operations>R</Operations>
+				<MultipleInstances>Single</MultipleInstances>
+				<Mandatory>Optional</Mandatory>
+				<Type>String</Type>
+				<RangeEnumeration></RangeEnumeration>
+				<Units></Units>
+				<Description>Additional information about peripheral firmware versions. The format is left to the vendor.</Description>
+			</Item>
+		</Resources>
+		<Description2></Description2>
+	</Object>
+</LWM2M>

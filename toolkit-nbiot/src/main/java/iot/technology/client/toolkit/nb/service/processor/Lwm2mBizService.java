@@ -1,3 +1,18 @@
+/*
+ * Copyright © 2019-2023 The Toolkit Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package iot.technology.client.toolkit.nb.service.processor;
 
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
@@ -58,11 +73,13 @@ public class Lwm2mBizService {
             boolean isEnd = true;
             Lwm2mProcessContext context = new Lwm2mProcessContext();
             context.setDomain(domain);
+            domain.getLeshanClient().start();
             while (isEnd) {
                 String data;
                 data = reader.readLine(prompt);
                 context.setData(data);
                 if (data.equals("exit")) {
+                    domain.getLeshanClient().destroy(true);
                     return false;
                 }
                 for (TkProcessor processor : getTkProcessorList()) {
@@ -73,8 +90,10 @@ public class Lwm2mBizService {
             }
 
         } catch (UserInterruptException | EndOfFileException e) {
+            domain.getLeshanClient().destroy(true);
             return false;
         }
+        domain.getLeshanClient().destroy(true);
         return true;
     }
 }

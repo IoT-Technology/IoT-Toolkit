@@ -122,6 +122,7 @@ public class NbBizService {
 		if (code.equals(NbSettingsCodeEnum.NB_LWM2M_CONFIG.getCode())
 				&& context.isCheck()
 				&& !domain.getLwm2mConfig().equals("new")) {
+			//select one to connect server
 			Lwm2mConfigSettingsDomain lwm2mConfigSettingsDomain = domain.convertLwm2mConfig();
 			return lwm2mBizService.call(lwm2mConfigSettingsDomain, terminal);
 		}
@@ -130,6 +131,7 @@ public class NbBizService {
 				&& domain.getLwm2mDtls().equals(ConfirmCodeEnum.NO.getValue()))
 				|| code.equals(NbSettingsCodeEnum.NB_LWM2M_CLIENT_PRIVATE_KEY.getCode())) {
 			Lwm2mConfigSettingsDomain lwm2mConfigSettingsDomain = domain.convertLwm2mConfig();
+
 			return lwm2mBizService.call(lwm2mConfigSettingsDomain, terminal);
 		}
 		return true;

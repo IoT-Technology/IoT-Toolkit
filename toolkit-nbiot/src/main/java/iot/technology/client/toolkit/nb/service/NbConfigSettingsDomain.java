@@ -21,6 +21,7 @@ import iot.technology.client.toolkit.common.constants.SecurityAlgorithm;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.common.utils.security.SecurityUtil;
+import iot.technology.client.toolkit.nb.service.lwm2m.Lwm2mDeviceService;
 import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSettingsDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings;
@@ -28,15 +29,14 @@ import iot.technology.client.toolkit.nb.service.node.LwM2MPortNode;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings;
 import org.eclipse.californium.elements.util.Bytes;
+import org.eclipse.leshan.client.LeshanClient;
 import org.eclipse.leshan.core.CertificateUsage;
+import org.eclipse.leshan.core.model.LwM2mModelRepository;
 import org.eclipse.leshan.core.util.Hex;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
 
 /**
@@ -102,6 +102,7 @@ public class NbConfigSettingsDomain implements Serializable {
 
 	private String lwm2mCertUsage;
 
+	private final Lwm2mDeviceService lwm2mDeviceService = new Lwm2mDeviceService();
 
 	public TelecomConfigDomain convertTelecomConfig() {
 		TelecomConfigDomain domain = new TelecomConfigDomain();
@@ -149,10 +150,11 @@ public class NbConfigSettingsDomain implements Serializable {
 					domain.setBootstrap(lwm2mBootstrapServer.equals(ConfirmCodeEnum.YES.getValue()));
 					domain.setEndpoint(lwm2mEndpoint);
 
-					domain.setLocalAddress(convert(lwm2mLocalAddress));
-					domain.setModelsFolder(new File(lwm2mModelsFolder));
+					domain.setLocalAddress(lwm2mLocalAddress);
+					domain.setModelsFolder(StringUtils.isBlank(lwm2mModelsFolder) ? null : new File(lwm2mModelsFolder));
 					domain.setLifetimeInSec(Integer.valueOf(lwm2mLifeTime));
 					domain.setComPeriodInSec(StringUtils.isBlank(lwm2mCommunicationPeriod) ? null : Integer.valueOf(lwm2mCommunicationPeriod));
+					domain.setLwm2mChooseAlgorithm(lwm2mChooseAlgorithm);
 					StringBuilder sb = new StringBuilder();
 					if (lwm2mDtls.equals(ConfirmCodeEnum.YES.getValue())) {
 						sb.append("coaps://");
@@ -181,7 +183,12 @@ public class NbConfigSettingsDomain implements Serializable {
 						sb.append(StringUtils.isBlank(lwm2mPort) ? LwM2MPortNode.DEFAULT_COAP_PORT : lwm2mPort);
 					}
 					domain.setServerUrl(sb.toString());
-
+					LwM2mModelRepository lwM2mModelRepository = lwm2mDeviceService.createModel(domain);
+					domain.setRepository(lwM2mModelRepository);
+					if (lwM2mModelRepository != null) {
+						LeshanClient client = lwm2mDeviceService.createClient(domain, lwM2mModelRepository);
+						domain.setLeshanClient(client);
+					}
 				} else {
 
 				}
@@ -192,17 +199,7 @@ public class NbConfigSettingsDomain implements Serializable {
 		return null;
 	}
 
-	public InetAddress convert(String value) {
-		try {
-			if (StringUtils.isBlank(value) || value.equals("*")) {
-				// create a wildcard address meaning any local address.
-				return new InetSocketAddress(0).getAddress();
-			}
-			return InetAddress.getByName(value);
-		} catch (UnknownHostException ignored) {
-		}
-		return new InetSocketAddress(0).getAddress();
-	}
+
 
 	public String getNbType() {
 		return nbType;

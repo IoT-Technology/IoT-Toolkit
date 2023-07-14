@@ -386,7 +386,27 @@
       { "name" : "mobAppConfig","allowUnsafeAccess": true},
       { "name" : "mobProductName","allowUnsafeAccess": true},
       { "name" : "mobProductId","allowUnsafeAccess": true},
-      { "name" : "mobAccessKey","allowUnsafeAccess": true}
+      { "name" : "mobAccessKey","allowUnsafeAccess": true},
+      { "name" : "lwm2mConfig","allowUnsafeAccess": true},
+      { "name" : "lwm2mServer","allowUnsafeAccess": true},
+      { "name" : "lwm2mPort","allowUnsafeAccess": true},
+      { "name" : "lwm2mBootstrapServer","allowUnsafeAccess": true},
+      { "name" : "lwm2mLocalAddress","allowUnsafeAccess": true},
+      { "name" : "lwm2mLifeTime","allowUnsafeAccess": true},
+      { "name" : "lwm2mEndpoint","allowUnsafeAccess": true},
+      { "name" : "lwm2mCommunicationPeriod","allowUnsafeAccess": true},
+      { "name" : "lwm2mModelsFolder","allowUnsafeAccess": true},
+      { "name" : "lwm2mDtls","allowUnsafeAccess": true},
+      { "name" : "lwm2mChooseAlgorithm","allowUnsafeAccess": true},
+      { "name" : "lwm2mPskIdentity","allowUnsafeAccess": true},
+      { "name" : "lwm2mPskShareKey","allowUnsafeAccess": true},
+      { "name" : "lwm2mClientPrivateKey","allowUnsafeAccess": true},
+      { "name" : "lwm2mClientPublicKey","allowUnsafeAccess": true},
+      { "name" : "lwm2mServerPublicKey","allowUnsafeAccess": true},
+      { "name" : "lwm2mClientCert","allowUnsafeAccess": true},
+      { "name" : "lwm2mServerCert","allowUnsafeAccess": true},
+      { "name" : "lwm2mCertUsage","allowUnsafeAccess": true}
+
     ]
   },
   {
@@ -844,6 +864,24 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.node.LwM2MCertUsageNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "org.eclipse.leshan.client.object.Security",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "org.eclipse.leshan.client.object.Server",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name" : "iot.technology.client.toolkit.nb.service.lwm2m.domain.MyDevice",
     "methods": [
       { "name": "<init>", "parameterTypes": [] }
     ]
