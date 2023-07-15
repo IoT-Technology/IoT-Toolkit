@@ -22,6 +22,7 @@ import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
+import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSetting;
 import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSettingsDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings;
@@ -40,8 +41,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import static iot.technology.client.toolkit.common.constants.SystemConfigConst.SYS_NB_MOBILE_PRODUCT_FILE_NAME;
-import static iot.technology.client.toolkit.common.constants.SystemConfigConst.SYS_NB_TELECOM_PRODUCT_FILE_NAME;
+import static iot.technology.client.toolkit.common.constants.SystemConfigConst.*;
 
 /**
  * @author mushuwei
@@ -131,8 +131,10 @@ public class NbBizService {
 				&& domain.getLwm2mDtls().equals(ConfirmCodeEnum.NO.getValue()))
 				|| code.equals(NbSettingsCodeEnum.NB_LWM2M_CLIENT_PRIVATE_KEY.getCode())) {
 			Lwm2mConfigSettingsDomain lwm2mConfigSettingsDomain = domain.convertLwm2mConfig();
-
-			return lwm2mBizService.call(lwm2mConfigSettingsDomain, terminal);
+			Boolean result = saveLwm2mSettings(domain);
+			if (result) {
+				return lwm2mBizService.call(lwm2mConfigSettingsDomain, terminal);
+			}
 		}
 		return true;
 
@@ -182,6 +184,13 @@ public class NbBizService {
 		String settingsJson = JsonUtils.object2Json(telProjectSettings);
 		FileUtils.writeDataToFile(SYS_NB_TELECOM_PRODUCT_FILE_NAME, settingsJson);
 		return telProjectSettings;
+	}
+
+	private Boolean saveLwm2mSettings(NbConfigSettingsDomain domain) {
+		Lwm2mConfigSetting lwm2mConfigSetting = domain.geneLwm2mConfigSettings();
+		String settingsJson = JsonUtils.object2Json(lwm2mConfigSetting);
+		FileUtils.writeDataToFile(SYS_NB_LWM2M_SETTINGS_FILE_NAME, settingsJson);
+		return Boolean.TRUE;
 	}
 
 	public void printValueToConsole(String code, NodeContext context) {

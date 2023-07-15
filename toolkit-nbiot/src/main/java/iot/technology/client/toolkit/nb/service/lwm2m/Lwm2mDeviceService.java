@@ -35,7 +35,6 @@ import org.eclipse.leshan.client.resource.listener.ObjectsListenerAdapter;
 import org.eclipse.leshan.client.send.ManualDataSender;
 import org.eclipse.leshan.core.model.*;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -51,20 +50,12 @@ import static org.eclipse.leshan.core.LwM2mId.*;
  */
 public class Lwm2mDeviceService {
 
-    private static final int OBJECT_ID_TEMPERATURE_SENSOR = 3303;
-
-
     public LwM2mModelRepository createModel(Lwm2mConfigSettingsDomain domain) {
-        try {
-            List<ObjectModel> models = ObjectLoader.loadAllDefault();
-            models.addAll(ObjectLoader.loadDdfResources("/models", LwM2mClientConstant.modelPaths));
-            if (domain.modelsFolder != null) {
-                models.addAll(ObjectLoader.loadObjectsFromDir(domain.getModelsFolder(), true));
-            }
-            return new LwM2mModelRepository(models);
-        } catch (IOException | InvalidModelException | InvalidDDFFileException ignored) {
+        List<ObjectModel> models = ObjectLoader.loadAllDefault();
+        if (domain.modelsFolder != null) {
+            models.addAll(ObjectLoader.loadObjectsFromDir(domain.getModelsFolder(), true));
         }
-        return null;
+        return new LwM2mModelRepository(models);
     }
 
     public LeshanClient createClient(Lwm2mConfigSettingsDomain domain, LwM2mModelRepository repository) {
@@ -119,7 +110,6 @@ public class Lwm2mDeviceService {
             }
 
             initializer.setInstancesForObject(DEVICE, new MyDevice());
-            initializer.setInstancesForObject(OBJECT_ID_TEMPERATURE_SENSOR, new RandomTemperatureSensor());
 
             List<LwM2mObjectEnabler> enablers = initializer.createAll();
 

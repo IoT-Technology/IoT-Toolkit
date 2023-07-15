@@ -6,8 +6,12 @@ import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.JsonUtils;
+import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSetting;
+import iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,6 +27,11 @@ public class NbLwM2MConfigNode implements TkNode {
     public void prePrompt(NodeContext context) {
         if (!context.getPromptData().isEmpty()) {
             List<String> configList = context.getPromptData();
+            Stream.iterate(0, i -> i + 1).limit(configList.size()).forEach(i -> {
+                Lwm2mConfigSetting settings = JsonUtils.jsonToObject(configList.get(i), Lwm2mConfigSetting.class);
+                System.out.format(ColorUtils.greenItalic(i + "   :" + Objects.requireNonNull(settings).getServerAndPort() + " endpoint:"
+                        + Objects.requireNonNull(settings).getLwm2mEndpoint()) + "%n");
+            });
         }
         System.out.format(ColorUtils.greenItalic("new" + " :" + bundle.getString("nb.new.config.desc")) + "%n");
     }
