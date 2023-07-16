@@ -26,7 +26,7 @@ public class LwM2MSendProcessor extends TkAbstractProcessor implements TkProcess
 
     @Override
     public boolean supports(ProcessContext context) {
-        return false;
+        return context.getData().startsWith("send");
     }
 
     @Override

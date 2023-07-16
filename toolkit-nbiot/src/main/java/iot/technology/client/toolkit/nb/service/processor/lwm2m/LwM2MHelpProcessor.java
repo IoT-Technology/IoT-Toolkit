@@ -22,7 +22,7 @@ import iot.technology.client.toolkit.common.rule.TkProcessor;
 /**
  * @author mushuwei
  */
-public class LwM2MCollectProcessor extends TkAbstractProcessor implements TkProcessor {
+public class LwM2MHelpProcessor extends TkAbstractProcessor implements TkProcessor {
 
     @Override
     public boolean supports(ProcessContext context) {

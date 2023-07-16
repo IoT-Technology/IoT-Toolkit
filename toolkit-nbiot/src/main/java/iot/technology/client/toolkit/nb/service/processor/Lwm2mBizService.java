@@ -37,7 +37,7 @@ public class Lwm2mBizService {
 
     public final List<TkProcessor> getTkProcessorList() {
         List<TkProcessor> tkProcessorList = new ArrayList<>();
-        tkProcessorList.add(new LwM2MCollectProcessor());
+        tkProcessorList.add(new LwM2MHelpProcessor());
         tkProcessorList.add(new LwM2MCreateProcessor());
         tkProcessorList.add(new LwM2MDeleteProcessor());
         tkProcessorList.add(new LwM2MListProcessor());
@@ -45,6 +45,8 @@ public class Lwm2mBizService {
         tkProcessorList.add(new LwM2MUpdateProcessor());
         return tkProcessorList;
     }
+
+    Completer helpCompleter = new ArgumentCompleter(new StringsCompleter("help"), NullCompleter.INSTANCE);
 
     Completer listCompleter = new ArgumentCompleter(new StringsCompleter("list"), NullCompleter.INSTANCE);
 
@@ -56,10 +58,8 @@ public class Lwm2mBizService {
 
     Completer sendCompleter = new ArgumentCompleter(new StringsCompleter("send"), NullCompleter.INSTANCE);
 
-    Completer collectCompleter = new ArgumentCompleter(new StringsCompleter("collect"), NullCompleter.INSTANCE);
-
-    Completer lwm2mCompleter = new AggregateCompleter(listCompleter, createCompleter, deleteCompleter, updateCompleter, sendCompleter,
-            collectCompleter);
+    Completer lwm2mCompleter = new AggregateCompleter(helpCompleter, listCompleter, createCompleter,
+            deleteCompleter, updateCompleter, sendCompleter);
 
     public boolean call(Lwm2mConfigSettingsDomain domain, Terminal terminal) {
         try {

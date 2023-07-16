@@ -23,27 +23,21 @@ import iot.technology.client.toolkit.common.utils.StringUtils;
  */
 public abstract class TkAbstractProcessor implements TkProcessor {
 
-	public boolean validateParam(String limitStr) {
-		if (!StringUtils.isNumeric(limitStr)) {
-			System.out.format(ColorUtils.blackBold("%s is illegal"), limitStr);
+	public boolean validateParam(String param) {
+		if (!StringUtils.isNumeric(param)) {
+			System.out.format(ColorUtils.blackBold("%s is illegal"), param);
 			System.out.format(" " + "%n");
 			return false;
 		}
 
-		int limit = 0;
 		try {
-			limit = Integer.parseInt(limitStr);
+			Integer.parseInt(param);
 		} catch (NumberFormatException e) {
-			System.out.format(ColorUtils.blackBold("%s is illegal"), limitStr);
+			System.out.format(ColorUtils.blackBold("%s is illegal"), param);
 			System.out.format(" " + "%n");
 			return false;
 		}
 
-		if (limit > 500) {
-			System.out.format(ColorUtils.blackBold("%s > 500 illegal"), limitStr);
-			System.out.format(" " + "%n");
-			return false;
-		}
 		return true;
 	}
 }

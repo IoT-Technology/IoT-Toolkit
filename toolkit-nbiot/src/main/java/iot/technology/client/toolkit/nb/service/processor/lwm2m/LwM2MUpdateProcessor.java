@@ -18,6 +18,8 @@ package iot.technology.client.toolkit.nb.service.processor.lwm2m;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
+import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSettingsDomain;
+import iot.technology.client.toolkit.nb.service.processor.Lwm2mProcessContext;
 
 /**
  * @author mushuwei
@@ -26,11 +28,14 @@ public class LwM2MUpdateProcessor extends TkAbstractProcessor implements TkProce
 
     @Override
     public boolean supports(ProcessContext context) {
-        return false;
+        return context.getData().startsWith("update");
     }
 
     @Override
     public void handle(ProcessContext context) {
+        Lwm2mProcessContext lwm2mProcessContext = (Lwm2mProcessContext) context;
+        Lwm2mConfigSettingsDomain domain = lwm2mProcessContext.getDomain();
 
+        domain.getLeshanClient().triggerRegistrationUpdate();
     }
 }

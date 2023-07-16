@@ -18,6 +18,8 @@ package iot.technology.client.toolkit.nb.service.processor.lwm2m;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSettingsDomain;
 import iot.technology.client.toolkit.nb.service.processor.Lwm2mProcessContext;
 import org.eclipse.leshan.client.resource.LwM2mObjectEnabler;
@@ -42,15 +44,51 @@ public class LwM2MListProcessor extends TkAbstractProcessor implements TkProcess
         Lwm2mProcessContext lwm2mProcessContext = (Lwm2mProcessContext) context;
         Lwm2mConfigSettingsDomain domain = lwm2mProcessContext.getDomain();
 
+        List<String> arguArgs = List.of(context.getData().split(" "));
+        if (arguArgs.size() > 2) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
+                    .append(StringUtils.lineSeparator());
+            sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+            System.out.println(sb);
+            return;
+        }
+        Integer objectId = null;
+        if (arguArgs.size() == 2) {
+            String objectIdStr = arguArgs.get(1);
+            if (!validateParam(objectIdStr)) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(ColorUtils.redError("objectId is not a number")).append(StringUtils.lineSeparator);
+                sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+                System.out.println(sb);
+                return;
+            }
+            objectId = Integer.valueOf(objectIdStr);
+        }
+
         LwM2mObjectTree objectTree = domain.getLeshanClient().getObjectTree();
         if (objectTree == null) {
             System.out.println("no object.");
             return;
         }
-        // print all objects
-        objectTree.getObjectEnablers().forEach((objectId, objectEnabler) -> {
+
+        if (objectId != null) {
+            // print object with given id
+            LwM2mObjectEnabler objectEnabler = objectTree.getObjectEnablers().get(objectId);
+            if (objectEnabler == null) {
+                System.out.println(String.format("no object available with id %d.", objectId));
+                return;
+            }
             printObject(objectEnabler);
-        });
+        } else {
+            // print all objects
+            objectTree.getObjectEnablers().forEach((object, objectEnabler) -> {
+                printObject(objectEnabler);
+            });
+        }
+
+
+
     }
 
     public void printObject(LwM2mObjectEnabler objectEnabler) {
