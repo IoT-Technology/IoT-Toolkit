@@ -33,7 +33,7 @@ public class LwM2MDeleteProcessor extends TkAbstractProcessor implements TkProce
 
     @Override
     public boolean supports(ProcessContext context) {
-        return context.getData().startsWith("delete");
+        return context.getData().startsWith("del");
     }
 
     @Override

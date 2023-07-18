@@ -76,6 +76,7 @@ public class LwM2MCreateProcessor extends TkAbstractProcessor implements TkProce
         if (objectTree.getObjectEnabler(objectId) != null) {
             System.out.println(ColorUtils.redError(
                     String.format("Object %d already enabled.", objectId)));
+            return;
         }
         ObjectModel objectModel = domain.getRepository().getObjectModel(objectId);
         if (objectModel == null) {
