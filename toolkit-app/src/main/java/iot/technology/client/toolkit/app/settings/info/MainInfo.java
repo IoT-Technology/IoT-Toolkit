@@ -52,8 +52,8 @@ public class MainInfo {
                         "(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit config -h", "red") + ")"))
                 .append(StringUtils.lineSeparator());
         sb.append(String.format("%s %s", ColorUtils.colorBold("locale        ", "yellow"),
-                        ColorUtils.colorItalic((bundle.getString("config.lang.header") + " " + bundle.getString("config.locale")),
-                                "cyan"))).append(StringUtils.lineSeparator());
+                ColorUtils.colorItalic((bundle.getString("config.lang.header") + " " + bundle.getString("config.locale")),
+                        "cyan"))).append(StringUtils.lineSeparator());
         sb.append(StringUtils.lineSeparator());
 
         // toolkit coap simple description
@@ -98,23 +98,21 @@ public class MainInfo {
                 .append(StringUtils.lineSeparator());
         sb.append(StringUtils.lineSeparator());
 
-        boolean isChinese = bundle.getLocale().equals(Locale.CHINESE);
-        if (isChinese) {
-            // toolkit nb simple description
-            sb.append(String.format("%s %s",
-                            ColorUtils.colorBold(bundle.getString("nb.description"), ""),
-                            "(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit nb -h", "red") + ")"))
-                    .append(StringUtils.lineSeparator());
-            sb.append(String.format("%s %s",
-                            ColorUtils.colorBold("call:          ", "yellow"),
-                            ColorUtils.colorItalic(bundle.getString("nb.call.desc"), "cyan")))
-                    .append(StringUtils.lineSeparator());
-            sb.append(String.format("%s %s",
-                            ColorUtils.colorBold("set:           ", "yellow"),
-                            ColorUtils.colorItalic(bundle.getString("nb.desc.desc"), "cyan")))
-                    .append(StringUtils.lineSeparator());
-            sb.append(StringUtils.lineSeparator());
-        }
+        // toolkit nb simple description
+        sb.append(String.format("%s %s",
+                        ColorUtils.colorBold(bundle.getString("nb.description"), ""),
+                        "(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit nb -h", "red") + ")"))
+                .append(StringUtils.lineSeparator());
+        sb.append(String.format("%s %s",
+                        ColorUtils.colorBold("call:          ", "yellow"),
+                        ColorUtils.colorItalic(bundle.getString("nb.call.desc"), "cyan")))
+                .append(StringUtils.lineSeparator());
+        sb.append(String.format("%s %s",
+                        ColorUtils.colorBold("set:           ", "yellow"),
+                        ColorUtils.colorItalic(bundle.getString("nb.desc.desc"), "cyan")))
+                .append(StringUtils.lineSeparator());
+        sb.append(StringUtils.lineSeparator());
+
 
         sb.append(bundle.getString("general.main.page.help"));
         System.out.println(sb);

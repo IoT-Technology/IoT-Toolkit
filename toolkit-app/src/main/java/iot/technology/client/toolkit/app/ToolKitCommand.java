@@ -90,10 +90,6 @@ public class ToolKitCommand implements Callable<Integer> {
 			CommandLine generateCompletionCmd = commandLine.getSubcommands().get("generate-completion");
 			generateCompletionCmd.getCommandSpec().usageMessage().hidden(true);
 
-			CommandLine nbCmd = commandLine.getSubcommands().get("nb");
-			boolean isChinese = bundle.getLocale().equals(Locale.CHINESE);
-			nbCmd.getCommandSpec().usageMessage().hidden(!isChinese);
-
 			if (args.length == 0) {
 				MainInfo.printMainInfo();
 			}
