@@ -20,8 +20,12 @@ public class CleanSessionNode implements TkNode {
 
 	@Override
 	public boolean check(NodeContext context) {
-		if (StringUtils.isNotBlank(context.getData())
-				&& (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
+		if (StringUtils.isBlank(context.getData())) {
+			context.setData("Y");
+			context.setCheck(true);
+			return true;
+		}
+		if ((context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 				|| context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))) {
 			context.setCheck(true);
 			return true;
@@ -48,7 +52,7 @@ public class CleanSessionNode implements TkNode {
 
 	@Override
 	public String getValue(NodeContext context) {
-		return StringUtils.isBlank(context.getData()) ? ConfirmCodeEnum.NO.getValue() : context.getData();
+		return context.getData();
 	}
 
 	@Override

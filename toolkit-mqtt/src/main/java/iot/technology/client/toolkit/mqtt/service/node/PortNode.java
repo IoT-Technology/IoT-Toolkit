@@ -14,14 +14,17 @@ import java.util.ResourceBundle;
  * @author mushuwei
  */
 public class PortNode implements TkNode {
+
+	public static final String DEFAULT_PORT = "1883";
+
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
-			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-			context.setCheck(false);
-			return false;
+			context.setData(DEFAULT_PORT);
+			context.setCheck(true);
+			return true;
 		}
 		int port = 0;
 		try {
@@ -62,5 +65,6 @@ public class PortNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
+		System.out.println(ColorUtils.greenItalic(bundle.getString(MqttSettingsCodeEnum.PORT.getCode() + GlobalConstants.prePrompt)));
 	}
 }

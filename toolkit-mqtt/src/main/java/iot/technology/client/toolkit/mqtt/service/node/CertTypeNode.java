@@ -22,9 +22,9 @@ public class CertTypeNode implements TkNode {
 	@Override
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
-			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-			context.setCheck(false);
-			return false;
+			context.setData(CertTypeEnum.SELF_SIGNED.getValue());
+			context.setCheck(true);
+			return true;
 		}
 		if (context.getType().equals(CertTypeEnum.CA_SIGNED_SERVER.getValue())
 				|| context.getData().equals(CertTypeEnum.SELF_SIGNED.getValue())) {

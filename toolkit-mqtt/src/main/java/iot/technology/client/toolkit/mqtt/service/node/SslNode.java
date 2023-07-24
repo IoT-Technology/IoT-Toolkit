@@ -15,14 +15,15 @@ import java.util.ResourceBundle;
  * @author mushuwei
  */
 public class SslNode implements TkNode {
+
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
-			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-			context.setCheck(false);
-			return false;
+			context.setData("N");
+			context.setCheck(true);
+			return true;
 		}
 		if (!context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 				&& !context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
@@ -59,5 +60,6 @@ public class SslNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
+		System.out.println(ColorUtils.greenItalic(bundle.getString(MqttSettingsCodeEnum.SSL.getCode() + GlobalConstants.prePrompt)));
 	}
 }

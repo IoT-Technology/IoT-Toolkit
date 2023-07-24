@@ -24,7 +24,7 @@ public class SettingsNameNode implements TkNode {
 	@Override
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
-			System.out.format(ColorUtils.redError(bundle.getString("mqtt.settings.name.error")));
+			System.out.println(ColorUtils.redError(bundle.getString("mqtt.settings.name.error")));
 			context.setCheck(false);
 			return false;
 		}

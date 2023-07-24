@@ -29,10 +29,10 @@ public class MqttSelectConfigNode implements TkNode {
 			List<String> configList = context.getPromptData();
 			Stream.iterate(0, i -> i + 1).limit(configList.size()).forEach(i -> {
 				MqttSettings settings = JsonUtils.jsonToObject(configList.get(i), MqttSettings.class);
-				System.out.format(ColorUtils.greenItalic(i + "   :" + Objects.requireNonNull(settings).getName()) + "%n");
+				System.out.format(ColorUtils.greenItalic(i + " > " + Objects.requireNonNull(settings).getName()) + "%n");
 			});
 		}
-		System.out.format(ColorUtils.greenItalic("new" + " :" + bundle.getString("mqtt.new.config.desc")) + "%n");
+		System.out.format(ColorUtils.greenItalic("new" + " > " + bundle.getString("mqtt.new.config.desc")) + "%n");
 	}
 
 	@Override

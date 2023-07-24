@@ -21,9 +21,9 @@ public class AdvancedNode implements TkNode {
 	@Override
 	public boolean check(NodeContext context) {
 		if (StringUtils.isBlank(context.getData())) {
-			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-			context.setCheck(false);
-			return false;
+			context.setData("N");
+			context.setCheck(true);
+			return true;
 		}
 		if (!context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 				&& !context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
@@ -55,6 +55,7 @@ public class AdvancedNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
+		System.out.println(ColorUtils.greenItalic(bundle.getString(MqttSettingsCodeEnum.ADVANCED.getCode() + GlobalConstants.prePrompt)));
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -19,20 +20,22 @@ import java.util.ResourceBundle;
  */
 public class HostNode implements TkNode {
 
+	public static final String DEFAULT_HOST = "localhost";
+
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	@Override
 	public boolean check(NodeContext context) {
-		if (Objects.isNull(context.getData())) {
-			System.out.format(ColorUtils.redError(bundle.getString("mqtt.host.error")));
-			context.setCheck(false);
-			return false;
+		if (StringUtils.isBlank(context.getData())) {
+			context.setData(DEFAULT_HOST);
+			context.setCheck(true);
+			return true;
 		}
 		if (isIpAddress(context.getData())) {
 			context.setCheck(true);
 			return true;
 		}
-		System.out.format(ColorUtils.redError(bundle.getString("mqtt.host.error1")));
+		System.out.println(ColorUtils.redError(bundle.getString("mqtt.host.error1")));
 		context.setCheck(false);
 		return false;
 	}
@@ -60,6 +63,7 @@ public class HostNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
+		System.out.println(ColorUtils.greenItalic(bundle.getString(MqttSettingsCodeEnum.HOST.getCode() + GlobalConstants.prePrompt)));
 	}
 
 	private boolean isIpAddress(String address) {
