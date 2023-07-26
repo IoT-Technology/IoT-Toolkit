@@ -19,9 +19,9 @@ public class lastWillAndTestamentNode implements TkNode {
 	public boolean check(NodeContext context) {
 		String data = context.getData();
 		if (StringUtils.isBlank(data)) {
-			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
-			context.setCheck(false);
-			return false;
+			context.setData("N");
+			context.setCheck(true);
+			return true;
 		}
 		if (!data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
 				&& !data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
@@ -66,5 +66,6 @@ public class lastWillAndTestamentNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
+		System.out.println(ColorUtils.greenItalic(bundle.getString(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode() + GlobalConstants.prePrompt)));
 	}
 }

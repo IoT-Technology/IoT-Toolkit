@@ -20,7 +20,12 @@ public class LastWillQoSNode implements TkNode {
 
 	@Override
 	public boolean check(NodeContext context) {
-		if (StringUtils.isBlank(context.getData()) || !StringUtils.isNumeric(context.getData())) {
+		if (StringUtils.isBlank(context.getData())) {
+			context.setData(String.valueOf(MqttQoS.AT_LEAST_ONCE.value()));
+			context.setCheck(true);
+			return true;
+		}
+		if (!StringUtils.isNumeric(context.getData())) {
 			System.out.format(ColorUtils.redError(bundle.getString("param.error")));
 			context.setCheck(false);
 			return false;
@@ -59,7 +64,7 @@ public class LastWillQoSNode implements TkNode {
 
 	@Override
 	public void prePrompt(NodeContext context) {
-		System.out.format(ColorUtils.greenItalic("(0) ") + bundle.getString("mqtt.qos0.prompt") + "%n");
+		System.out.format(ColorUtils.greenItalic("(0) ") + bundle.getString("mqtt.qos0.prompt") + " * "+ "%n");
 		System.out.format(ColorUtils.greenItalic("(1) ") + bundle.getString("mqtt.qos1.prompt") + "%n");
 		System.out.format(ColorUtils.greenItalic("(2) ") + bundle.getString("mqtt.qos2.prompt") + "%n");
 	}

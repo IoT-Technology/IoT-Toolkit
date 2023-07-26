@@ -16,43 +16,45 @@ import java.util.ResourceBundle;
  */
 public class LastWillRetainNode implements TkNode {
 
-	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
+    ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
-	@Override
-	public boolean check(NodeContext context) {
-		String data = context.getData();
-		if (!StringUtils.isBlank(data)) {
-			if (data.toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
-					|| data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
-				context.setCheck(true);
-				return true;
-			}
-		}
-		System.out.format(ColorUtils.redError(bundle.getString("param.confirm.error")));
-		context.setCheck(false);
-		return false;
-	}
+    @Override
+    public boolean check(NodeContext context) {
+        if (StringUtils.isBlank(context.getData())) {
+            context.setData("N");
+            context.setCheck(true);
+            return true;
+        }
+        if (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())
+                || context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) {
+            context.setCheck(true);
+            return true;
+        }
+        System.out.println(ColorUtils.redError(bundle.getString("param.confirm.error")));
+        context.setCheck(false);
+        return false;
+    }
 
-	@Override
-	public String nodePrompt() {
-		return bundle.getString(MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode() + GlobalConstants.promptSuffix) +
-				GlobalConstants.promptSeparator;
-	}
+    @Override
+    public String nodePrompt() {
+        return bundle.getString(MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode() + GlobalConstants.promptSuffix) +
+                GlobalConstants.promptSeparator;
+    }
 
-	@Override
-	public String nextNode(NodeContext context) {
-		if (!context.isCheck()) {
-			return MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode();
-		}
-		return MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode();
-	}
+    @Override
+    public String nextNode(NodeContext context) {
+        if (!context.isCheck()) {
+            return MqttSettingsCodeEnum.LAST_WILL_RETAIN.getCode();
+        }
+        return MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode();
+    }
 
-	@Override
-	public String getValue(NodeContext context) {
-		return StringUtils.isBlank(context.getData()) ? ConfirmCodeEnum.NO.getValue() : context.getData();
-	}
+    @Override
+    public String getValue(NodeContext context) {
+        return StringUtils.isBlank(context.getData()) ? ConfirmCodeEnum.NO.getValue() : context.getData();
+    }
 
-	@Override
-	public void prePrompt(NodeContext context) {
-	}
+    @Override
+    public void prePrompt(NodeContext context) {
+    }
 }

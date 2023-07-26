@@ -142,8 +142,8 @@ public class MqttBizService {
 				}
 				break;
 			}
-			if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode()) &&
-					data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))
+			if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode())
+					&& ((data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) || "".equals(data)))
 					|| code.equals(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode())) {
 				MqttClientConfig config = domain.convertMqttClientConfig();
 				MqttClientService mqttClientService = connectBroker(config);
