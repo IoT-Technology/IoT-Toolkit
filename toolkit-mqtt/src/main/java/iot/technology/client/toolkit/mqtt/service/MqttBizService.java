@@ -32,6 +32,7 @@ import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomai
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttPubMessageHandler;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttSubMessageHandler;
+import org.jline.terminal.Terminal;
 import picocli.CommandLine;
 
 import java.nio.charset.StandardCharsets;
@@ -118,6 +119,10 @@ public class MqttBizService {
 		config.setKeepAlive(Integer.parseInt(info.getKeepAlive()));
 		config.setTimeoutSeconds(Integer.parseInt(info.getConnectTimeout()));
 		return config;
+	}
+
+	public void mqttProcessorAfterLogic(String code, MqttConfigSettingsDomain domain, NodeContext context, Terminal terminal) {
+
 	}
 
 	public void mqttProcessorAfterLogic(String code, String data, MqttConfigSettingsDomain domain, boolean init) {

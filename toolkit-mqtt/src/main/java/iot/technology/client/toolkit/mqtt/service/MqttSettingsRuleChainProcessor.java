@@ -25,6 +25,10 @@ import java.util.Map;
  */
 public class MqttSettingsRuleChainProcessor {
 
+	public String getMqttRootConfigNode() {
+		return MqttSettingsCodeEnum.MQTT_APP_CONFIG.getCode();
+	}
+
 	public String getRootPublishNewConfigNode() {
 		return MqttSettingsCodeEnum.SETTINGS_NAME.getCode();
 	}
@@ -35,6 +39,7 @@ public class MqttSettingsRuleChainProcessor {
 
 	public Map<String, String> getMqttRuleChainProcessor() {
 		Map<String, String> map = new HashMap<>();
+		map.put(MqttSettingsCodeEnum.MQTT_APP_CONFIG.getCode(), MqttSettingsCodeEnum.MQTT_APP_CONFIG.getClazzName());
 		map.put(MqttSettingsCodeEnum.SETTINGS_NAME.getCode(), MqttSettingsCodeEnum.SETTINGS_NAME.getClazzName());
 		map.put(MqttSettingsCodeEnum.SELECT_CONFIG.getCode(), MqttSettingsCodeEnum.SELECT_CONFIG.getClazzName());
 		map.put(MqttSettingsCodeEnum.MQTT_VERSION.getCode(), MqttSettingsCodeEnum.MQTT_VERSION.getClazzName());

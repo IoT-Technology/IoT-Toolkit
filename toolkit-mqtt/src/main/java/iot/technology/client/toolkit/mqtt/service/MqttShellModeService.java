@@ -1,6 +1,9 @@
 package iot.technology.client.toolkit.mqtt.service;
 
 import iot.technology.client.toolkit.common.rule.TkProcessor;
+import iot.technology.client.toolkit.mqtt.service.processor.shellmode.PublishProcessor;
+import iot.technology.client.toolkit.mqtt.service.processor.shellmode.SubscribeProcessor;
+import iot.technology.client.toolkit.mqtt.service.processor.shellmode.UnSubscribeProcessor;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.ArgumentCompleter;
@@ -18,6 +21,9 @@ public class MqttShellModeService {
 
     public final List<TkProcessor> getTkProcessorList() {
         List<TkProcessor> tkProcessorList = new ArrayList<>();
+        tkProcessorList.add(new PublishProcessor());
+        tkProcessorList.add(new SubscribeProcessor());
+        tkProcessorList.add(new UnSubscribeProcessor());
         return tkProcessorList;
     }
 
@@ -27,13 +33,13 @@ public class MqttShellModeService {
 
     Completer publishCompleter = new ArgumentCompleter(new StringsCompleter("pub"), NullCompleter.INSTANCE);
 
-    Completer exitCompleter = new ArgumentCompleter(new ArgumentCompleter("exit"), NullCompleter.INSTANCE);
+    Completer exitCompleter = new ArgumentCompleter(new StringsCompleter("exit"), NullCompleter.INSTANCE);
 
     Completer mqttShellModeCompleter = new AggregateCompleter(publishCompleter, subscribeCompleter, unSubscribeCompleter,
             exitCompleter);
 
 
     public boolean call(Terminal terminal) {
-
+        return Boolean.TRUE;
     }
 }
