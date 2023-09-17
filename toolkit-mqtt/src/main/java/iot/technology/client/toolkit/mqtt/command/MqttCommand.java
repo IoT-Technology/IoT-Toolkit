@@ -17,10 +17,7 @@ package iot.technology.client.toolkit.mqtt.command;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.mqtt.command.sub.MqttDescribeCommand;
-import iot.technology.client.toolkit.mqtt.command.sub.MqttPublishCommand;
-import iot.technology.client.toolkit.mqtt.command.sub.MqttSettingsCommand;
-import iot.technology.client.toolkit.mqtt.command.sub.MqttSubscribeCommand;
+import iot.technology.client.toolkit.mqtt.command.sub.*;
 import org.jetbrains.annotations.NotNull;
 import picocli.CommandLine;
 
@@ -45,7 +42,8 @@ import static iot.technology.client.toolkit.common.utils.ColorUtils.colorItalic;
 				MqttDescribeCommand.class,
 				MqttSettingsCommand.class,
 				MqttPublishCommand.class,
-				MqttSubscribeCommand.class
+				MqttShellCommand.class,
+				MqttSubscribeCommand.class,
 		},
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei")

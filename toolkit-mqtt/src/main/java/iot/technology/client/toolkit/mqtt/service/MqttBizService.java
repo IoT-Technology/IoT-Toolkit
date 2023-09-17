@@ -27,6 +27,7 @@ import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
+import iot.technology.client.toolkit.mqtt.config.MqttShellModeDomain;
 import iot.technology.client.toolkit.mqtt.service.core.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
@@ -47,6 +48,7 @@ import java.util.stream.Collectors;
  */
 public class MqttBizService {
 
+	private final MqttShellModeService shellModeService = new MqttShellModeService();
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	public List<String> getMqttConfigList() {
@@ -104,11 +106,12 @@ public class MqttBizService {
 		MqttSettingsInfo info = settings.getInfo();
 		if (info.getVersion().equals(MqttVersionEnum.MQTT_3_1.getValue())) {
 			config.setProtocolVersion(MqttVersion.MQTT_3_1);
-		}
-		if (info.getVersion().equals(MqttVersionEnum.MQTT_5_0.getValue())) {
+		} else if (info.getVersion().equals(MqttVersionEnum.MQTT_5_0.getValue())) {
 			config.setProtocolVersion(MqttVersion.MQTT_5);
+		} else {
+			config.setProtocolVersion(MqttVersion.MQTT_3_1_1);
 		}
-		config.setProtocolVersion(MqttVersion.MQTT_3_1_1);
+
 		config.setClientId(info.getClientId());
 		config.setHost(info.getHost());
 		config.setPort(Integer.parseInt(info.getPort()));
@@ -121,7 +124,45 @@ public class MqttBizService {
 		return config;
 	}
 
-	public void mqttProcessorAfterLogic(String code, MqttConfigSettingsDomain domain, NodeContext context, Terminal terminal) {
+	public boolean mqttProcessorAfterLogic(String code, MqttConfigSettingsDomain domain, NodeContext context, Terminal terminal) {
+		    // select a older setting
+			if (code.equals(MqttSettingsCodeEnum.MQTT_APP_CONFIG.getCode()) &&
+					context.isCheck() &&
+					!context.getData().equals("new")) {
+				// already connected
+				if (Objects.nonNull(domain.getClient()) && domain.getClient().isConnected()) {
+					return true;
+				}
+				//convert older setting to mqttClientConfig
+				MqttSettings settings = JsonUtils.jsonToObject(domain.getMqttAppConfig(), MqttSettings.class);
+				MqttClientConfig config = this.convertMqttSettingsToClientConfig(Objects.requireNonNull(settings));
+				MqttClientService mqttClientService = connectBroker(config);
+				domain.setClient(mqttClientService);
+				// enter into subcommand
+				MqttShellModeDomain shellModeDomain = new MqttShellModeDomain();
+				shellModeDomain.setName(settings.getName());
+				shellModeDomain.setClient(mqttClientService);
+				return shellModeService.call(shellModeDomain, terminal);
+			}
+			// select new
+			if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode())
+					&& ((context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))))
+					|| (code.equals(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode()) && context.isCheck())
+			) {
+				MqttClientConfig config = domain.convertMqttClientConfig();
+				MqttClientService mqttClientService = connectBroker(config);
+				domain.setClient(mqttClientService);
+
+				//write settings to file
+				String settingsJson = domain.convertMqttSettingsJsonString();
+				FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, settingsJson);
+
+				MqttShellModeDomain shellModeDomain = new MqttShellModeDomain();
+				shellModeDomain.setClient(mqttClientService);
+				shellModeDomain.setName(domain.getSettingsName() + "@" + domain.getHost() + ":" + domain.getPort());
+				return shellModeService.call(shellModeDomain, terminal);
+			}
+			return true;
 
 	}
 
@@ -237,6 +278,10 @@ public class MqttBizService {
 		} else {
 			client.off(bizDomain.getTopic());
 		}
+	}
+
+	public void printValueToConsole(NodeContext context) {
+		System.out.format(ColorUtils.blackFaint(bundle.getString("call.prompt") + context.getData()) + "%n");
 	}
 
 	public void printValueToConsole(String code, String data, NodeContext context) {

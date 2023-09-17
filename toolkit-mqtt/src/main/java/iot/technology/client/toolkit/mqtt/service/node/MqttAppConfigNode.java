@@ -1,7 +1,6 @@
 package iot.technology.client.toolkit.mqtt.service.node;
 
-import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.common.constants.SystemConfigConst;
+import iot.technology.client.toolkit.common.constants.*;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
@@ -12,6 +11,7 @@ import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -26,6 +26,7 @@ public class MqttAppConfigNode implements TkNode {
         boolean isNew = FileUtils.notExistOrContents(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);
         if (!isNew) {
             List<String> configList = FileUtils.getDataFromFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);
+            context.setPromptData(configList);
             Stream.iterate(0, i -> i + 1).limit(configList.size()).forEach(i -> {
                 MqttSettings settings = JsonUtils.jsonToObject(configList.get(i), MqttSettings.class);
                 System.out.format(ColorUtils.greenItalic(i + "   :" + Objects.requireNonNull(settings).getName()) + "%n");
@@ -36,21 +37,46 @@ public class MqttAppConfigNode implements TkNode {
 
     @Override
     public boolean check(NodeContext context) {
+        List<String> configList = FileUtils.getDataFromFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);
+        List<String> indexList = Stream.iterate(0, i -> i + 1)
+                .limit(configList.size())
+                .map(String::valueOf)
+                .collect(Collectors.toList());
+        boolean matchIndex = indexList.stream().anyMatch(index -> index.equals(context.getData()));
+        if (matchIndex || context.getData().equals("new")) {
+            context.setCheck(true);
+            return true;
+        }
+        System.out.format(ColorUtils.redError(bundle.getString("mqtt.select.config.error")));
+        context.setCheck(false);
         return false;
     }
 
     @Override
     public String nodePrompt() {
-        return null;
+        return bundle.getString(MqttSettingsCodeEnum.MQTT_APP_CONFIG.getCode() + GlobalConstants.promptSuffix) +
+                GlobalConstants.promptSeparator;
     }
 
     @Override
     public String nextNode(NodeContext context) {
-        return null;
+        if (!context.isCheck()) {
+            return MqttSettingsCodeEnum.MQTT_APP_CONFIG.getCode();
+        }
+        if (context.getData().equals("new")) {
+            return MqttSettingsCodeEnum.SETTINGS_NAME.getCode();
+        }
+        return MqttSettingsCodeEnum.MQTT_APP_CONFIG.getCode();
     }
 
     @Override
     public String getValue(NodeContext context) {
-        return null;
+        if (!context.isCheck()) {
+            return context.getData();
+        }
+        if (context.getData().equals("new")) {
+            return context.getData();
+        }
+        return context.getPromptData().get(Integer.parseInt(context.getData()));
     }
 }

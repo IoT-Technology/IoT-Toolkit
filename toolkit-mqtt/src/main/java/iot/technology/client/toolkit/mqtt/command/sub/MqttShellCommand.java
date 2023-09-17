@@ -75,14 +75,17 @@ public class MqttShellCommand implements Callable<Integer> {
                 }
                 tkNode.check(context);
                 String codeData = tkNode.getValue(context);
-                bizService.printValueToConsole(code, codeData, context);
+                bizService.printValueToConsole(context);
                 ObjectUtils.setValue(domain, code, codeData);
-                bizService.mqttProcessorAfterLogic(code, domain, context, terminal);
+                boolean processLogicResult = bizService.mqttProcessorAfterLogic(code, domain, context, terminal);
+                if (!processLogicResult) {
+                    break;
+                }
                 code = tkNode.nextNode(context);
             } catch (UserInterruptException | EndOfFileException e) {
                 return ExitCodeEnum.ERROR.getValue();
             }
         }
-        return ExitCodeEnum.NOTEND.getValue();
+        return ExitCodeEnum.SUCCESS.getValue();
     }
 }

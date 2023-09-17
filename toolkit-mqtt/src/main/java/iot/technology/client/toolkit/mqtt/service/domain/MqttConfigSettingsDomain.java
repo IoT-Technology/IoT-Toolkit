@@ -38,6 +38,8 @@ import java.io.Serializable;
  */
 public class MqttConfigSettingsDomain implements Serializable {
 
+	private String mqttAppConfig;
+
 	private String selectConfig;
 
 	private String settingsName;
@@ -178,6 +180,14 @@ public class MqttConfigSettingsDomain implements Serializable {
 		}
 		settings.setInfo(info);
 		return JsonUtils.object2Json(settings);
+	}
+
+	public String getMqttAppConfig() {
+		return mqttAppConfig;
+	}
+
+	public void setMqttAppConfig(String mqttAppConfig) {
+		this.mqttAppConfig = mqttAppConfig;
 	}
 
 	public String getSelectConfig() {

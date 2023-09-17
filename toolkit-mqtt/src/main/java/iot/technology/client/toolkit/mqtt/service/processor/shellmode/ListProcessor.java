@@ -6,12 +6,11 @@ import iot.technology.client.toolkit.common.rule.TkProcessor;
 /**
  * @author mushuwei
  */
-public class PublishProcessor implements TkProcessor {
+public class ListProcessor implements TkProcessor {
 
     @Override
     public boolean supports(ProcessContext context) {
-        return context.getData().startsWith("pub") ||
-                context.getData().startsWith("publish");
+        return context.getData().equals("list");
     }
 
     @Override

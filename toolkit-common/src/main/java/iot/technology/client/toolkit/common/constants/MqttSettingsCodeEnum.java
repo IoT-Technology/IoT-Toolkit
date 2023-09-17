@@ -74,6 +74,9 @@ public enum MqttSettingsCodeEnum {
 
 	SELECT_CONFIG("selectConfig", "iot.technology.client.toolkit.mqtt.service.node.MqttSelectConfigNode"),
 
+	// wait for commands
+	CALL("call", ""),
+
 	END("end", "");
 
 	private String code;

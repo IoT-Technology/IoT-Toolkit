@@ -47,15 +47,16 @@ public class lastWillAndTestamentNode implements TkNode {
 		if (context.getData().toUpperCase().equals(ConfirmCodeEnum.YES.getValue())) {
 			return MqttSettingsCodeEnum.LAST_WILL_TOPIC.getCode();
 		}
-		if (context.getType().equals(NodeTypeEnum.MQTT_DEFAULT.getType())) {
-			return MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getCode();
-		} else if (context.getType().equals(NodeTypeEnum.MQTT_PUBLISH.getType())) {
-			return MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode();
-		} else if (context.getType().equals(NodeTypeEnum.MQTT_SETTINGS.getType())) {
-			return MqttSettingsCodeEnum.END.getCode();
-		} else {
-			return MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode();
-		}
+		return MqttSettingsCodeEnum.END.getCode();
+//		if (context.getType().equals(NodeTypeEnum.MQTT_DEFAULT.getType())) {
+//			return MqttSettingsCodeEnum.MQTT_BIZ_TYPE.getCode();
+//		} else if (context.getType().equals(NodeTypeEnum.MQTT_PUBLISH.getType())) {
+//			return MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode();
+//		} else if (context.getType().equals(NodeTypeEnum.MQTT_SETTINGS.getType())) {
+//			return MqttSettingsCodeEnum.END.getCode();
+//		} else {
+//			return MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode();
+//		}
 	}
 
 
