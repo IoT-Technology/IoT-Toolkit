@@ -18,6 +18,11 @@ package iot.technology.client.toolkit.common.rule;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author mushuwei
  */
@@ -39,5 +44,27 @@ public abstract class TkAbstractProcessor implements TkProcessor {
 		}
 
 		return true;
+	}
+
+	public String[] convertMqttCommandData(String commandData) {
+		String regex = "\"([^\"]*)\"|'([^']*)'|\\S+";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(commandData);
+
+		List<String> argus = new ArrayList<>();
+		while (matcher.find()) {
+			String argument = matcher.group();
+			// 去除开头引号或双引号
+			if (argument.startsWith("'") || argument.startsWith("\"")) {
+				argument = argument.substring(1);
+			}
+			// 去除结尾引号或双引号
+			if (argument.endsWith("'") || argument.endsWith("\"")) {
+				argument = argument.substring(0, argument.length() - 1);
+			}
+			argus.add(argument);
+		}
+		String[] array = argus.toArray(new String[0]);
+		return array;
 	}
 }

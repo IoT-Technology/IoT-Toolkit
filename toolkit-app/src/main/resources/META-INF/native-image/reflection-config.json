@@ -212,8 +212,15 @@
     ]
   },
   {
+    "name" : "iot.technology.client.toolkit.mqtt.service.node.MqttAppConfigNode",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
     "name" : "iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain",
     "fields" : [
+      { "name" : "mqttAppConfig","allowUnsafeAccess": true},
       { "name" : "selectConfig","allowUnsafeAccess": true},
       { "name" : "settingsName","allowUnsafeAccess": true},
       { "name" : "mqttVersion","allowUnsafeAccess": true},
