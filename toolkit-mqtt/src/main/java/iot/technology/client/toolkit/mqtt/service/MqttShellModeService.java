@@ -15,9 +15,12 @@
  */
 package iot.technology.client.toolkit.mqtt.service;
 
+import iot.technology.client.toolkit.common.constants.EmojiEnum;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttActionEnum;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttShellModeDomain;
 import iot.technology.client.toolkit.mqtt.service.processor.shellmode.*;
 import org.jline.reader.*;
@@ -82,8 +85,23 @@ public class MqttShellModeService {
             MqttProcessContext context = new MqttProcessContext();
             context.setDomain(domain);
             while (isEnd) {
-                String data;
-                data = reader.readLine(prompt);
+                //client connect status callback
+                MqttClientCallback clientCallback = new MqttClientCallback() {
+                    @Override
+                    public void connectionLost(Throwable cause) {
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(StringUtils.lineSeparator);
+                        sb.append("Server Unavailable" + String.format(EmojiEnum.disconnectEmoji) + " channel is close!");
+                        System.out.print(sb);
+                        System.exit(0);
+                    }
+
+                    @Override
+                    public void onSuccessfulReconnect() {
+                    }
+                };
+                domain.getClient().setCallback(clientCallback);
+                String data = reader.readLine(prompt);
                 context.setData(data);
                 if (data.equals("exit")) {
                     domain.getClient().disconnect();

@@ -72,6 +72,10 @@ public class MqttClientService {
 		this.defaultHandler = defaultHandler;
 	}
 
+	public void setCallback(MqttClientCallback callback) {
+		this.callback = callback;
+	}
+
 	/**
 	 * Construct the MqttClientImpl with additional config.
 	 * This config can also be changed using the {@link #getClientConfig()} function
@@ -375,7 +379,8 @@ public class MqttClientService {
 			if (reconnect) {
 				this.reconnect = true;
 			}
-			eventLoop.schedule((Runnable) () -> connect(host, port, reconnect), clientConfig.getReconnectDelay(), TimeUnit.SECONDS);
+			eventLoop.schedule((Runnable) () -> connect(host, port, reconnect),
+					clientConfig.getReconnectDelay(), TimeUnit.SECONDS);
 		}
 	}
 

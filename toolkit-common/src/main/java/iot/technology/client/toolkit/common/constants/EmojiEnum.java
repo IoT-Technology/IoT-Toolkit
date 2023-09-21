@@ -30,4 +30,6 @@ public interface EmojiEnum {
 
 	String subscribeEmoji = "\uD83D\uDCDD";
 
+	String disconnectEmoji = "\uD83D\uDEAB";
+
 }

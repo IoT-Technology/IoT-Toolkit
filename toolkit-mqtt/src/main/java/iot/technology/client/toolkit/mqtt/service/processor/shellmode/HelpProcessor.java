@@ -78,15 +78,15 @@ public class HelpProcessor implements TkProcessor {
                 sb.append(StringUtils.lineSeparator());
                 sb.append("Options:").append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                        ColorUtils.colorBold("-m, --message", "green"),
+                        ColorUtils.colorBold("-m, --message ", "green"),
                         "The message to publish"))
                         .append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                        ColorUtils.colorBold("-t --topic", "green"),
+                        ColorUtils.colorBold("-t --topic    ", "green"),
                         "The topics to publish to"))
                         .append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                        ColorUtils.colorBold("-q --qos", "green"),
+                        ColorUtils.colorBold("-q --qos      ", "green"),
                         "Quality of service for the corresponding topic (default for all: 0)"))
                         .append(StringUtils.lineSeparator());
                 System.out.print(sb);
@@ -103,11 +103,11 @@ public class HelpProcessor implements TkProcessor {
                 sb.append(StringUtils.lineSeparator());
                 sb.append("Options:").append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                                ColorUtils.colorBold("-t --topic", "green"),
+                                ColorUtils.colorBold("-t --topic ", "green"),
                                 "The topics to publish to"))
                         .append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                                ColorUtils.colorBold("-q --qos", "green"),
+                                ColorUtils.colorBold("-q --qos   ", "green"),
                                 "Quality of service for the corresponding topic (default for all: 0)"))
                         .append(StringUtils.lineSeparator());
                 System.out.print(sb);
