@@ -140,7 +140,7 @@ public class MqttBizService {
 				domain.setClient(mqttClientService);
 				// enter into subcommand
 				MqttShellModeDomain shellModeDomain = new MqttShellModeDomain();
-				shellModeDomain.setName(settings.getName());
+				shellModeDomain.setSettings(settings);
 				shellModeDomain.setClient(mqttClientService);
 				return shellModeService.call(shellModeDomain, terminal);
 			}
@@ -154,12 +154,12 @@ public class MqttBizService {
 				domain.setClient(mqttClientService);
 
 				//write settings to file
-				String settingsJson = domain.convertMqttSettingsJsonString();
-				FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, settingsJson);
+				MqttSettings settings = domain.convertMqttSettingsJsonString();
+				FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, JsonUtils.object2Json(settings));
 
 				MqttShellModeDomain shellModeDomain = new MqttShellModeDomain();
 				shellModeDomain.setClient(mqttClientService);
-				shellModeDomain.setName(domain.getSettingsName() + "@" + domain.getHost() + ":" + domain.getPort());
+				shellModeDomain.setSettings(settings);
 				return shellModeService.call(shellModeDomain, terminal);
 			}
 			return true;
@@ -195,8 +195,8 @@ public class MqttBizService {
 				MqttClientService mqttClientService = connectBroker(config);
 				domain.setClient(mqttClientService);
 				if (init) {
-					String settingsJson = domain.convertMqttSettingsJsonString();
-					FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, settingsJson);
+					MqttSettings settings = domain.convertMqttSettingsJsonString();
+					FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, JsonUtils.object2Json(settings));
 				}
 			}
 

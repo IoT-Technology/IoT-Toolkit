@@ -15,6 +15,7 @@
  */
 package iot.technology.client.toolkit.mqtt.service.domain;
 
+import io.netty.handler.codec.mqtt.MqttQoS;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttHandler;
 
 import java.util.regex.Pattern;
@@ -30,8 +31,9 @@ public final class MqttSubscription {
 
 	private final boolean once;
 	private boolean called;
+	private MqttQoS mqttQoS;
 
-	public MqttSubscription(String topic, MqttHandler handler, boolean once) {
+	public MqttSubscription(String topic, MqttHandler handler, boolean once, MqttQoS mqttQoS) {
 		if (topic == null) {
 			throw new NullPointerException("topic");
 		}
@@ -41,7 +43,16 @@ public final class MqttSubscription {
 		this.topic = topic;
 		this.handler = handler;
 		this.once = once;
+		this.mqttQoS = mqttQoS;
 		this.topicRegex = Pattern.compile(topic.replace("+", "[^/]+").replace("#", ".+") + "$");
+	}
+
+	public MqttQoS getMqttQoS() {
+		return mqttQoS;
+	}
+
+	public void setMqttQoS(MqttQoS mqttQoS) {
+		this.mqttQoS = mqttQoS;
 	}
 
 	public String getTopic() {
@@ -89,5 +100,4 @@ public final class MqttSubscription {
 	public void setCalled(boolean called) {
 		this.called = called;
 	}
-
 }

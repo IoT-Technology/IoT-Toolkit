@@ -22,7 +22,6 @@ import io.netty.handler.ssl.SslContextBuilder;
 import iot.technology.client.toolkit.common.constants.CertTypeEnum;
 import iot.technology.client.toolkit.common.constants.ConfirmCodeEnum;
 import iot.technology.client.toolkit.common.constants.MqttVersionEnum;
-import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
@@ -145,7 +144,7 @@ public class MqttConfigSettingsDomain implements Serializable {
 		return config;
 	}
 
-	public String convertMqttSettingsJsonString() {
+	public MqttSettings convertMqttSettingsJsonString() {
 		MqttSettings settings = new MqttSettings();
 		settings.setName(settingsName + "@" + host + ":" + port);
 		MqttSettingsInfo info = new MqttSettingsInfo();
@@ -179,7 +178,7 @@ public class MqttConfigSettingsDomain implements Serializable {
 			info.setLastWillPayload(lastWillPayload);
 		}
 		settings.setInfo(info);
-		return JsonUtils.object2Json(settings);
+		return settings;
 	}
 
 	public String getMqttAppConfig() {

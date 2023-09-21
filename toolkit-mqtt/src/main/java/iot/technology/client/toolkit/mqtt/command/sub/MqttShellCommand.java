@@ -16,12 +16,8 @@
 package iot.technology.client.toolkit.mqtt.command.sub;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import iot.technology.client.toolkit.common.constants.NodeTypeEnum;
-import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.common.constants.SystemConfigConst;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
-import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.service.MqttBizService;
@@ -37,7 +33,7 @@ import org.jline.terminal.TerminalBuilder;
 import picocli.CommandLine;
 
 import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 /**
@@ -98,6 +94,10 @@ public class MqttShellCommand implements Callable<Integer> {
                 }
                 code = tkNode.nextNode(context);
             } catch (UserInterruptException | EndOfFileException e) {
+                // close channel
+                if (Objects.nonNull(domain.getClient()) && domain.getClient().isConnected()) {
+                   domain.getClient().disconnect();
+                }
                 return ExitCodeEnum.ERROR.getValue();
             }
         }

@@ -18,16 +18,21 @@ package iot.technology.client.toolkit.mqtt.service.handler;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import iot.technology.client.toolkit.common.constants.EmojiEnum;
+import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 
 /**
  * @author mushuwei
  */
 public class MqttSubMessageHandler implements MqttHandler {
+
+	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	/**
 	 * @param topic   topic
@@ -36,12 +41,15 @@ public class MqttSubMessageHandler implements MqttHandler {
 	 */
 	@Override
 	public void onMessage(String topic, MqttQoS qos, ByteBuf payload) {
-		System.out.format("%n" + "------subscribe" + String.format(EmojiEnum.subscribeEmoji) + "------" + "%n");
-		System.out.format(String.format("Topic:%s   QoS:%s", topic, qos.value()) + "%n");
-		System.out.format(ColorUtils.blackBold(payload.toString(StandardCharsets.UTF_8)) + "%n");
 		LocalDateTime nowDateTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
-		System.out.format(formatter.format(nowDateTime) + "%n");
-		System.out.format("------" + "end" + "------" + "%n");
+		StringBuilder sb = new StringBuilder();
+		sb.append(StringUtils.lineSeparator());
+		System.out.format("%n" + "------"+ bundle.getString("mqtt.received.desc") + String.format(EmojiEnum.subscribeEmoji) + "------" + "%n");
+		sb.append(String.format("Topic:%s   QoS:%s", topic, qos.value())).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.blackBold(payload.toString(StandardCharsets.UTF_8))).append(StringUtils.lineSeparator());
+		sb.append(formatter.format(nowDateTime)).append(StringUtils.lineSeparator());
+		sb.append(StringUtils.lineSeparator());
+		System.out.print(sb);
 	}
 }

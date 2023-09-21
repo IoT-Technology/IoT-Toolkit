@@ -33,9 +33,6 @@ import java.util.ResourceBundle;
  */
 public class SubscribeProcessor extends TkAbstractProcessor implements TkProcessor {
 
-    private final Options options = new Options();
-    private final ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
-
     @Override
     public boolean supports(ProcessContext context) {
         return context.getData().startsWith("sub");

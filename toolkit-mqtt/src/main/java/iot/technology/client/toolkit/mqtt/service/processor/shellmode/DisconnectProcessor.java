@@ -36,7 +36,7 @@ public class DisconnectProcessor implements TkProcessor {
         MqttProcessContext mqttProcessContext = (MqttProcessContext) context;
         MqttShellModeDomain domain = mqttProcessContext.getDomain();
         domain.getClient().disconnect();
-        System.out.println(String.format(ColorUtils.redError("clientId:%s close!"), domain.getName()));
-        throw new EndOfFileException("client: " + domain.getName() + " close!");
+        System.out.println(String.format(ColorUtils.redError("clientId:%s close!"), domain.getSettings().getInfo().getClientId()));
+        throw new EndOfFileException("client: " + domain.getSettings().getInfo().getClientId() + " close!");
     }
 }

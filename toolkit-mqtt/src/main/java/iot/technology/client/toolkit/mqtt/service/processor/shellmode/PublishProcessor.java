@@ -40,7 +40,8 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
 
     @Override
     public boolean supports(ProcessContext context) {
-        return context.getData().startsWith("pub");
+        return context.getData().startsWith("pub")
+                || context.getData().startsWith("publish");
     }
 
     @Override

@@ -16,19 +16,18 @@
 package iot.technology.client.toolkit.mqtt.service;
 
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
+import iot.technology.client.toolkit.common.constants.MqttActionEnum;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.mqtt.config.MqttShellModeDomain;
 import iot.technology.client.toolkit.mqtt.service.processor.shellmode.*;
 import org.jline.reader.*;
 import org.jline.reader.impl.DefaultParser;
-import org.jline.reader.impl.completer.AggregateCompleter;
-import org.jline.reader.impl.completer.ArgumentCompleter;
-import org.jline.reader.impl.completer.NullCompleter;
-import org.jline.reader.impl.completer.StringsCompleter;
+import org.jline.reader.impl.completer.*;
 import org.jline.terminal.Terminal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author mushuwei
@@ -42,23 +41,31 @@ public class MqttShellModeService {
         tkProcessorList.add(new PublishProcessor());
         tkProcessorList.add(new SubscribeProcessor());
         tkProcessorList.add(new UnSubscribeProcessor());
+        tkProcessorList.add(new HelpProcessor());
         return tkProcessorList;
     }
 
-    Completer listCompleter = new ArgumentCompleter(new StringsCompleter("list"), NullCompleter.INSTANCE);
+    Completer publishCompleter = new ArgumentCompleter(new StringsCompleter("pub"), NullCompleter.INSTANCE);
 
-    Completer subscribeCompleter = new ArgumentCompleter(new StringsCompleter("sub"), NullCompleter.INSTANCE);
+    Completer listCompleter = new ArgumentCompleter(new StringsCompleter("list"),
+            NullCompleter.INSTANCE);
+
+    Completer subscribeCompleter = new ArgumentCompleter(new StringsCompleter("sub"),
+            NullCompleter.INSTANCE);
 
     Completer unSubscribeCompleter = new ArgumentCompleter(new StringsCompleter("unsub"), NullCompleter.INSTANCE);
 
-    Completer publishCompleter = new ArgumentCompleter(new StringsCompleter("pub"), NullCompleter.INSTANCE);
-
     Completer disconnectCompleter = new ArgumentCompleter(new StringsCompleter("dis"), NullCompleter.INSTANCE);
 
-    Completer exitCompleter = new ArgumentCompleter(new StringsCompleter("exit"), NullCompleter.INSTANCE);
+    Completer exitCompleter = new ArgumentCompleter(new StringsCompleter("exit"),
+            NullCompleter.INSTANCE);
 
-    Completer mqttShellModeCompleter = new AggregateCompleter(listCompleter, publishCompleter, subscribeCompleter, unSubscribeCompleter,
-            disconnectCompleter, exitCompleter);
+    Completer helpCompleter = new ArgumentCompleter(new StringsCompleter("help"),
+            new EnumCompleter(MqttActionEnum.class),
+            NullCompleter.INSTANCE);
+
+    Completer mqttShellModeCompleter = new AggregateCompleter(helpCompleter, publishCompleter, subscribeCompleter,
+            unSubscribeCompleter, listCompleter, disconnectCompleter, exitCompleter);
 
 
     public boolean call(MqttShellModeDomain domain, Terminal terminal) {
@@ -69,7 +76,7 @@ public class MqttShellModeService {
                     .parser(new DefaultParser())
                     .build();
 
-            String prompt = domain.getName() + ":" + GlobalConstants.promptSeparator;
+            String prompt = domain.getSettings().getName() + GlobalConstants.promptSeparator;
             boolean isEnd = true;
 
             MqttProcessContext context = new MqttProcessContext();
@@ -89,6 +96,10 @@ public class MqttShellModeService {
                 }
             }
         } catch (UserInterruptException | EndOfFileException e) {
+            // close channel
+            if (Objects.nonNull(domain.getClient()) && domain.getClient().isConnected()) {
+                domain.getClient().disconnect();
+            }
             return false;
         }
 

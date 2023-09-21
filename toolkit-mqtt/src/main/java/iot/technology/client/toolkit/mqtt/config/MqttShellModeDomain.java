@@ -24,16 +24,16 @@ import java.io.Serializable;
  */
 public class MqttShellModeDomain implements Serializable {
 
-    private String name;
+    private MqttSettings settings;
 
     private MqttClientService client;
 
-    public String getName() {
-        return name;
+    public MqttSettings getSettings() {
+        return settings;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSettings(MqttSettings settings) {
+        this.settings = settings;
     }
 
     public MqttClientService getClient() {

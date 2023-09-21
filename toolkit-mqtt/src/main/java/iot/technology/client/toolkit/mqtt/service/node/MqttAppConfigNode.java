@@ -47,7 +47,7 @@ public class MqttAppConfigNode implements TkNode {
             context.setCheck(true);
             return true;
         }
-        System.out.format(ColorUtils.redError(bundle.getString("mqtt.select.config.error")));
+        System.out.format(ColorUtils.redError(bundle.getString("mqtt.select.config.error")) + "%n");
         context.setCheck(false);
         return false;
     }

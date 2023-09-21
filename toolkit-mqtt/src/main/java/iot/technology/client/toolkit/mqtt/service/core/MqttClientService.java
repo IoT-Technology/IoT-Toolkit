@@ -345,7 +345,7 @@ public class MqttClientService {
 			}
 		}
 		if (this.serverSubscriptions.contains(topic)) {
-			MqttSubscription subscription = new MqttSubscription(topic, handler, once);
+			MqttSubscription subscription = new MqttSubscription(topic, handler, once, qos);
 			this.subscriptions.put(topic, subscription);
 			this.handlerToSubscribtion.put(handler, subscription);
 			return this.channel.newSucceededFuture();
