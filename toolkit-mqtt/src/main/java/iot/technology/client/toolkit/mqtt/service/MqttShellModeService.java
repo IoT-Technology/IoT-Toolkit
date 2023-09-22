@@ -19,9 +19,9 @@ import iot.technology.client.toolkit.common.constants.EmojiEnum;
 import iot.technology.client.toolkit.common.constants.GlobalConstants;
 import iot.technology.client.toolkit.common.constants.MqttActionEnum;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
-import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttShellModeDomain;
+import iot.technology.client.toolkit.mqtt.service.domain.DisReason;
 import iot.technology.client.toolkit.mqtt.service.processor.shellmode.*;
 import org.jline.reader.*;
 import org.jline.reader.impl.DefaultParser;
@@ -72,6 +72,7 @@ public class MqttShellModeService {
 
 
     public boolean call(MqttShellModeDomain domain, Terminal terminal) {
+        MqttSettingService mqttSettingService = new MqttSettingService();
         try {
             LineReader reader = LineReaderBuilder.builder()
                     .terminal(terminal)
@@ -84,16 +85,20 @@ public class MqttShellModeService {
 
             MqttProcessContext context = new MqttProcessContext();
             context.setDomain(domain);
+            HelpProcessor helpProcessor = new HelpProcessor();
+            helpProcessor.printAllHelpInfo();
             while (isEnd) {
                 //client connect status callback
                 MqttClientCallback clientCallback = new MqttClientCallback() {
                     @Override
-                    public void connectionLost(Throwable cause) {
-                        StringBuilder sb = new StringBuilder();
-                        sb.append(StringUtils.lineSeparator);
-                        sb.append("Server Unavailable" + String.format(EmojiEnum.disconnectEmoji) + " channel is close!");
-                        System.out.print(sb);
-                        System.exit(0);
+                    public void connectionLost(DisReason reason) {
+                        if (reason.getActionType().equals(0)) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(StringUtils.lineSeparator);
+                            sb.append("Server Unavailable" + String.format(EmojiEnum.disconnectEmoji) + " channel is close!");
+                            System.out.print(sb);
+                            System.exit(0);
+                        }
                     }
 
                     @Override
@@ -104,7 +109,8 @@ public class MqttShellModeService {
                 String data = reader.readLine(prompt);
                 context.setData(data);
                 if (data.equals("exit")) {
-                    domain.getClient().disconnect();
+                    mqttSettingService.updateAllMqttConfigsByUsage(domain.getSettings(), 0);
+                    domain.getClient().disconnect(1);
                     return false;
                 }
                 for (TkProcessor processor : getTkProcessorList()) {
@@ -114,9 +120,10 @@ public class MqttShellModeService {
                 }
             }
         } catch (UserInterruptException | EndOfFileException e) {
+            mqttSettingService.updateAllMqttConfigsByUsage(domain.getSettings(), 0);
             // close channel
             if (Objects.nonNull(domain.getClient()) && domain.getClient().isConnected()) {
-                domain.getClient().disconnect();
+                domain.getClient().disconnect(1);
             }
             return false;
         }

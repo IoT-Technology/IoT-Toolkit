@@ -65,6 +65,8 @@ public class MqttClientService {
 
 	private volatile boolean disconnected = false;
 	private volatile boolean reconnect = false;
+	// 0 - passive close, 1- acive close
+	private  Integer actionType = 0;
 	private MqttClientCallback callback;
 
 	public MqttClientService(MqttHandler defaultHandler) {
@@ -110,7 +112,8 @@ public class MqttClientService {
 		this.eventLoop = eventLoop;
 	}
 
-	public void disconnect() {
+	public void disconnect(Integer action) {
+		actionType = action;
 		disconnected = true;
 		if (this.channel != null) {
 			MqttMessage message = new MqttMessage(new MqttFixedHeader(MqttMessageType.DISCONNECT, false, MqttQoS.AT_MOST_ONCE, false, 0));
@@ -316,7 +319,10 @@ public class MqttClientService {
 					}
 					ChannelClosedException e = new ChannelClosedException("Channel is closed!");
 					if (callback != null) {
-						callback.connectionLost(e);
+						DisReason disReason = new DisReason();
+						disReason.setActionType(actionType);
+						disReason.setCause(e);
+						callback.connectionLost(disReason);
 					}
 					pendingSubscriptions.forEach((id, mqttPendingSubscription) -> mqttPendingSubscription.onChannelClosed());
 					pendingSubscriptions.clear();

@@ -6,6 +6,7 @@ import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
+import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 
 import java.util.List;
@@ -24,15 +25,24 @@ public class MqttAppConfigNode implements TkNode {
     @Override
     public void prePrompt(NodeContext context) {
         boolean isNew = FileUtils.notExistOrContents(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);
+        StringBuilder sb = new StringBuilder();
         if (!isNew) {
+            sb.append(ColorUtils.colorBold(bundle.getString("general.used"), "black") + ": " + String.format(EmojiEnum.usedEmoji) + "  "
+                    + ColorUtils.colorBold(bundle.getString("general.unused"), "black") + ": " + String.format(EmojiEnum.unusedEmoji))
+                    .append(StringUtils.lineSeparator);
+            sb.append(StringUtils.lineSeparator());
             List<String> configList = FileUtils.getDataFromFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);
             context.setPromptData(configList);
             Stream.iterate(0, i -> i + 1).limit(configList.size()).forEach(i -> {
                 MqttSettings settings = JsonUtils.jsonToObject(configList.get(i), MqttSettings.class);
-                System.out.format(ColorUtils.greenItalic(i + "   :" + Objects.requireNonNull(settings).getName()) + "%n");
+                String emoji = settings.getUsage().equals(0) ? EmojiEnum.unusedEmoji : EmojiEnum.usedEmoji;
+                sb.append(String.format(emoji) + " "+ ColorUtils.greenItalic(i + ": " + Objects.requireNonNull(settings).getName()))
+                        .append(StringUtils.lineSeparator());
             });
         }
-        System.out.format(ColorUtils.greenItalic("new" + " > " + bundle.getString("mqtt.new.config.desc")) + "%n");
+        sb.append(ColorUtils.greenItalic("new" + " > " + bundle.getString("mqtt.new.config.desc")))
+                .append(StringUtils.lineSeparator());
+        System.out.print(sb);
     }
 
     @Override

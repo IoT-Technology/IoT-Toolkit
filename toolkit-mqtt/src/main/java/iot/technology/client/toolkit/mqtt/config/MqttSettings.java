@@ -26,7 +26,12 @@ public class MqttSettings implements Serializable {
 
 	private MqttSettingsInfo info;
 
+	/**
+	 * 1
+	 */
 	private Integer usage = 1;
+
+	private Long settingTime;
 
 	public String getName() {
 		return name;
@@ -52,4 +57,11 @@ public class MqttSettings implements Serializable {
 		this.usage = usage;
 	}
 
+	public Long getSettingTime() {
+		return settingTime;
+	}
+
+	public void setSettingTime(Long settingTime) {
+		this.settingTime = settingTime;
+	}
 }

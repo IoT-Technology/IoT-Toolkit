@@ -15,8 +15,6 @@
  */
 package iot.technology.client.toolkit.mqtt.service;
 
-import io.netty.buffer.Unpooled;
-import io.netty.handler.codec.mqtt.MqttQoS;
 import io.netty.handler.codec.mqtt.MqttVersion;
 import io.netty.util.concurrent.Future;
 import iot.technology.client.toolkit.common.constants.*;
@@ -24,7 +22,6 @@ import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
-import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttSettings;
 import iot.technology.client.toolkit.mqtt.config.MqttSettingsInfo;
 import iot.technology.client.toolkit.mqtt.config.MqttShellModeDomain;
@@ -32,28 +29,22 @@ import iot.technology.client.toolkit.mqtt.service.core.MqttClientService;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConnectResult;
 import iot.technology.client.toolkit.mqtt.service.handler.MqttPubMessageHandler;
-import iot.technology.client.toolkit.mqtt.service.handler.MqttSubMessageHandler;
 import org.jline.terminal.Terminal;
 import picocli.CommandLine;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
 
 /**
  * @author mushuwei
  */
 public class MqttBizService {
 
+	private final MqttSettingService mqttSettingService = new MqttSettingService();
 	private final MqttShellModeService shellModeService = new MqttShellModeService();
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
-
-	public List<String> getMqttConfigList() {
-		return FileUtils.getDataFromFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME);
-	}
 
 	public void getMqttDescription() {
 		if (bundle.getLocale().equals(Locale.CHINESE)) {
@@ -138,6 +129,8 @@ public class MqttBizService {
 				MqttClientConfig config = this.convertMqttSettingsToClientConfig(Objects.requireNonNull(settings));
 				MqttClientService mqttClientService = connectBroker(config);
 				domain.setClient(mqttClientService);
+				// update this setting is used
+				mqttSettingService.updateAllMqttConfigsByUsage(settings, 1);
 				// enter into subcommand
 				MqttShellModeDomain shellModeDomain = new MqttShellModeDomain();
 				shellModeDomain.setSettings(settings);
@@ -145,86 +138,27 @@ public class MqttBizService {
 				return shellModeService.call(shellModeDomain, terminal);
 			}
 			// select new
-			if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode())
-					&& ((context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))))
+			if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode()) && ((context.getData().toUpperCase().equals(ConfirmCodeEnum.NO.getValue()))))
 					|| (code.equals(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode()) && context.isCheck())
 			) {
 				MqttClientConfig config = domain.convertMqttClientConfig();
 				MqttClientService mqttClientService = connectBroker(config);
 				domain.setClient(mqttClientService);
-
 				//write settings to file
 				MqttSettings settings = domain.convertMqttSettingsJsonString();
+				settings.setUsage(1);
 				FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, JsonUtils.object2Json(settings));
 
+				// add settings config, not enter into sub terminal
+				if (context.getType().equals(NodeTypeEnum.MQTT_SETTINGS.getType())) {
+					return true;
+				}
 				MqttShellModeDomain shellModeDomain = new MqttShellModeDomain();
 				shellModeDomain.setClient(mqttClientService);
 				shellModeDomain.setSettings(settings);
 				return shellModeService.call(shellModeDomain, terminal);
 			}
 			return true;
-
-	}
-
-	public void mqttProcessorAfterLogic(String code, String data, MqttConfigSettingsDomain domain, boolean init) {
-		do {
-			if (code.equals(MqttSettingsCodeEnum.SELECT_CONFIG.getCode()) && !data.equals("new")) {
-				this.mqttSelectOneConfigLogic(domain);
-				break;
-			}
-			if (code.equals(MqttSettingsCodeEnum.PUBLISH_MESSAGE.getCode())) {
-				TopicAndQos bizDomain = new TopicAndQos();
-				boolean validate = PubData.validate(data, bizDomain);
-				if (validate) {
-					mqttPubLogic(bizDomain, domain.getClient());
-				}
-				break;
-			}
-			if (code.equals(MqttSettingsCodeEnum.SUBSCRIBE_MESSAGE.getCode())) {
-				TopicAndQos bizDomain = new TopicAndQos();
-				boolean validate = SubData.validate(data, bizDomain);
-				if (validate) {
-					mqttSubLogic(bizDomain, domain.getClient());
-				}
-				break;
-			}
-			if ((code.equals(MqttSettingsCodeEnum.LASTWILLANDTESTAMENT.getCode())
-					&& ((data.toUpperCase().equals(ConfirmCodeEnum.NO.getValue())) || "".equals(data)))
-					|| code.equals(MqttSettingsCodeEnum.LAST_WILL_PAYLOAD.getCode())) {
-				MqttClientConfig config = domain.convertMqttClientConfig();
-				MqttClientService mqttClientService = connectBroker(config);
-				domain.setClient(mqttClientService);
-				if (init) {
-					MqttSettings settings = domain.convertMqttSettingsJsonString();
-					FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, JsonUtils.object2Json(settings));
-				}
-			}
-
-		} while (false);
-	}
-
-	public void mqttSelectOneConfigLogic(MqttConfigSettingsDomain domain) {
-		if (Objects.nonNull(domain.getClient()) && domain.getClient().isConnected()) {
-			return;
-		}
-		MqttSettings settings = JsonUtils.jsonToObject(domain.getSelectConfig(), MqttSettings.class);
-		MqttClientConfig config = this.convertMqttSettingsToClientConfig(Objects.requireNonNull(settings));
-		MqttClientService mqttClientService = connectBroker(config);
-		domain.setClient(mqttClientService);
-		//update usages of mqtt configs
-		updateAllMqttConfigsByUsage(settings);
-
-	}
-
-	private void updateAllMqttConfigsByUsage(MqttSettings waitUpdateSettings) {
-		List<String> configList = this.getMqttConfigList();
-		List<MqttSettings> settingsList = JsonUtils.decodeJsonToList(configList, MqttSettings.class)
-				.stream().filter(cl -> !cl.getName().equals(waitUpdateSettings.getName())).collect(Collectors.toList());
-		waitUpdateSettings.setUsage(waitUpdateSettings.getUsage() + 1);
-		settingsList.add(waitUpdateSettings);
-		settingsList.sort(Comparator.comparingInt(MqttSettings::getUsage).reversed());
-		List<String> updateResults = settingsList.stream().map(JsonUtils::object2Json).collect(Collectors.toList());
-		FileUtils.updateAllFileContents(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, updateResults);
 
 	}
 
@@ -243,7 +177,7 @@ public class MqttBizService {
 					String.format(EmojiEnum.smileEmoji));
 		} catch (TimeoutException | InterruptedException | ExecutionException ex) {
 			connectFuture.cancel(true);
-			mqttClientService.disconnect();
+			mqttClientService.disconnect(0);
 			String hostPort = config.getHost() + ":" + config.getPort();
 			throw new RuntimeException(
 					String.format("%s %s %s.",
@@ -253,7 +187,7 @@ public class MqttBizService {
 		}
 		if (!result.isSuccess()) {
 			connectFuture.cancel(true);
-			mqttClientService.disconnect();
+			mqttClientService.disconnect(1);
 			String hostPort = config.getHost() + ":" + config.getPort();
 			throw new RuntimeException(
 					String.format("%s %s. %s %s", bundle.getString("mqtt.failed.connect"),
@@ -262,39 +196,10 @@ public class MqttBizService {
 		return mqttClientService;
 	}
 
-	private void mqttPubLogic(TopicAndQos bizDomain, MqttClientService client) {
-		MqttQoS qosLevel = MqttQoS.valueOf(bizDomain.getQos());
-		client.publish(bizDomain.getTopic(), Unpooled.wrappedBuffer(bizDomain.getPayload().getBytes(StandardCharsets.UTF_8)), qosLevel,
-				false);
-		System.out.format(
-				bizDomain.getPayload() + " " + bundle.getString("publishMessage.success") + String.format(EmojiEnum.successEmoji) + "%n");
-	}
 
-	private void mqttSubLogic(TopicAndQos bizDomain, MqttClientService client) {
-		MqttQoS qosLevel = MqttQoS.valueOf(bizDomain.getQos());
-		MqttSubMessageHandler handler = new MqttSubMessageHandler();
-		if (bizDomain.getOperation().equals("add")) {
-			client.on(bizDomain.getTopic(), handler, qosLevel);
-		} else {
-			client.off(bizDomain.getTopic());
-		}
-	}
 
 	public void printValueToConsole(NodeContext context) {
 		System.out.format(ColorUtils.blackFaint(bundle.getString("call.prompt") + context.getData()) + "%n");
-	}
-
-	public void printValueToConsole(String code, String data, NodeContext context) {
-		if (StringUtils.isNotBlank(data) &&
-				context.isCheck() &&
-				code.equals(MqttSettingsCodeEnum.SELECT_CONFIG.getCode()) &&
-				!data.equals("new")) {
-			MqttSettings settings = JsonUtils.jsonToObject(data, MqttSettings.class);
-			System.out.format(
-					ColorUtils.blackFaint(bundle.getString("call.prompt") + Objects.requireNonNull(settings).getName()) + "%n");
-		} else {
-			System.out.format(ColorUtils.blackFaint(bundle.getString("call.prompt") + data) + "%n");
-		}
 	}
 
 }

@@ -15,6 +15,8 @@
  */
 package iot.technology.client.toolkit.mqtt.service;
 
+import iot.technology.client.toolkit.mqtt.service.domain.DisReason;
+
 /**
  * @author mushuwei
  */
@@ -25,7 +27,7 @@ public interface MqttClientCallback {
 	 *
 	 * @param cause the reason behind the loss of connection.
 	 */
-	void connectionLost(Throwable cause);
+	void connectionLost(DisReason reason);
 
 	/**
 	 * This method is called when the connection to the server is recovered.

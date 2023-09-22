@@ -32,4 +32,8 @@ public interface EmojiEnum {
 
 	String disconnectEmoji = "\uD83D\uDEAB";
 
+	String usedEmoji = "\uD83D\uDD34";
+
+	String unusedEmoji = "\uD83D\uDFE2";
+
 }

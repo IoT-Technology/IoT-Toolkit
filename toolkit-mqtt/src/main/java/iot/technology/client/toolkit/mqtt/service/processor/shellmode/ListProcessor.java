@@ -48,6 +48,7 @@ public class ListProcessor implements TkProcessor {
 
         StringBuilder sb = new StringBuilder();
         sb.append(ColorUtils.colorBold("ClientId:", "black")).append(StringUtils.lineSeparator());
+        sb.append(StringUtils.lineSeparator());
         sb.append(bundle.getString("mqtt.setting.name") + ": " + settings.getName()).append(StringUtils.lineSeparator());
         sb.append("Client Id" + ": " + settings.getInfo().getClientId()).append(StringUtils.lineSeparator());
         sb.append(bundle.getString("mqtt.setting.userName") + ": " + settings.getInfo().getUsername()).append(StringUtils.lineSeparator());

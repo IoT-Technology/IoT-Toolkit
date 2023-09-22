@@ -64,15 +64,9 @@ public enum MqttSettingsCodeEnum {
 
 	MQTT_BIZ_TYPE("biz", "iot.technology.client.toolkit.mqtt.service.node.MqttBizTypeNode"),
 
-	PUBLISH_MESSAGE("publishMessage", "iot.technology.client.toolkit.mqtt.service.node.PublishMessageNode"),
-
-	SUBSCRIBE_MESSAGE("subscribeMessage", "iot.technology.client.toolkit.mqtt.service.node.SubscribeMessageNode"),
-
 	MQTT_APP_CONFIG("mqttAppConfig", "iot.technology.client.toolkit.mqtt.service.node.MqttAppConfigNode"),
 
 	SETTINGS_NAME("settingsName", "iot.technology.client.toolkit.mqtt.service.node.SettingsNameNode"),
-
-	SELECT_CONFIG("selectConfig", "iot.technology.client.toolkit.mqtt.service.node.MqttSelectConfigNode"),
 
 	// wait for commands
 	CALL("call", ""),

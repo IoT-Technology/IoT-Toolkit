@@ -16,11 +16,13 @@
 package iot.technology.client.toolkit.mqtt.command.sub;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
+import iot.technology.client.toolkit.common.constants.MqttBizEnum;
 import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.service.MqttBizService;
+import iot.technology.client.toolkit.mqtt.service.MqttSettingService;
 import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
 import org.jline.reader.EndOfFileException;
@@ -35,6 +37,8 @@ import picocli.CommandLine;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+
+import static iot.technology.client.toolkit.common.constants.NodeTypeEnum.MQTT_DEFAULT;
 
 /**
  * @author mushuwei
@@ -52,6 +56,7 @@ import java.util.concurrent.Callable;
 public class MqttShellCommand implements Callable<Integer> {
 
     private final MqttBizService bizService = new MqttBizService();
+    private final MqttSettingService settingService = new MqttSettingService();
     private final MqttSettingsRuleChainProcessor ruleChain = new MqttSettingsRuleChainProcessor();
     private final Map<String, String> processor = ruleChain.getMqttRuleChainProcessor();
 
@@ -67,6 +72,7 @@ public class MqttShellCommand implements Callable<Integer> {
 
         MqttConfigSettingsDomain domain = new MqttConfigSettingsDomain();
         NodeContext context = new NodeContext();
+        context.setType(MQTT_DEFAULT.getType());
         String code = ruleChain.getMqttRootConfigNode();
         StringUtils.toolkitPromptText();
 
@@ -96,7 +102,8 @@ public class MqttShellCommand implements Callable<Integer> {
             } catch (UserInterruptException | EndOfFileException e) {
                 // close channel
                 if (Objects.nonNull(domain.getClient()) && domain.getClient().isConnected()) {
-                   domain.getClient().disconnect();
+                   //update client connect status
+                   domain.getClient().disconnect(1);
                 }
                 return ExitCodeEnum.ERROR.getValue();
             }

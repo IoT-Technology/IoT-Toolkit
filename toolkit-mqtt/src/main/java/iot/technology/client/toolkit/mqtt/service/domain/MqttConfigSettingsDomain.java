@@ -178,6 +178,7 @@ public class MqttConfigSettingsDomain implements Serializable {
 			info.setLastWillPayload(lastWillPayload);
 		}
 		settings.setInfo(info);
+		settings.setSettingTime(System.currentTimeMillis());
 		return settings;
 	}
 

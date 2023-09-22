@@ -34,24 +34,7 @@ public class HelpProcessor implements TkProcessor {
         }
         //user type help
         if (arguArgs.size() == 1) {
-            StringBuilder sb = new StringBuilder();
-            // list telecom nb-iot devices
-            sb.append("").append(StringUtils.lineSeparator());
-            sb.append(ColorUtils.colorBold("Usage:", "black") + ColorUtils.colorBold(" > ", "green")
-                    + "{ pub | sub | unsub | dis | list | exit }").append(StringUtils.lineSeparator());
-            sb.append("").append(StringUtils.lineSeparator());
-            sb.append(bundle.getString("mqtt.shellmode.help")).append(StringUtils.lineSeparator());
-            sb.append("").append(StringUtils.lineSeparator());
-            sb.append(ColorUtils.colorBold(bundle.getString("general.commands"), "black"))
-                    .append(StringUtils.lineSeparator());
-            sb.append(ColorUtils.colorBold("  help                ", "green")).append(bundle.getString("general.subCommand.help")).append(StringUtils.lineSeparator());
-            sb.append(ColorUtils.colorBold("  pub, publish        ", "green")).append(bundle.getString("mqtt.subCmd.pub.help")).append(StringUtils.lineSeparator());
-            sb.append(ColorUtils.colorBold("  sub, subscribe      ", "green")).append(bundle.getString("mqtt.subCmd.sub.help")).append(StringUtils.lineSeparator());
-            sb.append(ColorUtils.colorBold("  unsub, unsubscribe  ", "green")).append(bundle.getString("mqtt.subCmd.unsub.help")).append(StringUtils.lineSeparator());
-            sb.append(ColorUtils.colorBold("  dis, disconnect     ", "green")).append(bundle.getString("mqtt.subCmd.dis.help")).append(StringUtils.lineSeparator());
-            sb.append(ColorUtils.colorBold("  ls, list            ", "green")).append(bundle.getString("mqtt.subCmd.ls.help")).append(StringUtils.lineSeparator());
-            sb.append(ColorUtils.colorBold("  exit                ", "green")).append(bundle.getString("general.subCommand.exit")).append(StringUtils.lineSeparator());
-            System.out.println(sb);
+            printAllHelpInfo();
             return;
         }
         String subCommand = arguArgs.get(1);
@@ -140,5 +123,26 @@ public class HelpProcessor implements TkProcessor {
                 break;
         }
 
+    }
+
+    public void printAllHelpInfo() {
+        StringBuilder sb = new StringBuilder();
+        // list telecom nb-iot devices
+        sb.append("").append(StringUtils.lineSeparator());
+        sb.append(ColorUtils.colorBold("Usage:", "black") + ColorUtils.colorBold(" > ", "green")
+                + "{ pub | sub | unsub | dis | list | exit }").append(StringUtils.lineSeparator());
+        sb.append("").append(StringUtils.lineSeparator());
+        sb.append(bundle.getString("mqtt.shellmode.help")).append(StringUtils.lineSeparator());
+        sb.append("").append(StringUtils.lineSeparator());
+        sb.append(ColorUtils.colorBold(bundle.getString("general.commands"), "black"))
+                .append(StringUtils.lineSeparator());
+        sb.append(ColorUtils.colorBold("  help                ", "green")).append(bundle.getString("general.subCommand.help")).append(StringUtils.lineSeparator());
+        sb.append(ColorUtils.colorBold("  pub, publish        ", "green")).append(bundle.getString("mqtt.subCmd.pub.help")).append(StringUtils.lineSeparator());
+        sb.append(ColorUtils.colorBold("  sub, subscribe      ", "green")).append(bundle.getString("mqtt.subCmd.sub.help")).append(StringUtils.lineSeparator());
+        sb.append(ColorUtils.colorBold("  unsub, unsubscribe  ", "green")).append(bundle.getString("mqtt.subCmd.unsub.help")).append(StringUtils.lineSeparator());
+        sb.append(ColorUtils.colorBold("  dis, disconnect     ", "green")).append(bundle.getString("mqtt.subCmd.dis.help")).append(StringUtils.lineSeparator());
+        sb.append(ColorUtils.colorBold("  ls, list            ", "green")).append(bundle.getString("mqtt.subCmd.ls.help")).append(StringUtils.lineSeparator());
+        sb.append(ColorUtils.colorBold("  exit                ", "green")).append(bundle.getString("general.subCommand.exit")).append(StringUtils.lineSeparator());
+        System.out.println(sb);
     }
 }

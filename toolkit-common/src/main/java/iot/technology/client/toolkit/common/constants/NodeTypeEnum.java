@@ -22,10 +22,6 @@ public enum NodeTypeEnum {
 
 	MQTT_DEFAULT("mqtt_default"),
 
-	MQTT_PUBLISH("mqtt_pub"),
-
-	MQTT_SUBSCRIBE("mqtt_sub"),
-
 	MQTT_SETTINGS("mqtt_settings");
 
 	private final String type;

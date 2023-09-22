@@ -19,12 +19,15 @@ import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttShellModeDomain;
+import iot.technology.client.toolkit.mqtt.service.MqttSettingService;
 import org.jline.reader.EndOfFileException;
 
 /**
  * @author mushuwei
  */
 public class DisconnectProcessor implements TkProcessor {
+
+    private final MqttSettingService mqttSettingService = new MqttSettingService();
 
     @Override
     public boolean supports(ProcessContext context) {
@@ -35,7 +38,7 @@ public class DisconnectProcessor implements TkProcessor {
     public void handle(ProcessContext context) {
         MqttProcessContext mqttProcessContext = (MqttProcessContext) context;
         MqttShellModeDomain domain = mqttProcessContext.getDomain();
-        domain.getClient().disconnect();
+        domain.getClient().disconnect(1);
         System.out.println(String.format(ColorUtils.redError("clientId:%s close!"), domain.getSettings().getInfo().getClientId()));
         throw new EndOfFileException("client: " + domain.getSettings().getInfo().getClientId() + " close!");
     }

@@ -77,9 +77,9 @@ public class AddProcessor implements TkProcessor {
 				String data = reader.readLine(tkNode.nodePrompt());
 				nodeContext.setData(data);
 				tkNode.check(nodeContext);
-				bizService.printValueToConsole(code, tkNode.getValue(nodeContext), nodeContext);
+				bizService.printValueToConsole(nodeContext);
 				ObjectUtils.setValue(domain, code, tkNode.getValue(nodeContext));
-				bizService.mqttProcessorAfterLogic(code, data, domain, true);
+				bizService.mqttProcessorAfterLogic(code, domain, nodeContext, terminal);
 				code = tkNode.nextNode(nodeContext);
 				if (code.equals(MqttSettingsCodeEnum.END.getCode())) {
 					isEnd = false;
