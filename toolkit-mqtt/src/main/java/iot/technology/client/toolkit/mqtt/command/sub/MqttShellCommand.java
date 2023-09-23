@@ -21,7 +21,6 @@ import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.service.MqttBizService;
-import iot.technology.client.toolkit.mqtt.service.MqttSettingService;
 import iot.technology.client.toolkit.mqtt.service.MqttSettingsRuleChainProcessor;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttConfigSettingsDomain;
 import org.jline.reader.EndOfFileException;
@@ -55,7 +54,6 @@ import static iot.technology.client.toolkit.common.constants.NodeTypeEnum.MQTT_D
 public class MqttShellCommand implements Callable<Integer> {
 
     private final MqttBizService bizService = new MqttBizService();
-    private final MqttSettingService settingService = new MqttSettingService();
     private final MqttSettingsRuleChainProcessor ruleChain = new MqttSettingsRuleChainProcessor();
     private final Map<String, String> processor = ruleChain.getMqttRuleChainProcessor();
 

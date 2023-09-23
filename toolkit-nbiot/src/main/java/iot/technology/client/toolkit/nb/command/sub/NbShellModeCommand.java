@@ -39,14 +39,14 @@ import java.util.concurrent.Callable;
  * @author mushuwei
  */
 @CommandLine.Command(
-		name = "call",
+		name = "shell",
 		requiredOptionMarker = '*',
-		description = "${bundle:nb.call.desc}",
+		description = "${bundle:nb.shell.desc}",
 		optionListHeading = "%n${bundle:general.option}:%n",
 		sortOptions = false,
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei")
-public class NbCallCommand implements Callable<Integer> {
+public class NbShellModeCommand implements Callable<Integer> {
 
 	private final NbBizService bizService = new NbBizService();
 	private final NbRuleChainProcessor ruleChain = new NbRuleChainProcessor();

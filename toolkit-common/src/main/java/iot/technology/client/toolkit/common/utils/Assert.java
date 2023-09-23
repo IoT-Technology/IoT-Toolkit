@@ -44,4 +44,17 @@ public abstract class Assert {
 		}
 	}
 
+	public static boolean isOnlyOneTrue(boolean... conditions) {
+		int trueCount = 0;
+		for (boolean condition : conditions) {
+			if (condition) {
+				trueCount++;
+				if (trueCount > 1) {
+					return false;
+				}
+			}
+		}
+		return trueCount == 1;
+	}
+
 }

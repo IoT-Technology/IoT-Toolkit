@@ -17,16 +17,13 @@ package iot.technology.client.toolkit.nb.command;
 
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.command.sub.NbCallCommand;
+import iot.technology.client.toolkit.nb.command.sub.NbShellModeCommand;
 import iot.technology.client.toolkit.nb.command.sub.NbDescribeCommand;
 import iot.technology.client.toolkit.nb.command.sub.NbSettingsCommand;
 import picocli.CommandLine;
 
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
-
-import static iot.technology.client.toolkit.common.utils.ColorUtils.colorItalic;
 
 /**
  * @author mushuwei
@@ -41,9 +38,9 @@ import static iot.technology.client.toolkit.common.utils.ColorUtils.colorItalic;
 		optionListHeading = "%n@|bold ${bundle:general.option}|@%n",
 		descriptionHeading = "%n",
 		subcommands = {
-				NbCallCommand.class,
+				NbDescribeCommand.class,
 				NbSettingsCommand.class,
-				NbDescribeCommand.class
+				NbShellModeCommand.class,
 		},
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei")

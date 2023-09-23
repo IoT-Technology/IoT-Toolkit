@@ -89,27 +89,35 @@ public class MainInfo {
                         "(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit mqtt -h", "red") + ")"))
                 .append(StringUtils.lineSeparator());
         sb.append(String.format("%s %s",
-                        ColorUtils.colorBold("publish:       ", "yellow"),
-                        ColorUtils.colorItalic(bundle.getString("mqtt.pub.description"), "cyan")))
+                        ColorUtils.colorBold("desc:          ", "yellow"),
+                        ColorUtils.colorItalic(bundle.getString("mqtt.description"), "cyan")))
                 .append(StringUtils.lineSeparator());
         sb.append(String.format("%s %s",
-                        ColorUtils.colorBold("subscribe:     ", "yellow"),
-                        ColorUtils.colorItalic(bundle.getString("mqtt.sub.description"), "cyan")))
+                        ColorUtils.colorBold("set:           ", "yellow"),
+                        ColorUtils.colorItalic(bundle.getString("mqtt.settings.desc"), "cyan")))
                 .append(StringUtils.lineSeparator());
-        sb.append(StringUtils.lineSeparator());
+        sb.append(String.format("%s %s",
+                        ColorUtils.colorBold("shell:         ", "yellow"),
+                        ColorUtils.colorItalic(bundle.getString("mqtt.shell.description"), "cyan")))
+                .append(StringUtils.lineSeparator());
 
+        sb.append(StringUtils.lineSeparator());
         // toolkit nb simple description
         sb.append(String.format("%s %s",
                         ColorUtils.colorBold(bundle.getString("nb.description"), ""),
                         "(" + bundle.getString("general.reference") + ColorUtils.colorBold("toolkit nb -h", "red") + ")"))
                 .append(StringUtils.lineSeparator());
         sb.append(String.format("%s %s",
-                        ColorUtils.colorBold("call:          ", "yellow"),
-                        ColorUtils.colorItalic(bundle.getString("nb.call.desc"), "cyan")))
+                        ColorUtils.colorBold("desc:          ", "yellow"),
+                        ColorUtils.colorItalic(bundle.getString("nb.desc.desc"), "cyan")))
                 .append(StringUtils.lineSeparator());
         sb.append(String.format("%s %s",
                         ColorUtils.colorBold("set:           ", "yellow"),
-                        ColorUtils.colorItalic(bundle.getString("nb.desc.desc"), "cyan")))
+                        ColorUtils.colorItalic(bundle.getString("nb.settings.desc"), "cyan")))
+                .append(StringUtils.lineSeparator());
+        sb.append(String.format("%s %s",
+                        ColorUtils.colorBold("shell:         ", "yellow"),
+                        ColorUtils.colorItalic(bundle.getString("nb.shell.desc"), "cyan")))
                 .append(StringUtils.lineSeparator());
         sb.append(StringUtils.lineSeparator());
 

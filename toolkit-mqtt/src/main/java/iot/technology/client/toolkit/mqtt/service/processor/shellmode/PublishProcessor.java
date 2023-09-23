@@ -26,8 +26,13 @@ import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttShellModeDomain;
 import org.apache.commons.cli.*;
+import org.eclipse.leshan.core.util.Hex;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 
@@ -53,7 +58,13 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
         Option topicOption = new Option("t", "topic", true, "the mqtt topic");
         Option qosOption = new Option("q", "qos", true, "the quality of service level");
         Option messageOption = new Option("m", "message", true, "the message");
-        options.addOption(topicOption).addOption(qosOption).addOption(messageOption);
+        Option messageFromFile = new Option("mf", "message-file", true, "The message read in from a file");
+        Option messageHexFormat = new Option("mh", "message-hex", true, "The hex format message");
+        options.addOption(topicOption)
+                .addOption(qosOption)
+                .addOption(messageFromFile)
+                .addOption(messageHexFormat)
+                .addOption(messageOption);
 
         try {
             CommandLineParser parser = new DefaultParser();
@@ -61,15 +72,45 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
             int qos = 0;
             String topic = "";
             String message = "";
+
             if (cmd.hasOption(topicOption)) {
                 topic = cmd.getOptionValue(topicOption);
             }
+            int messageConditions = 0;
+            byte[] messageBytes = new byte[0];
             if (cmd.hasOption(messageOption)) {
+                messageConditions++;
+                messageBytes = cmd.getOptionValue(messageOption).getBytes(StandardCharsets.UTF_8);
                 message = cmd.getOptionValue(messageOption);
             }
-            if (StringUtils.isBlank(topic) || StringUtils.isBlank(message)) {
+            if (cmd.hasOption(messageHexFormat)) {
+                messageConditions++;
+                String hexMessage = cmd.getOptionValue(messageHexFormat);
+                messageBytes = Hex.decodeHex(hexMessage.toCharArray());
+                message = hexMessage;
+            }
+            if (cmd.hasOption(messageFromFile)) {
+                messageConditions++;
+                String fileName = cmd.getOptionValue(messageFromFile);
+                final Path path = Paths.get(fileName);
+                if (!Files.isReadable(path)) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("File not found or not readable: " + fileName)).append(StringUtils.lineSeparator);
+                    sb.append(ColorUtils.blackBold("detail usage please enter: help pub"));
+                    System.out.println(sb);
+                }
+                try {
+                    messageBytes = Files.readAllBytes(path);
+                    message = fileName;
+                } catch (IOException e) {
+                    System.out.println(ColorUtils.redError("file convert message failed"));
+                }
+            }
+
+            if (messageConditions == 0 || messageConditions > 2) {
                 StringBuilder sb = new StringBuilder();
-                sb.append(ColorUtils.redError("topic or message is empty")).append(StringUtils.lineSeparator);
+                sb.append(ColorUtils.redError(String.format("-m or -m:file or -m:hex not found or set multi")))
+                        .append(StringUtils.lineSeparator);
                 sb.append(ColorUtils.blackBold("detail usage please enter: help pub"));
                 System.out.println(sb);
                 return;
@@ -93,7 +134,7 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
             }
 
             MqttQoS qosLevel = MqttQoS.valueOf(qos);
-            domain.getClient().publish(topic, Unpooled.wrappedBuffer(message.getBytes(StandardCharsets.UTF_8)), qosLevel, false);
+            domain.getClient().publish(topic, Unpooled.wrappedBuffer(messageBytes), qosLevel, false);
             System.out.format(message + " " + bundle.getString("publishMessage.success") + String.format(EmojiEnum.successEmoji) + "%n");
 
         } catch (ParseException e) {
@@ -101,5 +142,15 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
             sb.append(ColorUtils.redError("command parse failed!")).append(StringUtils.lineSeparator);
             System.out.println(sb);
         }
+    }
+
+    private static void getMessageBytes(int messageConditions,
+                                          String message,
+                                          byte[] messageBytes,
+                                          CommandLine cmd,
+                                          Option messageOption,
+                                          Option messageFromFile,
+                                          Option messageHexFormat) {
+
     }
 }
