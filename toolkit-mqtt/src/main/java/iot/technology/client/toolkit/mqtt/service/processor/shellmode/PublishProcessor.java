@@ -143,14 +143,4 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
             System.out.println(sb);
         }
     }
-
-    private static void getMessageBytes(int messageConditions,
-                                          String message,
-                                          byte[] messageBytes,
-                                          CommandLine cmd,
-                                          Option messageOption,
-                                          Option messageFromFile,
-                                          Option messageHexFormat) {
-
-    }
 }
