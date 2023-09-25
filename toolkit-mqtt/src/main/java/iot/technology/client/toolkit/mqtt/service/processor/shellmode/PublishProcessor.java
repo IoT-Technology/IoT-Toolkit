@@ -33,6 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.ResourceBundle;
 
 
@@ -60,10 +61,12 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
         Option messageOption = new Option("m", "message", true, "the message");
         Option messageFromFile = new Option("mf", "message-file", true, "The message read in from a file");
         Option messageHexFormat = new Option("mh", "message-hex", true, "The hex format message");
+        Option messageBase64Format = new Option("mb", "message-base64", true, "The base64 message");
         options.addOption(topicOption)
                 .addOption(qosOption)
                 .addOption(messageFromFile)
                 .addOption(messageHexFormat)
+                .addOption(messageBase64Format)
                 .addOption(messageOption);
 
         try {
@@ -78,17 +81,26 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
             }
             int messageConditions = 0;
             byte[] messageBytes = new byte[0];
+            // plaintext or json message
             if (cmd.hasOption(messageOption)) {
                 messageConditions++;
                 messageBytes = cmd.getOptionValue(messageOption).getBytes(StandardCharsets.UTF_8);
                 message = cmd.getOptionValue(messageOption);
             }
+            // The hex format message
             if (cmd.hasOption(messageHexFormat)) {
                 messageConditions++;
                 String hexMessage = cmd.getOptionValue(messageHexFormat);
                 messageBytes = Hex.decodeHex(hexMessage.toCharArray());
                 message = hexMessage;
             }
+            // The base64 format message
+            if (cmd.hasOption(messageBase64Format)) {
+                messageConditions++;
+                String base64Message = cmd.getOptionValue(messageBase64Format);
+                messageBytes = Base64.getDecoder().decode(base64Message);
+            }
+            // The message read in from a file
             if (cmd.hasOption(messageFromFile)) {
                 messageConditions++;
                 String fileName = cmd.getOptionValue(messageFromFile);
@@ -109,7 +121,7 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
 
             if (messageConditions == 0 || messageConditions > 2) {
                 StringBuilder sb = new StringBuilder();
-                sb.append(ColorUtils.redError(String.format("-m or -m:file or -m:hex not found or set multi")))
+                sb.append(ColorUtils.redError(String.format("-m、-mf、-mh or -mb not found or set multi")))
                         .append(StringUtils.lineSeparator);
                 sb.append(ColorUtils.blackBold("detail usage please enter: help pub"));
                 System.out.println(sb);
