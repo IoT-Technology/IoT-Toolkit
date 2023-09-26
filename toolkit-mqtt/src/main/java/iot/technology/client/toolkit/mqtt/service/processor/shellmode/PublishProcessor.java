@@ -58,12 +58,15 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
         Options options = new Options();
         Option topicOption = new Option("t", "topic", true, "the mqtt topic");
         Option qosOption = new Option("q", "qos", true, "the quality of service level");
+        Option retainOption = new Option("r", "retain", false, "The message will be retained (default: false)");
         Option messageOption = new Option("m", "message", true, "the message");
         Option messageFromFile = new Option("mf", "message-file", true, "The message read in from a file");
         Option messageHexFormat = new Option("mh", "message-hex", true, "The hex format message");
         Option messageBase64Format = new Option("mb", "message-base64", true, "The base64 message");
+
         options.addOption(topicOption)
                 .addOption(qosOption)
+                .addOption(retainOption)
                 .addOption(messageFromFile)
                 .addOption(messageHexFormat)
                 .addOption(messageBase64Format)
@@ -74,8 +77,13 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
             CommandLine cmd = parser.parse(options, convertMqttCommandData(context.getData()));
             int qos = 0;
             String topic = "";
+            // the message of print console
             String message = "";
-
+            // retain
+            boolean retain = false;
+            if (cmd.hasOption(retainOption)) {
+                retain = true;
+            }
             if (cmd.hasOption(topicOption)) {
                 topic = cmd.getOptionValue(topicOption);
             }
@@ -99,6 +107,7 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
                 messageConditions++;
                 String base64Message = cmd.getOptionValue(messageBase64Format);
                 messageBytes = Base64.getDecoder().decode(base64Message);
+                message = base64Message;
             }
             // The message read in from a file
             if (cmd.hasOption(messageFromFile)) {
@@ -146,7 +155,7 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
             }
 
             MqttQoS qosLevel = MqttQoS.valueOf(qos);
-            domain.getClient().publish(topic, Unpooled.wrappedBuffer(messageBytes), qosLevel, false);
+            domain.getClient().publish(topic, Unpooled.wrappedBuffer(messageBytes), qosLevel, retain);
             System.out.format(message + " " + bundle.getString("publishMessage.success") + String.format(EmojiEnum.successEmoji) + "%n");
 
         } catch (ParseException e) {
