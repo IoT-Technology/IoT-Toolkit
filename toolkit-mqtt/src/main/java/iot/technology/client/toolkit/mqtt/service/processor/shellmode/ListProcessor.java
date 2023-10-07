@@ -15,7 +15,6 @@
  */
 package iot.technology.client.toolkit.mqtt.service.processor.shellmode;
 
-import com.google.common.collect.HashMultimap;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
@@ -26,6 +25,7 @@ import iot.technology.client.toolkit.mqtt.config.MqttShellModeDomain;
 import iot.technology.client.toolkit.mqtt.service.domain.MqttSubscription;
 
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author mushuwei
@@ -58,9 +58,9 @@ public class ListProcessor implements TkProcessor {
 
         sb.append(StringUtils.lineSeparator());
         sb.append(ColorUtils.colorBold("Subscribed Topics:", "black")).append(StringUtils.lineSeparator());
-        HashMultimap<String, MqttSubscription> subscriptions = domain.getClient().getSubscriptions();
+        ConcurrentHashMap<String, MqttSubscription> subscriptions = domain.getClient().getSubscriptions();
         if (!subscriptions.isEmpty()) {
-            subscriptions.entries().forEach(entry -> {
+            subscriptions.entrySet().stream().forEach(entry -> {
                 String key = entry.getKey();
                 MqttSubscription subscription = entry.getValue();
                 sb.append("topic: " + key + " qos: " + subscription.getMqttQoS().name()).append(StringUtils.lineSeparator());

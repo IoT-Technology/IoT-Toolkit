@@ -42,7 +42,7 @@ public class MqttPubMessageHandler implements MqttHandler {
 		sb.append(StringUtils.lineSeparator());
 		System.out.format("%n" + "------"+ bundle.getString("mqtt.received.desc") + String.format(EmojiEnum.subscribeEmoji) + "------" + "%n");
 		sb.append(String.format("Topic:%s   QoS:%s", topic, qos.value())).append(StringUtils.lineSeparator());
-		sb.append(ColorUtils.blackBold(payload.toString(StandardCharsets.UTF_8))).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold(payload.toString(StandardCharsets.UTF_8), "yellow")).append(StringUtils.lineSeparator());
 		sb.append(formatter.format(nowDateTime)).append(StringUtils.lineSeparator());
 		sb.append(StringUtils.lineSeparator());
 		System.out.print(sb);

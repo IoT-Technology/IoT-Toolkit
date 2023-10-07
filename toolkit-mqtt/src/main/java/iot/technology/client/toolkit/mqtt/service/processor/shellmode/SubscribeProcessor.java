@@ -23,7 +23,7 @@ import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.mqtt.config.MqttShellModeDomain;
-import iot.technology.client.toolkit.mqtt.service.handler.MqttSubMessageHandler;
+import iot.technology.client.toolkit.mqtt.service.handler.*;
 import org.apache.commons.cli.*;
 
 import java.util.ResourceBundle;
@@ -46,7 +46,14 @@ public class SubscribeProcessor extends TkAbstractProcessor implements TkProcess
         Options options = new Options();
         Option topicOption = new Option("t", "topic", true, "the mqtt topic");
         Option qosOption = new Option("q", "qos", true, "the quality of service level");
-        options.addOption(topicOption).addOption(qosOption);
+        Option messageHexFormat = new Option("hex", "hex", false, "The hex format message");
+        Option messageBase64Format = new Option("b64", "base64", false, "The base64 message");
+        Option messageJsonFormat = new Option("json", "json", false, "The hex format message");
+        options.addOption(topicOption)
+                .addOption(messageHexFormat)
+                .addOption(messageBase64Format)
+                .addOption(messageJsonFormat)
+                .addOption(qosOption);
 
         try {
             CommandLineParser parser = new DefaultParser();
@@ -61,7 +68,7 @@ public class SubscribeProcessor extends TkAbstractProcessor implements TkProcess
             if (StringUtils.isBlank(topic)) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(ColorUtils.redError("topic is empty")).append(StringUtils.lineSeparator);
-                sb.append(ColorUtils.blackBold("detail usage please enter: help pub"));
+                sb.append(ColorUtils.blackBold("detail usage please enter: help sub"));
                 System.out.println(sb);
                 return;
             }
@@ -70,7 +77,7 @@ public class SubscribeProcessor extends TkAbstractProcessor implements TkProcess
                 if (!validateParam(qosStr)) {
                     StringBuilder sb = new StringBuilder();
                     sb.append(ColorUtils.redError(String.format("%s is not a number", qosStr))).append(StringUtils.lineSeparator);
-                    sb.append(ColorUtils.blackBold("detail usage please enter: help pub"));
+                    sb.append(ColorUtils.blackBold("detail usage please enter: help sub"));
                     System.out.println(sb);
                     return;
                 }
@@ -83,8 +90,29 @@ public class SubscribeProcessor extends TkAbstractProcessor implements TkProcess
                 }
             }
             MqttQoS qosLevel = MqttQoS.valueOf(qos);
-            MqttSubMessageHandler handler = new MqttSubMessageHandler();
-            domain.getClient().on(topic, handler, qosLevel);
+            MqttHandler mqttHandler = new MqttSubMessageHandler();
+            int messageConditions = 0;
+            if (cmd.hasOption(messageHexFormat)) {
+                messageConditions++;
+                mqttHandler = new MqttHexMessageHandler();
+            }
+            if (cmd.hasOption(messageBase64Format)) {
+                messageConditions++;
+                mqttHandler = new MqttBase64MessageHandler();
+            }
+            if (cmd.hasOption(messageJsonFormat)) {
+                messageConditions++;
+                mqttHandler = new MqttJsonFormatMessageHandler();
+            }
+            if (messageConditions > 1 || messageConditions > 2) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(ColorUtils.redError(String.format("-hex、-base64 or -json not found or set multi")))
+                        .append(StringUtils.lineSeparator);
+                sb.append(ColorUtils.blackBold("detail usage please enter: help sub"));
+                System.out.println(sb);
+                return;
+            }
+            domain.getClient().on(topic, mqttHandler, qosLevel);
         } catch (ParseException e) {
             StringBuilder sb = new StringBuilder();
             sb.append(ColorUtils.redError("command parse failed!")).append(StringUtils.lineSeparator);

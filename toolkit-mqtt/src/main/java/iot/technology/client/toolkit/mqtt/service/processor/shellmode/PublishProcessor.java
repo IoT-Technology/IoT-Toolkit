@@ -62,7 +62,7 @@ public class PublishProcessor extends TkAbstractProcessor implements TkProcessor
         Option messageOption = new Option("m", "message", true, "the message");
         Option messageFromFile = new Option("mf", "message-file", true, "The message read in from a file");
         Option messageHexFormat = new Option("mh", "message-hex", true, "The hex format message");
-        Option messageBase64Format = new Option("mb", "message-base64", true, "The base64 message");
+        Option messageBase64Format = new Option("mb", "message-base64", true, "The base64 format message");
 
         options.addOption(topicOption)
                 .addOption(qosOption)

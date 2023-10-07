@@ -66,33 +66,49 @@ public class HelpProcessor implements TkProcessor {
             case "pub":
             case "publish":
                 sb.append(ColorUtils.colorBold("Usage: ", "black")
-                        + String.format("> %s %s <topic> %s <qos>  %s <messageFromCommandline> ",
+                        + String.format("> %s %s <topic> %s <qos>  [%s <messageFromCommandline> | %s <messageFromFile> " +
+                                "| %s <hexFormatMessage> | %s <base64FormatMessage>]",
                         ColorUtils.colorBold("pub", "green"),
                         ColorUtils.colorBold("-t", "green"),
                         ColorUtils.colorBold("-q", "green"),
-                        ColorUtils.colorBold("-m", "green")));
+                        ColorUtils.colorBold("-m", "green"),
+                        ColorUtils.colorBold("-mf", "green"),
+                        ColorUtils.colorBold("-mh", "green"),
+                        ColorUtils.colorBold("-mb", "green")));
                 sb.append(StringUtils.lineSeparator());
                 sb.append(bundle.getString("mqtt.subCmd.pub.help")).append(StringUtils.lineSeparator());
                 sb.append(StringUtils.lineSeparator());
                 sb.append("Options:").append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                        ColorUtils.colorBold("-m, --message ", "green"),
-                        "The message to publish"))
+                                ColorUtils.colorBold("-t --topic            ", "green"),
+                                bundle.getString("mqtt.subCmd.prompt.topic")))
                         .append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                        ColorUtils.colorBold("-t --topic    ", "green"),
-                        "The topics to publish to"))
+                                ColorUtils.colorBold("-q --qos              ", "green"),
+                                bundle.getString("mqtt.subCmd.prompt.qos")))
                         .append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                        ColorUtils.colorBold("-q --qos      ", "green"),
-                        "Quality of service for the corresponding topic (default for all: 0)"))
+                                ColorUtils.colorBold("-m, --message         ", "green"),
+                                bundle.getString("mqtt.subCmd.pub.message")))
+                        .append(StringUtils.lineSeparator());
+                sb.append(String.format("%s %s",
+                                ColorUtils.colorBold("-mf, --message-file   ", "green"),
+                                bundle.getString("mqtt.subCmd.pub.message-file")))
+                        .append(StringUtils.lineSeparator());
+                sb.append(String.format("%s %s",
+                                ColorUtils.colorBold("-mh, --message-hex    ", "green"),
+                                bundle.getString("mqtt.subCmd.pub.message-hex")))
+                        .append(StringUtils.lineSeparator());
+                sb.append(String.format("%s %s",
+                                ColorUtils.colorBold("-mb, --message-base64 ", "green"),
+                                bundle.getString("mqtt.subCmd.pub.message-base64")))
                         .append(StringUtils.lineSeparator());
                 System.out.print(sb);
                 break;
             case "sub":
             case "subscribe":
                 sb.append(ColorUtils.colorBold("Usage: ", "black")
-                        + String.format("> %s %s <topic> %s <qos>",
+                        + String.format("> %s %s <topic> %s <qos> [-b64] [-hex] [-json]",
                         ColorUtils.colorBold("sub", "green"),
                         ColorUtils.colorBold("-t", "green"),
                         ColorUtils.colorBold("-q", "green")));
@@ -101,12 +117,24 @@ public class HelpProcessor implements TkProcessor {
                 sb.append(StringUtils.lineSeparator());
                 sb.append("Options:").append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                                ColorUtils.colorBold("-t --topic ", "green"),
-                                "The topics to publish to"))
+                                ColorUtils.colorBold("-t --topic    ", "green"),
+                                bundle.getString("mqtt.subCmd.prompt.topic")))
                         .append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                                ColorUtils.colorBold("-q --qos   ", "green"),
-                                "Quality of service for the corresponding topic (default for all: 0)"))
+                                ColorUtils.colorBold("-q --qos      ", "green"),
+                                bundle.getString("mqtt.subCmd.prompt.qos")))
+                        .append(StringUtils.lineSeparator());
+                sb.append(String.format("%s %s",
+                                ColorUtils.colorBold("-b64 --base64 ", "green"),
+                                bundle.getString("mqtt.subCmd.sub.b64")))
+                        .append(StringUtils.lineSeparator());
+                sb.append(String.format("%s %s",
+                                ColorUtils.colorBold("-hex --hex    ", "green"),
+                                bundle.getString("mqtt.subCmd.sub.hex")))
+                        .append(StringUtils.lineSeparator());
+                sb.append(String.format("%s %s",
+                                ColorUtils.colorBold("-json --json  ", "green"),
+                                bundle.getString("mqtt.subCmd.sub.json")))
                         .append(StringUtils.lineSeparator());
                 System.out.print(sb);
                 break;
@@ -122,7 +150,7 @@ public class HelpProcessor implements TkProcessor {
                 sb.append("Options:").append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
                                 ColorUtils.colorBold("-t --topic", "green"),
-                                "The topics to publish to"))
+                                bundle.getString("mqtt.subCmd.prompt.topic")))
                         .append(StringUtils.lineSeparator());
                 System.out.print(sb);
                 break;

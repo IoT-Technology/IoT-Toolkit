@@ -51,10 +51,10 @@ public class MqttClientService {
 	private final ConcurrentMap<Integer, MqttPendingUnsubscription> pendingServerUnsubscribes = new ConcurrentHashMap<>();
 	private final ConcurrentMap<Integer, MqttIncomingQos2Publish> qos2PendingIncomingPublishes = new ConcurrentHashMap<>();
 	private final ConcurrentMap<Integer, MqttPendingPublish> pendingPublishes = new ConcurrentHashMap<>();
-	private final HashMultimap<String, MqttSubscription> subscriptions = HashMultimap.create();
+	private final ConcurrentHashMap<String, MqttSubscription> subscriptions = new ConcurrentHashMap<>();
 	private final ConcurrentMap<Integer, MqttPendingSubscription> pendingSubscriptions = new ConcurrentHashMap<>();
 	private final Set<String> pendingSubscribeTopics = new HashSet<>();
-	private final HashMultimap<MqttHandler, MqttSubscription> handlerToSubscribtion = HashMultimap.create();
+	private final ConcurrentHashMap<MqttHandler, MqttSubscription> handlerToSubscribtion = new ConcurrentHashMap<>();
 	private final AtomicInteger nextMessageId = new AtomicInteger(1);
 
 	private final MqttClientConfig clientConfig;
@@ -175,10 +175,8 @@ public class MqttClientService {
 	 */
 	public Future<Void> off(String topic, MqttHandler handler) {
 		Promise<Void> future = new DefaultPromise<>(this.eventLoop.next());
-		for (MqttSubscription subscription : this.handlerToSubscribtion.get(handler)) {
-			this.subscriptions.remove(topic, subscription);
-		}
-		this.handlerToSubscribtion.removeAll(handler);
+		this.subscriptions.remove(topic);
+		this.handlerToSubscribtion.remove(handler);
 		this.checkSubscribtions(topic, future);
 		return future;
 	}
@@ -192,13 +190,10 @@ public class MqttClientService {
 	 */
 	public Future<Void> off(String topic) {
 		Promise<Void> future = new DefaultPromise<>(this.eventLoop.next());
-		ImmutableSet<MqttSubscription> subscriptions = ImmutableSet.copyOf(this.subscriptions.get(topic));
-		for (MqttSubscription subscription : subscriptions) {
-			for (MqttSubscription handSub : this.handlerToSubscribtion.get(subscription.getHandler())) {
-				this.subscriptions.remove(topic, handSub);
-			}
-			this.handlerToSubscribtion.remove(subscription.getHandler(), subscription);
-		}
+		MqttSubscription subscription = this.subscriptions.get(topic);
+		MqttSubscription handSub = this.handlerToSubscribtion.get(subscription.getHandler());
+		this.subscriptions.remove(topic, handSub);
+		this.handlerToSubscribtion.remove(subscription.getHandler());
 		this.checkSubscribtions(topic, future);
 		return future;
 	}
@@ -227,15 +222,16 @@ public class MqttClientService {
 		return pendingSubscriptions;
 	}
 
-	public HashMultimap<String, MqttSubscription> getSubscriptions() {
+	public ConcurrentHashMap<String, MqttSubscription> getSubscriptions() {
 		return subscriptions;
 	}
+
 
 	public Set<String> getPendingSubscribeTopics() {
 		return pendingSubscribeTopics;
 	}
 
-	public HashMultimap<MqttHandler, MqttSubscription> getHandlerToSubscribtion() {
+	public ConcurrentHashMap<MqttHandler, MqttSubscription> getHandlerToSubscribtion() {
 		return handlerToSubscribtion;
 	}
 
@@ -260,7 +256,7 @@ public class MqttClientService {
 	 */
 
 	private void checkSubscribtions(String topic, Promise<Void> promise) {
-		if (!(this.subscriptions.containsKey(topic) && this.subscriptions.get(topic).size() != 0) &&
+		if (!(this.subscriptions.containsKey(topic) && this.subscriptions.get(topic) != null) &&
 				this.serverSubscriptions.contains(topic)) {
 			MqttFixedHeader fixedHeader = new MqttFixedHeader(MqttMessageType.UNSUBSCRIBE, false, MqttQoS.AT_LEAST_ONCE, false, 0);
 			MqttMessageIdVariableHeader variableHeader = getNewMessageId();
