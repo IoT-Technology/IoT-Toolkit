@@ -46,7 +46,17 @@ public class MqttSubMessageHandler implements MqttHandler {
 		StringBuilder sb = new StringBuilder();
 		sb.append(StringUtils.lineSeparator());
 		System.out.format("%n" + "------"+ bundle.getString("mqtt.received.desc") + String.format(EmojiEnum.subscribeEmoji) + "------" + "%n");
-		sb.append(String.format("Topic:%s   QoS:%s", topic, qos.value())).append(StringUtils.lineSeparator());
+		String qosConsoleString = "";
+		if (qos.equals(MqttQoS.AT_MOST_ONCE)) {
+			qosConsoleString = bundle.getString("mqtt.qos0.prompt");
+		}
+		if (qos.equals(MqttQoS.AT_LEAST_ONCE)) {
+			qosConsoleString = bundle.getString("mqtt.qos1.prompt");
+		}
+		if (qos.equals(MqttQoS.EXACTLY_ONCE)) {
+			qosConsoleString = bundle.getString("mqtt.qos2.prompt");
+		}
+		sb.append(String.format("Topic:%s   QoS:%s", topic, qosConsoleString)).append(StringUtils.lineSeparator());
 		sb.append(ColorUtils.colorBold(payload.toString(StandardCharsets.UTF_8), "yellow")).
 				append(StringUtils.lineSeparator());
 		sb.append(formatter.format(nowDateTime)).append(StringUtils.lineSeparator());

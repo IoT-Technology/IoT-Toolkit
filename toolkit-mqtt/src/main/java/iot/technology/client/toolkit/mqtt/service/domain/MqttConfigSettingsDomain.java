@@ -146,7 +146,7 @@ public class MqttConfigSettingsDomain implements Serializable {
 
 	public MqttSettings convertMqttSettingsJsonString() {
 		MqttSettings settings = new MqttSettings();
-		settings.setName(settingsName + "@" + host + ":" + port);
+		settings.setName(clientId + "@" + host + ":" + port);
 		MqttSettingsInfo info = new MqttSettingsInfo();
 		info.setVersion(mqttVersion);
 		info.setClientId(clientId);

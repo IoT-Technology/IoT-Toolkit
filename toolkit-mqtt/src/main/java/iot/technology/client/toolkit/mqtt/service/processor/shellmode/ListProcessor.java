@@ -15,6 +15,7 @@
  */
 package iot.technology.client.toolkit.mqtt.service.processor.shellmode;
 
+import io.netty.handler.codec.mqtt.MqttQoS;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
@@ -63,7 +64,18 @@ public class ListProcessor implements TkProcessor {
             subscriptions.entrySet().stream().forEach(entry -> {
                 String key = entry.getKey();
                 MqttSubscription subscription = entry.getValue();
-                sb.append("topic: " + key + " qos: " + subscription.getMqttQoS().name()).append(StringUtils.lineSeparator());
+
+                String qosConsoleString = "";
+                if (subscription.getMqttQoS().equals(MqttQoS.AT_MOST_ONCE)) {
+                    qosConsoleString = bundle.getString("mqtt.qos0.prompt");
+                }
+                if (subscription.getMqttQoS().equals(MqttQoS.AT_LEAST_ONCE)) {
+                    qosConsoleString = bundle.getString("mqtt.qos1.prompt");
+                }
+                if (subscription.getMqttQoS().equals(MqttQoS.EXACTLY_ONCE)) {
+                    qosConsoleString = bundle.getString("mqtt.qos2.prompt");
+                }
+                sb.append("topic: " + key + " qos: " + qosConsoleString).append(StringUtils.lineSeparator());
             });
         }
         System.out.print(sb);
