@@ -57,7 +57,7 @@ public class SubscribeProcessor extends TkAbstractProcessor implements TkProcess
 
         try {
             CommandLineParser parser = new DefaultParser();
-            CommandLine cmd = parser.parse(options, convertMqttCommandData(context.getData()));
+            CommandLine cmd = parser.parse(options, convertCommandData(context.getData()));
             int qos = 0;
             String topic = "";
 

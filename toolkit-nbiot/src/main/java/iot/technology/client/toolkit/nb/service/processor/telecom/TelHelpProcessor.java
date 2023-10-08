@@ -161,4 +161,26 @@ public class TelHelpProcessor implements TkProcessor {
 		}
 
 	}
+
+	public void printAllHelpInfo() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("").append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("Usage:", "black") + ColorUtils.colorBold(" > ", "green")
+				+ "{ add | del | update | show | list | log | command | exit }").append(StringUtils.lineSeparator());
+		sb.append("").append(StringUtils.lineSeparator());
+		sb.append(bundle.getString("nb.shellmode.help")).append(StringUtils.lineSeparator());
+		sb.append("").append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold(bundle.getString("general.commands"), "black"))
+				.append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  help             ", "green")).append(bundle.getString("general.subCommand.help")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  add              ", "green")).append(bundle.getString("nb.operation.add.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  del, delete      ", "green")).append(bundle.getString("nb.operation.del.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  update           ", "green")).append(bundle.getString("nb.operation.update.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  show             ", "green")).append(bundle.getString("nb.operation.get.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  ls, list         ", "green")).append(bundle.getString("nb.operation.list.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  log              ", "green")).append(bundle.getString("nb.operation.log.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  command          ", "green")).append(bundle.getString("nb.operation.command.desc")).append(StringUtils.lineSeparator());
+		System.out.println(sb);
+
+	}
 }

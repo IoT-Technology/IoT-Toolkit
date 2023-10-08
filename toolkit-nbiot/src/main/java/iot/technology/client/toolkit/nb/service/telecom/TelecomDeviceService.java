@@ -207,7 +207,8 @@ public class TelecomDeviceService extends AbstractTelecomService {
         }
     }
 
-    public TelQueryDeviceListResponse queryDeviceList(TelecomConfigDomain config, String searchValue, Integer pageNow) {
+    public TelQueryDeviceListResponse queryDeviceList(TelecomConfigDomain config, String searchValue,
+                                                      Integer pageNow, Integer pageSize) {
         TelQueryDeviceListResponse queryDeviceListResponse = new TelQueryDeviceListResponse();
         try {
             HttpRequestEntity entity = new HttpRequestEntity();
@@ -224,8 +225,8 @@ public class TelecomDeviceService extends AbstractTelecomService {
             searchValue = Objects.isNull(searchValue) ? null : searchValue;
             encryptParams.put("pageNow", String.valueOf(pageNow));
             queryParams.put("pageNow", String.valueOf(pageNow));
-            encryptParams.put("pageSize", "20");
-            queryParams.put("pageSize", "20");
+            encryptParams.put("pageSize", String.valueOf(pageSize));
+            queryParams.put("pageSize", String.valueOf(pageSize));
             encryptParams.put("searchValue", searchValue);
             queryParams.put("searchValue", searchValue);
 

@@ -45,7 +45,7 @@ public class UnSubscribeProcessor extends TkAbstractProcessor implements TkProce
 
         try {
             CommandLineParser parser = new DefaultParser();
-            CommandLine cmd = parser.parse(options, convertMqttCommandData(context.getData()));
+            CommandLine cmd = parser.parse(options, convertCommandData(context.getData()));
             String topic = "";
             if (cmd.hasOption(topicOption)) {
                 topic = cmd.getOptionValue(topicOption);

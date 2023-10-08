@@ -78,6 +78,9 @@ public class TelecomBizService {
 			boolean isEnd = true;
 			TelProcessContext context = new TelProcessContext();
 			context.setTelecomConfigDomain(telecomConfigDomain);
+
+			TelHelpProcessor telHelpProcessor = new TelHelpProcessor();
+			telHelpProcessor.printAllHelpInfo();
 			while (isEnd) {
 				String data;
 				data = reader.readLine(prompt);

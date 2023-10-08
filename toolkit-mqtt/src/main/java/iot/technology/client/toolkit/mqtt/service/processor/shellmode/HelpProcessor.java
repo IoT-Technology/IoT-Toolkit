@@ -170,7 +170,6 @@ public class HelpProcessor implements TkProcessor {
 
     public void printAllHelpInfo() {
         StringBuilder sb = new StringBuilder();
-        // list telecom nb-iot devices
         sb.append("").append(StringUtils.lineSeparator());
         sb.append(ColorUtils.colorBold("Usage:", "black") + ColorUtils.colorBold(" > ", "green")
                 + "{ pub | sub | unsub | dis | list | exit }").append(StringUtils.lineSeparator());

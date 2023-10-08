@@ -46,7 +46,7 @@ public abstract class TkAbstractProcessor implements TkProcessor {
 		return true;
 	}
 
-	public String[] convertMqttCommandData(String commandData) {
+	public String[] convertCommandData(String commandData) {
 		String regex = "\"([^\"]*)\"|'([^']*)'|\\S+";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(commandData);
