@@ -117,7 +117,8 @@ public class TelecomDeviceService extends AbstractTelecomService {
         }
     }
 
-    public TelUpdateDeviceResponse updateDevice(TelecomConfigDomain config, String imei, String deviceName) {
+    public TelUpdateDeviceResponse updateDevice(TelecomConfigDomain config, String imei, String deviceName,
+                                                Integer autoObserver, String imsi) {
         TelUpdateDeviceResponse updateDeviceResponse = new TelUpdateDeviceResponse();
         try {
             TelQueryDeviceByImeiResponse queryDeviceByImeiResponse = querySingleDeviceByImei(config, imei);
@@ -135,10 +136,10 @@ public class TelecomDeviceService extends AbstractTelecomService {
                 queryParams.put("deviceId", deviceInfo.getDeviceId());
 
                 TelUpdateDeviceOtherRequest deviceOtherRequest = new TelUpdateDeviceOtherRequest();
-                deviceOtherRequest.setImsi(deviceInfo.getImsi());
-                deviceOtherRequest.setAutoObserver(deviceInfo.getAutoObserver());
+                deviceOtherRequest.setImsi(Objects.isNull(imsi) ? deviceInfo.getImsi() : imsi);
+                deviceOtherRequest.setAutoObserver(Objects.isNull(autoObserver) ? deviceInfo.getAutoObserver() : autoObserver);
                 TelUpdateDeviceRequest updateDeviceRequest = new TelUpdateDeviceRequest();
-                updateDeviceRequest.setDeviceName(deviceName);
+                updateDeviceRequest.setDeviceName(Objects.isNull(deviceName) ? deviceInfo.getDeviceName() : deviceName);
                 updateDeviceRequest.setOperator("toolkit");
                 updateDeviceRequest.setProductId(Integer.valueOf(config.getProductId()));
                 updateDeviceRequest.setOther(deviceOtherRequest);

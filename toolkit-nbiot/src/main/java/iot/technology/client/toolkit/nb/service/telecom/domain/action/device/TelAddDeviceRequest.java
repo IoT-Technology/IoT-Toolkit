@@ -22,16 +22,37 @@ import java.io.Serializable;
  */
 public class TelAddDeviceRequest implements Serializable {
 
+	/**
+	 * required
+	 */
 	private String imei;
 
+	/**
+	 * required
+	 */
 	private String deviceName;
 
+	/**
+	 * optional
+	 * 0-true, 1-false
+	 */
 	private Integer autoObserver;
 
+	/**
+	 * optional
+	 * The value contains a maximum of 15 digits, ranging from 0 to 9
+	 */
 	private String imsi;
 
+	/**
+	 * optional, 0-char, 1-hex
+	 */
 	private Integer pskType;
 
+	/**
+	 * optional
+	 * A 16-bit string of uppercase and lowercase letters plus 0-9 digits
+	 */
 	private String pskValue;
 
 	public String getImei() {

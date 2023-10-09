@@ -182,12 +182,6 @@
     ]
   },
   {
-    "name" : "iot.technology.client.toolkit.mqtt.service.node.MqttBizTypeNode",
-    "methods": [
-      { "name": "<init>", "parameterTypes": [] }
-    ]
-  },
-  {
     "name" : "iot.technology.client.toolkit.mqtt.service.node.SettingsNameNode",
     "methods": [
       { "name": "<init>", "parameterTypes": [] }

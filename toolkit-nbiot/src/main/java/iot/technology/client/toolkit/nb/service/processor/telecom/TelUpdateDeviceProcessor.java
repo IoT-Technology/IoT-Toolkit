@@ -16,6 +16,7 @@
 package iot.technology.client.toolkit.nb.service.processor.telecom;
 
 import iot.technology.client.toolkit.common.rule.ProcessContext;
+import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
@@ -23,15 +24,18 @@ import iot.technology.client.toolkit.nb.service.processor.TelProcessContext;
 import iot.technology.client.toolkit.nb.service.telecom.TelecomDeviceService;
 import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDomain;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelUpdateDeviceResponse;
+import org.apache.commons.cli.*;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * format: update imei name
  *
  * @author mushuwei
  */
-public class TelUpdateDeviceProcessor implements TkProcessor {
+public class TelUpdateDeviceProcessor extends TkAbstractProcessor implements TkProcessor {
 
 	private final TelecomDeviceService telecomDeviceService = new TelecomDeviceService();
 
@@ -42,23 +46,76 @@ public class TelUpdateDeviceProcessor implements TkProcessor {
 
 	@Override
 	public void handle(ProcessContext context) {
-		List<String> arguArgs = List.of(context.getData().split(" "));
-		StringBuilder sb = new StringBuilder();
-		if (arguArgs.size() != 3) {
-			sb.append(String.format(ColorUtils.blackBold("argument:%s is illegal"), context.getData()));
-			sb.append(StringUtils.lineSeparator());
-			System.out.println(sb);
-			return;
-		}
 		TelProcessContext telProcessContext = (TelProcessContext) context;
 		TelecomConfigDomain telecomConfigDomain = telProcessContext.getTelecomConfigDomain();
-		String imei = arguArgs.get(1);
-		String name = arguArgs.get(2);
-		TelUpdateDeviceResponse updateDeviceResponse = telecomDeviceService.updateDevice(telecomConfigDomain, imei, name);
+
+		Options options = new Options();
+		Option imeiOption = new Option("imei", true, "the device imei");
+		Option nameOption = new Option("name", true, "the device name");
+		Option notObserverOption = new Option("notObserv", false, "not observer, default: 0- auto observer");
+		Option imsiOption = new Option("imsi", true, "the device imsi");
+
+		options.addOption(imeiOption)
+				.addOption(nameOption)
+				.addOption(notObserverOption)
+				.addOption(imsiOption);
+
+		String imei = "";
+		String name = null;
+		Integer autoObserver = null;
+		String imsi = null;
+		try {
+			CommandLineParser parser = new DefaultParser();
+			CommandLine cmd = parser.parse(options, convertCommandData(context.getData()));
+			if (!cmd.hasOption(imeiOption)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("detail usage please enter: help update"));
+				System.out.println(sb);
+				return;
+			}
+			imei = cmd.getOptionValue(imeiOption);
+			if (!cmd.hasOption(nameOption) && !cmd.hasOption(notObserverOption) && !cmd.hasOption(imsiOption)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("name, notObserv and imsi need one")).append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("detail usage please enter: help update"));
+				System.out.println(sb);
+				return;
+			}
+			if (cmd.hasOption(nameOption)) {
+				name = cmd.getOptionValue(nameOption);
+			}
+			if (cmd.hasOption(notObserverOption)) {
+				autoObserver = 1;
+			}
+			if (cmd.hasOption(imsiOption)) {
+				imsi = cmd.getOptionValue(imsiOption);
+				if (!checkImsiFormat(imsi)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("imsi format incorrect")).append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help add"));
+					System.out.println(sb);
+					return;
+				}
+			}
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
+
+		TelUpdateDeviceResponse updateDeviceResponse = telecomDeviceService.updateDevice(telecomConfigDomain, imei, name,
+				autoObserver, imsi);
 		if (updateDeviceResponse.isSuccess()) {
+			StringBuilder sb = new StringBuilder();
 			sb.append(String.format(ColorUtils.blackBold("imei:%s update success"), imei));
 			sb.append(StringUtils.lineSeparator());
 			System.out.println(sb);
 		}
+	}
+
+	public boolean checkImsiFormat(String input) {
+		String pattern = "^[0-9]{1,15}$";
+		Pattern regex = Pattern.compile(pattern);
+		Matcher matcher = regex.matcher(input);
+		return matcher.matches();
 	}
 }

@@ -52,7 +52,7 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 
 	@Override
 	public boolean supports(ProcessContext context) {
-		return context.getData().startsWith("command");
+		return context.getData().startsWith("command") || context.getData().startsWith("cmd");
 	}
 
 	@Override
