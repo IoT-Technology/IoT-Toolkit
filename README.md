@@ -30,7 +30,6 @@ It runs on Linux, Unix, Windows and Raspberry Pi, does not depend on any runtime
 
 ----------------------------------------
 
-
 ## Main features
 
 <table style="text-align:center">
@@ -64,7 +63,6 @@ It runs on Linux, Unix, Windows and Raspberry Pi, does not depend on any runtime
   </tr>
 </table>
 
-
 ## Getting started
 
 ### MacOS
@@ -92,7 +90,7 @@ choco install toolkit
 ### Direct Download
 
 | Platform     | Toolkit                                                                                            |
-|--------------|----------------------------------------------------------------------------------------------------|
+| ------------ | -------------------------------------------------------------------------------------------------- |
 | Linux-x86_64 | [toolkit-latest-linux-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/latest)   |
 | Linux-arm64  | [toolkit-latest-linux-aarch_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/latest) |
 | Unix         | [toolkit-latest-osx-x86_64.zip](https://github.com/IoT-Technology/IoT-Toolkit/releases/latest)     |
@@ -100,11 +98,24 @@ choco install toolkit
 
 
 
-# Contributing
+## Example
+
+### MQTT protocol client toolkit
+more details see [mqtt client toolkit user guide](https://github.com/IoT-Technology/IoT-Toolkit/wiki/mqtt_shell)
+
+[![asciicast](https://asciinema.org/a/612813.svg)](https://asciinema.org/a/612813)
+
+### CoAP Protocol client toolkit
+more details see [](https://github.com/IoT-Technology/IoT-Toolkit/wiki/CoAP)
+
+
+### LwM2M Protocol Client toolkit
+more details see [](https://github.com/IoT-Technology/IoT-Toolkit/wiki/CoAP)
+
+## Contributing
 
 Have a look through existing [Issues](https://github.com/IoT-Technology/IoT-Toolkit/issues) and [Pull Requests](https://github.com/IoT-Technology/IoT-Toolkit/pulls) that you could help with.
 If you'd like to request a feature or report a bug, please [create a GitHub Issue](https://github.com/IoT-Technology/IoT-Toolkit/issues) using one of the templates provided.
-
 
 ## Contributors
 
