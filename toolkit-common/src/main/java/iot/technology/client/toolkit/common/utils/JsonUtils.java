@@ -83,6 +83,28 @@ public class JsonUtils {
         }
     }
 
+    public static JsonNode objectToJsonNode(Object object) {
+        try {
+            return objectMapper.valueToTree(object);
+        } catch (IllegalArgumentException e) {
+            System.out.format("Parse json to JsonNode error %s", e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String convertPrettyJson(String jsonString) {
+        try {
+            JsonNode jsonNode = objectMapper.readTree(jsonString);
+            String prettyJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
+            return prettyJson;
+        } catch (JsonProcessingException e) {
+            System.out.format("Parse json to JsonNode error %s", e);
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     public static String object2JsonWithInclude(Object o) {
         try {
             objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);

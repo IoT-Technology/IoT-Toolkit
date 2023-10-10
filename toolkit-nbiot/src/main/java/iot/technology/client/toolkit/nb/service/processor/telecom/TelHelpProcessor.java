@@ -172,16 +172,39 @@ public class TelHelpProcessor implements TkProcessor {
 				System.out.print(sb);
 				break;
 			case "log":
-				sb.append(ColorUtils.cyanAnnotation("log:      " + bundle.getString("nb.operation.log.desc")))
+				sb.append(ColorUtils.colorBold("Usage:  ", "black")
+						+ String.format("> %s %s <imei> [%s <name>] [%s] [%s <imsi>]",
+						ColorUtils.colorBold("log", "green"),
+						ColorUtils.colorBold("-imei", "green"),
+						ColorUtils.colorBold("-limit", "green"),
+						ColorUtils.colorBold("-startTime", "green"),
+						ColorUtils.colorBold("-endTime", "green"),
+						ColorUtils.colorBold("-hex", "green")));
+				sb.append(StringUtils.lineSeparator());
+				sb.append(bundle.getString("nb.operation.log.desc")).append(StringUtils.lineSeparator());
+				sb.append(StringUtils.lineSeparator());
+				sb.append("Options:").append(StringUtils.lineSeparator());
+
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-imei        ", "green"),
+								bundle.getString("nb.cmd.imei.desc")))
 						.append(StringUtils.lineSeparator());
-				sb.append("    usage: time format:2019-02-01T00:01:01").append(StringUtils.lineSeparator());
-				sb.append("         - log imei : 50 of data reported by the device today").append(StringUtils.lineSeparator());
-				sb.append("         - log imei limit : limit of data reported by the device today").append(StringUtils.lineSeparator());
-				sb.append("         - log imei startTime endTime : 50 of data reported by the device from startTime to endTime" )
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-limit        ", "green"),
+								bundle.getString("nb.cmd.imei.desc")))
 						.append(StringUtils.lineSeparator());
-				sb.append("         - log imei startTime endTime limit : limit of data reported by the device from startTime to endTime" )
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-startTime    ", "green"),
+								bundle.getString("nb.cmd.imei.desc")))
 						.append(StringUtils.lineSeparator());
-				System.out.format(sb.toString());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-endTime      ", "green"),
+								bundle.getString("nb.cmd.imei.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-hex          ", "green"),
+								bundle.getString("nb.cmd.imei.desc")))
+						.append(StringUtils.lineSeparator());
 				break;
 			case "command":
 			case "cmd":
