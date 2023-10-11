@@ -191,29 +191,47 @@ public class TelHelpProcessor implements TkProcessor {
 						.append(StringUtils.lineSeparator());
 				sb.append(String.format("%s %s",
 								ColorUtils.colorBold("-limit        ", "green"),
-								bundle.getString("nb.cmd.imei.desc")))
+								bundle.getString("nb.cmd.limit.desc")))
 						.append(StringUtils.lineSeparator());
 				sb.append(String.format("%s %s",
 								ColorUtils.colorBold("-startTime    ", "green"),
-								bundle.getString("nb.cmd.imei.desc")))
+								bundle.getString("nb.cmd.startTime.desc")))
 						.append(StringUtils.lineSeparator());
 				sb.append(String.format("%s %s",
 								ColorUtils.colorBold("-endTime      ", "green"),
-								bundle.getString("nb.cmd.imei.desc")))
+								bundle.getString("nb.cmd.endTime.desc")))
 						.append(StringUtils.lineSeparator());
 				sb.append(String.format("%s %s",
 								ColorUtils.colorBold("-hex          ", "green"),
-								bundle.getString("nb.cmd.imei.desc")))
+								bundle.getString("nb.cmd.hex.desc")))
 						.append(StringUtils.lineSeparator());
+				System.out.print(sb);
 				break;
 			case "command":
 			case "cmd":
-				sb.append(ColorUtils.cyanAnnotation("command:  " + bundle.getString("nb.operation.command.desc")))
+				sb.append(ColorUtils.colorBold("Usage:  ", "black")
+						+ String.format("> %s %s <imei> [%s <pageNo>] [%s <pageSize>]",
+						ColorUtils.colorBold("cmd,command", "green"),
+						ColorUtils.colorBold("-imei", "green"),
+						ColorUtils.colorBold("-pn", "green"),
+						ColorUtils.colorBold("-ps", "green")));
+				sb.append(StringUtils.lineSeparator());
+				sb.append(bundle.getString("nb.operation.command.desc")).append(StringUtils.lineSeparator());
+				sb.append(StringUtils.lineSeparator());
+				sb.append("Options:").append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-imei              ", "green"),
+								bundle.getString("nb.cmd.sv.desc")))
 						.append(StringUtils.lineSeparator());
-				sb.append("    usage: time format:2019-02-01T00:01:01").append(StringUtils.lineSeparator());
-				sb.append("         - command imei : print first page delivery command of the device").append(StringUtils.lineSeparator());
-				sb.append("         - command imei pageNo : print pageNo delivery command of the device").append(StringUtils.lineSeparator());
-				System.out.format(sb.toString());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-pn --pageNo       ", "green"),
+								bundle.getString("nb.cmd.pn.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-ps --pageSize     ", "green"),
+								bundle.getString("nb.cmd.ps.desc")))
+						.append(StringUtils.lineSeparator());
+				System.out.print(sb);
 				break;
 			default:
 				break;

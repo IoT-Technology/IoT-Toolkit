@@ -31,19 +31,13 @@ import iot.technology.client.toolkit.nb.service.telecom.domain.TelecomConfigDoma
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceCommandBody;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceCommandListBody;
 import iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceCommandListResponse;
+import org.apache.commons.cli.*;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * format:command imei [pageNo]
- *
- * <p>
- * 1、command imei: print the latest 20 of command data;
- * <p>
- * 2、command imei pageNo: print the pageNo of command data;
- *
  * @author mushuwei
  */
 public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implements TkProcessor {
@@ -52,7 +46,8 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 
 	@Override
 	public boolean supports(ProcessContext context) {
-		return context.getData().startsWith("command") || context.getData().startsWith("cmd");
+		return context.getData().startsWith("command") ||
+				context.getData().startsWith("cmd");
 	}
 
 	@Override
@@ -60,35 +55,63 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 		TelProcessContext processContext = (TelProcessContext) context;
 		TelecomConfigDomain configDomain = processContext.getTelecomConfigDomain();
 
-		List<String> arguArgs = List.of(context.getData().split(" "));
-		if (arguArgs.size() < 2 || arguArgs.size() > 3) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
-					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
-			System.out.println(sb);
-			return;
-		}
+		Options options = new Options();
+		Option imeiOption = new Option("imei", true, "the device imei");
+		Option pageNoOption = new Option("pn", "pageNo", true, "the pageNo of data list");
+		Option pageSizeOption = new Option("ps", "pageSize", true, "the pageSize of data list");
+
+		options.addOption(imeiOption)
+				.addOption(pageNoOption)
+				.addOption(pageSizeOption);
+
 		String imei = "";
-		int pageNo = 1;
-		imei = arguArgs.get(1);
-		// command imei
-		if (arguArgs.size() == 2) {
-		}
-		// command imei pageNo
-		if (arguArgs.size() == 3) {
-			String pageNoStr = arguArgs.get(2);
-			if (!validateParam(pageNoStr)) {
+		Integer pageNo = 1;
+		Integer pageSize = 20;
+		try {
+			CommandLineParser parser = new DefaultParser();
+			CommandLine cmd = parser.parse(options, convertCommandData(context.getData()));
+
+			if (!cmd.hasOption(imeiOption)) {
 				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
+				sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
 				System.out.println(sb);
 				return;
 			}
-			pageNo = Integer.parseInt(pageNoStr);
+			imei = cmd.getOptionValue(imeiOption);
+
+			// pageNo option
+			if (cmd.hasOption(pageNoOption)) {
+				String pageNoStr = cmd.getOptionValue(pageNoOption);
+				if (!validateParam(pageNoStr)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+					System.out.println(sb);
+					return;
+				}
+				pageNo = Integer.parseInt(pageNoStr);
+			}
+
+			// pageSize Option
+			if (cmd.hasOption(pageSizeOption)) {
+				String pageSizeStr = cmd.getOptionValue(pageSizeOption);
+				if (!validateParam(pageSizeStr)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("pageSize is not a number")).append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+					System.out.println(sb);
+					return;
+				}
+				pageSize = Integer.parseInt(pageSizeStr);
+			}
+		} catch (ParseException e) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(ColorUtils.redError("command parse failed!")).append(StringUtils.lineSeparator);
+			System.out.println(sb);
 		}
-		TelQueryDeviceCommandListResponse responseList =
-				deviceDataService.getDeviceCommandData(configDomain, imei, pageNo);
+
+		TelQueryDeviceCommandListResponse responseList = deviceDataService.getDeviceCommandData(configDomain, imei, pageNo, pageSize);
 		if (responseList.isSuccess()
 				&& Objects.nonNull(responseList.getResult())) {
 

@@ -130,7 +130,8 @@ public class TelecomDeviceDataService extends AbstractTelecomService {
 		}
 	}
 
-	public TelQueryDeviceCommandListResponse getDeviceCommandData(TelecomConfigDomain config, String imei, Integer pageNo) {
+	public TelQueryDeviceCommandListResponse getDeviceCommandData(TelecomConfigDomain config, String imei,
+																  Integer pageNo, Integer pageSize) {
 		TelQueryDeviceCommandListResponse telQueryDeviceCommandListResponse = new TelQueryDeviceCommandListResponse();
 		try {
 			TelQueryDeviceByImeiResponse queryDeviceByImeiResponse = deviceService.querySingleDeviceByImei(config, imei);
@@ -150,8 +151,8 @@ public class TelecomDeviceDataService extends AbstractTelecomService {
 				encryptParams.put("deviceId", deviceId);
 				queryParams.put("deviceId", deviceId);
 
-				encryptParams.put("pageSize", "20");
-				queryParams.put("pageSize", "20");
+				encryptParams.put("pageSize", String.valueOf(pageSize));
+				queryParams.put("pageSize", String.valueOf(pageSize));
 
 				encryptParams.put("pageNow", String.valueOf(pageNo));
 				queryParams.put("pageNow", String.valueOf(pageNo));
