@@ -108,6 +108,7 @@ more details see [mqtt client toolkit user guide](https://github.com/IoT-Technol
 ### CoAP Protocol client toolkit
 more details see [](https://github.com/IoT-Technology/IoT-Toolkit/wiki/CoAP)
 
+[![asciicast](https://asciinema.org/a/585753.svg)](https://asciinema.org/a/585753)
 
 ### LwM2M Protocol Client toolkit
 more details see [](https://github.com/IoT-Technology/IoT-Toolkit/wiki/CoAP)
