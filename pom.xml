@@ -66,8 +66,8 @@
         <main.dir>${user.dir}</main.dir>
         <artifactsDir>toolkit-app/target</artifactsDir>
         <appName>toolkit</appName>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <picocli.version>4.6.3</picocli.version>
         <netty.version>4.1.94.Final</netty.version>

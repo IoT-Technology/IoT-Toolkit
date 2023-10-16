@@ -37,11 +37,10 @@
         <executable-suffix />
         <directory>${project.basedir}/target</directory>
         <skipCompress>false</skipCompress>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <graalvm.version>22.2</graalvm.version>
-        <graalvm-buildtools.version>0.9.17</graalvm-buildtools.version>
+        <graalvm-buildtools.version>0.9.27</graalvm-buildtools.version>
         <picocli-codegen.version>4.6.3</picocli-codegen.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
@@ -215,10 +214,10 @@
                         <configuration>
                             <skip>false</skip>
                             <imageName>${appName}</imageName>
-                            <requiredVersion>${graalvm.version}</requiredVersion>
                             <mainClass>${mainClass}</mainClass>
                             <buildArgs>
                                 <arg>--no-fallback</arg>
+                                <arg>-H:+UnlockExperimentalVMOptions</arg>
                                 <arg>-Dfile.encoding=UTF-8</arg>
                                 <arg>-H:-CheckToolchain</arg>
                                 <arg>-H:+ReportExceptionStackTraces</arg>
