@@ -76,7 +76,6 @@
         <guava.version>32.1.0-jre</guava.version>
         <jansi.version>2.4.0</jansi.version>
         <ascii-table.version>1.8.0</ascii-table.version>
-        <graalvm-svm.version>22.2.0</graalvm-svm.version>
         <mycila-license.version>4.2</mycila-license.version>
         <okhttp.version>4.10.0</okhttp.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
@@ -159,11 +158,6 @@
                 <groupId>com.github.freva</groupId>
                 <artifactId>ascii-table</artifactId>
                 <version>${ascii-table.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.graalvm.nativeimage</groupId>
-                <artifactId>svm</artifactId>
-                <version>${graalvm-svm.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
