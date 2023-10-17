@@ -75,7 +75,15 @@ public class FileUtils {
 
 	public static void updateAllFileContents(String fileName, List<String> bodyList) {
 		try {
-			Files.write(Paths.get(fileName), bodyList, StandardCharsets.UTF_8);
+			StringBuilder content = new StringBuilder();
+			if (!bodyList.isEmpty()) {
+				bodyList.forEach(body -> {
+					content.append(body).append(System.lineSeparator());
+				});
+			}
+			//overlay update
+			Files.write(Path.of(fileName), content.toString().getBytes());
+
 		} catch (IOException e) {
 			System.out.format("fileName updateAllFileContents failed!!!");
 		}
