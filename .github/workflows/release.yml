@@ -26,24 +26,20 @@ on:
         description: "Next version"
         required: false
 
-env:
-  graalvm_version: '22.2.0'
-  java_version: '11'
-
 jobs:
   version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: 'Set up Java'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
-          java-version: 11
-          distribution: 'microsoft'
+          distribution: zulu
+          java-version: 21
 
       - name: 'Cache Maven packages'
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -102,7 +98,7 @@ jobs:
           path: artifacts/HEAD
 
       - name: 'Check out repository'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ steps.head.outputs.content }}
 
@@ -118,22 +114,16 @@ jobs:
         run: choco install upx
         if: ${{ runner.os == 'Windows' }}
 
-      - name: Set up GraalVM (Java ${{ env.java_version }})
+      - name: 'Set up Graal'
         uses: graalvm/setup-graalvm@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          version: '${{ env.graalvm_version }}'
-          java-version: '${{ env.java_version }}'
-          components: 'native-image'
+          distribution: 'graalvm-community'
+          java-version: '21'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: echo graalvm info
-        run: |
-            echo "GRAALVM_HOME: $GRAALVM_HOME"
-            echo "JAVA_HOME: $JAVA_HOME"
-            java --version    
 
       - name: 'Cache Maven packages'
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -141,6 +131,10 @@ jobs:
 
       - name: 'Create distribution'
         run: mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
+
+      - name: 'Smoke test'
+        run: >
+          ./toolkit-app/target/toolkit -V  
 
       - name: 'Upload build artifact'
         uses: actions/upload-artifact@v2
@@ -178,7 +172,7 @@ jobs:
           echo "::set-output name=PLAIN_VERSION::$PLAIN_VERSION"
           echo "::set-output name=NEXT_VERSION::$NEXT_VERSION"
       - name: 'Check out repository'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ steps.head.outputs.content }}
           fetch-depth: 0
@@ -189,13 +183,13 @@ jobs:
         uses: actions/download-artifact@v2
 
       - name: 'Set up Java'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
-          java-version: 11
-          distribution: 'microsoft'
+          distribution: zulu
+          java-version: 21
 
       - name: 'Cache Maven packages'
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
