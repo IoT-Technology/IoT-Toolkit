@@ -92,8 +92,8 @@ public class MqttShellModeService {
                 MqttClientCallback clientCallback = new MqttClientCallback() {
                     @Override
                     public void connectionLost(DisReason reason) {
-                        mqttSettingService.updateAllMqttConfigsByUsage(domain.getSettings(), 0);
                         if (reason.getActionType().equals(0)) {
+                            mqttSettingService.updateAllMqttConfigsByUsage(domain.getSettings(), 0);
                             StringBuilder sb = new StringBuilder();
                             sb.append(StringUtils.lineSeparator);
                             sb.append("Server Unavailable" + String.format(EmojiEnum.disconnectEmoji));
@@ -110,6 +110,7 @@ public class MqttShellModeService {
                 String data = reader.readLine(prompt);
                 context.setData(data);
                 if (data.equals("exit")) {
+                    isEnd = false;
                     mqttSettingService.updateAllMqttConfigsByUsage(domain.getSettings(), 0);
                     domain.getClient().disconnect(1);
                     return false;

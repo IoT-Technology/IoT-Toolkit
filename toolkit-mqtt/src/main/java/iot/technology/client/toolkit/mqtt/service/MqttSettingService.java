@@ -39,7 +39,7 @@ public class MqttSettingService {
             waitUpdateSettings.setSettingTime(System.currentTimeMillis());
         }
         settingsList.add(waitUpdateSettings);
-        settingsList.stream().forEach(st -> {
+        settingsList.forEach(st -> {
             if (st.getSettingTime() == null) {
                 st.setSettingTime(System.currentTimeMillis());
             }

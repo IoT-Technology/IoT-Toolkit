@@ -146,7 +146,7 @@ public class MqttBizService {
 				domain.setClient(mqttClientService);
 				//write settings to file
 				MqttSettings settings = domain.convertMqttSettingsJsonString();
-				settings.setUsage(0);
+				settings.setUsage(1);
 				FileUtils.writeDataToFile(SystemConfigConst.MQTT_SETTINGS_FILE_NAME, JsonUtils.object2Json(settings));
 
 				// add settings config, not enter into sub terminal
