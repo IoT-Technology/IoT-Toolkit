@@ -20,7 +20,9 @@ import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
+import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
+import org.eclipse.californium.core.coap.Response;
 import picocli.CommandLine;
 
 import java.net.URI;
@@ -40,7 +42,7 @@ import java.util.concurrent.Callable;
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei"
 )
-public class CoapGetCommand implements Callable<Integer> {
+public class CoapGetCommand extends AbstractCoapContext implements Callable<Integer> {
 
 	public static final String COAP_TEXT_PLAIN = "" + MediaTypeRegistry.TEXT_PLAIN;
 
@@ -61,14 +63,17 @@ public class CoapGetCommand implements Callable<Integer> {
 			defaultValue = COAP_TEXT_PLAIN)
 	private String accept;
 
+	/* ********************************** Identity Section ******************************** */
+	@CommandLine.ArgGroup(exclusive = true)
+	public CoapIdentitySection identity = new CoapIdentitySection();
+
 
 	@Override
 	public Integer call() throws Exception {
-		CoapCommandParamValidator.validateUri(uri);
+		String scheme = validateUri(uri);
+		String protocol = CoAP.getProtocolForScheme(scheme);
 
-		CoapClient coapClient = coapClientService.getCoapClient(uri);
-		int accept = coapClientService.coapContentType(this.accept);
-		CoapResponse response = coapClient.get(accept);
+		Response response = coapClientService.getResponse(uri, protocol, identity, accept);
 
 		StringBuffer result = new StringBuffer();
 		String requestInfo = coapClientService.requestInfo("get", uri.toString());
