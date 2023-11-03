@@ -16,10 +16,8 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
 import iot.technology.client.toolkit.coap.service.CoapClientService;
-import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import org.eclipse.californium.core.CoapClient;
-import org.eclipse.californium.core.CoapResponse;
+import org.eclipse.californium.core.coap.CoAP;
 import picocli.CommandLine;
 
 import java.net.URI;
@@ -40,7 +38,7 @@ import java.util.concurrent.Callable;
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei"
 )
-public class CoapDeleteCommand implements Callable<Integer> {
+public class CoapDeleteCommand extends AbstractCoapContext implements Callable<Integer> {
 
 	private final CoapClientService coapClientService = new CoapClientService();
 
@@ -52,12 +50,35 @@ public class CoapDeleteCommand implements Callable<Integer> {
 			description = "${bundle:coap.uri.description}")
 	private URI uri;
 
+	/* ********************************** Identity Section ******************************** */
+	@CommandLine.ArgGroup(exclusive = false,
+			heading = "%n@|bold,underline PSK Options|@ %n%n"//
+					+ "@|italic " //
+					+ "By default use non secure connection.%n"//
+					+ "To use CoAP over DTLS with Pre-Shared Key, -i and -p options should be used together." //
+					+ "|@%n%n")
+	private PskSection psk = new PskSection();
+
+	public static class PskSection {
+		@CommandLine.Option(required = true,
+				names = { "-i", "--psk-identity" },
+				description = { //
+						"Set the server PSK identity in ascii." })
+		public String identity;
+
+		@CommandLine.Option(required = true,
+				names = { "-p", "--psk-key" },
+				description = { //
+						"Set the server Pre-Shared-Key" })
+		public String sharekey;
+	}
+
 	@Override
 	public Integer call() throws Exception {
-		CoapCommandParamValidator.validateUri(uri);
+		String scheme = validateUri(uri);
+		String protocol = CoAP.getProtocolForScheme(scheme);
 
-		CoapClient coapClient = coapClientService.getCoapClient(uri);
-		CoapResponse response = coapClient.delete();
+		var response = coapClientService.deletePayload(uri, protocol, psk.identity, psk.sharekey);
 
 		StringBuffer result = new StringBuffer();
 		String requestInfo = coapClientService.requestInfo("delete", uri.toString());

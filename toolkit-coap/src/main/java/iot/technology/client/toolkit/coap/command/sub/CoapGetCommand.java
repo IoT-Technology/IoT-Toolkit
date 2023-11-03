@@ -16,10 +16,7 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
 import iot.technology.client.toolkit.coap.service.CoapClientService;
-import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
-import org.eclipse.californium.core.CoapClient;
-import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.coap.Response;
@@ -64,8 +61,27 @@ public class CoapGetCommand extends AbstractCoapContext implements Callable<Inte
 	private String accept;
 
 	/* ********************************** Identity Section ******************************** */
-	@CommandLine.ArgGroup(exclusive = true)
-	public CoapIdentitySection identity = new CoapIdentitySection();
+	@CommandLine.ArgGroup(exclusive = false,
+			heading = "%n@|bold,underline PSK Options|@ %n%n"//
+					+ "@|italic " //
+					+ "By default use non secure connection.%n"//
+					+ "To use CoAP over DTLS with Pre-Shared Key, -i and -p options should be used together." //
+					+ "|@%n%n")
+	private PskSection psk = new PskSection();
+
+	public static class PskSection {
+		@CommandLine.Option(required = true,
+				names = { "-i", "--psk-identity" },
+				description = { //
+						"Set the server PSK identity in ascii." })
+		public String identity;
+
+		@CommandLine.Option(required = true,
+				names = { "-p", "--psk-key" },
+				description = { //
+						"Set the server Pre-Shared-Key" })
+		public String sharekey;
+	}
 
 
 	@Override
@@ -73,7 +89,7 @@ public class CoapGetCommand extends AbstractCoapContext implements Callable<Inte
 		String scheme = validateUri(uri);
 		String protocol = CoAP.getProtocolForScheme(scheme);
 
-		Response response = coapClientService.getResponse(uri, protocol, identity, accept);
+		Response response = coapClientService.getResponse(uri, protocol, psk.identity, psk.sharekey, accept);
 
 		StringBuffer result = new StringBuffer();
 		String requestInfo = coapClientService.requestInfo("get", uri.toString());

@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.freva.asciitable.AsciiTable;
 import com.github.freva.asciitable.Column;
 import com.github.freva.asciitable.HorizontalAlign;
-import iot.technology.client.toolkit.coap.command.sub.CoapIdentitySection;
 import iot.technology.client.toolkit.coap.domain.AvailableResource;
 import iot.technology.client.toolkit.coap.domain.CoapSupportType;
 import iot.technology.client.toolkit.common.constants.HttpStatus;
@@ -32,21 +31,12 @@ import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
-import org.eclipse.californium.core.coap.Request;
 import org.eclipse.californium.core.coap.Response;
-import org.eclipse.californium.core.network.CoapEndpoint;
-import org.eclipse.californium.elements.config.Configuration;
 import org.eclipse.californium.elements.exception.ConnectorException;
 import org.eclipse.californium.elements.util.StringUtil;
-import org.eclipse.californium.scandium.DTLSConnector;
-import org.eclipse.californium.scandium.config.DtlsConfig;
-import org.eclipse.californium.scandium.config.DtlsConnectorConfig;
-import org.eclipse.californium.scandium.dtls.pskstore.AdvancedSinglePskStore;
-import org.eclipse.californium.scandium.dtls.x509.SingleCertificateProvider;
 import org.w3c.dom.Document;
 import picocli.CommandLine;
 
-import javax.crypto.SecretKey;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -54,7 +44,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
@@ -69,18 +58,13 @@ public class CoapClientService {
 
     ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
-    public int coapContentType(String contentType) {
+    public static int coapContentType(String contentType) {
         int coapContentTypeCode = -1;
         try {
             coapContentTypeCode = Integer.parseInt(contentType);
         } catch (NumberFormatException ignored) {
         }
         return (coapContentTypeCode < 0) ? MediaTypeRegistry.parse(contentType) : coapContentTypeCode;
-    }
-
-
-    public CoapClient getCoapClient(URI uri) {
-        return new CoapClient(uri);
     }
 
     public String requestInfo(String method, String path) {
@@ -338,16 +322,17 @@ public class CoapClientService {
     }
 
     public Response getResponse(URI uri, String protocol,
-                                CoapIdentitySection identity, String accept) {
+                                String identity, String sharekey,
+                                String accept) {
         try {
             if (protocol.equals("UDP")) {
                 var client = new CoapClient(uri);
                 var acceptType = coapContentType(accept);
                 return client.get(acceptType).advanced();
             } else if (protocol.equals("DTLS")) {
-                if (identity.hasIdentity()) {
-                    DtlsClient client = DtlsClient.initDtlsClient(identity.getPsk().identity, identity.getPsk().sharekey);
-                    CoapResponse response = client.getResponse(uri);
+                if (StringUtils.isNotBlank(identity) && StringUtils.isNotBlank(sharekey)) {
+                    var client = DtlsClient.initDtlsClient(identity, sharekey);
+                    CoapResponse response = client.getResponse(uri, accept);
                     return response.advanced();
                 }
                 throw new IllegalArgumentException("coaps、psk options should be used together.");
@@ -356,5 +341,82 @@ public class CoapClientService {
         } catch (ConnectorException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public CoapResponse putPayload(URI uri, String protocol,
+                                   String identity, String sharekey,
+                                   String payloadContent, String format) {
+        try {
+            if (protocol.equals("UDP")) {
+                var coapClient = new CoapClient(uri);
+                var response = coapClient.put(payloadContent, this.coapContentType(format));
+                return response;
+            } else if (protocol.equals("DTLS")) {
+                if (StringUtils.isNotBlank(identity) && StringUtils.isNotBlank(sharekey)) {
+                    var dtlsClient = DtlsClient.initDtlsClient(identity, sharekey);
+                    return dtlsClient.putPayload(uri, payloadContent, format);
+                }
+                throw new IllegalArgumentException("coaps、psk options should be used together.");
+            }
+            throw new IllegalArgumentException("protocol " + protocol + " not supported!");
+        } catch (ConnectorException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public CoapResponse postPayload(URI uri, String protocol,
+                                    String identity, String sharekey,
+                                    String payloadContent,
+                                    String format, String accept) {
+        try {
+            if (protocol.equals("UDP")) {
+                var client = new CoapClient(uri);
+                return client.post(payloadContent, coapContentType(format), coapContentType(accept));
+            } else if (protocol.equals("DTLS")) {
+                if (StringUtils.isNotBlank(identity) && StringUtils.isNotBlank(sharekey)) {
+                    var dtlsClient = DtlsClient.initDtlsClient(identity, sharekey);
+                    return dtlsClient.postPayload(uri, payloadContent, format, accept);
+                }
+                throw new IllegalArgumentException("coaps、psk options should be used together.");
+            }
+            throw new IllegalArgumentException("protocol " + protocol + " not supported!");
+        } catch (ConnectorException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public CoapResponse deletePayload(URI uri, String protocol,
+                                      String identity, String sharekey) {
+        try {
+            if (protocol.equals("UDP")) {
+                var client = new CoapClient(uri);
+                return client.delete();
+            } else if (protocol.equals("DTLS")) {
+                if (StringUtils.isNotBlank(identity) && StringUtils.isNotBlank(sharekey)) {
+                    var dtlsClient = DtlsClient.initDtlsClient(identity, sharekey);
+                    return dtlsClient.deletePayload(uri);
+                }
+                throw new IllegalArgumentException("coaps、psk options should be used together.");
+            }
+            throw new IllegalArgumentException("protocol " + protocol + " not supported!");
+        } catch (ConnectorException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static CoapClient getCoapClient(URI uri, String protocol,
+                                           String identity, String sharekey) {
+        if (protocol.equals("UDP")) {
+            var client = new CoapClient(uri);
+            return client;
+        } else if (protocol.equals("DTLS")) {
+            if (StringUtils.isNotBlank(identity) && StringUtils.isNotBlank(sharekey)) {
+                var dtlsClient = DtlsClient.initDtlsClient(identity, sharekey);
+                var client = dtlsClient.initCoapClient(uri);
+                return client;
+            }
+            throw new IllegalArgumentException("coaps、psk options should be used together.");
+        }
+        throw new IllegalArgumentException("protocol " + protocol + " not supported!");
     }
 }

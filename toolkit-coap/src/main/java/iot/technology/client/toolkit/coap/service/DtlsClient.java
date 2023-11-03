@@ -3,7 +3,6 @@ package iot.technology.client.toolkit.coap.service;
 import iot.technology.client.toolkit.common.utils.security.CredentialsUtil;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
-import org.eclipse.californium.core.coap.Response;
 import org.eclipse.californium.core.config.CoapConfig;
 import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.elements.config.Configuration;
@@ -17,7 +16,6 @@ import org.eclipse.californium.scandium.dtls.pskstore.AdvancedSinglePskStore;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -50,17 +48,79 @@ public class DtlsClient {
         config.setTransient(DtlsConfig.DTLS_CIPHER_SUITES);
     };
 
-
-    public CoapResponse getResponse(URI uri) {
-        CoapResponse response = null;
-        try {
+    public CoapClient initCoapClient(URI uri) {
         CoapClient client = new CoapClient(uri);
         CoapEndpoint.Builder builder = new CoapEndpoint.Builder()
                 .setConfiguration(configuration)
                 .setConnector(dtlsConnector);
         client.setEndpoint(builder.build());
-        response = client.get();
-        client.shutdown();
+        return client;
+    }
+
+    public CoapResponse getResponse(URI uri, String accept) {
+        CoapResponse response = null;
+        try {
+            CoapClient client = new CoapClient(uri);
+            CoapEndpoint.Builder builder = new CoapEndpoint.Builder()
+                    .setConfiguration(configuration)
+                    .setConnector(dtlsConnector);
+            client.setEndpoint(builder.build());
+            var acceptType = CoapClientService.coapContentType(accept);
+            response = client.get(acceptType);
+            client.shutdown();
+        } catch (ConnectorException | IOException e) {
+            System.err.println("Error occurred while sending request: " + e);
+            System.exit(-1);
+        }
+        return response;
+    }
+
+    public CoapResponse putPayload(URI uri, String payloadContent, String format) {
+        CoapResponse response = null;
+        try {
+            CoapClient client = new CoapClient(uri);
+            CoapEndpoint.Builder builder = new CoapEndpoint.Builder()
+                    .setConfiguration(configuration)
+                    .setConnector(dtlsConnector);
+            client.setEndpoint(builder.build());
+            var coapResponse = client.put(payloadContent, CoapClientService.coapContentType(format));
+            response = coapResponse;
+            client.shutdown();
+        } catch (ConnectorException | IOException e) {
+            System.err.println("Error occurred while sending request: " + e);
+            System.exit(-1);
+        }
+        return response;
+    }
+
+    public CoapResponse postPayload(URI uri, String payloadContent,
+                                    String format, String accept) {
+        CoapResponse response = null;
+        try {
+            CoapClient client = new CoapClient(uri);
+            CoapEndpoint.Builder builder = new CoapEndpoint.Builder()
+                    .setConfiguration(configuration)
+                    .setConnector(dtlsConnector);
+            client.setEndpoint(builder.build());
+            response = client.post(payloadContent, CoapClientService.coapContentType(format), CoapClientService.coapContentType(accept));
+            client.shutdown();
+        } catch (ConnectorException | IOException e) {
+            System.err.println("Error occurred while sending request: " + e);
+            System.exit(-1);
+        }
+        return response;
+    }
+
+    public CoapResponse deletePayload(URI uri) {
+        CoapResponse response = null;
+        try {
+            var client = new CoapClient(uri);
+            CoapEndpoint.Builder builder = new CoapEndpoint.Builder()
+                    .setConfiguration(configuration)
+                    .setConnector(dtlsConnector);
+            client.setEndpoint(builder.build());
+            response = client.delete();
+            client.shutdown();
         } catch (ConnectorException | IOException e) {
             System.err.println("Error occurred while sending request: " + e);
             System.exit(-1);
