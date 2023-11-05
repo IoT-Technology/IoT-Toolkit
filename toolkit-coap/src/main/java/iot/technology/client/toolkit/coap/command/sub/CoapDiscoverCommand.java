@@ -72,13 +72,13 @@ public class CoapDiscoverCommand extends AbstractCoapContext implements Callable
 		@CommandLine.Option(required = true,
 				names = { "-i", "--psk-identity" },
 				description = { //
-						"Set the server PSK identity in ascii." })
+						"${coap.psk.identity.desc}" })
 		public String identity;
 
 		@CommandLine.Option(required = true,
 				names = { "-p", "--psk-key" },
 				description = { //
-						"Set the server Pre-Shared-Key" })
+						"${coap.psk.sharekey.desc}" })
 		public String sharekey;
 	}
 

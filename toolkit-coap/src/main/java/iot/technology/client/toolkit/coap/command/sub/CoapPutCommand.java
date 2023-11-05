@@ -79,13 +79,13 @@ public class CoapPutCommand extends AbstractCoapContext implements Callable<Inte
 		@CommandLine.Option(required = true,
 				names = { "-i", "--psk-identity" },
 				description = { //
-						"Set the server PSK identity in ascii." })
+						"${coap.psk.identity.desc}" })
 		public String identity;
 
 		@CommandLine.Option(required = true,
 				names = { "-pk", "--psk-key" },
 				description = { //
-						"Set the server Pre-Shared-Key" })
+						"${coap.psk.sharekey.desc}" })
 		public String sharekey;
 	}
 
