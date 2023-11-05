@@ -16,12 +16,12 @@
 package iot.technology.client.toolkit.coap.command.sub;
 
 import iot.technology.client.toolkit.coap.service.CoapClientService;
-import iot.technology.client.toolkit.coap.validator.CoapCommandParamValidator;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.WebLink;
+import org.eclipse.californium.core.coap.CoAP;
 import picocli.CommandLine;
 
 import java.net.URI;
@@ -44,7 +44,7 @@ import java.util.concurrent.Callable;
 		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei"
 )
-public class CoapDiscoverCommand implements Callable<Integer> {
+public class CoapDiscoverCommand extends AbstractCoapContext implements Callable<Integer> {
 
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
@@ -58,11 +58,35 @@ public class CoapDiscoverCommand implements Callable<Integer> {
 			description = "${bundle:coap.uri.description}")
 	private URI uri;
 
+	/* ********************************** Identity Section ******************************** */
+	/* ********************************** Identity Section ******************************** */
+	@CommandLine.ArgGroup(exclusive = false,
+			heading = "%n@|bold,underline PSK Options|@ %n%n"//
+					+ "@|italic " //
+					+ "By default use non secure connection.%n"//
+					+ "To use CoAP over DTLS with Pre-Shared Key, -i and -p options should be used together." //
+					+ "|@%n%n")
+	private PskSection psk = new PskSection();
+
+	public static class PskSection {
+		@CommandLine.Option(required = true,
+				names = { "-i", "--psk-identity" },
+				description = { //
+						"${coap.psk.identity.desc}" })
+		public String identity;
+
+		@CommandLine.Option(required = true,
+				names = { "-p", "--psk-key" },
+				description = { //
+						"${coap.psk.sharekey.desc}" })
+		public String sharekey;
+	}
+
 
 	public Integer call() throws Exception {
-		CoapCommandParamValidator.validateUri(uri);
-
-		CoapClient coapClient = coapClientService.getCoapClient(uri);
+		String scheme = validateUri(uri);
+		String protocol = CoAP.getProtocolForScheme(scheme);
+		CoapClient coapClient = CoapClientService.getCoapClient(uri, protocol, psk.identity, psk.sharekey);
 
 		Set<WebLink> webLinks = coapClient.discover();
 		String availableResources = coapClientService.getAvailableResources(webLinks);

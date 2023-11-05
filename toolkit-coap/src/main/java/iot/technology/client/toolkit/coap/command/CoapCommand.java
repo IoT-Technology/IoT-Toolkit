@@ -18,13 +18,11 @@ package iot.technology.client.toolkit.coap.command;
 import iot.technology.client.toolkit.coap.command.sub.*;
 import iot.technology.client.toolkit.common.constants.ExitCodeEnum;
 import iot.technology.client.toolkit.common.constants.StorageConstants;
-import iot.technology.client.toolkit.common.utils.StringUtils;
 import picocli.CommandLine;
 
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
-import static iot.technology.client.toolkit.common.utils.ColorUtils.colorItalic;
 
 /**
  * @author mushuwei
