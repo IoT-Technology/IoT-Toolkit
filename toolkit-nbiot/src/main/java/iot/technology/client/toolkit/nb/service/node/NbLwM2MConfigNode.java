@@ -8,7 +8,6 @@ import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSetting;
-import iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings;
 
 import java.util.List;
 import java.util.Objects;
