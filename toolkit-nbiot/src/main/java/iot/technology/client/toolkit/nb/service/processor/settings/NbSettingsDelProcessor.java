@@ -64,5 +64,10 @@ public class NbSettingsDelProcessor implements TkProcessor {
 			configStringList.remove(configStringList.get(serial));
 			FileUtils.updateAllFileContents(SystemConfigConst.SYS_NB_MOBILE_PRODUCT_FILE_NAME, configStringList);
 		}
+		if (nbSettingsContext.getNbType().equals(NBTypeEnum.LWM2M.getValue())) {
+			List<String> configStringList = FileUtils.getDataFromFile(SystemConfigConst.SYS_NB_LWM2M_SETTINGS_FILE_NAME);
+			configStringList.remove(configStringList.get(serial));
+			FileUtils.updateAllFileContents(SystemConfigConst.SYS_NB_LWM2M_SETTINGS_FILE_NAME, configStringList);
+		}
 	}
 }

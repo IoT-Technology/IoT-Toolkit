@@ -21,7 +21,6 @@ import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
-import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.NbBizService;
 import iot.technology.client.toolkit.nb.service.NbConfigSettingsDomain;
 import iot.technology.client.toolkit.nb.service.NbRuleChainProcessor;
@@ -58,7 +57,6 @@ import java.util.concurrent.Callable;
 )
 public class NbSettingsCommand implements Callable<Integer> {
 
-	private final NbBizService bizService = new NbBizService();
 	private final NbRuleChainProcessor ruleChain = new NbRuleChainProcessor();
 	private final Map<String, String> processor = ruleChain.getNbRuleChainProcessor();
 

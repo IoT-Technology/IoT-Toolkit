@@ -62,6 +62,8 @@ public class Lwm2mConfigSetting implements Serializable {
 
     private String lwm2mCertUsage;
 
+    private String serial;
+
 
     public String getLwm2mServer() {
         return lwm2mServer;
@@ -221,5 +223,13 @@ public class Lwm2mConfigSetting implements Serializable {
 
     public void setLwm2mCertUsage(String lwm2mCertUsage) {
         this.lwm2mCertUsage = lwm2mCertUsage;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
     }
 }
