@@ -21,7 +21,6 @@ import iot.technology.client.toolkit.common.rule.NodeContext;
 import iot.technology.client.toolkit.common.rule.TkNode;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
-import iot.technology.client.toolkit.nb.service.NbBizService;
 import iot.technology.client.toolkit.nb.service.NbConfigSettingsDomain;
 import iot.technology.client.toolkit.nb.service.NbRuleChainProcessor;
 import iot.technology.client.toolkit.nb.service.processor.NbSettingsContext;

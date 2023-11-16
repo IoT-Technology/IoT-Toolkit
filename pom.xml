@@ -261,7 +261,7 @@
                                     <description>IoT Protocol Client CLI</description>
                                     <longDescription>
                                         Toolkit is a client command line tool that supports multiple IoT protocols.
-                                        CoAP and MQTT protocols are currently supported. more protocols will be supported in the future.
+                                        CoAP、MQTT and LwM2M protocols are currently supported. more protocols will be supported in the future.
                                         it is written in the java language, but does not rely on the JRE environment.
                                     </longDescription>
                                     <website>https://github.com/IoT-Technology/IoT-Toolkit</website>
@@ -271,6 +271,8 @@
                                         <tag>mqtt-client</tag>
                                         <tag>coap</tag>
                                         <tag>coap-client</tag>
+                                        <tag>lwm2m</tag>
+                                        <tag>lwm2m-client</tag>
                                     </tags>
                                     <docsUrl>https://github.com/IoT-Technology/IoT-Toolkit/wiki</docsUrl>
                                 </project>

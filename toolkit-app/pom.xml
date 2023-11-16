@@ -37,8 +37,8 @@
         <executable-suffix />
         <directory>${project.basedir}/target</directory>
         <skipCompress>false</skipCompress>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <graalvm-buildtools.version>0.9.27</graalvm-buildtools.version>
         <picocli-codegen.version>4.6.3</picocli-codegen.version>

@@ -173,7 +173,7 @@ public class TelHelpProcessor implements TkProcessor {
 				break;
 			case "log":
 				sb.append(ColorUtils.colorBold("Usage:  ", "black")
-						+ String.format("> %s %s <imei> [%s <name>] [%s] [%s <imsi>]",
+						+ String.format("> %s %s <imei> [%s <name>] [%s <startTime>] [%s <endTime>] %s",
 						ColorUtils.colorBold("log", "green"),
 						ColorUtils.colorBold("-imei", "green"),
 						ColorUtils.colorBold("-limit", "green"),
