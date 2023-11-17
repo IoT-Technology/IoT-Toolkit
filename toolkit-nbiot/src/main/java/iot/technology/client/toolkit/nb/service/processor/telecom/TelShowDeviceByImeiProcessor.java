@@ -17,6 +17,7 @@ package iot.technology.client.toolkit.nb.service.processor.telecom;
 
 import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
+import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.processor.TelProcessContext;
 import iot.technology.client.toolkit.nb.service.telecom.TelecomDeviceService;
@@ -38,7 +39,15 @@ public class TelShowDeviceByImeiProcessor implements TkProcessor {
 
 	@Override
 	public void handle(ProcessContext context) {
-		String imei = context.getData().substring(context.getData().indexOf(" ") + 1);
+		String[] arr = context.getData().split(" ");
+		if (arr.length < 2) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
+			sb.append(ColorUtils.blackBold("detail usage please enter: help show"));
+			System.out.println(sb);
+			return;
+		}
+		String imei = arr[2];
 		TelProcessContext telProcessContext = (TelProcessContext) context;
 		if (StringUtils.isNotBlank(imei)) {
 			TelQueryDeviceByImeiResponse response =
