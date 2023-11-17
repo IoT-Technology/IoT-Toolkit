@@ -74,7 +74,7 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 			if (!cmd.hasOption(imeiOption)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 				System.out.println(sb);
 				return;
 			}
@@ -86,7 +86,7 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 				if (!validateParam(pageNoStr)) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
-					sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+					sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 					System.out.println(sb);
 					return;
 				}
@@ -99,7 +99,7 @@ public class TelCommandDataDeviceProcessor extends TkAbstractProcessor implement
 				if (!validateParam(pageSizeStr)) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(ColorUtils.redError("pageSize is not a number")).append(StringUtils.lineSeparator);
-					sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+					sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 					System.out.println(sb);
 					return;
 				}

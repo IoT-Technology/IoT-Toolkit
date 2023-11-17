@@ -24,6 +24,7 @@ import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
+import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSetting;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings;
 import iot.technology.client.toolkit.nb.service.processor.NbSettingsContext;
 import iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings;
@@ -102,6 +103,33 @@ public class NbSettingsListProcessor implements TkProcessor {
 				));
 				System.out.println(tableInfo);
 			}
+		}
+		if (nbSettingsContext.getNbType().equals(NBTypeEnum.LWM2M.getValue())) {
+			List<String> configStringList = FileUtils.getDataFromFile(SystemConfigConst.SYS_NB_LWM2M_SETTINGS_FILE_NAME);
+			if (!configStringList.isEmpty()) {
+				AtomicInteger cal = new AtomicInteger();
+				List<Lwm2mConfigSetting> lwm2mConfigSettings = new ArrayList<>();
+				configStringList.stream()
+						.map(s -> JsonUtils.jsonToObject(s, Lwm2mConfigSetting.class))
+						.filter(Objects::nonNull)
+						.forEach(s -> {
+							s.setSerial(cal + "");
+							lwm2mConfigSettings.add(s);
+							cal.getAndIncrement();
+						});
+				String tableInfo = AsciiTable.getTable(AsciiTable.BASIC_ASCII_NO_OUTSIDE_BORDER, lwm2mConfigSettings, Arrays.asList(
+						new Column().header("Serial").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+								Lwm2mConfigSetting::getSerial),
+						new Column().header("Endpoint").minWidth(10).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
+								.with(Lwm2mConfigSetting::getLwm2mEndpoint),
+						new Column().header("ServerAndPort").minWidth(10).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
+								.with(Lwm2mConfigSetting::getServerAndPort),
+						new Column().header("LifeTime").minWidth(10).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
+								.with(Lwm2mConfigSetting::getLwm2mLifeTime)
+				));
+				System.out.println(tableInfo);
+			}
+
 		}
 	}
 }

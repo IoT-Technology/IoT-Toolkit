@@ -24,6 +24,7 @@ import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.ObjectUtils;
+import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSetting;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings;
 import iot.technology.client.toolkit.nb.service.processor.NbSettingsContext;
 import iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings;
@@ -73,6 +74,22 @@ public class NbSettingsShowProcessor implements TkProcessor {
 			System.out.format("ProductName: " + mobProjectSettings.getProductName() + "%n");
 			System.out.format("ProductId:   " + mobProjectSettings.getProductId() + "%n");
 			System.out.format("AccessKey:   " + mobProjectSettings.getAccessKey() + "%n");
+		}
+		if (nbSettingsContext.getNbType().equals(NBTypeEnum.LWM2M.getValue())) {
+			List<String> configStringList = FileUtils.getDataFromFile(SystemConfigConst.SYS_NB_LWM2M_SETTINGS_FILE_NAME);
+			var lwm2mConfigSetting = JsonUtils.jsonToObject(configStringList.get(serial), Lwm2mConfigSetting.class);
+			System.out.format("Endpoint:         " + lwm2mConfigSetting.getLwm2mEndpoint() + "%n");
+			System.out.format("ServerAndPort:    " + lwm2mConfigSetting.getServerAndPort() + "%n");
+			System.out.format("LifeTime:         " + lwm2mConfigSetting.getLwm2mLifeTime() + "%n");
+			System.out.format("BootstrapServer:  " + lwm2mConfigSetting.getLwm2mBootstrapServer() + "%n");
+			System.out.format("PskIdentity:      " + lwm2mConfigSetting.getLwm2mPskIdentity() + "%n");
+			System.out.format("PskShareKey:      " + lwm2mConfigSetting.getLwm2mPskShareKey() + "%n");
+			System.out.format("ClientPrivateKey: " + lwm2mConfigSetting.getLwm2mClientPrivateKey() + "%n");
+			System.out.format("ClientPublicKey:  " + lwm2mConfigSetting.getLwm2mClientPublicKey() + "%n");
+			System.out.format("ServerPublicKey:  " + lwm2mConfigSetting.getLwm2mServerPublicKey() + "%n");
+			System.out.format("ClientCert:       " + lwm2mConfigSetting.getLwm2mClientCert() + "%n");
+			System.out.format("ServerCert:       " + lwm2mConfigSetting.getLwm2mServerCert() + "%n");
+			System.out.format("CertUsage:        " + lwm2mConfigSetting.getLwm2mCertUsage() + "%n");
 		}
 	}
 }

@@ -46,7 +46,7 @@ public class NbTelecomAppConfigNode implements TkNode {
 			context.setCheck(true);
 			return true;
 		}
-		System.out.format(ColorUtils.redError(bundle.getString("nb.select.config.error")));
+		System.out.format(ColorUtils.redError(bundle.getString("nb.select.config.error")) + "%n");
 		context.setCheck(false);
 		return false;
 	}

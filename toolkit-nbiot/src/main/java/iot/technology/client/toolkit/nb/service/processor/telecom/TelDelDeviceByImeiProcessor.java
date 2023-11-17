@@ -42,7 +42,15 @@ public class TelDelDeviceByImeiProcessor implements TkProcessor {
 	@Override
 	public void handle(ProcessContext context) {
 		TelProcessContext telProcessContext = (TelProcessContext) context;
-		String imeiListString = context.getData().substring(context.getData().indexOf(" ") + 1);
+		String[] arr = context.getData().split(" ");
+		if (arr.length < 2) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
+			sb.append(ColorUtils.blackBold("detail usage please enter: help del"));
+			System.out.println(sb);
+			return;
+		}
+		String imeiListString = arr[2];
 		if (StringUtils.isNotBlank(imeiListString)) {
 			List<String> imeiList = List.of(imeiListString.split(","));
 			TelDelDeviceByImeiResponse response =
