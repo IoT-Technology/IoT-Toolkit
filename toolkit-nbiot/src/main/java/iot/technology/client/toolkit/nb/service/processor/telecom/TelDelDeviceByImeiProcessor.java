@@ -50,7 +50,7 @@ public class TelDelDeviceByImeiProcessor implements TkProcessor {
 			System.out.println(sb);
 			return;
 		}
-		String imeiListString = arr[2];
+		String imeiListString = arr[1];
 		if (StringUtils.isNotBlank(imeiListString)) {
 			List<String> imeiList = List.of(imeiListString.split(","));
 			TelDelDeviceByImeiResponse response =
