@@ -144,7 +144,8 @@ public class MobileDeviceService extends AbstractMobileService {
 
 	}
 
-	public MobQueryDeviceListResponse queryDeviceList(MobileConfigDomain config, Integer page, String keyWords) {
+	public MobQueryDeviceListResponse queryDeviceList(MobileConfigDomain config, Integer page,
+													  Integer pageSize, String keyWords) {
 		MobQueryDeviceListResponse queryDeviceListResponse = new MobQueryDeviceListResponse();
 		try {
 			HttpRequestEntity entity = new HttpRequestEntity();
@@ -155,7 +156,7 @@ public class MobileDeviceService extends AbstractMobileService {
 			Map<String, String> params = new HashMap<>();
 			params.put("key_words", keyWords);
 			params.put("page", page + "");
-			params.put("per_page", "20");
+			params.put("per_page", pageSize + "");
 			entity.setParams(params);
 			HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
 			if (StringUtils.isNotBlank(response.getBody())) {
@@ -179,7 +180,8 @@ public class MobileDeviceService extends AbstractMobileService {
 
 	}
 
-	public MobAddDeviceResponse addDevice(MobileConfigDomain config, String imei, String name, String pskValue) {
+	public MobAddDeviceResponse addDevice(MobileConfigDomain config, String imei, String name,
+										  String pskValue, String imsi, boolean obsv) {
 		MobAddDeviceResponse addDeviceResponse = new MobAddDeviceResponse();
 		try {
 			HttpRequestEntity entity = new HttpRequestEntity();
@@ -192,8 +194,9 @@ public class MobileDeviceService extends AbstractMobileService {
 			body.put("protocol", "LWM2M");
 			body.put("title", name);
 			Map<String, Object> authInfoMap = new HashMap<>();
-			authInfoMap.put(imei, imei);
+			authInfoMap.put(imei, imsi);
 			body.put("auth_info", authInfoMap);
+			body.put("obsv", obsv);
 			if (Objects.nonNull(pskValue)) {
 				body.put("psk", pskValue);
 			}

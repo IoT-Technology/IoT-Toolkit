@@ -131,7 +131,7 @@ public class NbConfigSettingsDomain implements Serializable {
         if (nbType.equals(NBTypeEnum.MOBILE.getValue())) {
             if (mobAppConfig.equals("new")) {
                 domain.setProductName(mobProductName);
-                domain.setProductId(Integer.valueOf(mobProductId));
+                domain.setProductId(mobProductId);
                 domain.setAccessKey(mobAccessKey);
             } else {
                 MobProjectSettings mobProjectSettings = JsonUtils.jsonToObject(mobAppConfig, MobProjectSettings.class);

@@ -45,9 +45,8 @@ public class MobDelDeviceByImeiProcessor implements TkProcessor {
 		List<String> arguArgs = List.of(context.getData().split(" "));
 		if (arguArgs.size() != 2) {
 			StringBuilder sb = new StringBuilder();
-			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
-					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("usage: del imei"));
+			sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
+			sb.append(ColorUtils.blackBold("detail usage please enter: help del"));
 			System.out.println(sb);
 			return;
 		}

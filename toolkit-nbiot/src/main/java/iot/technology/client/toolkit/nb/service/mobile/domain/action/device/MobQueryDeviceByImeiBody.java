@@ -15,6 +15,8 @@
  */
 package iot.technology.client.toolkit.nb.service.mobile.domain.action.device;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 /**
@@ -22,13 +24,15 @@ import java.io.Serializable;
  */
 public class MobQueryDeviceByImeiBody implements Serializable {
 
-	private String create_time;
+	@JsonProperty("create_time")
+	private String createTime;
 
 	private String id;
 
 	private boolean online;
 
-	private boolean observe_status;
+	@JsonProperty("observe_status")
+	private boolean observeStatus;
 
 	private String title;
 
@@ -51,20 +55,20 @@ public class MobQueryDeviceByImeiBody implements Serializable {
 		this.online = online;
 	}
 
-	public String getCreate_time() {
-		return create_time;
+	public String getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreate_time(String create_time) {
-		this.create_time = create_time;
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 
-	public boolean isObserve_status() {
-		return observe_status;
+	public boolean isObserveStatus() {
+		return observeStatus;
 	}
 
-	public void setObserve_status(boolean observe_status) {
-		this.observe_status = observe_status;
+	public void setObserveStatus(boolean observeStatus) {
+		this.observeStatus = observeStatus;
 	}
 
 	public String getTitle() {

@@ -30,6 +30,7 @@ import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQ
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceListBody;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceListResponse;
 import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
+import org.apache.commons.cli.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,50 +53,68 @@ public class MobListDeviceProcessor extends TkAbstractProcessor implements TkPro
 
 	@Override
 	public boolean supports(ProcessContext context) {
-		return context.getData().startsWith("list");
+		return context.getData().startsWith("list") || context.getData().startsWith("ls");
 	}
 
 	@Override
 	public void handle(ProcessContext context) {
-		List<String> arguArgs = List.of(context.getData().split(" "));
-		if (arguArgs.size() > 3) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
-					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
-			System.out.println(sb);
-			return;
-		}
-		Integer pageNo = 1;
-		String searchValue = null;
-		if (arguArgs.size() == 1) {
-		}
-		if (arguArgs.size() == 2) {
-			String pageNoStr = arguArgs.get(1);
-			if (!validateParam(pageNoStr)) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("pageNo is not a number"));
-				sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
-				System.out.println(sb);
-				return;
-			}
-			pageNo = Integer.parseInt(pageNoStr);
-		}
-		if (arguArgs.size() == 3) {
-			searchValue = arguArgs.get(1);
-			String pageNoStr = arguArgs.get(2);
-			if (!validateParam(pageNoStr)) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("pageNo is not a number"));
-				sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
-				System.out.println(sb);
-				return;
-			}
-			pageNo = Integer.parseInt(pageNoStr);
-		}
 		MobProcessContext mobProcessContext = (MobProcessContext) context;
 		MobileConfigDomain mobileConfigDomain = mobProcessContext.getMobileConfigDomain();
-		MobQueryDeviceListResponse queryDeviceListResponse = mobileDeviceService.queryDeviceList(mobileConfigDomain, pageNo, searchValue);
+
+		Options options = new Options();
+		Option searchValueOption = new Option("sv", "searchValue", true, "search keyword value");
+		Option pageNoOption = new Option("pn", "pageNo", true, "the pageNo of data list");
+		Option pageSizeOption = new Option("ps", "pageSize", true, "the pageSize of data list");
+
+		options.addOption(searchValueOption)
+				.addOption(pageSizeOption)
+				.addOption(pageNoOption);
+
+		Integer pageNo = 1;
+		Integer pageSize = 20;
+		String searchValue = null;
+		try {
+			CommandLineParser parser = new DefaultParser();
+			CommandLine cmd = parser.parse(options, convertCommandData(context.getData()));
+
+			// pageNo option
+			if (cmd.hasOption(pageNoOption)) {
+				String pageNoStr = cmd.getOptionValue(pageNoOption);
+				if (!validateParam(pageNoStr)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+					System.out.println(sb);
+					return;
+				}
+				pageNo = Integer.parseInt(pageNoStr);
+			}
+
+			// pageSize Option
+			if (cmd.hasOption(pageSizeOption)) {
+				String pageSizeStr = cmd.getOptionValue(pageSizeOption);
+				if (!validateParam(pageSizeStr)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("pageSize is not a number")).append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help list"));
+					System.out.println(sb);
+					return;
+				}
+				pageSize = Integer.parseInt(pageSizeStr);
+			}
+
+			// searchValue option
+			if (cmd.hasOption(searchValueOption)) {
+				searchValue = cmd.getOptionValue(searchValueOption);
+			}
+
+		} catch (ParseException e) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(ColorUtils.redError("command parse failed!")).append(StringUtils.lineSeparator);
+			System.out.println(sb);
+		}
+
+		MobQueryDeviceListResponse queryDeviceListResponse = mobileDeviceService.queryDeviceList(mobileConfigDomain, pageNo, pageSize, searchValue);
 		if (queryDeviceListResponse.isSuccess()) {
 			MobQueryDeviceListBody deviceListBody = queryDeviceListResponse.getData();
 			System.out.format(ColorUtils.blackBold("productId:%s query success, totalNumber:%s, currentPageNo:%s"),

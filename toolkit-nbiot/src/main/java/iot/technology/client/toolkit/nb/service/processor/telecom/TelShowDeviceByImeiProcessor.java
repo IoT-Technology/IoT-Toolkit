@@ -40,7 +40,7 @@ public class TelShowDeviceByImeiProcessor implements TkProcessor {
 	@Override
 	public void handle(ProcessContext context) {
 		String[] arr = context.getData().split(" ");
-		if (arr.length < 2) {
+		if (arr.length != 2) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
 			sb.append(ColorUtils.blackBold("detail usage please enter: help show"));

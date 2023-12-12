@@ -24,7 +24,7 @@ public class MobileConfigDomain implements Serializable {
 
 	private String productName;
 
-	private Integer productId;
+	private String productId;
 
 	private String accessKey;
 
@@ -36,11 +36,11 @@ public class MobileConfigDomain implements Serializable {
 		this.productName = productName;
 	}
 
-	public Integer getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 

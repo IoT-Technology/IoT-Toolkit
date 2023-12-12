@@ -30,8 +30,8 @@ public class MobQueryDeviceByImeiResponse extends BaseMobileResponse {
 		System.out.format("deviceName:    " + ColorUtils.blackBold(data.getTitle()) + "%n");
 		System.out.format("deviceId:      " + ColorUtils.blackBold(data.getId()) + "%n");
 		System.out.format("online:        " + ColorUtils.blackBold(data.isOnline() ? "在线" : "离线") + "%n");
-		System.out.format("observeStatus: " + ColorUtils.blackBold(data.isObserve_status() ? "订阅" : "不订阅") + "%n");
-		System.out.format("createTime:    " + ColorUtils.blackBold(data.getCreate_time()) + "%n");
+		System.out.format("observeStatus: " + ColorUtils.blackBold(data.isObserveStatus() ? "订阅" : "不订阅") + "%n");
+		System.out.format("createTime:    " + ColorUtils.blackBold(data.getCreateTime()) + "%n");
 	}
 
 
