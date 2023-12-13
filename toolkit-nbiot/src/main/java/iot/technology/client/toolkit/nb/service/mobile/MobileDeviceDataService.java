@@ -87,7 +87,7 @@ public class MobileDeviceDataService extends AbstractMobileService {
 			params.put("datastream_id", dataStreamIds);
 			params.put("start", start);
 			params.put("end", end);
-			params.put("limit", limit <= 0 ? "50" : limit + "");
+			params.put("limit", limit + "");
 			entity.setParams(params);
 			HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
 			if (StringUtils.isNotBlank(response.getBody())) {
@@ -112,7 +112,8 @@ public class MobileDeviceDataService extends AbstractMobileService {
 
 
 	public MobCachedCommandResponse getCachedCommandList(MobileConfigDomain config, String imei,
-														 String startTime, String pageNo) {
+														 String startTime, String endTime,
+														 Integer pageNo, Integer pageSize) {
 		MobCachedCommandResponse mobCachedCommandResponse = new MobCachedCommandResponse();
 		try {
 			HttpRequestEntity entity = new HttpRequestEntity();
@@ -124,8 +125,9 @@ public class MobileDeviceDataService extends AbstractMobileService {
 			Map<String, String> params = new HashMap<>();
 			params.put("imei", imei);
 			params.put("start", startTime);
-			params.put("page", pageNo);
-			params.put("per_page", "20");
+			params.put("end", endTime);
+			params.put("page", pageNo + "");
+			params.put("per_page", pageSize + "");
 			entity.setParams(params);
 			HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
 			if (StringUtils.isNotBlank(response.getBody())) {

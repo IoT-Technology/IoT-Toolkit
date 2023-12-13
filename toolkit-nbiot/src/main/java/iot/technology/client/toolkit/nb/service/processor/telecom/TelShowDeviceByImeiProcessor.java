@@ -47,7 +47,7 @@ public class TelShowDeviceByImeiProcessor implements TkProcessor {
 			System.out.println(sb);
 			return;
 		}
-		String imei = arr[2];
+		String imei = arr[1];
 		TelProcessContext telProcessContext = (TelProcessContext) context;
 		if (StringUtils.isNotBlank(imei)) {
 			TelQueryDeviceByImeiResponse response =

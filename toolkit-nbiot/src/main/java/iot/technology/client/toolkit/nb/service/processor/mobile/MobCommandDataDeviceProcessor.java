@@ -29,19 +29,12 @@ import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobCachedCommandItem;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobCachedCommandResponse;
 import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
+import org.apache.commons.cli.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * <p>
- * 1、command imei : print today's command for the device
- * <p>
- * 2、command imei pageNo : print today's first page command for the device
- * <p>
- * 3、command imei start pageNo : print startTime pageNo command for the device
- * <p>
- *
  * @author mushuwei
  */
 public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implements TkProcessor {
@@ -58,57 +51,98 @@ public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implement
 		MobProcessContext mobProcessContext = (MobProcessContext) context;
 		MobileConfigDomain mobileConfigDomain = mobProcessContext.getMobileConfigDomain();
 
-		List<String> arguArgs = List.of(context.getData().split(" "));
-		if (arguArgs.size() < 2 || arguArgs.size() > 4) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
-					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
-			System.out.println(sb);
-			return;
-		}
-		String imei = arguArgs.get(1);
-		String pageNo = "1";
+		Options options = new Options();
+		Option imeiOption = new Option("imei", true, "the device imei");
+		Option startTimeOption = new Option("st","startTime", true, "start time of search device command data list");
+		Option endTimeOption = new Option("et","endTime", true, "end time of search device command data list");
+		Option pageNoOption = new Option("pn", "pageNo", true, "the pageNo of device command data list");
+		Option pageSizeOption = new Option("ps", "pageSize", true, "the pageSize of device command data list");
+
+		options.addOption(imeiOption)
+				.addOption(pageNoOption)
+				.addOption(pageSizeOption)
+				.addOption(startTimeOption)
+				.addOption(endTimeOption);
+
+		String imei = "";
+		Integer pageNo = 1;
+		Integer pageSize = 20;
 		String startTime = DateUtils.getCurrentDayStartTimeForMob();
-		// command imei
-		if (arguArgs.size() == 2) {
-		}
-		if (arguArgs.size() == 3) {
-			String pageNoStr = arguArgs.get(2);
-			if (!validateParam(pageNoStr)) {
+		String endTime = DateUtils.getCurrentDayEndTimeForMob();
+		String consoleStartTime = "";
+		String consoleEndTime = "";
+		try {
+			CommandLineParser parser = new DefaultParser();
+			CommandLine cmd = parser.parse(options, convertCommandData(context.getData()));
+			// the imei option
+			if (!cmd.hasOption(imeiOption)) {
 				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("pageNo is not a number"))
-						.append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
 				sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
 				System.out.println(sb);
 				return;
 			}
-			pageNo = pageNoStr;
-		}
-		if (arguArgs.size() == 4) {
-			String startTimeStr = arguArgs.get(2);
-			if (!validateParam(startTimeStr)) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
-						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
-				System.out.println(sb);
-				return;
+			imei = cmd.getOptionValue(imeiOption);
+			// the startTime option
+			if (cmd.hasOption(startTimeOption)) {
+				consoleStartTime = cmd.getOptionValue(startTimeOption);
+				if (!DateUtils.mobileTimePattern(consoleStartTime)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
+							.append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
+					System.out.println(sb);
+					return;
+				}
+				startTime = consoleStartTime;
 			}
-			startTime = startTimeStr;
-			String pageNoStr = arguArgs.get(3);
-			if (!validateParam(pageNoStr)) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("pageNo is not a number"))
-						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
-				System.out.println(sb);
-				return;
+			// the endTime option
+			if (cmd.hasOption(endTimeOption)) {
+				consoleEndTime = cmd.getOptionValue(endTimeOption);
+				if (!DateUtils.mobileTimePattern(consoleEndTime)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
+							.append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
+					System.out.println(sb);
+					return;
+				}
+				endTime = consoleEndTime;
 			}
-			pageNo = pageNoStr;
+
+			// pageNo option
+			if (cmd.hasOption(pageNoOption)) {
+				String pageNoStr = cmd.getOptionValue(pageNoOption);
+				if (!validateParam(pageNoStr)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("pageNo is not a number")).append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
+					System.out.println(sb);
+					return;
+				}
+				pageNo = Integer.parseInt(pageNoStr);
+			}
+			// pageSize Option
+			if (cmd.hasOption(pageSizeOption)) {
+				String pageSizeStr = cmd.getOptionValue(pageSizeOption);
+				if (!validateParam(pageSizeStr)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("pageSize is not a number")).append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help command"));
+					System.out.println(sb);
+					return;
+				}
+				pageSize = Integer.parseInt(pageSizeStr);
+			}
+
+		} catch (ParseException e) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(ColorUtils.redError("command parse failed!")).append(StringUtils.lineSeparator);
+			System.out.println(sb);
 		}
 		MobCachedCommandResponse
-				mobCachedCommandResponse = mobileDeviceDataService.getCachedCommandList(mobileConfigDomain, imei, startTime, pageNo);
+				mobCachedCommandResponse = mobileDeviceDataService.getCachedCommandList(
+						mobileConfigDomain, imei, startTime, endTime, pageNo, pageSize);
 		if (mobCachedCommandResponse.isSuccess()
 				&& mobCachedCommandResponse.getData() != null
 				&& !mobCachedCommandResponse.getData().getItems().isEmpty()) {

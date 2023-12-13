@@ -16,6 +16,7 @@
 package iot.technology.client.toolkit.nb.service.processor.mobile;
 
 import iot.technology.client.toolkit.common.rule.ProcessContext;
+import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
@@ -23,15 +24,14 @@ import iot.technology.client.toolkit.nb.service.mobile.MobileDeviceService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.BaseMobileResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
-
-import java.util.List;
+import org.apache.commons.cli.*;
 
 /**
  * format: update imei name
  *
  * @author mushuwei
  */
-public class MobUpdateDeviceProcessor implements TkProcessor {
+public class MobUpdateDeviceProcessor extends TkAbstractProcessor implements TkProcessor {
 
 	private final MobileDeviceService mobileDeviceService = new MobileDeviceService();
 
@@ -42,19 +42,45 @@ public class MobUpdateDeviceProcessor implements TkProcessor {
 
 	@Override
 	public void handle(ProcessContext context) {
-		List<String> arguArgs = List.of(context.getData().split(" "));
-		if (arguArgs.size() != 3) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
-					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("usage: update imei name"));
-			System.out.println(sb);
-			return;
-		}
 		MobProcessContext mobProcessContext = (MobProcessContext) context;
 		MobileConfigDomain mobileConfigDomain = mobProcessContext.getMobileConfigDomain();
-		String imei = arguArgs.get(1);
-		String name = arguArgs.get(2);
+
+		Options options = new Options();
+		Option imeiOption = new Option("imei", true, "the device imei");
+		Option nameOption = new Option("name", true, "the device name");
+
+		options.addOption(imeiOption)
+				.addOption(nameOption);
+
+		String imei = "";
+		String name = "";
+		try {
+			CommandLineParser parser = new DefaultParser();
+			CommandLine cmd = parser.parse(options, convertCommandData(context.getData()));
+
+			// imei and name required
+			if (!(cmd.hasOption(imeiOption) && cmd.hasOption(nameOption))) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("imei and name is required")).append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("detail usage please enter: help update"));
+				System.out.println(sb);
+				return;
+			}
+
+			// the device imei
+			if (cmd.hasOption(imeiOption)) {
+				imei = cmd.getOptionValue(imeiOption);
+			}
+			// the device name
+			if (cmd.hasOption(nameOption)) {
+				name = cmd.getOptionValue(nameOption);
+			}
+
+		} catch (ParseException e) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(ColorUtils.redError("command parse failed!")).append(StringUtils.lineSeparator);
+			System.out.println(sb);
+		}
 		BaseMobileResponse response = mobileDeviceService.updateByImei(mobileConfigDomain, imei, name);
 		if (response.isSuccess()) {
 			StringBuilder sb = new StringBuilder();

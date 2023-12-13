@@ -26,9 +26,6 @@ import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobA
 import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
 import org.apache.commons.cli.*;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

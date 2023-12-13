@@ -27,6 +27,7 @@ import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.*;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceByImeiResponse;
 import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
+import org.apache.commons.cli.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -60,64 +61,77 @@ public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 		MobProcessContext mobProcessContext = (MobProcessContext) context;
 		MobileConfigDomain mobileConfigDomain = mobProcessContext.getMobileConfigDomain();
 
-		List<String> arguArgs = List.of(context.getData().split(" "));
-		if (arguArgs.size() > 5 || arguArgs.size() < 2) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(String.format(ColorUtils.redError("argument:%s is illegal"), context.getData()))
-					.append(StringUtils.lineSeparator());
-			sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
-			System.out.println(sb);
-			return;
-		}
-		int limit = 50;
-		String imei = "";
-		String startTime = "";
-		String endTime = "";
-		if (arguArgs.size() == 2) {
-			imei = arguArgs.get(1);
-		}
-		if (arguArgs.size() == 3) {
-			imei = arguArgs.get(1);
-			String limitStr = arguArgs.get(2);
-			if (!validateParam(limitStr)) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("limit is not a number"))
-						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
-				System.out.println(sb);
-				return;
-			}
-			limit = Integer.parseInt(limitStr);
-		}
-		if (arguArgs.size() == 4 || arguArgs.size() == 5) {
-			imei = arguArgs.get(1);
-			startTime = arguArgs.get(2);
-			endTime = arguArgs.get(3);
-			if (!DateUtils.mobileTimePattern(startTime) || !DateUtils.mobileTimePattern(endTime)) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
-						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
-				System.out.println(sb);
-				return;
-			}
-		}
-		if (arguArgs.size() == 5) {
-			imei = arguArgs.get(1);
-			String limitStr = arguArgs.get(4);
-			if (!validateParam(limitStr)) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(ColorUtils.redError("limit is not a number"))
-						.append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
-				System.out.println(sb);
-				return;
-			}
-			limit = Integer.parseInt(limitStr);
-		}
-		startTime = StringUtils.isBlank(startTime) ? DateUtils.getCurrentDayStartTimeForMob() : startTime;
-		endTime = StringUtils.isBlank(endTime) ? DateUtils.getCurrentDayEndTimeForMob() : endTime;
+		Options options = new Options();
+		Option imeiOption = new Option("imei", true, "the device imei");
+		Option limitOption = new Option("limit", true, "limit of the device log data list");
+		Option startTimeOption = new Option("startTime", true, "start time of search device log data list");
+		Option endTimeOption = new Option("endTime", true, "end time of search device log data list");
 
+		options.addOption(imeiOption)
+				.addOption(limitOption)
+				.addOption(startTimeOption)
+				.addOption(endTimeOption);
+
+		String imei = "";
+		Integer limit = 50;
+		String startTime = DateUtils.getCurrentDayStartTimeForMob();
+		String endTime = DateUtils.getCurrentDayEndTimeForMob();
+		String consoleStartTime = "";
+		String consoleEndTime = "";
+
+		try {
+			CommandLineParser parser = new DefaultParser();
+			CommandLine cmd = parser.parse(options, convertCommandData(context.getData()));
+
+			if (!cmd.hasOption(imeiOption)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
+				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+				System.out.println(sb);
+				return;
+			}
+			imei = cmd.getOptionValue(imeiOption);
+			if (cmd.hasOption(limitOption)) {
+				String limitStr = cmd.getOptionValue(limitOption);
+				if (!validateParam(limitStr)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("limit is not a number")).append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+					System.out.println(sb);
+					return;
+				}
+				limit = Integer.parseInt(limitStr);
+			}
+			if (cmd.hasOption(startTimeOption)) {
+				consoleStartTime = cmd.getOptionValue(startTimeOption);
+				if (!DateUtils.mobileTimePattern(consoleStartTime)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
+							.append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+					System.out.println(sb);
+					return;
+				}
+				startTime = consoleStartTime;
+			}
+			if (cmd.hasOption(endTimeOption)) {
+				consoleEndTime = cmd.getOptionValue(endTimeOption);
+				if (!DateUtils.mobileTimePattern(consoleEndTime)) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
+							.append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+					System.out.println(sb);
+					return;
+				}
+				endTime = consoleEndTime;
+			}
+
+		} catch (ParseException e) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(ColorUtils.redError("command parse failed!")).append(StringUtils.lineSeparator);
+			System.out.println(sb);
+		}
 		MobQueryDeviceByImeiResponse response = mobileDeviceService.queryDeviceByImei(mobileConfigDomain, imei);
 		if (response.isSuccess() && Objects.nonNull(response.getData().getId())) {
 			String deviceId = response.getData().getId();
@@ -141,8 +155,7 @@ public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 							datastreams.stream().map(MobDeviceLatestDataStreamsBody::getId).collect(Collectors.toList());
 					String dataStreamIdStr = String.join(",", dataStreamIds);
 					MobDeviceHisDataResponse deviceHisDataResponse =
-							mobileDeviceDataService.getHisDataPoints(mobileConfigDomain, deviceId, dataStreamIdStr, startTime, endTime,
-									limit);
+							mobileDeviceDataService.getHisDataPoints(mobileConfigDomain, deviceId, dataStreamIdStr, startTime, endTime, limit);
 					if (deviceHisDataResponse.isSuccess()) {
 						int count = deviceHisDataResponse.getData().getCount();
 						System.out.println(

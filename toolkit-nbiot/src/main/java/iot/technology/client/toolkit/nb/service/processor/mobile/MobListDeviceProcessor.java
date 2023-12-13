@@ -36,15 +36,6 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * usage:
- * <p>
- * 1、list: print first page device list
- * <p>
- * 2、list pageNo: print pageNo device list
- * <p>
- * 3、list searchValue pageNo: print searchValue pageNo device list
- * <p>
- *
  * @author mushuwei
  */
 public class MobListDeviceProcessor extends TkAbstractProcessor implements TkProcessor {
