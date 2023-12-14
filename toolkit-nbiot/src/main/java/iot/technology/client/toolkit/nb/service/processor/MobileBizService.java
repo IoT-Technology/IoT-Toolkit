@@ -78,6 +78,9 @@ public class MobileBizService {
 			boolean isEnd = true;
 			MobProcessContext context = new MobProcessContext();
 			context.setMobileConfigDomain(mobileConfigDomain);
+
+			var mobHelpProcessor = new MobHelpProcessor();
+			mobHelpProcessor.printAllHelpInfo();
 			while (isEnd) {
 				String data;
 				data = reader.readLine(prompt);

@@ -152,6 +152,7 @@ public class TelHelpProcessor implements TkProcessor {
 				System.out.print(sb);
 				break;
 			case "del":
+			case "delete":
 				sb.append(ColorUtils.colorBold("Usage:  ", "black")
 						+ String.format("> %s %s",
 						ColorUtils.colorBold("del,delete", "green"),

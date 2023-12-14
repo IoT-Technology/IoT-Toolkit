@@ -49,116 +49,205 @@ public class MobHelpProcessor implements TkProcessor {
 		}
 		//user type help
 		if (arguArgs.size() == 1) {
-			StringBuilder sb = new StringBuilder();
-			// list telecom nb-iot devices
-			sb.append(ColorUtils.cyanAnnotation("list:    " + bundle.getString("nb.operation.list.desc")))
-					.append(StringUtils.lineSeparator());
-			sb.append("    usage: list [searchValue] [pageNo]").append(StringUtils.lineSeparator());
-			sb.append(StringUtils.lineSeparator());
-
-			// get telecom nb-iot device detail info
-			sb.append(ColorUtils.cyanAnnotation("show:     " + bundle.getString("nb.operation.get.desc")))
-					.append(StringUtils.lineSeparator());
-			sb.append("    usage: show imei").append(StringUtils.lineSeparator());
-			sb.append(StringUtils.lineSeparator());
-
-			// delete telecom nb-iot device
-			sb.append(ColorUtils.cyanAnnotation("del:     " + bundle.getString("nb.operation.del.desc")))
-					.append(StringUtils.lineSeparator());
-			sb.append("    usage: del imei").append(StringUtils.lineSeparator());
-			sb.append(StringUtils.lineSeparator());
-
-			// add telecom nb-iot device
-			sb.append(ColorUtils.cyanAnnotation("add:     " + bundle.getString("nb.operation.add.desc")))
-					.append(StringUtils.lineSeparator());
-			sb.append("    usage: add imei name").append(StringUtils.lineSeparator());
-			sb.append(StringUtils.lineSeparator());
-
-			// update telecom nb-iot device name
-			sb.append(ColorUtils.cyanAnnotation("update:  " + bundle.getString("nb.operation.update.desc")))
-					.append(StringUtils.lineSeparator());
-			sb.append("    usage: update imei name").append(StringUtils.lineSeparator());
-			sb.append(StringUtils.lineSeparator());
-
-			// print telecom nb-iot device reported data
-			sb.append(ColorUtils.cyanAnnotation("log:      " + bundle.getString("nb.operation.log.desc")))
-					.append(StringUtils.lineSeparator());
-			sb.append("    usage: log imei [startTime] [endTime] [limit]").append(StringUtils.lineSeparator());
-			sb.append(StringUtils.lineSeparator());
-
-			// print telecom nb-iot device command data
-			sb.append(ColorUtils.cyanAnnotation("command:  " + bundle.getString("nb.operation.command.desc")))
-					.append(StringUtils.lineSeparator());
-			sb.append("    usage: command imei startTime [pageNo]").append(StringUtils.lineSeparator());
-			System.out.format(sb.toString());
+			printAllHelpInfo();
 			return;
 		}
 		String subCommand = arguArgs.get(1);
 		StringBuilder sb = new StringBuilder();
 		switch (subCommand) {
 			case "list":
-				sb.append(ColorUtils.cyanAnnotation("list:     " + bundle.getString("nb.operation.list.desc")))
+			case "ls":
+				sb.append(ColorUtils.colorBold("Usage:  ", "black")
+						+ String.format("> %s [%s <searchValue>] [%s <pageNo>] [%s <pageSize>]",
+						ColorUtils.colorBold("ls,list", "green"),
+						ColorUtils.colorBold("-sv", "green"),
+						ColorUtils.colorBold("-pn", "green"),
+						ColorUtils.colorBold("-ps", "green")));
+				sb.append(StringUtils.lineSeparator());
+				sb.append(bundle.getString("nb.operation.list.desc")).append(StringUtils.lineSeparator());
+				sb.append(StringUtils.lineSeparator());
+				sb.append("Options:").append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-sv --searchValue  ", "green"),
+								bundle.getString("nb.cmd.sv.desc")))
 						.append(StringUtils.lineSeparator());
-				sb.append("    usage: ").append(StringUtils.lineSeparator());
-				sb.append("         - list : print first page device list").append(StringUtils.lineSeparator());
-				sb.append("         - list pageNo : print pageNo device list").append(StringUtils.lineSeparator());
-				sb.append("         - list searchValue pageNo : print keywords:searchValue, page number:pageNo device list" )
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-pn --pageNo       ", "green"),
+								bundle.getString("nb.cmd.pn.desc")))
 						.append(StringUtils.lineSeparator());
-				sb.append("            searchValue support name、deviceId" ).append(StringUtils.lineSeparator());
-				System.out.format(sb.toString());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-ps --pageSize     ", "green"),
+								bundle.getString("nb.cmd.ps.desc")))
+						.append(StringUtils.lineSeparator());
+				System.out.print(sb);
 				break;
 			case "add":
-				sb.append(ColorUtils.cyanAnnotation("add:     " + bundle.getString("nb.operation.add.desc")))
-						.append(StringUtils.lineSeparator());
-				sb.append("    usage: add imei name").append(StringUtils.lineSeparator());
+				sb.append(ColorUtils.colorBold("Usage:  ", "black")
+						+ String.format("> %s %s <imei> %s <name> [%s] [%s <imsi>] [%s <psk>]",
+						ColorUtils.colorBold("add", "green"),
+						ColorUtils.colorBold("-imei", "green"),
+						ColorUtils.colorBold("-name", "green"),
+						ColorUtils.colorBold("-obsv", "green"),
+						ColorUtils.colorBold("-imsi", "green"),
+						ColorUtils.colorBold("-psk", "green")));
 				sb.append(StringUtils.lineSeparator());
-				System.out.format(sb.toString());
+				sb.append(bundle.getString("nb.operation.add.desc")).append(StringUtils.lineSeparator());
+				sb.append(StringUtils.lineSeparator());
+				sb.append("Options:").append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-imei       ", "green"),
+								bundle.getString("nb.cmd.imei.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-name       ", "green"),
+								bundle.getString("nb.cmd.name.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-obsv       ", "green"),
+								bundle.getString("nb.cmd.obsv.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-imsi       ", "green"),
+								bundle.getString("nb.cmd.imsi.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-psk        ", "green"),
+								bundle.getString("nb.cmd.psk.desc")))
+						.append(StringUtils.lineSeparator());
+				System.out.print(sb);
 				break;
 			case "update":
-				sb.append(ColorUtils.cyanAnnotation("update:  " + bundle.getString("nb.operation.update.desc")))
-						.append(StringUtils.lineSeparator());
-				sb.append("    usage: update imei name").append(StringUtils.lineSeparator());
+				sb.append(ColorUtils.colorBold("Usage:  ", "black")
+						+ String.format("> %s %s <imei> [%s <name>]",
+						ColorUtils.colorBold("update", "green"),
+						ColorUtils.colorBold("-imei", "green"),
+						ColorUtils.colorBold("-name", "green")));
 				sb.append(StringUtils.lineSeparator());
-				System.out.format(sb.toString());
+				sb.append(bundle.getString("nb.operation.update.desc")).append(StringUtils.lineSeparator());
+				sb.append(StringUtils.lineSeparator());
+				sb.append("Options:").append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-imei       ", "green"),
+								bundle.getString("nb.cmd.imei.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-name       ", "green"),
+								bundle.getString("nb.cmd.name.desc")))
+						.append(StringUtils.lineSeparator());
+				System.out.print(sb);
 				break;
 			case "del":
-				sb.append(ColorUtils.cyanAnnotation("del:     " + bundle.getString("nb.operation.del.desc")))
-						.append(StringUtils.lineSeparator());
-				sb.append("    usage: del imei").append(StringUtils.lineSeparator());
+			case "delete":
+				sb.append(ColorUtils.colorBold("Usage:  ", "black")
+						+ String.format("> %s %s",
+						ColorUtils.colorBold("del,delete", "green"),
+						ColorUtils.colorBold("imei", "green")));
 				sb.append(StringUtils.lineSeparator());
-				System.out.format(sb.toString());
+				sb.append(bundle.getString("nb.operation.del.desc")).append(StringUtils.lineSeparator());
+				sb.append(StringUtils.lineSeparator());
+				System.out.print(sb);
 				break;
 			case "show":
-				sb.append(ColorUtils.cyanAnnotation("show:     " + bundle.getString("nb.operation.get.desc")))
-						.append(StringUtils.lineSeparator());
-				sb.append("    usage: show imei").append(StringUtils.lineSeparator());
+				sb.append(ColorUtils.colorBold("Usage:  ", "black")
+						+ String.format("> %s %s",
+						ColorUtils.colorBold("show", "green"),
+						ColorUtils.colorBold("imei", "green")));
 				sb.append(StringUtils.lineSeparator());
-				System.out.format(sb.toString());
+				sb.append(bundle.getString("nb.operation.get.desc")).append(StringUtils.lineSeparator());
+				sb.append(StringUtils.lineSeparator());
+				System.out.print(sb);
 				break;
 			case "log":
-				sb.append(ColorUtils.cyanAnnotation("log:      " + bundle.getString("nb.operation.log.desc")))
+				sb.append(ColorUtils.colorBold("Usage:  ", "black")
+						+ String.format("> %s %s <imei> [%s <name>] [%s <startTime>] [%s <endTime>]",
+						ColorUtils.colorBold("log", "green"),
+						ColorUtils.colorBold("-imei", "green"),
+						ColorUtils.colorBold("-limit", "green"),
+						ColorUtils.colorBold("-startTime", "green"),
+						ColorUtils.colorBold("-endTime", "green")));
+				sb.append(StringUtils.lineSeparator());
+				sb.append(bundle.getString("nb.operation.log.desc")).append(StringUtils.lineSeparator());
+				sb.append(StringUtils.lineSeparator());
+				sb.append("Options:").append(StringUtils.lineSeparator());
+
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-imei        ", "green"),
+								bundle.getString("nb.cmd.imei.desc")))
 						.append(StringUtils.lineSeparator());
-				sb.append("    usage: time format:2019-02-01T00:01:01").append(StringUtils.lineSeparator());
-				sb.append("         - log imei : 50 of data reported by the device today").append(StringUtils.lineSeparator());
-				sb.append("         - log imei limit : limit of data reported by the device today").append(StringUtils.lineSeparator());
-				sb.append("         - log imei startTime endTime : 50 of data reported by the device from startTime to endTime" )
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-limit       ", "green"),
+								bundle.getString("nb.cmd.limit.desc")))
 						.append(StringUtils.lineSeparator());
-				sb.append("         - log imei startTime endTime limit : limit of data reported by the device from startTime to endTime" )
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-startTime   ", "green"),
+								bundle.getString("nb.cmd.startTime.desc")))
 						.append(StringUtils.lineSeparator());
-				System.out.format(sb.toString());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-endTime     ", "green"),
+								bundle.getString("nb.cmd.endTime.desc")))
+						.append(StringUtils.lineSeparator());
+				System.out.print(sb);
 				break;
 			case "command":
-				sb.append(ColorUtils.cyanAnnotation("command:  " + bundle.getString("nb.operation.command.desc")))
+			case "cmd":
+				sb.append(ColorUtils.colorBold("Usage:  ", "black")
+						+ String.format("> %s %s <imei> [%s <startTime>] [%s <endTime>] [%s <pageNo>] [%s <pageSize>]",
+						ColorUtils.colorBold("cmd,command", "green"),
+						ColorUtils.colorBold("-imei", "green"),
+						ColorUtils.colorBold("-startTime", "green"),
+						ColorUtils.colorBold("-endTime", "green"),
+						ColorUtils.colorBold("-pn", "green"),
+						ColorUtils.colorBold("-ps", "green")));
+				sb.append(StringUtils.lineSeparator());
+				sb.append(bundle.getString("nb.operation.command.desc")).append(StringUtils.lineSeparator());
+				sb.append(StringUtils.lineSeparator());
+				sb.append("Options:").append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-imei           ", "green"),
+								bundle.getString("nb.cmd.sv.desc")))
 						.append(StringUtils.lineSeparator());
-				sb.append("    usage: time format:2019-02-01T00:01:01").append(StringUtils.lineSeparator());
-				sb.append("         - command imei : print first page delivery command of the device").append(StringUtils.lineSeparator());
-				sb.append("         - command imei pageNo : print pageNo delivery command of the device").append(StringUtils.lineSeparator());
-				sb.append("         - command imei start pageNo : print pageNo delivery command of the device from startTime").append(StringUtils.lineSeparator());
-				System.out.format(sb.toString());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-startTime      ", "green"),
+								bundle.getString("nb.cmd.startTime.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-endTime        ", "green"),
+								bundle.getString("nb.cmd.endTime.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-pn --pageNo    ", "green"),
+								bundle.getString("nb.cmd.pn.desc")))
+						.append(StringUtils.lineSeparator());
+				sb.append(String.format("%s %s",
+								ColorUtils.colorBold("-ps --pageSize  ", "green"),
+								bundle.getString("nb.cmd.ps.desc")))
+						.append(StringUtils.lineSeparator());
+				System.out.print(sb);
 				break;
 			default:
 				break;
 
 		}
+	}
+
+	public void printAllHelpInfo() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("").append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("Usage:", "black") + ColorUtils.colorBold(" > ", "green")
+				+ "{ add | del | update | show | list | log | command | exit }").append(StringUtils.lineSeparator());
+		sb.append("").append(StringUtils.lineSeparator());
+		sb.append(bundle.getString("nb.shellmode.help")).append(StringUtils.lineSeparator());
+		sb.append("").append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold(bundle.getString("general.commands"), "black"))
+				.append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  help             ", "green")).append(bundle.getString("general.subCommand.help")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  add              ", "green")).append(bundle.getString("nb.operation.add.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  del, delete      ", "green")).append(bundle.getString("nb.operation.del.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  update           ", "green")).append(bundle.getString("nb.operation.update.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  show             ", "green")).append(bundle.getString("nb.operation.get.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  ls, list         ", "green")).append(bundle.getString("nb.operation.list.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  log              ", "green")).append(bundle.getString("nb.operation.log.desc")).append(StringUtils.lineSeparator());
+		sb.append(ColorUtils.colorBold("  command          ", "green")).append(bundle.getString("nb.operation.command.desc")).append(StringUtils.lineSeparator());
+		System.out.println(sb);
 	}
 }
