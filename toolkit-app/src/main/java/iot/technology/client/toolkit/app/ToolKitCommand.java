@@ -1,5 +1,5 @@
 /*
- * Copyright © 2019-2023 The Toolkit Authors
+ * Copyright © 2019-2025 The Toolkit Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ import java.util.concurrent.Callable;
 		synopsisSubcommandLabel = "{ config | mqtt | coap | nb }",
 		descriptionHeading = "%n",
 		requiredOptionMarker = '*',
-		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
+		footerHeading = "%nCopyright (c) 2019-2025, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei",
 		subcommands = {
 				AutoComplete.GenerateCompletion.class,

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2019-2023 The Toolkit Authors
+ * Copyright © 2019-2025 The Toolkit Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import static iot.technology.client.toolkit.coap.command.sub.CoapGetCommand.COAP
 		commandListHeading = "%n@|bold ${bundle:general.commands}|@%n",
 		optionListHeading = "%n@|bold ${bundle:general.option}|@%n",
 		descriptionHeading = "%n",
-		footerHeading = "%nCopyright (c) 2019-2023, ${bundle:general.copyright}",
+		footerHeading = "%nCopyright (c) 2019-2025, ${bundle:general.copyright}",
 		footer = "%nDeveloped by mushuwei"
 )
 public class CoapPutCommand extends AbstractCoapContext implements Callable<Integer> {

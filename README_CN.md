@@ -170,7 +170,7 @@ Commands:
   publish, pub    向代理发布消息
   subscribe, sub  从MQTT Broker(代理)订阅更新
 
-Copyright (c) 2019-2023, 物联网技术指南
+Copyright (c) 2019-2025, 物联网技术指南
 Developed by mushuwei
 ```
 
