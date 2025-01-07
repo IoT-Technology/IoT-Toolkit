@@ -59,7 +59,6 @@ public class CoapDiscoverCommand extends AbstractCoapContext implements Callable
 	private URI uri;
 
 	/* ********************************** Identity Section ******************************** */
-	/* ********************************** Identity Section ******************************** */
 	@CommandLine.ArgGroup(exclusive = false,
 			heading = "%n@|bold,underline PSK Options|@ %n%n"//
 					+ "@|italic " //

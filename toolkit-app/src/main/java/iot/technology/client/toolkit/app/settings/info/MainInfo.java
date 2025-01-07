@@ -19,7 +19,6 @@ import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**

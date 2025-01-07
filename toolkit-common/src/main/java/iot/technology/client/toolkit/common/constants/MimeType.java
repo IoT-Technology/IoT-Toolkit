@@ -16,7 +16,7 @@
 package iot.technology.client.toolkit.common.constants;
 
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2019-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,19 +112,6 @@ public class MimeType implements Comparable<MimeType>, Serializable {
 
 	private volatile String toStringValue;
 
-
-	/**
-	 * Create a new {@code MimeType} for the given primary type.
-	 * <p>The {@linkplain #getSubtype() subtype} is set to <code>"&#42;"</code>,
-	 * and the parameters are empty.
-	 *
-	 * @param type the primary type
-	 * @throws IllegalArgumentException if any of the parameters contains illegal characters
-	 */
-	public MimeType(String type) {
-		this(type, WILDCARD_TYPE);
-	}
-
 	/**
 	 * Create a new {@code MimeType} for the given primary type and subtype.
 	 * <p>The parameters are empty.
@@ -135,43 +122,6 @@ public class MimeType implements Comparable<MimeType>, Serializable {
 	 */
 	public MimeType(String type, String subtype) {
 		this(type, subtype, Collections.emptyMap());
-	}
-
-	/**
-	 * Create a new {@code MimeType} for the given type, subtype, and character set.
-	 *
-	 * @param type    the primary type
-	 * @param subtype the subtype
-	 * @param charset the character set
-	 * @throws IllegalArgumentException if any of the parameters contains illegal characters
-	 */
-	public MimeType(String type, String subtype, Charset charset) {
-		this(type, subtype, Collections.singletonMap(PARAM_CHARSET, charset.name()));
-	}
-
-	/**
-	 * Copy-constructor that copies the type, subtype, parameters of the given {@code MimeType},
-	 * and allows to set the specified character set.
-	 *
-	 * @param other   the other MimeType
-	 * @param charset the character set
-	 * @throws IllegalArgumentException if any of the parameters contains illegal characters
-	 * @since 4.3
-	 */
-	public MimeType(MimeType other, Charset charset) {
-		this(other.getType(), other.getSubtype(), addCharsetParameter(charset, other.getParameters()));
-	}
-
-	/**
-	 * Copy-constructor that copies the type and subtype of the given {@code MimeType},
-	 * and allows for different parameter.
-	 *
-	 * @param other      the other MimeType
-	 * @param parameters the parameters (may be {@code null})
-	 * @throws IllegalArgumentException if any of the parameters contains illegal characters
-	 */
-	public MimeType(MimeType other, Map<String, String> parameters) {
-		this(other.getType(), other.getSubtype(), parameters);
 	}
 
 	/**
@@ -261,16 +211,6 @@ public class MimeType implements Comparable<MimeType>, Serializable {
 	}
 
 	/**
-	 * Indicates whether this MIME Type is concrete, i.e. whether neither the type
-	 * nor the subtype is a wildcard character <code>&#42;</code>.
-	 *
-	 * @return whether this MIME Type is concrete
-	 */
-	public boolean isConcrete() {
-		return !isWildcardType() && !isWildcardSubtype();
-	}
-
-	/**
 	 * Return the primary type.
 	 */
 	public String getType() {
@@ -312,123 +252,6 @@ public class MimeType implements Comparable<MimeType>, Serializable {
 	 */
 	public Map<String, String> getParameters() {
 		return this.parameters;
-	}
-
-	/**
-	 * Indicate whether this MIME Type includes the given MIME Type.
-	 * <p>For instance, {@code text/*} includes {@code text/plain} and {@code text/html},
-	 * and {@code application/*+xml} includes {@code application/soap+xml}, etc.
-	 * This method is <b>not</b> symmetric.
-	 *
-	 * @param other the reference MIME Type with which to compare
-	 * @return {@code true} if this MIME Type includes the given MIME Type;
-	 * {@code false} otherwise
-	 */
-	public boolean includes(MimeType other) {
-		if (other == null) {
-			return false;
-		}
-		if (isWildcardType()) {
-			// */* includes anything
-			return true;
-		} else if (getType().equals(other.getType())) {
-			if (getSubtype().equals(other.getSubtype())) {
-				return true;
-			}
-			if (isWildcardSubtype()) {
-				// Wildcard with suffix, e.g. application/*+xml
-				int thisPlusIdx = getSubtype().lastIndexOf('+');
-				if (thisPlusIdx == -1) {
-					return true;
-				} else {
-					// application/*+xml includes application/soap+xml
-					int otherPlusIdx = other.getSubtype().lastIndexOf('+');
-					if (otherPlusIdx != -1) {
-						String thisSubtypeNoSuffix = getSubtype().substring(0, thisPlusIdx);
-						String thisSubtypeSuffix = getSubtype().substring(thisPlusIdx + 1);
-						String otherSubtypeSuffix = other.getSubtype().substring(otherPlusIdx + 1);
-						if (thisSubtypeSuffix.equals(otherSubtypeSuffix) && WILDCARD_TYPE.equals(thisSubtypeNoSuffix)) {
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Indicate whether this MIME Type is compatible with the given MIME Type.
-	 * <p>For instance, {@code text/*} is compatible with {@code text/plain},
-	 * {@code text/html}, and vice versa. In effect, this method is similar to
-	 * {@link #includes}, except that it <b>is</b> symmetric.
-	 *
-	 * @param other the reference MIME Type with which to compare
-	 * @return {@code true} if this MIME Type is compatible with the given MIME Type;
-	 * {@code false} otherwise
-	 */
-	public boolean isCompatibleWith(MimeType other) {
-		if (other == null) {
-			return false;
-		}
-		if (isWildcardType() || other.isWildcardType()) {
-			return true;
-		} else if (getType().equals(other.getType())) {
-			if (getSubtype().equals(other.getSubtype())) {
-				return true;
-			}
-			// Wildcard with suffix? e.g. application/*+xml
-			if (isWildcardSubtype() || other.isWildcardSubtype()) {
-				int thisPlusIdx = getSubtype().lastIndexOf('+');
-				int otherPlusIdx = other.getSubtype().lastIndexOf('+');
-				if (thisPlusIdx == -1 && otherPlusIdx == -1) {
-					return true;
-				} else if (thisPlusIdx != -1 && otherPlusIdx != -1) {
-					String thisSubtypeNoSuffix = getSubtype().substring(0, thisPlusIdx);
-					String otherSubtypeNoSuffix = other.getSubtype().substring(0, otherPlusIdx);
-					String thisSubtypeSuffix = getSubtype().substring(thisPlusIdx + 1);
-					String otherSubtypeSuffix = other.getSubtype().substring(otherPlusIdx + 1);
-					if (thisSubtypeSuffix.equals(otherSubtypeSuffix) &&
-							(WILDCARD_TYPE.equals(thisSubtypeNoSuffix) || WILDCARD_TYPE.equals(otherSubtypeNoSuffix))) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Similar to {@link #equals(Object)} but based on the type and subtype
-	 * only, i.e. ignoring parameters.
-	 *
-	 * @param other the other mime type to compare to
-	 * @return whether the two mime types have the same type and subtype
-	 * @since 5.1.4
-	 */
-	public boolean equalsTypeAndSubtype(MimeType other) {
-		if (other == null) {
-			return false;
-		}
-		return this.type.equalsIgnoreCase(other.type) && this.subtype.equalsIgnoreCase(other.subtype);
-	}
-
-	/**
-	 * Unlike {@link Collection#contains(Object)} which relies on
-	 * {@link MimeType#equals(Object)}, this method only checks the type and the
-	 * subtype, but otherwise ignores parameters.
-	 *
-	 * @param mimeTypes the list of mime types to perform the check against
-	 * @return whether the list contains the given mime type
-	 * @since 5.1.4
-	 */
-	public boolean isPresentIn(Collection<? extends MimeType> mimeTypes) {
-		for (MimeType mimeType : mimeTypes) {
-			if (mimeType.equalsTypeAndSubtype(this)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 
@@ -584,12 +407,6 @@ public class MimeType implements Comparable<MimeType>, Serializable {
 	 */
 	public static MimeType valueOf(String value) {
 		return MimeTypeUtils.parseMimeType(value);
-	}
-
-	private static Map<String, String> addCharsetParameter(Charset charset, Map<String, String> parameters) {
-		Map<String, String> map = new LinkedHashMap<>(parameters);
-		map.put(PARAM_CHARSET, charset.name());
-		return map;
 	}
 
 
