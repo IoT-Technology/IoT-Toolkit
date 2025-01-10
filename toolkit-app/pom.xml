@@ -278,7 +278,6 @@
             </activation>
             <properties>
                 <executable-suffix>.exe</executable-suffix>
-                <skipCompress>true</skipCompress>
             </properties>
         </profile>
 
@@ -291,6 +290,7 @@
             </activation>
             <properties>
                 <assembly-suffix>-osx</assembly-suffix>
+                <skipCompress>true</skipCompress>
             </properties>
             <build>
                 <plugins>
