@@ -36,7 +36,7 @@
         <assembly-suffix />
         <executable-suffix />
         <directory>${project.basedir}/target</directory>
-        <skipCompress>true</skipCompress>
+        <skipCompress>false</skipCompress>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
@@ -294,6 +294,26 @@
             </properties>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>compress-binary</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration combine.self="override">
+                                    <executable>upx</executable>
+                                    <skip>true</skip>
+                                    <arguments>
+                                        <argument>${project.build.directory}/toolkit${executable-suffix}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
