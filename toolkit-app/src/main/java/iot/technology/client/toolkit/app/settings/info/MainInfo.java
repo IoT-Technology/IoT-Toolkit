@@ -1,5 +1,5 @@
 /*
- * Copyright © 2019-2023 The Toolkit Authors
+ * Copyright © 2019-2025 The Toolkit Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import iot.technology.client.toolkit.common.constants.StorageConstants;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
