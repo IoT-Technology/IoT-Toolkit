@@ -36,7 +36,7 @@
         <assembly-suffix />
         <executable-suffix />
         <directory>${project.basedir}/target</directory>
-        <skipCompress>false</skipCompress>
+        <skipCompress>true</skipCompress>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
