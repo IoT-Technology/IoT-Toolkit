@@ -69,7 +69,7 @@ jobs:
           echo $NEXT_VERSION > NEXT_VERSION
 
       - name: 'Upload version files'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: |
@@ -137,7 +137,7 @@ jobs:
           ./toolkit-app/target/toolkit -V  
 
       - name: 'Upload build artifact'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: toolkit-app/target/*.zip
@@ -208,7 +208,7 @@ jobs:
 
       - name: JReleaser output
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: jreleaser-logs
           path: |
