@@ -89,7 +89,7 @@ jobs:
 
     steps:
       - name: 'Download all build artifacts'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
 
       - name: 'Read HEAD ref'
         id: head
@@ -150,7 +150,7 @@ jobs:
     steps:
       # must read HEAD before checkout
       - name: 'Download all build artifacts'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
 
       - name: 'Read HEAD ref'
         id: head
@@ -180,7 +180,7 @@ jobs:
       # checkout will clobber downloaded artifacts
       # we have to download them again
       - name: 'Download all build artifacts'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
 
       - name: 'Set up Java'
         uses: actions/setup-java@v3
