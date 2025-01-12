@@ -30,7 +30,7 @@ jobs:
   version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: 'Set up Java'
         uses: actions/setup-java@v3
@@ -98,7 +98,7 @@ jobs:
           path: artifacts/HEAD
 
       - name: 'Check out repository'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ steps.head.outputs.content }}
 
@@ -172,7 +172,7 @@ jobs:
           echo "::set-output name=PLAIN_VERSION::$PLAIN_VERSION"
           echo "::set-output name=NEXT_VERSION::$NEXT_VERSION"
       - name: 'Check out repository'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ steps.head.outputs.content }}
           fetch-depth: 0
