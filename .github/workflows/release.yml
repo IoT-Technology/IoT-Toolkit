@@ -42,8 +42,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}-${{ github.sha }}
 
       - name: 'Set release version'
         id: version
@@ -71,7 +70,7 @@ jobs:
       - name: 'Upload version files'
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: artifacts-jvm
           path: |
             HEAD
             *_VERSION
@@ -81,7 +80,7 @@ jobs:
     needs: [ version ]
     name: 'Build with Graal on ${{ matrix.os }}'
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os: [ ubuntu-latest, macOS-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
@@ -127,7 +126,6 @@ jobs:
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
 
       - name: 'Create distribution'
         run: mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
@@ -139,8 +137,9 @@ jobs:
       - name: 'Upload build artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
-          path: toolkit-app/target/*.zip
+          name: artifacts-${{ matrix.os }}
+          path: |
+            toolkit-app/target/*.zip
 
   # Collect all executables and release
   release:
@@ -151,6 +150,10 @@ jobs:
       # must read HEAD before checkout
       - name: 'Download all build artifacts'
         uses: actions/download-artifact@v4
+        with:
+          pattern: artifacts-*
+          path: toolkit-app/target
+          merge-multiple: true
 
       - name: 'Read HEAD ref'
         id: head
@@ -192,7 +195,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}-${{ github.sha }}
           restore-keys: ${{ runner.os }}-m2
 
       - name: 'Release with JReleaser'
