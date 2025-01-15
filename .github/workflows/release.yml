@@ -150,10 +150,6 @@ jobs:
       # must read HEAD before checkout
       - name: 'Download all build artifacts'
         uses: actions/download-artifact@v4
-        with:
-          pattern: artifacts-*
-          path: toolkit-app/target
-          merge-multiple: true
 
       - name: 'Read HEAD ref'
         id: head
@@ -184,6 +180,10 @@ jobs:
       # we have to download them again
       - name: 'Download all build artifacts'
         uses: actions/download-artifact@v4
+        with:
+          pattern: artifacts-*
+          path: toolkit-app/target
+          merge-multiple: true
 
       - name: 'Set up Java'
         uses: actions/setup-java@v4
