@@ -128,7 +128,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
 
       - name: 'Create distribution'
-        run: mvn -B --file pom.xml -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
+        run: > 
+          ./mvnw --no-transfer-progress -Pnative -DskipTests -pl iot.technology:toolkit-app -am
 
       - name: 'Smoke test'
         run: >
@@ -207,7 +208,7 @@ jobs:
           JRELEASER_UPDATE: true
           JRELEASER_CHOCOLATEY_API_KEY: ${{ secrets.JRELEASER_CHOCOLATEY_API_KEY }}
           JRELEASER_CHOCOLATEY_GITHUB_TOKEN: ${{ secrets.JRELEASER_CHOCOLATEY_GITHUB_TOKEN }}
-        run: mvn -e -B --file pom.xml -Prelease jreleaser:full-release
+        run: ./mvnw --no-transfer-progress -Prelease -pl :iot-toolkit jreleaser:full-release
 
       - name: JReleaser output
         if: always()
