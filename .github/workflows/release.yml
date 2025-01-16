@@ -127,6 +127,11 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
 
+      - name:  'Make mvnw executable'
+        run: | 
+          chmod +x mvnw
+          chmod +x mvnw.cmd
+
       - name: 'Create distribution'
         run: > 
           ./mvnw --no-transfer-progress -Pnative -DskipTests -pl iot.technology:toolkit-app -am
@@ -198,6 +203,11 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}-${{ github.sha }}
           restore-keys: ${{ runner.os }}-m2
+
+      - name:  'Make mvnw executable'
+        run: |
+          chmod +x mvnw
+          chmod +x mvnw.cmd
 
       - name: 'Release with JReleaser'
         shell: bash
