@@ -134,7 +134,7 @@ jobs:
 
       - name: 'Create distribution'
         run: > 
-          ./mvnw --no-transfer-progress -Pnative -DskipTests -pl iot.technology:toolkit-app -am
+          ./mvnw --no-transfer-progress -Pnative -DskipTests -pl iot.technology:toolkit-app package -am
 
       - name: 'Smoke test'
         run: >
