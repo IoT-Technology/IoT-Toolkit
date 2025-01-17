@@ -77,6 +77,7 @@ jobs:
             *_VERSION
 
   create_binaries:
+    needs: [ version ]
     runs-on: ubuntu-latest
     steps:
       - name: 'Set up JDK'
@@ -117,8 +118,8 @@ jobs:
           path: toolkit-app/target/*.zip
 
   # Build native executable per runner
-  build:
-    needs: [ version ]
+  create_native_binaries:
+    needs: [ version, create_binaries]
     name: 'Build with Graal on ${{ matrix.os }}'
     strategy:
       fail-fast: true
@@ -189,7 +190,7 @@ jobs:
 
   # Collect all executables and release
   release:
-    needs: [ build ]
+    needs: [ create_native_binaries ]
     runs-on: windows-latest
 
     steps:
