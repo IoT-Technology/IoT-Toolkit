@@ -185,8 +185,8 @@ jobs:
         with:
           name: artifacts-${{ matrix.os }}
           path: |
-            toolkit-app/target/toolkit-app*.zip
-            !toolkit-app/target/toolkit-app-${{ env.refName }}.jar
+            toolkit-app/target/*.zip
+            !toolkit-app/target/toolkit-${{ env.refName }}.zip
 
   # Collect all executables and release
   release:
@@ -211,11 +211,10 @@ jobs:
           path: all-artifacts
 
       - name: 'Merge all artifacts'
+        shell: bash
         run: |
-          mkdir merged-artifact
-          for /d %%D in (all-artifacts\*) do (
-            xcopy /E /I "%%D" merged-artifact\
-          )
+          mkdir -p merged-artifact
+          cp -r all-artifacts/*/* merged-artifact/  
 
       - name: Upload merged artifact
         uses: actions/upload-artifact@v4
