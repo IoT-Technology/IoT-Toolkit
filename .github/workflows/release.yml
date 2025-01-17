@@ -66,6 +66,7 @@ jobs:
           echo $RELEASE_VERSION > RELEASE_VERSION
           echo $PLAIN_VERSION > PLAIN_VERSION
           echo $NEXT_VERSION > NEXT_VERSION
+          echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       - name: 'Upload version files'
         uses: actions/upload-artifact@v4
@@ -74,6 +75,46 @@ jobs:
           path: |
             HEAD
             *_VERSION
+
+  create_binaries:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Set up JDK'
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 21
+
+      - name: 'Prepare branch name'
+        run: >
+          echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: 'Checkout relevant branch'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.refName }}
+
+      - name: 'Cache Maven packages'
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}-${{ github.sha }}
+
+      - name: 'Make mvnw executable'
+        run: |
+          chmod +x mvnw
+          chmod +x mvnw.cmd
+
+      - name: 'Create distribution'
+        run: >
+          ./mvnw --no-transfer-progress -DskipTests -pl iot.technology:toolkit-app -am package
+          
+
+      - name: 'Upload build artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-jvm
+          path: toolkit-app/target/*.zip
 
   # Build native executable per runner
   build:
@@ -87,19 +128,17 @@ jobs:
     timeout-minutes: 90
 
     steps:
-      - name: 'Download all build artifacts'
-        uses: actions/download-artifact@v4
+      - name: 'Prepare git'
+        run: git config --global core.autocrlf false
 
-      - name: 'Read HEAD ref'
-        id: head
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: artifacts/HEAD
+      - name: 'Prepare branch name'
+        run: >
+          echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-      - name: 'Check out repository'
+      - name: 'Checkout relevant branch'
         uses: actions/checkout@v4
         with:
-          ref: ${{ steps.head.outputs.content }}
+          ref: ${{ env.refName }}
 
       - name: Install upx in Linux
         run: sudo apt-get install upx
@@ -145,7 +184,8 @@ jobs:
         with:
           name: artifacts-${{ matrix.os }}
           path: |
-            toolkit-app/target/*.zip
+            toolkit-app/target/toolkit-app*.zip
+            !toolkit-app/target/toolkit-app-${{ env.refName }}.jar
 
   # Collect all executables and release
   release:
@@ -153,51 +193,36 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # must read HEAD before checkout
-      - name: 'Download all build artifacts'
-        uses: actions/download-artifact@v4
+      - name: 'Prepare branch name'
+        run: >
+          echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-      - name: 'Read HEAD ref'
-        id: head
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: artifacts/HEAD
-
-      - name: 'Read versions'
-        shell: bash
-        id: version
-        run: |
-          RELEASE_VERSION=`cat artifacts/RELEASE_VERSION`
-          PLAIN_VERSION=`cat artifacts/PLAIN_VERSION`
-          NEXT_VERSION=`cat artifacts/NEXT_VERSION`
-          echo "RELEASE_VERSION = $RELEASE_VERSION"
-          echo "PLAIN_VERSION   = $PLAIN_VERSION"
-          echo "NEXT_VERSION    = $NEXT_VERSION"
-          echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION"
-          echo "::set-output name=PLAIN_VERSION::$PLAIN_VERSION"
-          echo "::set-output name=NEXT_VERSION::$NEXT_VERSION"
-      - name: 'Check out repository'
+      - name: 'Checkout relevant branch'
         uses: actions/checkout@v4
         with:
-          ref: ${{ steps.head.outputs.content }}
+          ref: ${{ env.refName }}
           fetch-depth: 0
 
-      # checkout will clean downloaded artifacts
-      # we have to download them again
       - name: 'Download all build artifacts'
         uses: actions/download-artifact@v4
         with:
           pattern: artifacts-*
-          path: toolkit-app/target
-          merge-multiple: true
+          path: all-artifacts
 
-      - name: 'Set up Java'
-        uses: actions/setup-java@v4
+      - name: 'Merge all artifacts'
+        run: |
+          mkdir merged-artifact
+          for /d %%D in (all-artifacts\*) do (
+            xcopy /E /I "%%D" merged-artifact\
+          )
+
+      - name: Upload merged artifact
+        uses: actions/upload-artifact@v4
         with:
-          distribution: 'zulu'
-          java-version: '21'
+          name: release-artifact  # 合并后的工件名称
+          path: merged-artifact\
 
-      - name: 'Cache Maven packages'
+      - name: 'Restore Maven packages'
         uses: actions/cache@v4
         with:
           path: ~/.m2
@@ -213,12 +238,12 @@ jobs:
         shell: bash
         env:
           JRELEASER_BRANCH: main
-          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JRELEASER_OVERWRITE: true
           JRELEASER_UPDATE: true
+          JRELEASER_OVERWRITE: true
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_CHOCOLATEY_API_KEY: ${{ secrets.JRELEASER_CHOCOLATEY_API_KEY }}
           JRELEASER_CHOCOLATEY_GITHUB_TOKEN: ${{ secrets.JRELEASER_CHOCOLATEY_GITHUB_TOKEN }}
-        run: ./mvnw --no-transfer-progress -Prelease -pl :iot-toolkit jreleaser:full-release
+        run: ./mvnw --no-transfer-progress -Prelease -pl :iot-toolkit -DartifactsDir=release-artifact jreleaser:full-release
 
       - name: JReleaser output
         if: always()
