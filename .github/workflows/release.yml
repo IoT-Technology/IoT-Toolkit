@@ -247,7 +247,7 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_CHOCOLATEY_API_KEY: ${{ secrets.JRELEASER_CHOCOLATEY_API_KEY }}
           JRELEASER_CHOCOLATEY_GITHUB_TOKEN: ${{ secrets.JRELEASER_CHOCOLATEY_GITHUB_TOKEN }}
-        run: mvn -e -B --file pom.xml -Prelease -DartifactsDir=release-artifact jreleaser:full-release
+        run: ./mvnw --no-transfer-progress -Prelease -pl :iot-toolkit -DartifactsDir=all-artifacts jreleaser:full-release
 
       - name: JReleaser output
         if: always()
