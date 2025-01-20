@@ -86,6 +86,7 @@ jobs:
           java-version: 21
 
       - name: 'Prepare branch name'
+        shell: bash
         run: >
           echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
@@ -132,6 +133,7 @@ jobs:
         run: git config --global core.autocrlf false
 
       - name: 'Prepare branch name'
+        shell: bash
         run: >
           echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
@@ -194,6 +196,7 @@ jobs:
 
     steps:
       - name: 'Prepare branch name'
+        shell: bash
         run: >
           echo "refName=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
