@@ -169,6 +169,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
 
       - name:  'Make mvnw executable'
+        shell: bash
         run: | 
           chmod +x mvnw
           chmod +x mvnw.cmd
@@ -232,6 +233,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name:  'Make mvnw executable'
+        shell: bash
         run: |
           chmod +x mvnw
           chmod +x mvnw.cmd
@@ -245,7 +247,7 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_CHOCOLATEY_API_KEY: ${{ secrets.JRELEASER_CHOCOLATEY_API_KEY }}
           JRELEASER_CHOCOLATEY_GITHUB_TOKEN: ${{ secrets.JRELEASER_CHOCOLATEY_GITHUB_TOKEN }}
-        run: ./mvnw --no-transfer-progress -Prelease -pl :iot-toolkit -DartifactsDir=release-artifact jreleaser:full-release
+        run: mvn -e -B --file pom.xml -Prelease -DartifactsDir=release-artifact jreleaser:full-release
 
       - name: JReleaser output
         if: always()
