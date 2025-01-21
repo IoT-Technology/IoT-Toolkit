@@ -22,7 +22,7 @@
 
     <groupId>iot.technology</groupId>
     <artifactId>iot-toolkit</artifactId>
-    <version>0.7.3</version>
+    <version>0.7.2</version>
     <modules>
         <module>toolkit-mqtt</module>
         <module>toolkit-coap</module>
@@ -66,8 +66,10 @@
         <main.dir>${user.dir}</main.dir>
         <artifactsDir>toolkit-app/target</artifactsDir>
         <appName>toolkit</appName>
+        <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <picocli.version>4.7.6</picocli.version>
         <netty.version>4.1.94.Final</netty.version>
@@ -306,7 +308,7 @@
                                 </packagers>
                                 <distributions>
                                     <toolkit>
-                                        <type>NATIVE_IMAGE</type>
+                                        <type>BINARY</type>
                                         <artifacts>
                                             <artifact>
                                                 <path>{{artifactsDir}}/{{appName}}-{{projectVersion}}-linux-x86_64.zip</path>
@@ -317,11 +319,23 @@
                                                 <platform>windows-x86_64</platform>
                                             </artifact>
                                             <artifact>
-                                                <path>{{artifactsDir}}/{{appName}}-{{projectVersion}}-osx-x86_64.zip</path>
-                                                <platform>osx-x86_64</platform>
+                                                <path>{{artifactsDir}}/{{appName}}-{{projectVersion}}-osx-aarch_64.zip</path>
+                                                <platform>osx-aarch_64</platform>
                                             </artifact>
                                         </artifacts>
                                     </toolkit>
+                                    <toolkit-no-arch>
+                                        <type>JAVA_BINARY</type>
+                                        <artifacts>
+                                            <artifact>
+                                                <path>{{artifactsDir}}/{{appName}}-{{projectVersion}}.zip</path>
+                                            </artifact>
+                                        </artifacts>
+                                        <java>
+                                            <version>${java.version}</version>
+                                            <mainClass>iot.technology.client.toolkit.app.ToolKitCommand</mainClass>
+                                        </java>
+                                    </toolkit-no-arch>
                                 </distributions>
                             </jreleaser>
                         </configuration>
