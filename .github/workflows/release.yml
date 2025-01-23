@@ -213,6 +213,9 @@ jobs:
           pattern: artifacts-*
           path: toolkit-app/target
 
+      - name: 'List files in target'
+        run: ls -R toolkit-app/target
+
 #      - name: 'Merge all artifacts'
 #        shell: bash
 #        run: |
