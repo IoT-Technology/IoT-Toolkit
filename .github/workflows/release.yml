@@ -214,7 +214,11 @@ jobs:
           path: toolkit-app/target
 
       - name: 'List files in target'
-        run: ls -R toolkit-app/target
+        shell: bash
+        run: |
+          mv toolkit-app/target/*/* toolkit-app/target/
+          find toolkit-app/target/ -type d -empty -delete
+          ls -R toolkit-app/target
 
 #      - name: 'Merge all artifacts'
 #        shell: bash
