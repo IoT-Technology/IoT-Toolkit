@@ -37,7 +37,7 @@ public abstract class AbstractMobileService {
 
 	public static Map<String, String> getOneNetHeaderMap(MobileConfigDomain config) {
 		Map<String, String> authInfoMap = new HashMap<>();
-		authInfoMap.put(OneNetSettings.ONENET_AUTH_HEADER, getOneNetAuthInfo(config));
+		authInfoMap.put(OneNetSettings.AUTH_HEADER, getOneNetAuthInfo(config));
 		return authInfoMap;
 	}
 
@@ -51,10 +51,10 @@ public abstract class AbstractMobileService {
 	}
 
 	public static String getOneNetAuthInfo(MobileConfigDomain config) {
-		String version = OneNetSettings.ONENET_AUTH_VERSION;
-		String res = OneNetSettings.ONENET_AUTH_RES_PREFIX + config.getProductId();
+		String version = OneNetSettings.AUTH_VERSION;
+		String res = OneNetSettings.AUTH_RES_PREFIX + config.getProductId();
 		long et = System.currentTimeMillis() / 1000 + TimeUnit.SECONDS.toSeconds(10);
-		String method = OneNetSettings.ONENET_AUTH_METHOD;
+		String method = OneNetSettings.AUTH_METHOD;
 		return SignUtils.getMobileAssembleToken(version, res, Long.toString(et), method, config.getAccessKey());
 	}
 
