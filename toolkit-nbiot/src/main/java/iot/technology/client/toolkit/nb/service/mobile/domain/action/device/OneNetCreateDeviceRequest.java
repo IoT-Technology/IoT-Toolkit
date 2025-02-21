@@ -1,5 +1,7 @@
 package iot.technology.client.toolkit.nb.service.mobile.domain.action.device;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 public class OneNetCreateDeviceRequest implements Serializable {
@@ -7,9 +9,11 @@ public class OneNetCreateDeviceRequest implements Serializable {
     /**
      * required
      */
-    private String product_id;
+    @JsonProperty("product_id")
+    private String productId;
 
-    private String device_name;
+    @JsonProperty("device_name")
+    private String deviceName;
 
     private String imei;
 
@@ -27,24 +31,25 @@ public class OneNetCreateDeviceRequest implements Serializable {
 
     private String lat;
 
-    private String auth_code;
+    @JsonProperty("auth_code")
+    private String authCode;
 
     private String tags;
 
-    public String getProduct_id() {
-        return product_id;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
-    public String getDevice_name() {
-        return device_name;
+    public String getDeviceName() {
+        return deviceName;
     }
 
-    public void setDevice_name(String device_name) {
-        this.device_name = device_name;
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
     public String getImei() {
@@ -95,12 +100,12 @@ public class OneNetCreateDeviceRequest implements Serializable {
         this.lat = lat;
     }
 
-    public String getAuth_code() {
-        return auth_code;
+    public String getAuthCode() {
+        return authCode;
     }
 
-    public void setAuth_code(String auth_code) {
-        this.auth_code = auth_code;
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 
     public String getTags() {
