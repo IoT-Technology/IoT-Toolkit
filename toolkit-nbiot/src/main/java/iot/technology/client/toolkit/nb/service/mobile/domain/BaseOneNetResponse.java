@@ -8,6 +8,8 @@ public class BaseOneNetResponse implements Serializable {
 
     private String msg;
 
+    private boolean success = false;
+
     public Integer getCode() {
         return code;
     }
@@ -22,5 +24,13 @@ public class BaseOneNetResponse implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 }

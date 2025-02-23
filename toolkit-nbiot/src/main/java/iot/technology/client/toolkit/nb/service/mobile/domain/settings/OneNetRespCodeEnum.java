@@ -1,5 +1,9 @@
 package iot.technology.client.toolkit.nb.service.mobile.domain.settings;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public enum OneNetRespCodeEnum {
 
     SUCCESS(0, "success"),
@@ -16,6 +20,18 @@ public enum OneNetRespCodeEnum {
     DEVICE_NOT_EXIST(10410, "device not exist"),
     DEVICE_NOT_ONLINE(10421, "device not online"),
     ;
+
+    private static final Map<Integer, String> codeToMsgMap = new HashMap<>();
+
+    static {
+        for (OneNetRespCodeEnum oneNetRespCodeEnum : OneNetRespCodeEnum.values()) {
+            codeToMsgMap.put(oneNetRespCodeEnum.getCode(), oneNetRespCodeEnum.getMsg());
+        }
+    }
+
+    public static String getMsgByCode(Integer code) {
+        return Objects.isNull(codeToMsgMap.get(code)) ? FAIL.msg : codeToMsgMap.get(code);
+    }
 
     OneNetRespCodeEnum(Integer code, String msg) {
         this.code = code;
