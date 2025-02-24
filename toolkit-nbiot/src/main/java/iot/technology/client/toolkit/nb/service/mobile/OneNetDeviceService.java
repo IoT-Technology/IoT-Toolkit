@@ -22,7 +22,7 @@ public class OneNetDeviceService extends AbstractMobileService {
             HttpRequestEntity entity = new HttpRequestEntity();
             entity.setType(NBTypeEnum.MOBILE.getValue());
             entity.setUrl(OneNetSettings.ADD_DEVICE_URL);
-            Map<String, String> headerMap = getHeaderMap(config);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
             entity.setHeaders(headerMap);
 
             String requestJson = JsonUtils.object2Json(request);
@@ -54,7 +54,7 @@ public class OneNetDeviceService extends AbstractMobileService {
             HttpRequestEntity entity = new HttpRequestEntity();
             entity.setType(NBTypeEnum.MOBILE.getValue());
             entity.setUrl(OneNetSettings.DELETE_DEVICE_URL);
-            Map<String, String> headerMap = getHeaderMap(config);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
             entity.setHeaders(headerMap);
 
             String requestJson = JsonUtils.object2Json(request);
@@ -86,7 +86,7 @@ public class OneNetDeviceService extends AbstractMobileService {
             HttpRequestEntity entity = new HttpRequestEntity();
             entity.setType(NBTypeEnum.MOBILE.getValue());
             entity.setUrl(OneNetSettings.DETAIL_DEVICE_URL);
-            Map<String, String> headerMap = getHeaderMap(config);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
             entity.setHeaders(headerMap);
 
             String requestJson = JsonUtils.object2Json(request);
@@ -118,7 +118,7 @@ public class OneNetDeviceService extends AbstractMobileService {
             HttpRequestEntity entity = new HttpRequestEntity();
             entity.setType(NBTypeEnum.MOBILE.getValue());
             entity.setUrl(OneNetSettings.UPDATE_DEVICE_URL);
-            Map<String, String> headerMap = getHeaderMap(config);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
             entity.setHeaders(headerMap);
 
             String requestJson = JsonUtils.object2Json(request);
@@ -150,7 +150,7 @@ public class OneNetDeviceService extends AbstractMobileService {
             HttpRequestEntity entity = new HttpRequestEntity();
             entity.setType(NBTypeEnum.MOBILE.getValue());
             entity.setUrl(OneNetSettings.LIST_DEVICE_URL);
-            Map<String, String> headerMap = getHeaderMap(config);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
             entity.setHeaders(headerMap);
 
             String requestJson = JsonUtils.object2Json(request);
