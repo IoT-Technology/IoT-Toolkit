@@ -12,6 +12,7 @@ import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.*;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.OneNetRespCodeEnum;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class OneNetDeviceService extends AbstractMobileService {
@@ -152,10 +153,13 @@ public class OneNetDeviceService extends AbstractMobileService {
             entity.setUrl(OneNetSettings.LIST_DEVICE_URL);
             Map<String, String> headerMap = getOneNetHeaderMap(config);
             entity.setHeaders(headerMap);
-
-            String requestJson = JsonUtils.object2Json(request);
-            entity.setJson(requestJson);
-            HttpResponseEntity response = HttpRequestExecutor.executePost(entity);
+            Map<String, String> params = new HashMap<>();
+            params.put("product_id", request.getProductId());
+            params.put("device_name", request.getDeviceName() + "");
+            params.put("offset", request.getOffset() + "");
+            params.put("limit", request.getLimit() + "");
+            entity.setParams(params);
+            HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
             if (StringUtils.isNotBlank(response.getBody())) {
                 deviceListResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceListResponse.class);
                 if (deviceListResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
