@@ -4,7 +4,7 @@ import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.service.mobile.OneNetDeviceService;
+import iot.technology.client.toolkit.nb.service.mobile.OneNetService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDelDeviceRequest;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDelDeviceResponse;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class OneNetDelDeviceProcessor extends TkAbstractProcessor {
 
-    private final OneNetDeviceService oneNetDeviceService = new OneNetDeviceService();
+    private final OneNetService oneNetService = new OneNetService();
 
 
     @Override
@@ -38,7 +38,7 @@ public class OneNetDelDeviceProcessor extends TkAbstractProcessor {
         OneNetDelDeviceRequest request = new OneNetDelDeviceRequest();
         request.setProductId(mobileConfigDomain.getProductId());
         request.setImei(imei);
-        OneNetDelDeviceResponse response = oneNetDeviceService.delete(mobileConfigDomain, request);
+        OneNetDelDeviceResponse response = oneNetService.delete(mobileConfigDomain, request);
         if (response.isSuccess()) {
             StringBuilder sb = new StringBuilder();
             sb.append(String.format(ColorUtils.blackBold("imei:%s delete success"), imei));

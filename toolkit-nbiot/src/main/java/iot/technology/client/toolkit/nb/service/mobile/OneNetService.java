@@ -15,7 +15,40 @@ import iot.technology.client.toolkit.nb.service.mobile.domain.settings.OneNetRes
 import java.util.HashMap;
 import java.util.Map;
 
-public class OneNetDeviceService extends AbstractMobileService {
+public class OneNetService extends AbstractMobileService {
+
+    public OneNetProductResponse getProductDetail(MobileConfigDomain config) {
+        OneNetProductResponse productDetailResponse = new OneNetProductResponse();
+        try {
+            HttpRequestEntity entity = new HttpRequestEntity();
+            entity.setType(NBTypeEnum.MOBILE.getValue());
+            entity.setUrl(OneNetSettings.PRODUCT_DETAIL_URL);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
+            entity.setHeaders(headerMap);
+            Map<String, String> params = new HashMap<>();
+            params.put("product_id", config.getProductId());
+            entity.setParams(params);
+            HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
+            if (StringUtils.isNotBlank(response.getBody())) {
+                productDetailResponse = JsonUtils.jsonToObject(response.getBody(), OneNetProductResponse.class);
+                if (productDetailResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                    productDetailResponse.setSuccess(Boolean.TRUE);
+                } else {
+                    System.out.format(ColorUtils.redError(productDetailResponse.getMsg()));
+                    productDetailResponse.setSuccess(Boolean.FALSE);
+                }
+            } else {
+                System.out.format(config.getProductId() + ColorUtils.redError(" get product detail failed!"));
+                productDetailResponse.setSuccess(Boolean.FALSE);
+            }
+            return productDetailResponse;
+        } catch (Exception e) {
+            productDetailResponse.setSuccess(Boolean.FALSE);
+            System.out.format(config.getProductId() + ColorUtils.redError(" get product detail failed!"));
+            return productDetailResponse;
+        }
+    }
+
 
     public OneNetCreateDeviceResponse create(MobileConfigDomain config, OneNetCreateDeviceRequest request) {
         OneNetCreateDeviceResponse createDeviceResponse = new OneNetCreateDeviceResponse();

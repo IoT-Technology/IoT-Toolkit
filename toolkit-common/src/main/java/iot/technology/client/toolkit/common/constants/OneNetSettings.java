@@ -10,6 +10,8 @@ public interface OneNetSettings {
 
     String ROOT_URL = "https://iot-api.heclouds.com";
     String DEVICE_URL = ROOT_URL + "/device";
+    String PRODUCT_URL = ROOT_URL + "/product";
+    String PRODUCT_DETAIL_URL = PRODUCT_URL + "/detail";
     String ADD_DEVICE_URL = DEVICE_URL + "/create";
     String DETAIL_DEVICE_URL = DEVICE_URL + "/detail";
     String DELETE_DEVICE_URL = DEVICE_URL + "/delete";

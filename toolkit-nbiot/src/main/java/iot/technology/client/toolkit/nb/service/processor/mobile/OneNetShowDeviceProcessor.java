@@ -4,7 +4,7 @@ import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.service.mobile.OneNetDeviceService;
+import iot.technology.client.toolkit.nb.service.mobile.OneNetService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDeviceDetailRequest;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDeviceDetailResponse;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class OneNetShowDeviceProcessor extends TkAbstractProcessor {
 
-    private final OneNetDeviceService oneNetDeviceService = new OneNetDeviceService();
+    private final OneNetService oneNetService = new OneNetService();
 
     @Override
     public boolean supports(ProcessContext context) {
@@ -38,7 +38,7 @@ public class OneNetShowDeviceProcessor extends TkAbstractProcessor {
         OneNetDeviceDetailRequest request = new OneNetDeviceDetailRequest();
         request.setImei(imei);
         request.setProductId(mobileConfigDomain.getProductId());
-        OneNetDeviceDetailResponse deviceDetailResponse = oneNetDeviceService.get(mobileConfigDomain, request);
+        OneNetDeviceDetailResponse deviceDetailResponse = oneNetService.get(mobileConfigDomain, request);
         if (deviceDetailResponse.isSuccess()) {
             deviceDetailResponse.printToConsole();
         }

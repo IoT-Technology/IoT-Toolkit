@@ -8,7 +8,7 @@ import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.service.mobile.OneNetDeviceService;
+import iot.technology.client.toolkit.nb.service.mobile.OneNetService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.*;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.OneNetDeviceStatusEnum;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class OneNetDeviceListProcessor extends TkAbstractProcessor {
 
-    private final OneNetDeviceService oneNetDeviceService = new OneNetDeviceService();
+    private final OneNetService oneNetService = new OneNetService();
 
     @Override
     public boolean supports(ProcessContext context) {
@@ -92,7 +92,7 @@ public class OneNetDeviceListProcessor extends TkAbstractProcessor {
         request.setDeviceName(name);
         request.setOffset(offset);
         request.setLimit(limit);
-        OneNetDeviceListResponse response = oneNetDeviceService.list(mobileConfigDomain, request);
+        OneNetDeviceListResponse response = oneNetService.list(mobileConfigDomain, request);
         if (response.isSuccess()) {
             OneNetDevicePageResponse dataList = response.getData();
             System.out.format(ColorUtils.blackBold("productId:%s query success, offset:%s, limit:%s"),

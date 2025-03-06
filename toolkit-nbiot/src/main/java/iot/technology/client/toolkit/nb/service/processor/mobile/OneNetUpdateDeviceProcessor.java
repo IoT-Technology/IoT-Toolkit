@@ -4,7 +4,7 @@ import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.service.mobile.OneNetDeviceService;
+import iot.technology.client.toolkit.nb.service.mobile.OneNetService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetUpdateDeviceRequest;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetUpdateDeviceResponse;
@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class OneNetUpdateDeviceProcessor extends TkAbstractProcessor {
 
-    private final OneNetDeviceService oneNetDeviceService = new OneNetDeviceService();
+    private final OneNetService oneNetService = new OneNetService();
 
     @Override
     public boolean supports(ProcessContext context) {
@@ -113,7 +113,7 @@ public class OneNetUpdateDeviceProcessor extends TkAbstractProcessor {
         request.setDesc(desc);
         request.setLat(lat);
         request.setLon(lon);
-        OneNetUpdateDeviceResponse response = oneNetDeviceService.update(mobileConfigDomain, request);
+        OneNetUpdateDeviceResponse response = oneNetService.update(mobileConfigDomain, request);
         if (response.isSuccess()) {
             StringBuilder sb = new StringBuilder();
             sb.append(String.format(ColorUtils.blackBold("imei:%s update success"), imei));

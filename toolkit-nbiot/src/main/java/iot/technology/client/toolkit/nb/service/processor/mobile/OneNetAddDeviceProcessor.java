@@ -4,7 +4,7 @@ import iot.technology.client.toolkit.common.rule.ProcessContext;
 import iot.technology.client.toolkit.common.rule.TkAbstractProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.service.mobile.OneNetDeviceService;
+import iot.technology.client.toolkit.nb.service.mobile.OneNetService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetCreateDeviceRequest;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetCreateDeviceResponse;
@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class OneNetAddDeviceProcessor extends TkAbstractProcessor {
 
-    private final OneNetDeviceService oneNetDeviceService = new OneNetDeviceService();
+    private final OneNetService oneNetService = new OneNetService();
 
     @Override
     public boolean supports(ProcessContext context) {
@@ -124,7 +124,7 @@ public class OneNetAddDeviceProcessor extends TkAbstractProcessor {
         request.setLat(lat);
         request.setPsk(psk);
         request.setAuthCode(authCode);
-        OneNetCreateDeviceResponse response = oneNetDeviceService.create(mobileConfigDomain, request);
+        OneNetCreateDeviceResponse response = oneNetService.create(mobileConfigDomain, request);
         if (response.isSuccess()) {
             StringBuilder sb = new StringBuilder();
             sb.append(String.format(ColorUtils.blackBold("imei:%s add success"), imei));
