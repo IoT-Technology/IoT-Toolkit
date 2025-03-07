@@ -35,12 +35,12 @@ public class MobileBizService {
 
 	public final List<TkProcessor> getTkProcessorList() {
 		List<TkProcessor> tkProcessorList = new ArrayList<>();
-		tkProcessorList.add(new MobListDeviceProcessor());
-		tkProcessorList.add(new MobAddDeviceProcessor());
-		tkProcessorList.add(new MobDelDeviceByImeiProcessor());
-		tkProcessorList.add(new MobShowDeviceByImeiProcessor());
-		tkProcessorList.add(new MobUpdateDeviceProcessor());
-		tkProcessorList.add(new MobHelpProcessor());
+		tkProcessorList.add(new OneNetListProcessor());
+		tkProcessorList.add(new OneNetAddDeviceProcessor());
+		tkProcessorList.add(new OneNetDelDeviceProcessor());
+		tkProcessorList.add(new OneNetShowDeviceProcessor());
+		tkProcessorList.add(new OneNetUpdateDeviceProcessor());
+		tkProcessorList.add(new OneNetHelpProcessor());
 		tkProcessorList.add(new MobLogDeviceDataProcessor());
 		tkProcessorList.add(new MobCommandDataDeviceProcessor());
 		return tkProcessorList;

@@ -24,7 +24,9 @@ import iot.technology.client.toolkit.common.utils.FileUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSetting;
 import iot.technology.client.toolkit.nb.service.lwm2m.domain.Lwm2mConfigSettingsDomain;
+import iot.technology.client.toolkit.nb.service.mobile.OneNetService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetProductResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings;
 import iot.technology.client.toolkit.nb.service.processor.Lwm2mBizService;
 import iot.technology.client.toolkit.nb.service.processor.MobileBizService;
@@ -52,6 +54,7 @@ public class NbBizService {
 	private final MobileBizService mobileBizService = new MobileBizService();
 	private final TelecomProductService productService = new TelecomProductService();
 	private final Lwm2mBizService lwm2mBizService = new Lwm2mBizService();
+	private final OneNetService oneNetService = new OneNetService();
 	ResourceBundle bundle = ResourceBundle.getBundle(StorageConstants.LANG_MESSAGES);
 
 	public List<String> getNbSettingsFromFile(String fileName) {
@@ -110,10 +113,14 @@ public class NbBizService {
 		 */
 		if (code.equals(NbSettingsCodeEnum.NB_MOB_ACCESS_KEY.getCode())) {
 			MobileConfigDomain mobileConfigDomain = domain.convertMobileConfig();
+			OneNetProductResponse response = oneNetService.getProductDetail(mobileConfigDomain);
 			MobProjectSettings mobProjectSettings = new MobProjectSettings();
-			mobProjectSettings.setProductName(mobileConfigDomain.getProductName());
 			mobProjectSettings.setProductId(mobileConfigDomain.getProductId());
 			mobProjectSettings.setAccessKey(mobileConfigDomain.getAccessKey());
+			if (Objects.nonNull(response.getData())) {
+				mobProjectSettings.setProductName(response.getData().getName());
+				mobileConfigDomain.setProductName(response.getData().getName());
+			}
 			String settingsJson = JsonUtils.object2Json(mobProjectSettings);
 			FileUtils.writeDataToFile(SYS_NB_MOBILE_PRODUCT_FILE_NAME, settingsJson);
 			return mobileBizService.call(mobileConfigDomain, terminal);

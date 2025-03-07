@@ -123,9 +123,11 @@ public class OneNetService extends AbstractMobileService {
             Map<String, String> headerMap = getOneNetHeaderMap(config);
             entity.setHeaders(headerMap);
 
-            String requestJson = JsonUtils.object2Json(request);
-            entity.setJson(requestJson);
-            HttpResponseEntity response = HttpRequestExecutor.executePost(entity);
+            Map<String, String> params = new HashMap<>();
+            params.put("product_id", config.getProductId());
+            params.put("imei", request.getImei());
+            entity.setParams(params);
+            HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
             if (StringUtils.isNotBlank(response.getBody())) {
                 deviceDetailResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceDetailResponse.class);
                 if (deviceDetailResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {

@@ -18,7 +18,7 @@ import org.apache.commons.cli.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class OneNetDeviceListProcessor extends TkAbstractProcessor {
+public class OneNetListProcessor extends TkAbstractProcessor {
 
     private final OneNetService oneNetService = new OneNetService();
 
@@ -103,6 +103,11 @@ public class OneNetDeviceListProcessor extends TkAbstractProcessor {
                 String asciiTable = AsciiTable.getTable(AsciiTable.NO_BORDERS, devices, Arrays.asList(
                         new Column().header("deviceId").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
                                 OneNetDeviceDetailBody::getDid),
+                        new Column().header("deviceName").maxWidth(20, OverflowBehaviour.ELLIPSIS_RIGHT)
+                                .minWidth(20).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
+                                .with(OneNetDeviceDetailBody::getName),
+                        new Column().header("status").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+                                s -> OneNetDeviceStatusEnum.getMsgByCode(s.getStatus())),
                         new Column().header("imei").maxWidth(20, OverflowBehaviour.ELLIPSIS_RIGHT)
                                 .minWidth(20).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
                                 .with(OneNetDeviceDetailBody::getImei),
@@ -117,13 +122,8 @@ public class OneNetDeviceListProcessor extends TkAbstractProcessor {
                         new Column().header("sec_key").maxWidth(20, OverflowBehaviour.ELLIPSIS_RIGHT)
                                 .minWidth(20).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
                                 .with(OneNetDeviceDetailBody::getSecKey),
-                        new Column().header("createTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-                                OneNetDeviceDetailBody::getCreateTime),
-                        new Column().header("deviceName").maxWidth(20, OverflowBehaviour.ELLIPSIS_RIGHT)
-                                .minWidth(20).headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT)
-                                .with(OneNetDeviceDetailBody::getName),
-                        new Column().header("status").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-                                s -> OneNetDeviceStatusEnum.getMsgByCode(s.getStatus())),
+                        new Column().header("lastTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
+                                OneNetDeviceDetailBody::getLastTime),
                         new Column().header("createTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
                                 OneNetDeviceDetailBody::getCreateTime),
                         new Column().header("activeTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
