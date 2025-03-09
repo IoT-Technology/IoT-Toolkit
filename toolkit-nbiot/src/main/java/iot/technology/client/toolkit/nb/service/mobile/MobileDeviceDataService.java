@@ -24,7 +24,7 @@ import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
-import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobCachedCommandResponse;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobDeviceHisDataResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobDeviceLatestDataResponse;
 
@@ -110,43 +110,4 @@ public class MobileDeviceDataService extends AbstractMobileService {
 		}
 	}
 
-
-	public MobCachedCommandResponse getCachedCommandList(MobileConfigDomain config, String imei,
-														 String startTime, String endTime,
-														 Integer pageNo, Integer pageSize) {
-		MobCachedCommandResponse mobCachedCommandResponse = new MobCachedCommandResponse();
-		try {
-			HttpRequestEntity entity = new HttpRequestEntity();
-			entity.setType(NBTypeEnum.MOBILE.getValue());
-			entity.setUrl(MobileSettings.MOBILE_CACHED_COMMAND_LIST);
-			Map<String, String> headerMap = getHeaderMap(config);
-			entity.setHeaders(headerMap);
-
-			Map<String, String> params = new HashMap<>();
-			params.put("imei", imei);
-			params.put("start", startTime);
-			params.put("end", endTime);
-			params.put("page", pageNo + "");
-			params.put("per_page", pageSize + "");
-			entity.setParams(params);
-			HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
-			if (StringUtils.isNotBlank(response.getBody())) {
-				mobCachedCommandResponse = JsonUtils.jsonToObject(response.getBody(), MobCachedCommandResponse.class);
-				if (mobCachedCommandResponse.getErrno() == 0) {
-					mobCachedCommandResponse.setSuccess(Boolean.TRUE);
-				} else {
-					System.out.format(ColorUtils.redError(mobCachedCommandResponse.getError()));
-					mobCachedCommandResponse.setSuccess(Boolean.FALSE);
-				}
-			} else {
-				mobCachedCommandResponse.setSuccess(Boolean.FALSE);
-				System.out.format(config.getProductId() + ColorUtils.redError(" getCachedCommandList failed!"));
-			}
-			return mobCachedCommandResponse;
-		} catch (Exception e) {
-			mobCachedCommandResponse.setSuccess(Boolean.FALSE);
-			System.out.format(config.getProductId() + ColorUtils.redError(" getCachedCommandList failed!"));
-			return mobCachedCommandResponse;
-		}
-	}
 }

@@ -1,5 +1,6 @@
 package iot.technology.client.toolkit.nb.service.mobile;
 
+import iot.technology.client.toolkit.common.constants.MobileSettings;
 import iot.technology.client.toolkit.common.constants.NBTypeEnum;
 import iot.technology.client.toolkit.common.constants.OneNetSettings;
 import iot.technology.client.toolkit.common.http.HttpRequestEntity;
@@ -9,6 +10,7 @@ import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.*;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.OneNetRespCodeEnum;
 
@@ -212,6 +214,45 @@ public class OneNetService extends AbstractMobileService {
             deviceListResponse.setSuccess(Boolean.FALSE);
             System.out.format(request.getDeviceName() + ColorUtils.redError(" device list failed!"));
             return deviceListResponse;
+        }
+    }
+
+    public OneNetCachedCommandResponse getCachedCommandList(MobileConfigDomain config, String imei,
+                                                            String startTime, String endTime,
+                                                            Integer pageNo, Integer pageSize) {
+        OneNetCachedCommandResponse oneNetCachedCommandResponse = new OneNetCachedCommandResponse();
+        try {
+            HttpRequestEntity entity = new HttpRequestEntity();
+            entity.setType(NBTypeEnum.MOBILE.getValue());
+            entity.setUrl(OneNetSettings.HISTORY_OFFLINE_COMMAND_URL);
+            Map<String, String> headerMap = getHeaderMap(config);
+            entity.setHeaders(headerMap);
+
+            Map<String, String> params = new HashMap<>();
+            params.put("imei", imei);
+            params.put("start", startTime);
+            params.put("end", endTime);
+            params.put("page", pageNo + "");
+            params.put("per_page", pageSize + "");
+            entity.setParams(params);
+            HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
+            if (StringUtils.isNotBlank(response.getBody())) {
+                oneNetCachedCommandResponse = JsonUtils.jsonToObject(response.getBody(), OneNetCachedCommandResponse.class);
+                if (oneNetCachedCommandResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                    oneNetCachedCommandResponse.setSuccess(Boolean.TRUE);
+                } else {
+                    System.out.format(ColorUtils.redError(oneNetCachedCommandResponse.getMsg()));
+                    oneNetCachedCommandResponse.setSuccess(Boolean.FALSE);
+                }
+            } else {
+                oneNetCachedCommandResponse.setSuccess(Boolean.FALSE);
+                System.out.format(config.getProductId() + ColorUtils.redError(" getCachedCommandList failed!"));
+            }
+            return oneNetCachedCommandResponse;
+        } catch (Exception e) {
+            oneNetCachedCommandResponse.setSuccess(Boolean.FALSE);
+            System.out.format(config.getProductId() + ColorUtils.redError(" getCachedCommandList failed!"));
+            return oneNetCachedCommandResponse;
         }
     }
 
