@@ -16,20 +16,39 @@
 package iot.technology.client.toolkit.nb.service.mobile.domain.action.data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author mushuwei
  */
-public class MobDeviceLatestDataBody implements Serializable {
+public class OneNetDeviceLatestDataStreamsBody implements Serializable {
 
-	private List<MobDeviceLatestDataDevicesBody> devices;
+	private String id;
 
-	public List<MobDeviceLatestDataDevicesBody> getDevices() {
-		return devices;
+	private String at;
+
+	private String value;
+
+	public String getId() {
+		return id;
 	}
 
-	public void setDevices(List<MobDeviceLatestDataDevicesBody> devices) {
-		this.devices = devices;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getAt() {
+		return at;
+	}
+
+	public void setAt(String at) {
+		this.at = at;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 }

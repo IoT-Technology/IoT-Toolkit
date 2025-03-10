@@ -133,50 +133,50 @@ public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 			System.out.println(sb);
 		}
 		MobQueryDeviceByImeiResponse response = mobileDeviceService.queryDeviceByImei(mobileConfigDomain, imei);
-		if (response.isSuccess() && Objects.nonNull(response.getData().getId())) {
-			String deviceId = response.getData().getId();
-			MobDeviceLatestDataResponse deviceLatestDataResponse =
-					mobileDeviceDataService.getLatestDataPoints(mobileConfigDomain, deviceId);
-			if (deviceLatestDataResponse.isSuccess() && Objects.nonNull(deviceLatestDataResponse.getData())) {
-				List<MobDeviceLatestDataStreamsBody> datastreams = deviceLatestDataResponse.getData().getDevices().get(0).getDatastreams();
-
-				System.out.println(ColorUtils.colorBold("--- 最新上报设备数据点 ---", "green"));
-
-				if (Objects.nonNull(datastreams) && !datastreams.isEmpty()) {
-					datastreams.forEach(lst -> {
-						StringBuilder sb = new StringBuilder();
-						sb.append(String.format("数据点:         %s", lst.getId())).append(StringUtils.lineSeparator());
-						sb.append(String.format("数据值:         %s", lst.getValue())).append(StringUtils.lineSeparator());
-						sb.append(String.format("数据上报时间:    %s", lst.getAt()));
-						System.out.println(sb);
-					});
-
-					List<String> dataStreamIds =
-							datastreams.stream().map(MobDeviceLatestDataStreamsBody::getId).collect(Collectors.toList());
-					String dataStreamIdStr = String.join(",", dataStreamIds);
-					MobDeviceHisDataResponse deviceHisDataResponse =
-							mobileDeviceDataService.getHisDataPoints(mobileConfigDomain, deviceId, dataStreamIdStr, startTime, endTime, limit);
-					if (deviceHisDataResponse.isSuccess()) {
-						int count = deviceHisDataResponse.getData().getCount();
-						System.out.println(
-								ColorUtils.colorBold(String.format("--- %s %s至%s 历史设备数据点 ---", imei, startTime, endTime), "green"));
-						System.out.println(String.format("日志数量:    %s", count));
-						List<MobDeviceHisDataStreamsBody> deviceHisDataStreamsBodies = deviceHisDataResponse.getData().getDatastreams();
-						deviceHisDataStreamsBodies.forEach(hds -> {
-							StringBuilder sb = new StringBuilder();
-							sb.append(String.format("数据点:    %s", hds.getId())).append(StringUtils.lineSeparator());
-							List<MobDeviceHisDataPointsBody> deviceHisDataPointsBodies = hds.getDatapoints();
-							deviceHisDataPointsBodies.forEach(dpBody -> {
-								sb.append(String.format("数据值: %s", dpBody.getValue())).append(StringUtils.lineSeparator());
-								sb.append(String.format("数据上报时间:    %s", dpBody.getAt())).append(StringUtils.lineSeparator());
-								sb.append(StringUtils.lineSeparator());
-							});
-							System.out.println(sb);
-						});
-					}
-				}
-			}
-		}
+//		if (response.isSuccess() && Objects.nonNull(response.getData().getId())) {
+//			String deviceId = response.getData().getId();
+//			OneNetDeviceLatestDataResponse deviceLatestDataResponse =
+//					mobileDeviceDataService.getLatestDataPoints(mobileConfigDomain, deviceId);
+//			if (deviceLatestDataResponse.isSuccess() && Objects.nonNull(deviceLatestDataResponse.getData())) {
+//				List<OneNetDeviceLatestDataStreamsBody> datastreams = deviceLatestDataResponse.getData().getDevices().get(0).getDatastreams();
+//
+//				System.out.println(ColorUtils.colorBold("--- 最新上报设备数据点 ---", "green"));
+//
+//				if (Objects.nonNull(datastreams) && !datastreams.isEmpty()) {
+//					datastreams.forEach(lst -> {
+//						StringBuilder sb = new StringBuilder();
+//						sb.append(String.format("数据点:         %s", lst.getId())).append(StringUtils.lineSeparator());
+//						sb.append(String.format("数据值:         %s", lst.getValue())).append(StringUtils.lineSeparator());
+//						sb.append(String.format("数据上报时间:    %s", lst.getAt()));
+//						System.out.println(sb);
+//					});
+//
+//					List<String> dataStreamIds =
+//							datastreams.stream().map(OneNetDeviceLatestDataStreamsBody::getId).collect(Collectors.toList());
+//					String dataStreamIdStr = String.join(",", dataStreamIds);
+//					MobDeviceHisDataResponse deviceHisDataResponse =
+//							mobileDeviceDataService.getHisDataPoints(mobileConfigDomain, deviceId, dataStreamIdStr, startTime, endTime, limit);
+//					if (deviceHisDataResponse.isSuccess()) {
+//						int count = deviceHisDataResponse.getData().getCount();
+//						System.out.println(
+//								ColorUtils.colorBold(String.format("--- %s %s至%s 历史设备数据点 ---", imei, startTime, endTime), "green"));
+//						System.out.println(String.format("日志数量:    %s", count));
+//						List<MobDeviceHisDataStreamsBody> deviceHisDataStreamsBodies = deviceHisDataResponse.getData().getDatastreams();
+//						deviceHisDataStreamsBodies.forEach(hds -> {
+//							StringBuilder sb = new StringBuilder();
+//							sb.append(String.format("数据点:    %s", hds.getId())).append(StringUtils.lineSeparator());
+//							List<MobDeviceHisDataPointsBody> deviceHisDataPointsBodies = hds.getDatapoints();
+//							deviceHisDataPointsBodies.forEach(dpBody -> {
+//								sb.append(String.format("数据值: %s", dpBody.getValue())).append(StringUtils.lineSeparator());
+//								sb.append(String.format("数据上报时间:    %s", dpBody.getAt())).append(StringUtils.lineSeparator());
+//								sb.append(StringUtils.lineSeparator());
+//							});
+//							System.out.println(sb);
+//						});
+//					}
+//				}
+//			}
+//		}
 
 
 	}

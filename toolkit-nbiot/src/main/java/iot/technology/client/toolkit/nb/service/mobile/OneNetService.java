@@ -11,6 +11,7 @@ import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandResponse;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceLatestDataResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.*;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.OneNetRespCodeEnum;
 
@@ -225,7 +226,7 @@ public class OneNetService extends AbstractMobileService {
             HttpRequestEntity entity = new HttpRequestEntity();
             entity.setType(NBTypeEnum.MOBILE.getValue());
             entity.setUrl(OneNetSettings.HISTORY_OFFLINE_COMMAND_URL);
-            Map<String, String> headerMap = getHeaderMap(config);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
             entity.setHeaders(headerMap);
 
             Map<String, String> params = new HashMap<>();
@@ -253,6 +254,40 @@ public class OneNetService extends AbstractMobileService {
             oneNetCachedCommandResponse.setSuccess(Boolean.FALSE);
             System.out.format(config.getProductId() + ColorUtils.redError(" getCachedCommandList failed!"));
             return oneNetCachedCommandResponse;
+        }
+    }
+
+    public OneNetDeviceLatestDataResponse getCurrentDataPoints(MobileConfigDomain config, String imei) {
+        OneNetDeviceLatestDataResponse deviceLatestDataResponse = new OneNetDeviceLatestDataResponse();
+        try {
+            HttpRequestEntity entity = new HttpRequestEntity();
+            entity.setType(NBTypeEnum.MOBILE.getValue());
+            entity.setUrl(OneNetSettings.CURRENT_DATA_POINTS_URL);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
+            entity.setHeaders(headerMap);
+            Map<String, String> params = new HashMap<>();
+            params.put("imei", imei);
+            params.put("product_id", config.getProductId());
+            entity.setParams(params);
+            HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
+            if (StringUtils.isNotBlank(response.getBody())) {
+                deviceLatestDataResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceLatestDataResponse.class);
+                if (deviceLatestDataResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                    deviceLatestDataResponse.setSuccess(Boolean.TRUE);
+                } else {
+                    System.out.format(ColorUtils.redError(deviceLatestDataResponse.getMsg()));
+                    deviceLatestDataResponse.setSuccess(Boolean.FALSE);
+                }
+            } else {
+                deviceLatestDataResponse.setSuccess(Boolean.FALSE);
+                System.out.format(config.getProductId() + ColorUtils.redError(" getCurrentDataPoints failed!"));
+            }
+
+            return deviceLatestDataResponse;
+        } catch (Exception e) {
+            deviceLatestDataResponse.setSuccess(Boolean.FALSE);
+            System.out.format(config.getProductId() + ColorUtils.redError(" getCurrentDataPoints failed!"));
+            return deviceLatestDataResponse;
         }
     }
 

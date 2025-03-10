@@ -24,9 +24,8 @@ import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
-import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobDeviceHisDataResponse;
-import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobDeviceLatestDataResponse;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceLatestDataResponse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,38 +35,7 @@ import java.util.Map;
  */
 public class MobileDeviceDataService extends AbstractMobileService {
 
-	public MobDeviceLatestDataResponse getLatestDataPoints(MobileConfigDomain config, String id) {
-		MobDeviceLatestDataResponse deviceLatestDataResponse = new MobDeviceLatestDataResponse();
-		try {
-			HttpRequestEntity entity = new HttpRequestEntity();
-			entity.setType(NBTypeEnum.MOBILE.getValue());
-			entity.setUrl(MobileSettings.MOBILE_DATA_POINTS);
-			Map<String, String> headerMap = getHeaderMap(config);
-			entity.setHeaders(headerMap);
-			Map<String, String> params = new HashMap<>();
-			params.put("devIds", id);
-			entity.setParams(params);
-			HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
-			if (StringUtils.isNotBlank(response.getBody())) {
-				deviceLatestDataResponse = JsonUtils.jsonToObject(response.getBody(), MobDeviceLatestDataResponse.class);
-				if (deviceLatestDataResponse.getErrno() == 0) {
-					deviceLatestDataResponse.setSuccess(Boolean.TRUE);
-				} else {
-					System.out.format(ColorUtils.redError(deviceLatestDataResponse.getError()));
-					deviceLatestDataResponse.setSuccess(Boolean.FALSE);
-				}
-			} else {
-				deviceLatestDataResponse.setSuccess(Boolean.FALSE);
-				System.out.format(config.getProductId() + ColorUtils.redError(" getLatestDataPoints failed!"));
-			}
 
-			return deviceLatestDataResponse;
-		} catch (Exception e) {
-			deviceLatestDataResponse.setSuccess(Boolean.FALSE);
-			System.out.format(config.getProductId() + ColorUtils.redError(" getLatestDataPoints failed!"));
-			return deviceLatestDataResponse;
-		}
-	}
 
 
 	public MobDeviceHisDataResponse getHisDataPoints(MobileConfigDomain config, String id,
