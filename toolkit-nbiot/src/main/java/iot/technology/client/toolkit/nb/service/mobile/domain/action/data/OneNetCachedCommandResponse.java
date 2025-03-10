@@ -15,20 +15,20 @@
  */
 package iot.technology.client.toolkit.nb.service.mobile.domain.action.data;
 
-import iot.technology.client.toolkit.nb.service.mobile.domain.BaseMobileResponse;
+import iot.technology.client.toolkit.nb.service.mobile.domain.BaseOneNetResponse;
 
 /**
  * @author mushuwei
  */
-public class MobCachedCommandResponse extends BaseMobileResponse {
+public class OneNetCachedCommandResponse extends BaseOneNetResponse {
 
-	private MobCachedCommandBody data;
+	private OneNetCachedCommandBody data;
 
-	public MobCachedCommandBody getData() {
+	public OneNetCachedCommandBody getData() {
 		return data;
 	}
 
-	public void setData(MobCachedCommandBody data) {
+	public void setData(OneNetCachedCommandBody data) {
 		this.data = data;
 	}
 }

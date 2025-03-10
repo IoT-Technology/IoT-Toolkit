@@ -16,6 +16,7 @@
 package iot.technology.client.toolkit.nb.service.mobile;
 
 import iot.technology.client.toolkit.common.constants.MobileSettings;
+import iot.technology.client.toolkit.common.constants.OneNetSettings;
 import iot.technology.client.toolkit.common.utils.SignUtils;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 
@@ -34,12 +35,26 @@ public abstract class AbstractMobileService {
 		return authInfoMap;
 	}
 
+	public static Map<String, String> getOneNetHeaderMap(MobileConfigDomain config) {
+		Map<String, String> authInfoMap = new HashMap<>();
+		authInfoMap.put(OneNetSettings.AUTH_HEADER, getOneNetAuthInfo(config));
+		return authInfoMap;
+	}
+
 
 	public static String getAuthInfo(MobileConfigDomain config) {
 		String version = MobileSettings.MOBILE_AUTH_VERSION;
 		String res = MobileSettings.MOBILE_AUTH_RES_PREFIX + config.getProductId();
 		long et = System.currentTimeMillis() / 1000 + TimeUnit.DAYS.toSeconds(1);
 		String method = MobileSettings.MOBILE_AUTH_METHOD;
+		return SignUtils.getMobileAssembleToken(version, res, Long.toString(et), method, config.getAccessKey());
+	}
+
+	public static String getOneNetAuthInfo(MobileConfigDomain config) {
+		String version = OneNetSettings.AUTH_VERSION;
+		String res = OneNetSettings.AUTH_RES_PREFIX + config.getProductId();
+		long et = System.currentTimeMillis() / 1000 + TimeUnit.SECONDS.toSeconds(10);
+		String method = OneNetSettings.AUTH_METHOD;
 		return SignUtils.getMobileAssembleToken(version, res, Long.toString(et), method, config.getAccessKey());
 	}
 

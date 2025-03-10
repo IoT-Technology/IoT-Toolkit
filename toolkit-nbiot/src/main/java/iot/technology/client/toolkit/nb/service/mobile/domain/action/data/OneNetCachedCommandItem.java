@@ -22,7 +22,7 @@ import java.io.Serializable;
 /**
  * @author mushuwei
  */
-public class MobCachedCommandItem implements Serializable {
+public class OneNetCachedCommandItem implements Serializable {
 
 	@JsonProperty("cmd_uuid")
 	private String cmdUuid;

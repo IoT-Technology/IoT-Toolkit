@@ -64,7 +64,7 @@ public class MobAppConfigNode implements TkNode {
 			return NbSettingsCodeEnum.NB_MOB_APP_CONFIG.getCode();
 		}
 		if (context.getData().equals("new")) {
-			return NbSettingsCodeEnum.NB_MOB_PRODUCT_NAME.getCode();
+			return NbSettingsCodeEnum.NB_MOB_PRODUCT_ID.getCode();
 		}
 		return NbSettingsCodeEnum.NB_TYPE.getCode();
 

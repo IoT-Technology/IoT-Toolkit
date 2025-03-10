@@ -15,17 +15,20 @@
  */
 package iot.technology.client.toolkit.nb.service.mobile.domain.action.data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author mushuwei
  */
-public class MobCachedCommandBody implements Serializable {
+public class OneNetCachedCommandBody implements Serializable {
 
+	@JsonProperty("total_count")
 	private Integer totalCount;
 
-	private List<MobCachedCommandItem> items;
+	private List<OneNetCachedCommandItem> items;
 
 	public Integer getTotalCount() {
 		return totalCount;
@@ -35,11 +38,11 @@ public class MobCachedCommandBody implements Serializable {
 		this.totalCount = totalCount;
 	}
 
-	public List<MobCachedCommandItem> getItems() {
+	public List<OneNetCachedCommandItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<MobCachedCommandItem> items) {
+	public void setItems(List<OneNetCachedCommandItem> items) {
 		this.items = items;
 	}
 }

@@ -24,10 +24,10 @@ import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.DateUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.service.mobile.MobileDeviceDataService;
+import iot.technology.client.toolkit.nb.service.mobile.OneNetService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
-import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobCachedCommandItem;
-import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.MobCachedCommandResponse;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandItem;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandResponse;
 import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
 import org.apache.commons.cli.*;
 
@@ -37,9 +37,9 @@ import java.util.List;
 /**
  * @author mushuwei
  */
-public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implements TkProcessor {
+public class OneNetCommandDataDeviceProcessor extends TkAbstractProcessor implements TkProcessor {
 
-	private final MobileDeviceDataService mobileDeviceDataService = new MobileDeviceDataService();
+	private final OneNetService oneNetService = new OneNetService();
 
 	@Override
 	public boolean supports(ProcessContext context) {
@@ -140,32 +140,32 @@ public class MobCommandDataDeviceProcessor extends TkAbstractProcessor implement
 			sb.append(ColorUtils.redError("command parse failed!")).append(StringUtils.lineSeparator);
 			System.out.println(sb);
 		}
-		MobCachedCommandResponse
-				mobCachedCommandResponse = mobileDeviceDataService.getCachedCommandList(
+		OneNetCachedCommandResponse
+				oneNetCachedCommandResponse = oneNetService.getCachedCommandList(
 						mobileConfigDomain, imei, startTime, endTime, pageNo, pageSize);
-		if (mobCachedCommandResponse.isSuccess()
-				&& mobCachedCommandResponse.getData() != null
-				&& !mobCachedCommandResponse.getData().getItems().isEmpty()) {
-			List<MobCachedCommandItem> items = mobCachedCommandResponse.getData().getItems();
+		if (oneNetCachedCommandResponse.isSuccess()
+				&& oneNetCachedCommandResponse.getData() != null
+				&& !oneNetCachedCommandResponse.getData().getItems().isEmpty()) {
+			List<OneNetCachedCommandItem> items = oneNetCachedCommandResponse.getData().getItems();
 			String asciiTable = AsciiTable.getTable(AsciiTable.NO_BORDERS, items, Arrays.asList(
 					new Column().header("cmdUuid").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-							MobCachedCommandItem::getCmdUuid),
+							OneNetCachedCommandItem::getCmdUuid),
 					new Column().header("type").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-							MobCachedCommandItem::getType),
+							OneNetCachedCommandItem::getType),
 					new Column().header("createTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-							MobCachedCommandItem::getCreateTime),
+							OneNetCachedCommandItem::getCreateTime),
 					new Column().header("validTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-							MobCachedCommandItem::getValidTime),
+							OneNetCachedCommandItem::getValidTime),
 					new Column().header("expiredTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-							MobCachedCommandItem::getExpiredTime),
+							OneNetCachedCommandItem::getExpiredTime),
 					new Column().header("sendTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-							MobCachedCommandItem::getSendTime),
+							OneNetCachedCommandItem::getSendTime),
 					new Column().header("sendStatus").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
 							s -> String.valueOf(s.getSendStatus())),
 					new Column().header("confirmTime").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-							MobCachedCommandItem::getConfirmTime),
+							OneNetCachedCommandItem::getConfirmTime),
 					new Column().header("confirmStatus").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
-							MobCachedCommandItem::getConfirmStatus),
+							OneNetCachedCommandItem::getConfirmStatus),
 					new Column().header("remain").headerAlign(HorizontalAlign.CENTER).dataAlign(HorizontalAlign.LEFT).with(
 							s -> String.valueOf(s.getRemain()))
 			));
