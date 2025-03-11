@@ -20,7 +20,7 @@ import java.io.Serializable;
 /**
  * @author mushuwei
  */
-public class MobDeviceHisDataPointsBody implements Serializable {
+public class OneNetDeviceHisDataPointsBody implements Serializable {
 
 	private String at;
 

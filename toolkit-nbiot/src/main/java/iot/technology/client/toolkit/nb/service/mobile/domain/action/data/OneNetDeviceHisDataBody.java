@@ -21,13 +21,13 @@ import java.util.List;
 /**
  * @author mushuwei
  */
-public class MobDeviceHisDataBody implements Serializable {
+public class OneNetDeviceHisDataBody implements Serializable {
 
 	private String cursor;
 
 	private int count;
 
-	private List<MobDeviceHisDataStreamsBody> datastreams;
+	private List<OneNetDeviceHisDataStreamsBody> datastreams;
 
 	public String getCursor() {
 		return cursor;
@@ -45,12 +45,12 @@ public class MobDeviceHisDataBody implements Serializable {
 		this.count = count;
 	}
 
-	public List<MobDeviceHisDataStreamsBody> getDatastreams() {
+	public List<OneNetDeviceHisDataStreamsBody> getDatastreams() {
 		return datastreams;
 	}
 
 	public void setDatastreams(
-			List<MobDeviceHisDataStreamsBody> datastreams) {
+			List<OneNetDeviceHisDataStreamsBody> datastreams) {
 		this.datastreams = datastreams;
 	}
 }

@@ -42,6 +42,7 @@ public class MobileBizService {
 		tkProcessorList.add(new OneNetUpdateDeviceProcessor());
 		tkProcessorList.add(new OneNetHelpProcessor());
 		tkProcessorList.add(new OneNetCurrentLogDeviceDataProcessor());
+		tkProcessorList.add(new OneNetHistoryLogDeviceDataProcessor());
 		tkProcessorList.add(new OneNetCommandDataDeviceProcessor());
 		return tkProcessorList;
 	}
