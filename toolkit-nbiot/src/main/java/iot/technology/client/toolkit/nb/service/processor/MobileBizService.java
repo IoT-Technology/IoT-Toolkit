@@ -80,8 +80,8 @@ public class MobileBizService {
 			MobProcessContext context = new MobProcessContext();
 			context.setMobileConfigDomain(mobileConfigDomain);
 
-			var mobHelpProcessor = new MobHelpProcessor();
-			mobHelpProcessor.printAllHelpInfo();
+			var oneNetHelpProcessor = new OneNetHelpProcessor();
+			oneNetHelpProcessor.printAllHelpInfo();
 			while (isEnd) {
 				String data;
 				data = reader.readLine(prompt);
