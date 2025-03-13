@@ -41,7 +41,8 @@ public class MobileBizService {
 		tkProcessorList.add(new OneNetShowDeviceProcessor());
 		tkProcessorList.add(new OneNetUpdateDeviceProcessor());
 		tkProcessorList.add(new OneNetHelpProcessor());
-		tkProcessorList.add(new MobLogDeviceDataProcessor());
+		tkProcessorList.add(new OneNetCurrentLogDeviceDataProcessor());
+		tkProcessorList.add(new OneNetHistoryLogDeviceDataProcessor());
 		tkProcessorList.add(new OneNetCommandDataDeviceProcessor());
 		return tkProcessorList;
 	}
@@ -58,12 +59,12 @@ public class MobileBizService {
 
 	Completer helpCompleter = new ArgumentCompleter(new StringsCompleter("help"), new EnumCompleter(NbActionEnum.class), NullCompleter.INSTANCE);
 
-	Completer logCompleter = new ArgumentCompleter(new StringsCompleter("log"), NullCompleter.INSTANCE);
+	Completer currentLogCompleter = new ArgumentCompleter(new StringsCompleter("cl"), NullCompleter.INSTANCE);
 
 	Completer commandCompleter = new ArgumentCompleter(new StringsCompleter("command"), NullCompleter.INSTANCE);
 
 	Completer nbMobileCompleter =
-			new AggregateCompleter(listCompleter, showCompleter, delCompleter, addCompleter, helpCompleter, updateCompleter, logCompleter,
+			new AggregateCompleter(listCompleter, showCompleter, delCompleter, addCompleter, helpCompleter, updateCompleter, currentLogCompleter,
 					commandCompleter);
 
 	public boolean call(MobileConfigDomain mobileConfigDomain, Terminal terminal) {
@@ -79,8 +80,8 @@ public class MobileBizService {
 			MobProcessContext context = new MobProcessContext();
 			context.setMobileConfigDomain(mobileConfigDomain);
 
-			var mobHelpProcessor = new MobHelpProcessor();
-			mobHelpProcessor.printAllHelpInfo();
+			var oneNetHelpProcessor = new OneNetHelpProcessor();
+			oneNetHelpProcessor.printAllHelpInfo();
 			while (isEnd) {
 				String data;
 				data = reader.readLine(prompt);

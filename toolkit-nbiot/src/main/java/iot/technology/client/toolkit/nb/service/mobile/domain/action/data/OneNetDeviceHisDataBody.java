@@ -15,20 +15,42 @@
  */
 package iot.technology.client.toolkit.nb.service.mobile.domain.action.data;
 
-import iot.technology.client.toolkit.nb.service.mobile.domain.BaseMobileResponse;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author mushuwei
  */
-public class MobDeviceHisDataResponse extends BaseMobileResponse {
+public class OneNetDeviceHisDataBody implements Serializable {
 
-	private MobDeviceHisDataBody data;
+	private String cursor;
 
-	public MobDeviceHisDataBody getData() {
-		return data;
+	private int count;
+
+	private List<OneNetDeviceHisDataStreamsBody> datastreams;
+
+	public String getCursor() {
+		return cursor;
 	}
 
-	public void setData(MobDeviceHisDataBody data) {
-		this.data = data;
+	public void setCursor(String cursor) {
+		this.cursor = cursor;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public List<OneNetDeviceHisDataStreamsBody> getDatastreams() {
+		return datastreams;
+	}
+
+	public void setDatastreams(
+			List<OneNetDeviceHisDataStreamsBody> datastreams) {
+		this.datastreams = datastreams;
 	}
 }

@@ -28,6 +28,10 @@ public class CollectionUtils {
 		return (map == null || map.isEmpty());
 	}
 
+	public static boolean isEmpty(List<?> list) {
+		return (list == null || list.isEmpty());
+	}
+
 	public static String listToString(List<String> list) {
 		return list.stream().collect(Collectors.joining(", "));
 	}

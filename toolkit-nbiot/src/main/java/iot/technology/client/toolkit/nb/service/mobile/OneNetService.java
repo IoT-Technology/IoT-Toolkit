@@ -1,6 +1,5 @@
 package iot.technology.client.toolkit.nb.service.mobile;
 
-import iot.technology.client.toolkit.common.constants.MobileSettings;
 import iot.technology.client.toolkit.common.constants.NBTypeEnum;
 import iot.technology.client.toolkit.common.constants.OneNetSettings;
 import iot.technology.client.toolkit.common.http.HttpRequestEntity;
@@ -9,8 +8,11 @@ import iot.technology.client.toolkit.common.http.HttpResponseEntity;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.JsonUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
+import iot.technology.client.toolkit.nb.service.mobile.domain.BaseOneNetResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandResponse;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceHisDataResponse;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceLatestDataResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.*;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.OneNetRespCodeEnum;
 
@@ -32,12 +34,16 @@ public class OneNetService extends AbstractMobileService {
             entity.setParams(params);
             HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
             if (StringUtils.isNotBlank(response.getBody())) {
-                productDetailResponse = JsonUtils.jsonToObject(response.getBody(), OneNetProductResponse.class);
-                if (productDetailResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
+                if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
                     productDetailResponse.setSuccess(Boolean.TRUE);
+                    productDetailResponse = JsonUtils.jsonToObject(response.getBody(), OneNetProductResponse.class);
                 } else {
-                    System.out.format(ColorUtils.redError(productDetailResponse.getMsg()));
                     productDetailResponse.setSuccess(Boolean.FALSE);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("code: " + generalResponse.getCode())).append(StringUtils.lineSeparator());
+                    sb.append(ColorUtils.redError("msg:  " + generalResponse.getMsg())).append(StringUtils.lineSeparator());
+                    System.out.println(sb);
                 }
             } else {
                 System.out.format(config.getProductId() + ColorUtils.redError(" get product detail failed!"));
@@ -65,12 +71,16 @@ public class OneNetService extends AbstractMobileService {
             entity.setJson(requestJson);
             HttpResponseEntity response = HttpRequestExecutor.executePost(entity);
             if (StringUtils.isNotBlank(response.getBody())) {
-                createDeviceResponse = JsonUtils.jsonToObject(response.getBody(), OneNetCreateDeviceResponse.class);
-                if (createDeviceResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
+                if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
                     createDeviceResponse.setSuccess(Boolean.TRUE);
+                    createDeviceResponse = JsonUtils.jsonToObject(response.getBody(), OneNetCreateDeviceResponse.class);
                 } else {
-                    System.out.format(ColorUtils.redError(createDeviceResponse.getMsg()));
                     createDeviceResponse.setSuccess(Boolean.FALSE);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("code: " + generalResponse.getCode())).append(StringUtils.lineSeparator());
+                    sb.append(ColorUtils.redError("msg:  " + generalResponse.getMsg())).append(StringUtils.lineSeparator());
+                    System.out.println(sb);
                 }
             } else {
                 System.out.format(request.getImei() + ColorUtils.redError(" addDevice failed!"));
@@ -97,12 +107,16 @@ public class OneNetService extends AbstractMobileService {
             entity.setJson(requestJson);
             HttpResponseEntity response = HttpRequestExecutor.executePost(entity);
             if (StringUtils.isNotBlank(response.getBody())) {
-                delDeviceResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDelDeviceResponse.class);
-                if (delDeviceResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
+                if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
                     delDeviceResponse.setSuccess(Boolean.TRUE);
+                    delDeviceResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDelDeviceResponse.class);
                 } else {
-                    System.out.format(ColorUtils.redError(delDeviceResponse.getMsg()));
                     delDeviceResponse.setSuccess(Boolean.FALSE);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("code: " + generalResponse.getCode())).append(StringUtils.lineSeparator());
+                    sb.append(ColorUtils.redError("msg:  " + generalResponse.getMsg())).append(StringUtils.lineSeparator());
+                    System.out.println(sb);
                 }
             } else {
                 System.out.format(request.getImei() + ColorUtils.redError(" delDevice failed!"));
@@ -131,12 +145,16 @@ public class OneNetService extends AbstractMobileService {
             entity.setParams(params);
             HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
             if (StringUtils.isNotBlank(response.getBody())) {
-                deviceDetailResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceDetailResponse.class);
-                if (deviceDetailResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
+                if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
                     deviceDetailResponse.setSuccess(Boolean.TRUE);
+                    deviceDetailResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceDetailResponse.class);
                 } else {
-                    System.out.format(ColorUtils.redError(deviceDetailResponse.getMsg()));
                     deviceDetailResponse.setSuccess(Boolean.FALSE);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("code: " + generalResponse.getCode())).append(StringUtils.lineSeparator());
+                    sb.append(ColorUtils.redError("msg:  " + generalResponse.getMsg())).append(StringUtils.lineSeparator());
+                    System.out.println(sb);
                 }
             } else {
                 System.out.format(request.getImei() + ColorUtils.redError(" getDevice failed!"));
@@ -163,12 +181,16 @@ public class OneNetService extends AbstractMobileService {
             entity.setJson(requestJson);
             HttpResponseEntity response = HttpRequestExecutor.executePost(entity);
             if (StringUtils.isNotBlank(response.getBody())) {
-                updateDeviceResponse = JsonUtils.jsonToObject(response.getBody(), OneNetUpdateDeviceResponse.class);
-                if (updateDeviceResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
+                if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
                     updateDeviceResponse.setSuccess(Boolean.TRUE);
+                    updateDeviceResponse = JsonUtils.jsonToObject(response.getBody(), OneNetUpdateDeviceResponse.class);
                 } else {
-                    System.out.format(ColorUtils.redError(updateDeviceResponse.getMsg()));
                     updateDeviceResponse.setSuccess(Boolean.FALSE);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("code: " + generalResponse.getCode())).append(StringUtils.lineSeparator());
+                    sb.append(ColorUtils.redError("msg:  " + generalResponse.getMsg())).append(StringUtils.lineSeparator());
+                    System.out.println(sb);
                 }
             } else {
                 System.out.format(request.getImei() + ColorUtils.redError(" updateDevice failed!"));
@@ -198,12 +220,16 @@ public class OneNetService extends AbstractMobileService {
             entity.setParams(params);
             HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
             if (StringUtils.isNotBlank(response.getBody())) {
-                deviceListResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceListResponse.class);
-                if (deviceListResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
+                if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                    deviceListResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceListResponse.class);
                     deviceListResponse.setSuccess(Boolean.TRUE);
                 } else {
-                    System.out.format(ColorUtils.redError(deviceListResponse.getMsg()));
                     deviceListResponse.setSuccess(Boolean.FALSE);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("code: " + generalResponse.getCode())).append(StringUtils.lineSeparator());
+                    sb.append(ColorUtils.redError("msg:  " + generalResponse.getMsg())).append(StringUtils.lineSeparator());
+                    System.out.println(sb);
                 }
             } else {
                 System.out.format(request.getDeviceName() + ColorUtils.redError(" device list failed!"));
@@ -225,7 +251,7 @@ public class OneNetService extends AbstractMobileService {
             HttpRequestEntity entity = new HttpRequestEntity();
             entity.setType(NBTypeEnum.MOBILE.getValue());
             entity.setUrl(OneNetSettings.HISTORY_OFFLINE_COMMAND_URL);
-            Map<String, String> headerMap = getHeaderMap(config);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
             entity.setHeaders(headerMap);
 
             Map<String, String> params = new HashMap<>();
@@ -237,13 +263,18 @@ public class OneNetService extends AbstractMobileService {
             entity.setParams(params);
             HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
             if (StringUtils.isNotBlank(response.getBody())) {
-                oneNetCachedCommandResponse = JsonUtils.jsonToObject(response.getBody(), OneNetCachedCommandResponse.class);
-                if (oneNetCachedCommandResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
+                if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
                     oneNetCachedCommandResponse.setSuccess(Boolean.TRUE);
+                    oneNetCachedCommandResponse = JsonUtils.jsonToObject(response.getBody(), OneNetCachedCommandResponse.class);
                 } else {
-                    System.out.format(ColorUtils.redError(oneNetCachedCommandResponse.getMsg()));
                     oneNetCachedCommandResponse.setSuccess(Boolean.FALSE);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("code: " + generalResponse.getCode())).append(StringUtils.lineSeparator());
+                    sb.append(ColorUtils.redError("msg:  " + generalResponse.getMsg())).append(StringUtils.lineSeparator());
+                    System.out.println(sb);
                 }
+
             } else {
                 oneNetCachedCommandResponse.setSuccess(Boolean.FALSE);
                 System.out.format(config.getProductId() + ColorUtils.redError(" getCachedCommandList failed!"));
@@ -253,6 +284,96 @@ public class OneNetService extends AbstractMobileService {
             oneNetCachedCommandResponse.setSuccess(Boolean.FALSE);
             System.out.format(config.getProductId() + ColorUtils.redError(" getCachedCommandList failed!"));
             return oneNetCachedCommandResponse;
+        }
+    }
+
+    public OneNetDeviceLatestDataResponse getCurrentDataPoints(MobileConfigDomain config, String imei) {
+        OneNetDeviceLatestDataResponse deviceLatestDataResponse = new OneNetDeviceLatestDataResponse();
+        try {
+            HttpRequestEntity entity = new HttpRequestEntity();
+            entity.setType(NBTypeEnum.MOBILE.getValue());
+            entity.setUrl(OneNetSettings.CURRENT_DATA_POINTS_URL);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
+            entity.setHeaders(headerMap);
+            Map<String, String> params = new HashMap<>();
+            params.put("imei", imei);
+            params.put("product_id", config.getProductId());
+            entity.setParams(params);
+            HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
+            if (StringUtils.isNotBlank(response.getBody())) {
+                BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
+                if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                    deviceLatestDataResponse.setSuccess(Boolean.TRUE);
+                    deviceLatestDataResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceLatestDataResponse.class);
+                } else {
+                    deviceLatestDataResponse.setSuccess(Boolean.FALSE);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("code: " + generalResponse.getCode())).append(StringUtils.lineSeparator());
+                    sb.append(ColorUtils.redError("msg:  " + generalResponse.getMsg())).append(StringUtils.lineSeparator());
+                    System.out.println(sb);
+                }
+
+            } else {
+                deviceLatestDataResponse.setSuccess(Boolean.FALSE);
+                System.out.format(config.getProductId() + ColorUtils.redError(" getCurrentDataPoints failed!"));
+            }
+
+            return deviceLatestDataResponse;
+        } catch (Exception e) {
+            deviceLatestDataResponse.setSuccess(Boolean.FALSE);
+            System.out.format(config.getProductId() + ColorUtils.redError(" getCurrentDataPoints failed!"));
+            return deviceLatestDataResponse;
+        }
+    }
+
+    public OneNetDeviceHisDataResponse getHisDataPoints(MobileConfigDomain config, String imei,
+                                                        String start, String end,
+                                                        int limit, String sort) {
+        OneNetDeviceHisDataResponse deviceHisDataResponse = new OneNetDeviceHisDataResponse();
+        OneNetDeviceDetailRequest request = new OneNetDeviceDetailRequest();
+        request.setImei(imei);
+        OneNetDeviceDetailResponse deviceDetailResponse = get(config, request);
+        if (!deviceDetailResponse.isSuccess()) {
+            deviceHisDataResponse.setSuccess(Boolean.FALSE);
+            return deviceHisDataResponse;
+        }
+        try {
+            HttpRequestEntity entity = new HttpRequestEntity();
+            entity.setType(NBTypeEnum.MOBILE.getValue());
+            entity.setUrl(OneNetSettings.HISTORY_DATA_POINTS_URL);
+            Map<String, String> headerMap = getOneNetHeaderMap(config);
+            entity.setHeaders(headerMap);
+            Map<String, String> params = new HashMap<>();
+            params.put("product_id", config.getProductId());
+            params.put("device_name", deviceDetailResponse.getData().getName());
+            params.put("imei", imei);
+            params.put("start", start);
+            params.put("end", end);
+            params.put("limit", limit + "");
+            params.put("sort", sort);
+            entity.setParams(params);
+            HttpResponseEntity response = HttpRequestExecutor.executeGet(entity);
+            if (StringUtils.isNotBlank(response.getBody())) {
+                BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
+                if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
+                    deviceHisDataResponse.setSuccess(Boolean.TRUE);
+                    deviceHisDataResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceHisDataResponse.class);
+                } else {
+                    deviceHisDataResponse.setSuccess(Boolean.FALSE);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ColorUtils.redError("code: " + generalResponse.getCode())).append(StringUtils.lineSeparator());
+                    sb.append(ColorUtils.redError("msg:  " + generalResponse.getMsg())).append(StringUtils.lineSeparator());
+                    System.out.println(sb);
+                }
+            } else {
+                deviceHisDataResponse.setSuccess(Boolean.FALSE);
+                System.out.format(config.getProductId() + ColorUtils.redError(" getHisDataPoints failed!"));
+            }
+            return deviceHisDataResponse;
+        } catch (Exception e) {
+            deviceHisDataResponse.setSuccess(Boolean.FALSE);
+            System.out.format(config.getProductId() + ColorUtils.redError(" getHisDataPoints failed!"));
+            return deviceHisDataResponse;
         }
     }
 

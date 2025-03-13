@@ -21,39 +21,22 @@ import iot.technology.client.toolkit.common.rule.TkProcessor;
 import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.common.utils.DateUtils;
 import iot.technology.client.toolkit.common.utils.StringUtils;
-import iot.technology.client.toolkit.nb.service.mobile.MobileDeviceDataService;
-import iot.technology.client.toolkit.nb.service.mobile.MobileDeviceService;
+import iot.technology.client.toolkit.nb.service.mobile.OneNetService;
 import iot.technology.client.toolkit.nb.service.mobile.domain.MobileConfigDomain;
-import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.*;
-import iot.technology.client.toolkit.nb.service.mobile.domain.action.device.MobQueryDeviceByImeiResponse;
+import iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceHisDataResponse;
 import iot.technology.client.toolkit.nb.service.processor.MobProcessContext;
 import org.apache.commons.cli.*;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 /**
- * format:log imei startTime endTime limit
- * <p>
- * 1、log imei: 50 logs reported today
- * <p>
- * 2、log imei limit: limit count logs reported today
- * <p>
- * 3、log imei startTime endTime: startTime - endTime 50 reported logs;
- * <p>
- * 4、log imei startTime endTime limit: startTime - endTime limit reported logs;
- *
  * @author mushuwei
  */
-public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements TkProcessor {
+public class OneNetHistoryLogDeviceDataProcessor extends TkAbstractProcessor implements TkProcessor {
 
-	private final MobileDeviceDataService mobileDeviceDataService = new MobileDeviceDataService();
-	private final static MobileDeviceService mobileDeviceService = new MobileDeviceService();
+	private final OneNetService oneNetService = new OneNetService();
 
 	@Override
 	public boolean supports(ProcessContext context) {
-		return context.getData().startsWith("log");
+		return (context.getData().startsWith("hl") || context.getData().startsWith("history-log"));
 	}
 
 	@Override
@@ -66,14 +49,17 @@ public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 		Option limitOption = new Option("limit", true, "limit of the device log data list");
 		Option startTimeOption = new Option("startTime", true, "start time of search device log data list");
 		Option endTimeOption = new Option("endTime", true, "end time of search device log data list");
+		Option sortOption = new Option("sort", true, "sort of the device log data list");
 
 		options.addOption(imeiOption)
 				.addOption(limitOption)
 				.addOption(startTimeOption)
+				.addOption(sortOption)
 				.addOption(endTimeOption);
 
 		String imei = "";
-		Integer limit = 50;
+		String sort = "DESC";
+		Integer limit = 100;
 		String startTime = DateUtils.getCurrentDayStartTimeForMob();
 		String endTime = DateUtils.getCurrentDayEndTimeForMob();
 		String consoleStartTime = "";
@@ -86,7 +72,7 @@ public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 			if (!cmd.hasOption(imeiOption)) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(ColorUtils.redError("imei is required")).append(StringUtils.lineSeparator);
-				sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+				sb.append(ColorUtils.blackBold("detail usage please enter: help hl"));
 				System.out.println(sb);
 				return;
 			}
@@ -96,7 +82,7 @@ public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 				if (!validateParam(limitStr)) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(ColorUtils.redError("limit is not a number")).append(StringUtils.lineSeparator);
-					sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+					sb.append(ColorUtils.blackBold("detail usage please enter: help hl"));
 					System.out.println(sb);
 					return;
 				}
@@ -108,7 +94,7 @@ public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 					StringBuilder sb = new StringBuilder();
 					sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
 							.append(StringUtils.lineSeparator);
-					sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+					sb.append(ColorUtils.blackBold("detail usage please enter: help hl"));
 					System.out.println(sb);
 					return;
 				}
@@ -120,11 +106,22 @@ public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 					StringBuilder sb = new StringBuilder();
 					sb.append(ColorUtils.redError("the time format is incorrect, correct time format:2019-02-01T00:01:01"))
 							.append(StringUtils.lineSeparator);
-					sb.append(ColorUtils.blackBold("detail usage please enter: help log"));
+					sb.append(ColorUtils.blackBold("detail usage please enter: help hl"));
 					System.out.println(sb);
 					return;
 				}
 				endTime = consoleEndTime;
+			}
+			if (cmd.hasOption(sortOption)) {
+				String sortStr = cmd.getOptionValue(sortOption);
+				if (!(sortStr.equals("DESC") || sortStr.equals("ASC"))) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ColorUtils.redError("the sort format is incorrect, correct sort value: DESC or ASC"))
+							.append(StringUtils.lineSeparator);
+					sb.append(ColorUtils.blackBold("detail usage please enter: help hl"));
+					System.out.println(sb);
+					return;
+				}
 			}
 
 		} catch (ParseException e) {
@@ -132,52 +129,10 @@ public class MobLogDeviceDataProcessor extends TkAbstractProcessor implements Tk
 			sb.append(ColorUtils.redError("command parse failed!")).append(StringUtils.lineSeparator);
 			System.out.println(sb);
 		}
-		MobQueryDeviceByImeiResponse response = mobileDeviceService.queryDeviceByImei(mobileConfigDomain, imei);
-		if (response.isSuccess() && Objects.nonNull(response.getData().getId())) {
-			String deviceId = response.getData().getId();
-			MobDeviceLatestDataResponse deviceLatestDataResponse =
-					mobileDeviceDataService.getLatestDataPoints(mobileConfigDomain, deviceId);
-			if (deviceLatestDataResponse.isSuccess() && Objects.nonNull(deviceLatestDataResponse.getData())) {
-				List<MobDeviceLatestDataStreamsBody> datastreams = deviceLatestDataResponse.getData().getDevices().get(0).getDatastreams();
-
-				System.out.println(ColorUtils.colorBold("--- 最新上报设备数据点 ---", "green"));
-
-				if (Objects.nonNull(datastreams) && !datastreams.isEmpty()) {
-					datastreams.forEach(lst -> {
-						StringBuilder sb = new StringBuilder();
-						sb.append(String.format("数据点:         %s", lst.getId())).append(StringUtils.lineSeparator());
-						sb.append(String.format("数据值:         %s", lst.getValue())).append(StringUtils.lineSeparator());
-						sb.append(String.format("数据上报时间:    %s", lst.getAt()));
-						System.out.println(sb);
-					});
-
-					List<String> dataStreamIds =
-							datastreams.stream().map(MobDeviceLatestDataStreamsBody::getId).collect(Collectors.toList());
-					String dataStreamIdStr = String.join(",", dataStreamIds);
-					MobDeviceHisDataResponse deviceHisDataResponse =
-							mobileDeviceDataService.getHisDataPoints(mobileConfigDomain, deviceId, dataStreamIdStr, startTime, endTime, limit);
-					if (deviceHisDataResponse.isSuccess()) {
-						int count = deviceHisDataResponse.getData().getCount();
-						System.out.println(
-								ColorUtils.colorBold(String.format("--- %s %s至%s 历史设备数据点 ---", imei, startTime, endTime), "green"));
-						System.out.println(String.format("日志数量:    %s", count));
-						List<MobDeviceHisDataStreamsBody> deviceHisDataStreamsBodies = deviceHisDataResponse.getData().getDatastreams();
-						deviceHisDataStreamsBodies.forEach(hds -> {
-							StringBuilder sb = new StringBuilder();
-							sb.append(String.format("数据点:    %s", hds.getId())).append(StringUtils.lineSeparator());
-							List<MobDeviceHisDataPointsBody> deviceHisDataPointsBodies = hds.getDatapoints();
-							deviceHisDataPointsBodies.forEach(dpBody -> {
-								sb.append(String.format("数据值: %s", dpBody.getValue())).append(StringUtils.lineSeparator());
-								sb.append(String.format("数据上报时间:    %s", dpBody.getAt())).append(StringUtils.lineSeparator());
-								sb.append(StringUtils.lineSeparator());
-							});
-							System.out.println(sb);
-						});
-					}
-				}
-			}
+		OneNetDeviceHisDataResponse hisDataResponse = oneNetService.getHisDataPoints(mobileConfigDomain, imei, startTime, endTime, limit, sort);
+		if (hisDataResponse.isSuccess()) {
+			hisDataResponse.printToConsole(imei, startTime, endTime);
 		}
-
 
 	}
 }

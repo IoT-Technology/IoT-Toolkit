@@ -12,6 +12,7 @@ public interface OneNetSettings {
     String DEVICE_URL = ROOT_URL + "/device";
     String PRODUCT_URL = ROOT_URL + "/product";
     String COMMAND_URL = ROOT_URL + "/nb-iot";
+    String DATAPOINT_URL = ROOT_URL + "/datapoint";
 
     String ADD_DEVICE_URL = DEVICE_URL + "/create";
     String DETAIL_DEVICE_URL = DEVICE_URL + "/detail";
@@ -23,4 +24,8 @@ public interface OneNetSettings {
 
     String OFFLINE_COMMAND_URL = COMMAND_URL + "/offline";
     String HISTORY_OFFLINE_COMMAND_URL = OFFLINE_COMMAND_URL + "/history";
+
+    String CURRENT_DATA_POINTS_URL = DATAPOINT_URL + "/current-datapoints";
+    String HISTORY_DATA_POINTS_URL = DATAPOINT_URL + "/history-datapoints";
+
 }

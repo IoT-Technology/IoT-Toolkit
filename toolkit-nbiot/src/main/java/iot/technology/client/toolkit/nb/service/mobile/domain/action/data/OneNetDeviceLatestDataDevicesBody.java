@@ -21,15 +21,36 @@ import java.util.List;
 /**
  * @author mushuwei
  */
-public class MobDeviceLatestDataBody implements Serializable {
+public class OneNetDeviceLatestDataDevicesBody implements Serializable {
 
-	private List<MobDeviceLatestDataDevicesBody> devices;
+	private String id;
 
-	public List<MobDeviceLatestDataDevicesBody> getDevices() {
-		return devices;
+	private String title;
+
+	private List<OneNetDeviceLatestDataStreamsBody> datastreams;
+
+	public String getId() {
+		return id;
 	}
 
-	public void setDevices(List<MobDeviceLatestDataDevicesBody> devices) {
-		this.devices = devices;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public List<OneNetDeviceLatestDataStreamsBody> getDatastreams() {
+		return datastreams;
+	}
+
+	public void setDatastreams(
+			List<OneNetDeviceLatestDataStreamsBody> datastreams) {
+		this.datastreams = datastreams;
 	}
 }

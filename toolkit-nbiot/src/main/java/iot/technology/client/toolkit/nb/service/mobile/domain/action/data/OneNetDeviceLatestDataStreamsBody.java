@@ -13,22 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.client.toolkit.nb.service.mobile.domain.action.device;
+package iot.technology.client.toolkit.nb.service.mobile.domain.action.data;
 
-import iot.technology.client.toolkit.nb.service.mobile.domain.BaseMobileResponse;
+import java.io.Serializable;
 
 /**
  * @author mushuwei
  */
-public class MobQueryDeviceListResponse extends BaseMobileResponse {
+public class OneNetDeviceLatestDataStreamsBody implements Serializable {
 
-	private MobQueryDeviceListBody data;
+	private String id;
 
-	public MobQueryDeviceListBody getData() {
-		return data;
+	private String at;
+
+	private String value;
+
+	public String getId() {
+		return id;
 	}
 
-	public void setData(MobQueryDeviceListBody data) {
-		this.data = data;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getAt() {
+		return at;
+	}
+
+	public void setAt(String at) {
+		this.at = at;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 }
