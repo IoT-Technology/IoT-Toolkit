@@ -314,6 +314,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.settings.TelProjectSettings",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -323,6 +324,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelQueryProductResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -341,6 +343,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.BaseOneNetResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -350,6 +353,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.product.TelQueryProductResponseBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -394,6 +398,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelDelDeviceByImeiResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -403,6 +408,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelDelDeviceByImeiRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -412,6 +418,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelBatchAddDeviceBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -421,6 +428,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelBatchAddDeviceResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -430,6 +438,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelAddDeviceRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -439,6 +448,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelBatchAddDeviceRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -448,6 +458,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelQueryDeviceByImeiResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -457,6 +468,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelQueryDeviceByImeiBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -466,6 +478,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelUpdateDeviceResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -475,6 +488,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelUpdateDeviceRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -484,6 +498,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelUpdateDeviceOtherRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -493,6 +508,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelQueryDeviceListResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -502,6 +518,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelQueryDeviceListBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -511,6 +528,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelQueryDeviceListBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -520,6 +538,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.device.TelDeviceBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -529,6 +548,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.settings.MobProjectSettings",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -538,6 +558,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceDataListResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -547,6 +568,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceDataTotalResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -556,6 +578,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceCommandListResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -565,6 +588,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceCommandListBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -574,6 +598,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.telecom.domain.action.data.TelQueryDeviceCommandBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -718,6 +743,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -727,6 +753,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandItem",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -736,6 +763,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetCachedCommandResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -745,6 +773,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceHisDataBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -754,6 +783,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceHisDataPointsBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -763,6 +793,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceHisDataResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -772,6 +803,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceHisDataStreamsBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -781,6 +813,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceLatestDataBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -790,6 +823,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceLatestDataDevicesBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -799,6 +833,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceLatestDataResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -808,6 +843,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.data.OneNetDeviceLatestDataStreamsBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -817,6 +853,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetCreateDeviceBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -826,6 +863,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetCreateDeviceRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -835,6 +873,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetCreateDeviceResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -844,6 +883,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDelDeviceBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -853,6 +893,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDelDeviceRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -862,6 +903,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDelDeviceResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -871,6 +913,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDeviceDetailRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -880,6 +923,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDeviceDetailResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -889,6 +933,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDeviceListRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -898,6 +943,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDeviceListResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -907,6 +953,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDevicePageResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -916,6 +963,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetDeviceDetailBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -925,6 +973,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetProductBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -934,6 +983,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetProductResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -943,6 +993,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetUpdateDeviceBody",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -952,6 +1003,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetUpdateDeviceRequest",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
@@ -961,6 +1013,7 @@
   },
   {
     "name" : "iot.technology.client.toolkit.nb.service.mobile.domain.action.device.OneNetUpdateDeviceResponse",
+    "allDeclaredFields": true,
     "allDeclaredMethods" : true,
     "allPublicMethods" : true,
     "allDeclaredClasses" : true,
