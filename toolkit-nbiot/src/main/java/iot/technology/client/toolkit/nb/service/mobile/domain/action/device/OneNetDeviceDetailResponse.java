@@ -4,6 +4,8 @@ import iot.technology.client.toolkit.common.utils.ColorUtils;
 import iot.technology.client.toolkit.nb.service.mobile.domain.BaseOneNetResponse;
 import iot.technology.client.toolkit.nb.service.mobile.domain.settings.OneNetDeviceStatusEnum;
 
+import java.util.Objects;
+
 public class OneNetDeviceDetailResponse extends BaseOneNetResponse {
 
     private OneNetDeviceDetailBody data;
@@ -21,8 +23,7 @@ public class OneNetDeviceDetailResponse extends BaseOneNetResponse {
         System.out.format("imei:          " + ColorUtils.blackBold(data.getImei()) + "%n");
         System.out.format("imsi:          " + ColorUtils.blackBold(data.getImsi()) + "%n");
         System.out.format("psk:           " + ColorUtils.blackBold(data.getPsk()) + "%n");
-        System.out.format("obsv:          " + ColorUtils.blackBold(data.getObsv().toString()) + "%n");
-        System.out.format("obsv_st:       " + ColorUtils.blackBold(data.getObsvSt().toString()) + "%n");
+        System.out.format("obsv:          " + ColorUtils.blackBold(Objects.isNull(data.getObsv()) ? "false" : "true") + "%n");
     }
 
     public OneNetDeviceDetailBody getData() {
