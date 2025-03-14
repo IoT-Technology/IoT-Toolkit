@@ -22,5 +22,5 @@ public interface StorageConstants {
 
 
 	String LANG_MESSAGES = "i18n.messages";
-	String TOOLKIT_VERSION = "v0.7.4";
+	String TOOLKIT_VERSION = "v0.7.5";
 }
