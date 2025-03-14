@@ -95,15 +95,15 @@ public class OneNetHelpProcessor extends TkAbstractProcessor {
                                 bundle.getString("nb.cmd.psk.desc")))
                         .append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                                ColorUtils.colorBold("-auth_code       ", "green"),
+                                ColorUtils.colorBold("-auth_code  ", "green"),
                                 bundle.getString("nb.cmd.auth_code.desc")))
                         .append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                                ColorUtils.colorBold("-lat       ", "green"),
+                                ColorUtils.colorBold("-lat        ", "green"),
                                 bundle.getString("nb.cmd.lat.desc")))
                         .append(StringUtils.lineSeparator());
                 sb.append(String.format("%s %s",
-                                ColorUtils.colorBold("-lon       ", "green"),
+                                ColorUtils.colorBold("-lon        ", "green"),
                                 bundle.getString("nb.cmd.lon.desc")))
                         .append(StringUtils.lineSeparator());
                 System.out.print(sb);
@@ -195,7 +195,7 @@ public class OneNetHelpProcessor extends TkAbstractProcessor {
             case "history-log":
             case "hl":
                 sb.append(ColorUtils.colorBold("Usage:  ", "black")
-                        + String.format("> %s %s <imei> [%s <name>] [%s <startTime>] [%s <endTime>]",
+                        + String.format("> %s %s <imei> [%s <name>] [%s <startTime>] [%s <endTime>] [%s <sort>]",
                         ColorUtils.colorBold("hl", "green"),
                         ColorUtils.colorBold("-imei", "green"),
                         ColorUtils.colorBold("-limit", "green"),
