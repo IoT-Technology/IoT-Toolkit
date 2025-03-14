@@ -36,8 +36,8 @@ public class OneNetService extends AbstractMobileService {
             if (StringUtils.isNotBlank(response.getBody())) {
                 BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
                 if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
-                    productDetailResponse.setSuccess(Boolean.TRUE);
                     productDetailResponse = JsonUtils.jsonToObject(response.getBody(), OneNetProductResponse.class);
+                    productDetailResponse.setSuccess(Boolean.TRUE);
                 } else {
                     productDetailResponse.setSuccess(Boolean.FALSE);
                     StringBuilder sb = new StringBuilder();
@@ -73,8 +73,8 @@ public class OneNetService extends AbstractMobileService {
             if (StringUtils.isNotBlank(response.getBody())) {
                 BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
                 if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
-                    createDeviceResponse.setSuccess(Boolean.TRUE);
                     createDeviceResponse = JsonUtils.jsonToObject(response.getBody(), OneNetCreateDeviceResponse.class);
+                    createDeviceResponse.setSuccess(Boolean.TRUE);
                 } else {
                     createDeviceResponse.setSuccess(Boolean.FALSE);
                     StringBuilder sb = new StringBuilder();
@@ -109,8 +109,8 @@ public class OneNetService extends AbstractMobileService {
             if (StringUtils.isNotBlank(response.getBody())) {
                 BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
                 if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
-                    delDeviceResponse.setSuccess(Boolean.TRUE);
                     delDeviceResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDelDeviceResponse.class);
+                    delDeviceResponse.setSuccess(Boolean.TRUE);
                 } else {
                     delDeviceResponse.setSuccess(Boolean.FALSE);
                     StringBuilder sb = new StringBuilder();
@@ -147,8 +147,8 @@ public class OneNetService extends AbstractMobileService {
             if (StringUtils.isNotBlank(response.getBody())) {
                 BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
                 if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
-                    deviceDetailResponse.setSuccess(Boolean.TRUE);
                     deviceDetailResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceDetailResponse.class);
+                    deviceDetailResponse.setSuccess(Boolean.TRUE);
                 } else {
                     deviceDetailResponse.setSuccess(Boolean.FALSE);
                     StringBuilder sb = new StringBuilder();
@@ -183,8 +183,8 @@ public class OneNetService extends AbstractMobileService {
             if (StringUtils.isNotBlank(response.getBody())) {
                 BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
                 if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
-                    updateDeviceResponse.setSuccess(Boolean.TRUE);
                     updateDeviceResponse = JsonUtils.jsonToObject(response.getBody(), OneNetUpdateDeviceResponse.class);
+                    updateDeviceResponse.setSuccess(Boolean.TRUE);
                 } else {
                     updateDeviceResponse.setSuccess(Boolean.FALSE);
                     StringBuilder sb = new StringBuilder();
@@ -265,8 +265,8 @@ public class OneNetService extends AbstractMobileService {
             if (StringUtils.isNotBlank(response.getBody())) {
                 BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
                 if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
-                    oneNetCachedCommandResponse.setSuccess(Boolean.TRUE);
                     oneNetCachedCommandResponse = JsonUtils.jsonToObject(response.getBody(), OneNetCachedCommandResponse.class);
+                    oneNetCachedCommandResponse.setSuccess(Boolean.TRUE);
                 } else {
                     oneNetCachedCommandResponse.setSuccess(Boolean.FALSE);
                     StringBuilder sb = new StringBuilder();
@@ -303,8 +303,8 @@ public class OneNetService extends AbstractMobileService {
             if (StringUtils.isNotBlank(response.getBody())) {
                 BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
                 if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
-                    deviceLatestDataResponse.setSuccess(Boolean.TRUE);
                     deviceLatestDataResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceLatestDataResponse.class);
+                    deviceLatestDataResponse.setSuccess(Boolean.TRUE);
                 } else {
                     deviceLatestDataResponse.setSuccess(Boolean.FALSE);
                     StringBuilder sb = new StringBuilder();
@@ -356,8 +356,8 @@ public class OneNetService extends AbstractMobileService {
             if (StringUtils.isNotBlank(response.getBody())) {
                 BaseOneNetResponse generalResponse = JsonUtils.jsonToObject(response.getBody(), BaseOneNetResponse.class);
                 if (generalResponse.getCode().equals(OneNetRespCodeEnum.SUCCESS.getCode())) {
-                    deviceHisDataResponse.setSuccess(Boolean.TRUE);
                     deviceHisDataResponse = JsonUtils.jsonToObject(response.getBody(), OneNetDeviceHisDataResponse.class);
+                    deviceHisDataResponse.setSuccess(Boolean.TRUE);
                 } else {
                     deviceHisDataResponse.setSuccess(Boolean.FALSE);
                     StringBuilder sb = new StringBuilder();
